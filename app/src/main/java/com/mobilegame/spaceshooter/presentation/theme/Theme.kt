@@ -1,7 +1,10 @@
-package com.mobilegame.spaceshooter.ui.theme
+package com.mobilegame.spaceshooter.presentation.theme
 
 import android.app.Activity
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -14,6 +17,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
+import com.mobilegame.spaceshooter.presentation.ui.screens.lock.LockScreenOrientation
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -52,13 +56,12 @@ fun SpaceShooterTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
-            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
-        }
-    }
+
+    LockScreenOrientation(orientation = Configuration.ORIENTATION_LANDSCAPE)
+
+    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+    (LocalView.current.context as Activity).window.statusBarColor = Color.RED
 
     MaterialTheme(
         colorScheme = colorScheme,

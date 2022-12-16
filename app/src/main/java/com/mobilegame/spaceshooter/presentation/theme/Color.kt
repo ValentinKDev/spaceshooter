@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.ui.theme
+package com.mobilegame.spaceshooter.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
