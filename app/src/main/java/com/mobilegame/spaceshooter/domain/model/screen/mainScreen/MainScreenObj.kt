@@ -2,6 +2,7 @@ package com.mobilegame.spaceshooter.domain.model.screen.mainScreen
 
 import android.content.Context
 import androidx.compose.ui.unit.Dp
+import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.analyze.wLog
@@ -31,7 +32,7 @@ object MainScreenObj {
         }
 
         object ColorsHeaderMainScreen {
-
+            val text = MyColor.applicationText
         }
         object TextHeaderMainScreen {
             const val messasge = "WELCOME"

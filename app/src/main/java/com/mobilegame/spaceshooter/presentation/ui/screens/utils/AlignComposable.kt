@@ -8,19 +8,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
+
+
 @Composable
 fun AlignComposableToEnd(content: @Composable () -> Unit) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        Box(modifier = Modifier.align(Alignment.End)) {
-            content.invoke()
-        }
-    }
+    AlignComposableHorizontally(alignment = Alignment.End) { content.invoke() }
 }
 
 @Composable
 fun AlignComposableToStart(content: @Composable () -> Unit) {
+    AlignComposableHorizontally(alignment = Alignment.Start) { content.invoke() }
+}
+
+@Composable
+private fun AlignComposableHorizontally(alignment: Alignment.Horizontal, content: @Composable () -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
-        Box(modifier = Modifier.align(Alignment.Start)) {
+        Box(modifier = Modifier.align(alignment)) {
             content.invoke()
         }
     }
@@ -28,17 +31,18 @@ fun AlignComposableToStart(content: @Composable () -> Unit) {
 
 @Composable
 fun AlignComposableToTop(content: @Composable () -> Unit) {
-    Row(modifier = Modifier.fillMaxSize()) {
-        Box(modifier = Modifier.align(Alignment.Top)) {
-            content.invoke()
-        }
-    }
+    AlignComposableVertically(alignment = Alignment.Top) { content.invoke() }
 }
 
 @Composable
 fun AlignComposableToBottom(content: @Composable () -> Unit) {
+    AlignComposableVertically(alignment = Alignment.Bottom) { content.invoke() }
+}
+
+@Composable
+private fun AlignComposableVertically(alignment: Alignment.Vertical, content: @Composable () -> Unit) {
     Row(modifier = Modifier.fillMaxSize()) {
-        Box(modifier = Modifier.align(Alignment.Bottom)) {
+        Box(modifier = Modifier.align(alignment)) {
             content.invoke()
         }
     }

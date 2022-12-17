@@ -23,6 +23,7 @@ fun MainScreen(navigator: Navigator, vm: MainScreenViewModel = viewModel()) {
             Modifier
                 .fillMaxWidth()
                 .weight(vm.ui.header.ratios.heightWeight)
+//                .background(Color.Blue.alpha(0.1F))
         ) {
             Header(navigator, vm)
         }
@@ -30,6 +31,7 @@ fun MainScreen(navigator: Navigator, vm: MainScreenViewModel = viewModel()) {
             Modifier
                 .fillMaxWidth()
                 .weight(vm.ui.delimiter.ratios.heightWeight)
+//                .background(Color.Red.alpha(0.1F))
         ) {
             Delimiter()
         }
@@ -37,6 +39,7 @@ fun MainScreen(navigator: Navigator, vm: MainScreenViewModel = viewModel()) {
             Modifier
                 .fillMaxWidth()
                 .weight(vm.ui.list.ratios.heightWeight)
+//                .background(Color.Green.alpha(0.1F))
         ) {
             List()
         }

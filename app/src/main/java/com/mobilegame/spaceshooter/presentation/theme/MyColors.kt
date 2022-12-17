@@ -175,14 +175,23 @@ inline class MyColor(val color: Color){
         val greenSecondVariant7 = Color (0X8C018786)
         val greenSecondVariant8 = Color (0X7C018786)
 
-        val platinium = Color(0XFFEAE1DF)
-        val greenXanadou = Color(0XFF667761)
+        val Platinium = Color(0XFFEAE1DF)
+        val GreenXanadou = Color(0XFF667761)
+        val Redwood = Color(0XFF8D5B4C)
+        val BlastOffBronze = Color(0xFF9f6856)
+        val Bore = Color(0xFF855747)
+        val GoldMetallic = Color(0XFFDDB967)
+        val AeroBlue = Color(0XFFB2FAEB)
 
-        val applicationBackground = grayDark6
+//        val applicationBackground = BlastOffBronze
+//        val applicationBackground = GreenXanadou
+//        val applicationBackground = Platinium
+        val applicationBackground = Bore
+        val applicationText = Platinium
+
         val applicationSurface = grayDark2
         val applicationSurfaceDark = grayDark3
         val applicationSurfaceDarkDark = grayDark4
-        val applicationText = whiteDark4
         val applicationTextDark = whiteDark5
         val applicationNiceGreen = greenSecondVariant
     }
