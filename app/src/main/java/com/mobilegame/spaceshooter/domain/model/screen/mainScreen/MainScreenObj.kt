@@ -12,13 +12,13 @@ object MainScreenObj {
     val header = HeaderMainScreen
     val delimiter = DelimiterMainScreen
     val list = ListMainScreen
+    val tutorialButton = TutorialButton
 
     object HeaderMainScreen {
         val ratios = RatiosHeaderMainScreen
         val sizes = SizesHeaderMainScreen
         val colors = ColorsHeaderMainScreen
         val text = TextHeaderMainScreen
-        val tutorialButton = TutorialButton
 
         object RatiosHeaderMainScreen {
             const val heightWeight = 1F
@@ -27,17 +27,42 @@ object MainScreenObj {
         }
 
         object SizesHeaderMainScreen {
+            var height = 0F
             var heightDp = Dp.Unspecified
-            var widthDp = Dp.Unspecified
         }
 
         object ColorsHeaderMainScreen {
             val text = MyColor.applicationText
         }
         object TextHeaderMainScreen {
-            const val messasge = "WELCOME"
+            const val message = "WELCOME"
         }
-        object TutorialButton
+    }
+
+    object TutorialButton {
+        val ratios = RatiosTutorialButton
+        val sizes = SizesTutorialButton
+        val colors = ColorsTutorialButton
+        val text = TextTutorialButton
+
+        object RatiosTutorialButton {
+            const val iconButtonHeightPercentage = 0.85F
+            const val questionMarkHeightPercentage = 0.65F
+            const val strokeHeightPercentage = 0.07F
+        }
+        object SizesTutorialButton {
+            var iconButtonHeight = 0F
+            var iconButtonHeightDp = Dp.Unspecified
+            var iconQuestionMarkHeight = 0F
+            var iconQuestionMarkHeightDp = Dp.Unspecified
+            var circleStrokeWidth = 0F
+        }
+        object ColorsTutorialButton {
+            val tint = MyColor.applicationText
+        }
+        object TextTutorialButton {
+            val description = "tutorial button"
+        }
     }
 
     object DelimiterMainScreen {
@@ -76,6 +101,22 @@ object MainScreenObj {
         }
     }
 
+    private fun initTutoButton() {
+        tutorialButton.sizes.iconButtonHeight = tutorialButton.ratios.iconButtonHeightPercentage * header.sizes.height
+        tutorialButton.sizes.iconButtonHeightDp = tutorialButton.sizes.iconButtonHeight.toDp(density)
+        tutorialButton.sizes.iconQuestionMarkHeight = tutorialButton.ratios.questionMarkHeightPercentage * header.sizes.height
+        tutorialButton.sizes.iconQuestionMarkHeightDp = tutorialButton.sizes.iconQuestionMarkHeight.toDp(density)
+        tutorialButton.sizes.circleStrokeWidth = tutorialButton.ratios.strokeHeightPercentage * header.sizes.height
+
+        displayDataUI?.let {
+            wLog("MainScreenObj::initTutoButton", "start")
+            vLog("MainScreenObj::initTutoButton", "iconButtonHeight ${tutorialButton.sizes.iconButtonHeight}")
+            vLog("MainScreenObj::initTutoButton", "iconButtonHeightDp ${tutorialButton.sizes.iconButtonHeightDp}")
+            vLog("MainScreenObj::initTutoButton", "iconQuestionMarkHeight ${tutorialButton.sizes.iconQuestionMarkHeight}")
+            vLog("MainScreenObj::initTutoButton", "iconQuestionMarkHeightDp ${tutorialButton.sizes.iconQuestionMarkHeightDp}")
+            vLog("MainScreenObj::initTutoButton", "circleStrokeWidth ${tutorialButton.sizes.circleStrokeWidth}")
+        }
+    }
     private fun initList() {
         list.sizes.heightDp = (heightFull * (list.ratios.heightWeight / allWeightsHeight)).toDp( density)
 
@@ -94,10 +135,12 @@ object MainScreenObj {
     }
 
     private fun initHeader() {
-        header.sizes.heightDp = (heightFull * (header.ratios.heightWeight / allWeightsHeight)).toDp(density)
+        header.sizes.height = heightFull * (header.ratios.heightWeight / allWeightsHeight)
+        header.sizes.heightDp = header.sizes.height.toDp(density)
 
         displayDataUI?.let {
             wLog("MainScreenObj::initHeader", "start")
+            vLog("MainScreenObj::initHeader", "height ${header.sizes.height}")
             vLog("MainScreenObj::initHeader", "heightDp ${header.sizes.heightDp}")
         }
     }
@@ -122,6 +165,7 @@ object MainScreenObj {
         }
 
         initHeader()
+        initTutoButton()
         initDelimiter()
         initList()
         return this
