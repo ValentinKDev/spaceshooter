@@ -27,10 +27,8 @@ fun TutoButton(vm: MainScreenViewModel) {
             )
         }
         Icon(
-            modifier = androidx.compose.ui.Modifier
-                .size(vm.ui.tutorialButton.sizes.iconQuestionMarkHeightDp)
+            modifier = Modifier.size(vm.ui.tutorialButton.sizes.iconQuestionMarkHeightDp)
             ,
-//                        imageVector = Icons.Outlined.HelpOutline,
             imageVector = Icons.Sharp.QuestionMark,
             tint = vm.ui.tutorialButton.colors.tint,
             contentDescription = vm.ui.tutorialButton.text.description

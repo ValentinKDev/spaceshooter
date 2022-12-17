@@ -3,33 +3,59 @@ package com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.TutoButton
-import com.mobilegame.spaceshooter.presentation.ui.screens.utils.AlignComposableToEnd
-import com.mobilegame.spaceshooter.presentation.ui.screens.utils.AlignComposableToStart
-import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposableVertically
-import com.mobilegame.spaceshooter.presentation.ui.screens.utils.PaddingComposable
+import com.mobilegame.spaceshooter.presentation.ui.screens.utils.*
 
 @Composable
 internal fun Header(navigator: Navigator, vm: MainScreenViewModel) {
     PaddingComposable(
         startPaddingRatio = vm.ui.header.ratios.textPaddingStart,
         endPaddingRatio = vm.ui.header.ratios.buttonPaddingEnd,
-        topPaddingRatio = 0F,
-        bottomPaddingRatio = 0F,
+        topPaddingRatio = vm.ui.header.ratios.paddingTop,
+        bottomPaddingRatio = vm.ui.header.ratios.paddingBottom,
     ) {
         Box {
             AlignComposableToStart {
-                Text(
-                    text = vm.ui.header.text.message,
-                    color = vm.ui.header.colors.text,
-                )
-            }
-
-            AlignComposableToEnd {
                 CenterComposableVertically {
-                    TutoButton(vm)
+                    Text(
+                        text = vm.ui.header.text.mainText,
+                        color = vm.ui.header.colors.mainText,
+                        style = TextStyle(
+                            fontSize = vm.ui.header.sizes.mainTextHeightSp,
+                            letterSpacing = vm.ui.header.sizes.mainTextSpaceSp,
+                            fontWeight = FontWeight.Black
+                        ),
+                        textAlign = TextAlign.Justify
+                    )
+            }
+            }
+            AlignComposableToEnd {
+                Row {
+                    CenterComposableVertically {
+                        Text(
+                            modifier = Modifier.padding(end = vm.ui.header.padding.spaceBetweenTextAndIconDp),
+                            text = vm.ui.header.text.iconText,
+                            //todo : make the tuto text color shine a little bit
+                            color = vm.ui.header.colors.iconText,
+                            textAlign = TextAlign.Center,
+                            style = TextStyle(
+                                fontSize = vm.ui.header.sizes.iconTextSp,
+                                letterSpacing = vm.ui.header.sizes.iconTextSpaceSp,
+                                fontWeight = FontWeight.ExtraBold,
+                                fontFamily = FontFamily.Default
+                            )
+                        )
+                    }
+                    CenterComposableVertically {
+                        TutoButton(vm)
+                    }
                 }
             }
         }
