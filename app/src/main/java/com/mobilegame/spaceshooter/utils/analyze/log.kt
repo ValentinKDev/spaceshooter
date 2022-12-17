@@ -4,10 +4,15 @@ import android.util.Log
 import com.google.gson.GsonBuilder
 
 fun errorLog(firstpart: String = "", secondpart: String) = Log.e(firstpart, secondpart)
+fun eLog(firstpart: String = "", secondpart: String) = Log.e(firstpart, secondpart)
 fun verbalLog(firstpart: String = "", secondpart: String) = Log.v(firstpart, secondpart)
+fun vLog(firstpart: String = "", secondpart: String) = Log.v(firstpart, secondpart)
 fun infoLog(firstpart: String = "", secondpart: String) = Log.i(firstpart, secondpart)
+fun iLog(firstpart: String = "", secondpart: String) = Log.i(firstpart, secondpart)
 fun warningLog(firstpart: String = "", secondpart: String) = Log.w(firstpart, secondpart)
+fun wLog(firstpart: String = "", secondpart: String) = Log.w(firstpart, secondpart)
 fun debugLog(firstpart: String = "", secondpart: String) = Log.d(firstpart, secondpart)
+fun dLog(firstpart: String = "", secondpart: String) = Log.d(firstpart, secondpart)
 
 fun <T>prettyPrint(tag: String, name: String, element: T, logType: Int = Log.INFO) {
     val prettyPrinter = GsonBuilder().setPrettyPrinting().create()

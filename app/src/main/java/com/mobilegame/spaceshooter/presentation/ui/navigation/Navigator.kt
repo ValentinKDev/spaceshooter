@@ -1,6 +1,6 @@
 package com.mobilegame.spaceshooter.presentation.ui.navigation
 
-import com.mobilegame.spaceshooter.domain.model.screens.NavigationDestination
+import com.mobilegame.spaceshooter.domain.model.screen.NavigationDestination
 import com.mobilegame.spaceshooter.utils.extensions.addNavArg
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

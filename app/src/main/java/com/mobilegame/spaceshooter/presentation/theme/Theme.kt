@@ -61,7 +61,7 @@ fun SpaceShooterTheme(
 
     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-    (LocalView.current.context as Activity).window.statusBarColor = Color.RED
+    (LocalView.current.context as Activity).window.statusBarColor = Color.TRANSPARENT
 
     MaterialTheme(
         colorScheme = colorScheme,
