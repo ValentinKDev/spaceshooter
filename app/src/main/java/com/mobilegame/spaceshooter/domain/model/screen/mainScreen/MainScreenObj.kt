@@ -46,14 +46,16 @@ object MainScreenObj {
         val colors = ColorsDelimiterMainScreen
 
         object RatiosDelimiterMainScreen {
-            const val heightWeight = 0.1F
+            const val heightWeight = 0.08F
         }
         object SizesDelimiterMainScreen {
             var heightDp = Dp.Unspecified
         }
         object ColorsDelimiterMainScreen {
+            val background = MyColor.applicationText
         }
     }
+
     object ListMainScreen {
         val ratios = RatioListMainScreen
         val sizes = SizesListMainScreen
@@ -61,7 +63,7 @@ object MainScreenObj {
         val buttonBluetooth = ButtonBluetooth
 
         object RatioListMainScreen {
-            const val heightWeight = 4.9F
+            const val heightWeight = 4.92F
         }
         object SizesListMainScreen {
             var heightDp = Dp.Unspecified
@@ -116,6 +118,7 @@ object MainScreenObj {
             vLog("MainScreenObj::create", "widthFull = $widthFull")
             vLog("MainScreenObj::create", "heightFull = $heightFull")
             vLog("MainScreenObj::create", "density = $density")
+            vLog("MainScreenObj::create", "weight height = $allWeightsHeight")
         }
 
         initHeader()

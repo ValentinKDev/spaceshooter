@@ -1,5 +1,6 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +24,6 @@ fun MainScreen(navigator: Navigator, vm: MainScreenViewModel = viewModel()) {
             Modifier
                 .fillMaxWidth()
                 .weight(vm.ui.header.ratios.heightWeight)
-//                .background(Color.Blue.alpha(0.1F))
         ) {
             Header(navigator, vm)
         }
@@ -31,7 +31,7 @@ fun MainScreen(navigator: Navigator, vm: MainScreenViewModel = viewModel()) {
             Modifier
                 .fillMaxWidth()
                 .weight(vm.ui.delimiter.ratios.heightWeight)
-//                .background(Color.Red.alpha(0.1F))
+                .background(vm.ui.delimiter.colors.background)
         ) {
             Delimiter()
         }

@@ -1,6 +1,7 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenViewModel
@@ -15,7 +16,6 @@ internal fun Header(navigator: Navigator, vm: MainScreenViewModel) {
         startPaddingRatio = vm.ui.header.ratios.textPaddingStart,
         endPaddingRatio = vm.ui.header.ratios.buttonPaddingEnd,
         topPaddingRatio = 0F,
-//        enableColor = true,
     ) {
         Box {
             AlignComposableToStart {
@@ -24,6 +24,7 @@ internal fun Header(navigator: Navigator, vm: MainScreenViewModel) {
                     color = vm.ui.header.colors.text,
                 )
             }
+
             AlignComposableToEnd {
                 Text(
                     text = "Button",
