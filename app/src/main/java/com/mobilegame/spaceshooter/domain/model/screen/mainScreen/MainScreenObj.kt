@@ -19,7 +19,37 @@ object MainScreenObj {
     val tutorialButton = TutorialButton
     val buttonWifi = ButtonWifiMainScreen
     val buttonBluetooth = ButtonBluetooth
+    val instruction = InstructionMainScreen
 
+    object InstructionMainScreen {
+        val ratios = RatiosInstructionMainScreen
+        val padding = PaddingInstructionsMainScreen
+        val sizes = SizesInstructionsMainScreen
+        val text = TextInstructionMainScreen
+        val color = ColorInstructionMainScreen
+
+        object PaddingInstructionsMainScreen {
+            const val top = 0.85F
+            const val bottom = 0.008F
+            const val start = 0.2F
+            const val end = 0.2F
+        }
+        object RatiosInstructionMainScreen {
+            const val textHeightPercent = 0.45F
+        }
+        object SizesInstructionsMainScreen {
+            var boxHeight = 0F
+            var text = 0F
+            var textSp = 0.sp
+        }
+        object ColorInstructionMainScreen {
+            val targetColor = MyColor.applicationContrastTransparent
+            val initialColor = MyColor.applicationContrast.alpha(0.2F)
+        }
+        object TextInstructionMainScreen {
+            val message = "Hold the pressure"
+        }
+    }
     object HeaderMainScreen {
         val ratios = RatiosHeaderMainScreen
         val sizes = SizesHeaderMainScreen
@@ -63,7 +93,7 @@ object MainScreenObj {
 
         object ColorsHeaderMainScreen {
             val mainText = MyColor.applicationText
-            val iconText = MyColor.applicationText.alpha(0.8F)
+            val iconText = MyColor.applicationContrastTransparent
         }
 
         object TextHeaderMainScreen {
@@ -201,6 +231,18 @@ object MainScreenObj {
         object ColorButtonWifi {
             var icon = MyColor.applicationContrast
             var iconInner = MyColor.applicationBackground
+        }
+    }
+
+    private fun initInstruction() {
+        instruction.sizes.boxHeight = (1F - instruction.padding.top - instruction.padding.bottom) * heightFull
+        instruction.sizes.text = instruction.sizes.boxHeight * instruction.ratios.textHeightPercent
+        instruction.sizes.textSp = instruction.sizes.text.toSp(density)
+        displayDataUI?.let {
+            wLog("MainScreenObj::initInstruction", "start")
+            vLog("MainScreenObj::initInstruction", "boxHeight ${instruction.sizes.boxHeight}")
+            vLog("MainScreenObj::initInstruction", "text ${instruction.sizes.text}")
+            vLog("MainScreenObj::initInstruction", "textSp ${instruction.sizes.textSp}")
         }
     }
 
@@ -370,6 +412,7 @@ object MainScreenObj {
         initList()
         initBluetoothButton()
         initWifiButton()
+        initInstruction()
         return this
     }
 }

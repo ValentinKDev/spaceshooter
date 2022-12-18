@@ -1,6 +1,7 @@
 package com.mobilegame.spaceshooter.presentation.theme
 
 import androidx.compose.ui.graphics.Color
+import com.mobilegame.spaceshooter.utils.extensions.alpha
 
 inline class MyColor(val color: Color){
     companion object {
@@ -189,6 +190,7 @@ inline class MyColor(val color: Color){
         val applicationBackground = Bore
         val applicationText = Platinium
         val applicationContrast = Platinium
+        val applicationContrastTransparent = Platinium.alpha(0.75F)
 
         val applicationSurface = grayDark2
         val applicationSurfaceDark = grayDark3
