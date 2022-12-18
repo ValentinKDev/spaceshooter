@@ -2,7 +2,6 @@ package com.mobilegame.spaceshooter.presentation.theme
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
-import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
@@ -16,12 +15,9 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import androidx.core.view.ViewCompat
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mobilegame.spaceshooter.presentation.ui.screens.lock.LockScreenOrientation
@@ -72,8 +68,7 @@ fun SpaceShooterTheme(
 
     val systemUiController: SystemUiController = rememberSystemUiController()
     systemUiController.isStatusBarVisible = false // Status bar
-//    systemUiController.isNavigationBarVisible = false // Navigation bar
-    //todo: make NavigationBar transparent
+    systemUiController.setNavigationBarColor(color = MyColor.applicationBackground)
 
     Box(Modifier.fillMaxSize().background(MyColor.applicationBackground)) {
         MaterialTheme(
