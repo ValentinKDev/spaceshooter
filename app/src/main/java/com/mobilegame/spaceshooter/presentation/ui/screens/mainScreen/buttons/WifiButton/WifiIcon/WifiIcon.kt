@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.WifiIcon
+package com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.WifiButton.WifiIcon
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenViewModel
 
@@ -20,7 +21,12 @@ fun WifiIcon(vm: MainScreenViewModel) {
             drawCircle(
                 radius = vm.ui.buttonWifi.circles.p1Radius,
                 color = vm.ui.buttonWifi.color.icon,
-                style = Stroke(vm.ui.buttonWifi.stroke.p1stroke, cap = StrokeCap.Square)
+                style = Fill
+            )
+            drawCircle(
+                radius = vm.ui.buttonWifi.circles.p1RadiusInner,
+                color = vm.ui.buttonWifi.color.iconInner,
+                style = Fill
             )
         }
         Canvas(

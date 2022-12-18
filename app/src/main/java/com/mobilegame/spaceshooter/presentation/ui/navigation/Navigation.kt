@@ -22,12 +22,10 @@ fun Navigation(navigator: Navigator) {
         }.launchIn(this)
     }
 
-
     NavHost(
         navController = navController,
         startDestination = Screens.MainScreen.route
     ) {
-
         composable(route = Screens.MainScreen.route) { MainScreen(navigator) }
     }
 }

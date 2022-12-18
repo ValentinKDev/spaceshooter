@@ -73,7 +73,7 @@ fun SpaceShooterTheme(
     val systemUiController: SystemUiController = rememberSystemUiController()
     systemUiController.isStatusBarVisible = false // Status bar
 //    systemUiController.isNavigationBarVisible = false // Navigation bar
-    //todo: make NavigationBar not visible until user tap on the lower part of the phone
+    //todo: make NavigationBar transparent
 
     Box(Modifier.fillMaxSize().background(MyColor.applicationBackground)) {
         MaterialTheme(

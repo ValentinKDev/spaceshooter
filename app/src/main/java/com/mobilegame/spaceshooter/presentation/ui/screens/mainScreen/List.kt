@@ -1,19 +1,13 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenViewModel
-import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
-import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.BluetoothIcon
-import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.WifiIcon.WifiIcon
-import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.WifiIcon.WifiSquare
+import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.BluetoothButton.BlueToothButton
+import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.WifiButton.WifiIcon.WifiButton
+import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.WifiButton.WifiIcon.WifiIcon
+import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.WifiButton.WifiIcon.WifiSquare
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.*
 
 @Composable
@@ -24,12 +18,12 @@ internal fun List(navigator: Navigator, vm: MainScreenViewModel) {
         Box {
             AlignComposableToStart {
                 CenterComposableVertically {
-                    BluetoothIcon(vm)
+                    BlueToothButton(navigator, vm)
                 }
             }
             AlignComposableToEnd {
                 CenterComposableVertically {
-                    WifiSquare(vm)
+                    WifiButton(vm)
                 }
             }
         }
