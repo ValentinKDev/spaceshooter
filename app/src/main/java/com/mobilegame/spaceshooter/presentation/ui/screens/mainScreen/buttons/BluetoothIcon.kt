@@ -20,7 +20,7 @@ fun BluetoothIcon(vm: MainScreenViewModel) {
             .size(vm.ui.buttonBluetooth.sizes.squareHeightDp)
             .border(
                 width = vm.ui.buttonBluetooth.sizes.squareStrokeDp,
-                shape = RoundedCornerShape(8.dp),
+                shape = RoundedCornerShape(5.dp),
                 color = MyColor.Platinium
             )
     ) {

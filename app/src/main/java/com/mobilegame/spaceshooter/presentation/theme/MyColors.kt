@@ -188,6 +188,7 @@ inline class MyColor(val color: Color){
 //        val applicationBackground = Platinium
         val applicationBackground = Bore
         val applicationText = Platinium
+        val applicationContrast = Platinium
 
         val applicationSurface = grayDark2
         val applicationSurfaceDark = grayDark3
