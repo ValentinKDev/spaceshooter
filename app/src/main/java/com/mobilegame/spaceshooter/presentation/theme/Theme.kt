@@ -1,6 +1,7 @@
 package com.mobilegame.spaceshooter.presentation.theme
 
 import android.app.Activity
+import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
@@ -63,7 +64,7 @@ fun SpaceShooterTheme(
         else -> LightColorScheme
     }
 
-    LockScreenOrientation(orientation = Configuration.ORIENTATION_LANDSCAPE)
+    LockScreenOrientation(orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
 
     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
