@@ -1,6 +1,7 @@
 package com.mobilegame.spaceshooter.domain.model.screen.mainScreen
 
 import android.content.Context
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
@@ -129,8 +130,80 @@ object MainScreenObj {
 
     }
     object ButtonBluetooth {
+        val ratios = RatiosButtonBluetooth
+        val sizes = SizesButtonBluetooth
+        val points = PointsButtonBluetooth
+        val color = ColorButtonBluetooth
 
+        object RatiosButtonBluetooth {
+            const val squareHeightPercent = 0.30F
+            const val squareStrokePercent = 0.01F
+            const val canvasHeightPercent = 0.9F
+            const val iconSmallStrokeHeightPercent = 0.015F
+            const val iconBigStrokeHeightPercent = 0.030F
+        }
+        object SizesButtonBluetooth {
+            var squareHeight = 0F
+            var squareHeightDp = Dp.Unspecified
+            var squareStrokeDp = Dp.Unspecified
+            var canvas = 0F
+            var canvasDp = Dp.Unspecified
+            var iconSmallStroke = 0F
+            var iconBigStroke = 0F
+        }
+        object PointsButtonBluetooth {
+            var p1: Offset = Offset.Unspecified
+            var p2 = Offset.Unspecified
+            var p3 = Offset.Unspecified
+            var p4 = Offset.Unspecified
+            var p5 = Offset.Unspecified
+            var p6 = Offset.Unspecified
+        }
+        object ColorButtonBluetooth {
+            val stroke = MyColor.applicationText
+        }
     }
+
+    private fun initBluetoothButton() {
+        buttonBluetooth.sizes.squareHeight = heightFull * buttonBluetooth.ratios.squareHeightPercent
+        buttonBluetooth.sizes.squareHeightDp = (buttonBluetooth.sizes.squareHeight).toDp(density)
+        buttonBluetooth.sizes.squareStrokeDp = (heightFull * buttonBluetooth.ratios.squareStrokePercent).toDp( density)
+        buttonBluetooth.sizes.canvas = (buttonBluetooth.sizes.squareHeight * buttonBluetooth.ratios.canvasHeightPercent)
+        buttonBluetooth.sizes.canvasDp = buttonBluetooth.sizes.canvas.toDp(density)
+
+        val size = buttonBluetooth.sizes.canvas
+
+        val oneFourthWidth = size * (1F/ 4F)
+        val twoFourthWidth = size * (2F/ 4F)
+        val threeFourthWidth = size * (3F/ 4F)
+
+        val zeroFourthHeight = size * 0.10F
+        val oneFourthHeight = zeroFourthHeight + size * 0.80F * (1F/ 4F)
+        val threeFourthHeight = zeroFourthHeight + size * 0.80F * (3F/ 4F)
+        val fourthFourthHeight = zeroFourthHeight + size * 0.80F
+
+        buttonBluetooth.points.p1 = Offset(x = twoFourthWidth, y = zeroFourthHeight)
+        buttonBluetooth.points.p2 = Offset(x = oneFourthWidth, y = oneFourthHeight)
+        buttonBluetooth.points.p3 = Offset(x = threeFourthWidth, y = oneFourthHeight)
+        buttonBluetooth.points.p4 = Offset(x = oneFourthWidth, y = threeFourthHeight)
+        buttonBluetooth.points.p5 = Offset(x = threeFourthWidth, y = threeFourthHeight)
+        buttonBluetooth.points.p6 = Offset(x = twoFourthWidth, y = fourthFourthHeight)
+
+        buttonBluetooth.sizes.iconSmallStroke = heightFull * buttonBluetooth.ratios.iconSmallStrokeHeightPercent
+        buttonBluetooth.sizes.iconBigStroke = heightFull * buttonBluetooth.ratios.iconBigStrokeHeightPercent
+
+        displayDataUI?.let {
+            wLog("MainScreenObj::initBluetoothButton", "start")
+            vLog("MainScreenObj::initBluetoothButton", "squareHeight ${buttonBluetooth.sizes.squareHeight}")
+            vLog("MainScreenObj::initBluetoothButton", "squareHeightDp ${buttonBluetooth.sizes.squareHeightDp}")
+            vLog("MainScreenObj::initBluetoothButton", "squareStrokeDp ${buttonBluetooth.sizes.squareStrokeDp}")
+            vLog("MainScreenObj::initBluetoothButton", "canvasHeight ${buttonBluetooth.sizes.canvas}")
+            vLog("MainScreenObj::initBluetoothButton", "canvasHeightDp ${buttonBluetooth.sizes.canvasDp}")
+            vLog("MainScreenObj::initBluetoothButton", "iconSmallStrokeDp ${buttonBluetooth.sizes.iconSmallStroke}")
+            vLog("MainScreenObj::initBluetoothButton", "iconBigStrokeDp ${buttonBluetooth.sizes.iconBigStroke}")
+        }
+    }
+
 
     private fun initTutoButton() {
         tutorialButton.sizes.iconButtonHeight = tutorialButton.ratios.iconButtonHeightPercentage * header.sizes.height
@@ -218,6 +291,7 @@ object MainScreenObj {
         initHeader()
         initTutoButton()
         initDelimiter()
+        initBluetoothButton()
         initList()
         return this
     }

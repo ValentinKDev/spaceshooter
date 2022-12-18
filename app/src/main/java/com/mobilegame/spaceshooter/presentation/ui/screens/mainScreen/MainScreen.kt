@@ -5,19 +5,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
-import com.mobilegame.spaceshooter.presentation.ui.screens.utils.AlignComposableToStart
-import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposableVertically
 import com.mobilegame.spaceshooter.utils.analyze.verbalLog
 
 @Composable
@@ -48,7 +41,7 @@ fun MainScreen(navigator: Navigator, vm: MainScreenViewModel = viewModel()) {
                 .weight(vm.ui.list.ratios.heightWeight)
 //                .background(Color.Green.alpha(0.1F))
         ) {
-            List()
+            List(navigator, vm)
         }
     }
 }
