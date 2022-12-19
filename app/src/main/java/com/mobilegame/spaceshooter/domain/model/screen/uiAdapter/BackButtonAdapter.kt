@@ -99,9 +99,6 @@ object BackButtonAdapter {
         sizes.canvas = ratios.canvasHeightPercent * sizes.boxHeight
         sizes.canvasDp = sizes.canvas.toDp(density)
 
-//        sizes.delta = 0.05F * sizes.canvas
-//        sizes.halfCanvas = 0.5F * sizes.canvasDp
-
         displayDataUI?.let {
             wLog("BackButton::initSize", "size")
             vLog("BackButton::initSize", "canvas ${sizes.canvas}")

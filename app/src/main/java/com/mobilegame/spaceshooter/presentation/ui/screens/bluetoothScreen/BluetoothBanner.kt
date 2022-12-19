@@ -41,7 +41,6 @@ fun BluetoothBanner(ui: BluetoothIconAdapter) {
                     lineTo(ui.points.p1.x, ui.points.p1.y)
                     lineTo(ui.points.p3.x, ui.points.p3.y)
                     lineTo(ui.points.p4.x, ui.points.p4.y)
-
                 }
 
                 drawPath(

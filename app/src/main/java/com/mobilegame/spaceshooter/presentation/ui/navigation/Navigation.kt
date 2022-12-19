@@ -27,7 +27,7 @@ fun Navigation(navigator: Navigator) {
     NavHost(
         navController = navController,
 //        startDestination = Screens.MainScreen.route
-        startDestination = Screens.BluetoothScreen.route
+        startDestination = Screens.WifiScreen.route
     ) {
         composable(route = Screens.MainScreen.route) { MainScreen(navigator) }
         composable(route = Screens.BluetoothScreen.route) { BluetoothScreen(navigator) }

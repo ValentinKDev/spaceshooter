@@ -20,7 +20,6 @@ object BluetoothScreenAdapter {
 
         object PaddingBannerBluetoothScreen {
             const val top = 0.3F
-//            const val bottom = 0.5F
         }
     }
     object ColorsBluetoothScreen {
@@ -77,20 +76,16 @@ object BluetoothScreenAdapter {
         allWeightsHeight = header.ratios.heightWeight + delimiter.ratios.heightWeight + list.ratios.heightWeight
 
         displayDataUI?.let {
-            wLog("BluetoothScreenObj::create", "start")
-            vLog("BluetoothScreenObj::create", "widthFull = ${widthFull}")
-            vLog("BluetoothScreenObj::create", "heightFull = ${heightFull}")
-            vLog("BluetoothScreenObj::create", "density = ${density}")
-            vLog("BluetoothScreenObj::create", "weight height = ${allWeightsHeight}")
+            wLog("BluetoothScreenAdapter::create", "start")
+            vLog("BluetoothScreenAdapter::create", "widthFull = ${widthFull}")
+            vLog("BluetoothScreenAdapter::create", "heightFull = ${heightFull}")
+            vLog("BluetoothScreenAdapter::create", "density = ${density}")
+            vLog("BluetoothScreenAdapter::create", "weight height = ${allWeightsHeight}")
         }
 
         initHeader()
         backButton = BackButtonAdapter.create(context, header.sizes.height)
-        bluetoothIcon = BluetoothIconAdapter(
-            context,
-            list.ratios.heightBanner * heightFull,
-//            color = MyColor.applicationContrastTransparentPlus
-        )
+        bluetoothIcon = BluetoothIconAdapter( context, list.ratios.heightBanner * heightFull, )
         return this
     }
 }
