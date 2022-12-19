@@ -8,10 +8,10 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import com.mobilegame.spaceshooter.domain.model.screen.uiAdapter.BackButtonObj
+import com.mobilegame.spaceshooter.domain.model.screen.uiAdapter.BackButtonAdapter
 
 @Composable
-fun BackIcon(ui: BackButtonObj) {
+fun BackIcon(ui: BackButtonAdapter) {
     Canvas(
         Modifier
             .size(ui.sizes.canvasDp)

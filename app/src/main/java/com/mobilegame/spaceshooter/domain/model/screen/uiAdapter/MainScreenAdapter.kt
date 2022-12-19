@@ -1,7 +1,6 @@
 package com.mobilegame.spaceshooter.domain.model.screen.uiAdapter
 
 import android.content.Context
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
@@ -12,13 +11,14 @@ import com.mobilegame.spaceshooter.utils.extensions.alpha
 import com.mobilegame.spaceshooter.utils.extensions.toDp
 import com.mobilegame.spaceshooter.utils.extensions.toSp
 
-object MainScreenObj {
+object MainScreenAdapter {
     val header = HeaderMainScreen
     val delimiter = DelimiterMainScreen
     val list = ListMainScreen
     val tutorialButton = TutorialButton
     val buttonWifi = ButtonWifiMainScreen
-    val buttonBluetooth = ButtonBluetooth
+//    var buttonBluetooth = BluetoothIconObj
+    lateinit var buttonBluetooth: BluetoothIconAdapter
     val instruction = InstructionMainScreen
 
     object InstructionMainScreen {
@@ -156,41 +156,6 @@ object MainScreenObj {
         }
     }
 
-    object ButtonBluetooth {
-        val ratios = RatiosButtonBluetooth
-        val sizes = SizesButtonBluetooth
-        val points = PointsButtonBluetooth
-        val color = ColorButtonBluetooth
-
-        object RatiosButtonBluetooth {
-            const val squareHeightPercent = 0.30F
-            const val squareStrokePercent = 0.01F
-            const val canvasHeightPercent = 0.8F
-            const val iconSmallStrokeHeightPercent = 0.015F
-            const val iconBigStrokeHeightPercent = 0.030F
-        }
-        object SizesButtonBluetooth {
-            var squareHeight = 0F
-            var squareHeightDp = Dp.Unspecified
-            var squareStrokeDp = Dp.Unspecified
-            var canvas = 0F
-            var canvasDp = Dp.Unspecified
-            var iconSmallStroke = 0F
-            var iconBigStroke = 0F
-        }
-        object PointsButtonBluetooth {
-            var p1: Offset = Offset.Unspecified
-            var p2 = Offset.Unspecified
-            var p3 = Offset.Unspecified
-            var p4 = Offset.Unspecified
-            var p5 = Offset.Unspecified
-            var p6 = Offset.Unspecified
-        }
-        object ColorButtonBluetooth {
-            val stroke = MyColor.applicationText
-        }
-    }
-
     object ButtonWifiMainScreen {
         val ratios = RatiosButtonWifi
         val sizes = SizesButtonWifi
@@ -282,47 +247,6 @@ object MainScreenObj {
         }
     }
 
-    private fun initBluetoothButton() {
-        buttonBluetooth.sizes.squareHeight = heightFull * buttonBluetooth.ratios.squareHeightPercent
-        buttonBluetooth.sizes.squareHeightDp = (buttonBluetooth.sizes.squareHeight).toDp(density)
-        buttonBluetooth.sizes.squareStrokeDp = (heightFull * buttonBluetooth.ratios.squareStrokePercent).toDp( density)
-        buttonBluetooth.sizes.canvas = (buttonBluetooth.sizes.squareHeight * buttonBluetooth.ratios.canvasHeightPercent)
-        buttonBluetooth.sizes.canvasDp = buttonBluetooth.sizes.canvas.toDp(density)
-
-        val size = buttonBluetooth.sizes.canvas
-
-        val oneFourthWidth = size * (1F/ 4F)
-        val twoFourthWidth = size * (2F/ 4F)
-        val threeFourthWidth = size * (3F/ 4F)
-
-        val zeroFourthHeight = size * 0.10F
-        val oneFourthHeight = zeroFourthHeight + size * 0.80F * (1F/ 4F)
-        val threeFourthHeight = zeroFourthHeight + size * 0.80F * (3F/ 4F)
-        val fourthFourthHeight = zeroFourthHeight + size * 0.80F
-
-        buttonBluetooth.points.p1 = Offset(x = twoFourthWidth, y = zeroFourthHeight)
-        buttonBluetooth.points.p2 = Offset(x = oneFourthWidth, y = oneFourthHeight)
-        buttonBluetooth.points.p3 = Offset(x = threeFourthWidth, y = oneFourthHeight)
-        buttonBluetooth.points.p4 = Offset(x = oneFourthWidth, y = threeFourthHeight)
-        buttonBluetooth.points.p5 = Offset(x = threeFourthWidth, y = threeFourthHeight)
-        buttonBluetooth.points.p6 = Offset(x = twoFourthWidth, y = fourthFourthHeight)
-
-        buttonBluetooth.sizes.iconSmallStroke = heightFull * buttonBluetooth.ratios.iconSmallStrokeHeightPercent
-        buttonBluetooth.sizes.iconBigStroke = heightFull * buttonBluetooth.ratios.iconBigStrokeHeightPercent
-
-        displayDataUI?.let {
-            wLog("MainScreenObj::initBluetoothButton", "start")
-            vLog("MainScreenObj::initBluetoothButton", "squareHeight ${buttonBluetooth.sizes.squareHeight}")
-            vLog("MainScreenObj::initBluetoothButton", "squareHeightDp ${buttonBluetooth.sizes.squareHeightDp}")
-            vLog("MainScreenObj::initBluetoothButton", "squareStrokeDp ${buttonBluetooth.sizes.squareStrokeDp}")
-            vLog("MainScreenObj::initBluetoothButton", "canvasHeight ${buttonBluetooth.sizes.canvas}")
-            vLog("MainScreenObj::initBluetoothButton", "canvasHeightDp ${buttonBluetooth.sizes.canvasDp}")
-            vLog("MainScreenObj::initBluetoothButton", "iconSmallStrokeDp ${buttonBluetooth.sizes.iconSmallStroke}")
-            vLog("MainScreenObj::initBluetoothButton", "iconBigStrokeDp ${buttonBluetooth.sizes.iconBigStroke}")
-        }
-    }
-
-
     private fun initTutoButton() {
         tutorialButton.sizes.iconButtonHeight = tutorialButton.ratios.iconButtonHeightPercentage * header.sizes.height
         tutorialButton.sizes.iconButtonHeightDp = tutorialButton.sizes.iconButtonHeight.toDp(density)
@@ -392,7 +316,7 @@ object MainScreenObj {
     private var density = 0F
     private var allWeightsHeight = 0F
 
-    fun create(context: Context): MainScreenObj {
+    fun create(context: Context): MainScreenAdapter {
         widthFull = context.resources.displayMetrics.widthPixels
         heightFull = context.resources.displayMetrics.heightPixels
         density = context.resources.displayMetrics.density
@@ -406,13 +330,17 @@ object MainScreenObj {
             vLog("MainScreenObj::create", "weight height = $allWeightsHeight")
         }
 
+//        buttonBluetooth = BluetoothIconObj.create(context, heightFull * 0.3F)
+        buttonBluetooth = BluetoothIconAdapter(context, heightFull * 0.3F)
         initHeader()
         initTutoButton()
         initDelimiter()
         initList()
-        initBluetoothButton()
         initWifiButton()
         initInstruction()
         return this
     }
+//    init {
+//        buttonBluetooth.c
+//    }
 }

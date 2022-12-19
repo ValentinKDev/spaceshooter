@@ -6,12 +6,14 @@ import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.analyze.wLog
 
-object BluetoothScreenObj {
+object BluetoothScreenAdapter {
     val header = HeaderBluetoothScreen
     val delimiter = DelimiterBluetoothScreen
     val list = ListBluetoothScreen
     val colors = ColorsBluetoothScreen
-    var backButton = BackButtonObj
+    var backButton = BackButtonAdapter
+//    var bluetoothIcon = BluetoothIconObj
+    lateinit var bluetoothIcon: BluetoothIconAdapter
 
     object ColorsBluetoothScreen {
         val contrast = MyColor.applicationContrast
@@ -42,6 +44,7 @@ object BluetoothScreenObj {
 
         object RatiosBluetoothScreen {
             const val heightWeight = 4.94F
+            const val heightBanner = 0.5F
         }
     }
 
@@ -59,7 +62,7 @@ object BluetoothScreenObj {
     private var density = 0F
     private var allWeightsHeight = 0F
 
-    fun create(context: Context): BluetoothScreenObj {
+    fun create(context: Context): BluetoothScreenAdapter {
         widthFull = context.resources.displayMetrics.widthPixels
         heightFull = context.resources.displayMetrics.heightPixels
         density = context.resources.displayMetrics.density
@@ -74,7 +77,9 @@ object BluetoothScreenObj {
         }
 
         initHeader()
-        backButton = BackButtonObj.create(context, header.sizes.height)
+//        bluetoothIcon = BluetoothIconObj.create(context, 150F)
+        bluetoothIcon = BluetoothIconAdapter(context, list.ratios.heightBanner * heightFull)
+        backButton = BackButtonAdapter.create(context, header.sizes.height)
         return this
     }
 }

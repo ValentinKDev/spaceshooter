@@ -15,7 +15,7 @@ import com.mobilegame.spaceshooter.presentation.theme.MyColor
 @Composable
 internal fun FilterRoundShape(sizeDp: Dp) {
     Box(
-        androidx.compose.ui.Modifier
+        Modifier
             .size(sizeDp)
     ) {
         Canvas(

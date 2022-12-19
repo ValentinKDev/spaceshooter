@@ -16,7 +16,7 @@ class PressureNavigationViewModel(): ViewModel() {
     private var timerStart = 0L
     private var timerEnd = 0L
     private var diff = 0L
-    val timerValidation = 1200
+    val timerValidation = 900
 
     fun setPressure() { pressure = true }
     fun setTimerStart() { timerStart = System.currentTimeMillis() }
@@ -34,6 +34,7 @@ class PressureNavigationViewModel(): ViewModel() {
         setTimerStart()
     }
 
+    //todo: force the realese logic when diff >= timerValidation before the user release his finger
     fun handlePressureRelease(navigator: Navigator) {
         pressure?.let {
             vLog("PressureHandler::handlePressureRelease" , "start")

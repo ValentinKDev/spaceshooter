@@ -1,12 +1,5 @@
 package com.mobilegame.spaceshooter.domain.model.screen.bluetoothScreen
 
-import android.content.Context
-import com.mobilegame.spaceshooter.domain.model.screen.uiAdapter.BackButtonObj
-import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
-import com.mobilegame.spaceshooter.utils.analyze.vLog
-import com.mobilegame.spaceshooter.utils.analyze.wLog
-
 //object BluetoothScreenObj {
 //    val header = HeaderBluetoothScreen
 //    val delimiter = DelimiterBluetoothScreen

@@ -9,7 +9,7 @@ import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.analyze.wLog
 import com.mobilegame.spaceshooter.utils.extensions.toDp
 
-object BackButtonObj {
+object BackButtonAdapter {
     val colors = ColorsBackButton
     val points = PointsBackButton
     val sizes = SizesBackButton
@@ -110,7 +110,7 @@ object BackButtonObj {
         }
     }
 
-    fun create(context: Context, boxHeight: Float): BackButtonObj {
+    fun create(context: Context, boxHeight: Float): BackButtonAdapter {
         widthFull = context.resources.displayMetrics.widthPixels
         heightFull = context.resources.displayMetrics.heightPixels
         density = context.resources.displayMetrics.density
