@@ -8,13 +8,18 @@ import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.analyze.wLog
+import com.mobilegame.spaceshooter.utils.extensions.alpha
 import com.mobilegame.spaceshooter.utils.extensions.toDp
 
-class BluetoothIconAdapter(context: Context, squareSize: Float) {
+class BluetoothIconAdapter(
+    context: Context,
+    squareSize: Float,
+//    color: Color = MyColor.applicationContrast
+) {
     val ratios = RatiosButtonBluetooth()
     val sizes = SizesButtonBluetooth()
     val points = PointsButtonBluetooth()
-    val color = ColorButtonBluetooth()
+    val colors = ColorButtonBluetooth()
 
     data class RatiosButtonBluetooth (
          val squareStrokePercent: Float = 0.03F,
@@ -40,12 +45,16 @@ class BluetoothIconAdapter(context: Context, squareSize: Float) {
         var p6: Offset = Offset.Unspecified,
     )
     data class ColorButtonBluetooth (
-        val stroke: Color = MyColor.applicationText,
+        var transparentStart: Color = MyColor.applicationContrast.alpha(0.02F),
+        var transparentTarget: Color = MyColor.applicationContrast.alpha(0.13F),
+        var stroke: Color = MyColor.applicationContrast,
+        var background: Color = MyColor.applicationBackground,
     )
 
     private var density = 0F
 
     init {
+//        colors.stroke = color
         density = context.resources.displayMetrics.density
 
         sizes.squareHeight = squareSize

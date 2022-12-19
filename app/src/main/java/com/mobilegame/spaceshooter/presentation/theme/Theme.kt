@@ -66,9 +66,11 @@ fun SpaceShooterTheme(
 
     (LocalView.current.context as Activity).window.statusBarColor = Color.TRANSPARENT
 
+    //todo : bug when switching app Navigation bar and Status bar are visible
     val systemUiController: SystemUiController = rememberSystemUiController()
-    systemUiController.isStatusBarVisible = false // Status bar
-    systemUiController.setNavigationBarColor(color = MyColor.applicationBackground)
+    systemUiController.isStatusBarVisible = false
+    systemUiController.isNavigationBarVisible = false
+//    systemUiController.setNavigationBarColor(color = MyColor.applicationBackground)
 
     Box(Modifier.fillMaxSize().background(MyColor.applicationBackground)) {
         MaterialTheme(

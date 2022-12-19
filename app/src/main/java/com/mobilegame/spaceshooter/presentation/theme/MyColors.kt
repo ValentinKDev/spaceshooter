@@ -5,18 +5,7 @@ import com.mobilegame.spaceshooter.utils.extensions.alpha
 
 inline class MyColor(val color: Color){
     companion object {
-        val white0 = Color(0xFFFFFFFF)
-        val white1 = Color(0xDFFFFFFF)
-        val white2 = Color(0xBFFFFFFF)
-        val white3 = Color(0x9FFFFFFF)
-        val white4 = Color(0x7FFFFFFF)
-        val white5 = Color(0x5FFFFFFF)
-        val white6 = Color(0x4FFFFFFF)
-        val white7 = Color(0x3FFFFFFF)
-        val white8 = Color(0x2FFFFFFF)
-        val white9 = Color(0x1FFFFFFF)
-
-        val whiteDark0 = Color(0xFFFFFFFF)
+        val white = Color(0xFFFFFFFF)
         val whiteDark1 = Color(0xFFEEEEEE)
         val whiteDark2 = Color(0xFFDDDDDD)
         val whiteDark3 = Color(0xFFCCCCCC)
@@ -28,25 +17,7 @@ inline class MyColor(val color: Color){
         val whiteDark8 = Color(0xFF777777)
         val whiteDark9 = Color(0xFF666666)
 
-        //        val gray00 = Color(0xFFFF)
-        val gray0 = Color(0xFF888888)
-        val gray1 = Color(0xDF888888)
-        val gray2 = Color(0xBF888888)
-        val gray3 = Color(0x9F888888)
-        val gray4 = Color(0x7F888888)
-        val gray5 = Color(0x5F888888)
-        val gray6 = Color(0x3F888888)
-        val gray7 = Color(0x1F888888)
-        val gray8 = Color(0x0E888888)
-        val gray9 = Color(0x0C888888)
-        val black3 = Color(0x5F000000)
-        val black4 = Color(0x4F000000)
-        val black5 = Color(0x3F000000)
-        val black6 = Color(0x2F000000)
-        val black7 = Color(0x1F000000)
-        val black8 = Color(0x0E000000)
-        val black9 = Color(0x0C000000)
-        val grayDark0 = Color(0xFF888888)
+        val gray = Color(0xFF888888)
         val grayDark1_0 = Color(0xFF787878)
         val grayDark1_1 = Color(0xFF767676)
         val grayDark1_2 = Color(0xFF747474)
@@ -62,20 +33,7 @@ inline class MyColor(val color: Color){
         val grayDark8 = Color(0xFF191919)
         val grayDark9 = Color(0xFF101010)
 
-        val green0 = Color(0xFF00FF00)
-        val green1 = Color(0xDF00FF00)
-        val green2 = Color(0xBF00FF00)
-        val green3 = Color(0x9F00FF00)
-        val green4 = Color(0x7F00FF00)
-        val green5 = Color(0x5F00FF00)
-        val green6 = Color(0x3F00FF00)
-        val green7 = Color(0x1F00FF00)
-        val green8 = Color(0x0E00FF00)
-        val green9 = Color(0x0C00FF00)
-        val green10 = Color(0x0800FF00)
-        val green11 = Color(0x0400FF00)
-        val green12 = Color(0x0100FF00)
-        val greendark0 = Color(0xFF00FF00)
+        val green = Color(0xFF00FF00)
         val greendark1 = Color(0xFF00DF00)
         val greendark2 = Color(0xFF00CF00)
         val greendark3 = Color(0xFF00BF00)
@@ -89,17 +47,7 @@ inline class MyColor(val color: Color){
         val greendark11 = Color(0xFF003F00)
         val greendark12 = Color(0xFF002F00)
 
-        val blue0 = Color(0xFF0000FF)
-        val blue1 = Color(0xDF0000FF)
-        val blue2 = Color(0xBF0000FF)
-        val blue3 = Color(0x9F0000FF)
-        val blue4 = Color(0x7F0000FF)
-        val blue5 = Color(0x5F0000FF)
-        val blue6 = Color(0x3F0000FF)
-        val blue7 = Color(0x1F0000FF)
-        val blue8 = Color(0x0E0000FF)
-        val blue9 = Color(0x0C0000FF)
-        val blueDark0 = Color(0xFF0000FF)
+        val blue = Color(0xFF0000FF)
         val blueDark1 = Color(0xFF0000EF)
         val blueDark2 = Color(0xFF0000DF)
         val blueDark3 = Color(0xFF0000CF)
@@ -113,20 +61,7 @@ inline class MyColor(val color: Color){
         val blueDark11 = Color(0xFF00006F)
         val blueDark12 = Color(0xFF00005F)
 
-        val yellow0 = Color(0xFFFFFF00)
-        val yellow1 = Color(0xDFFFFF00)
-        val yellow2 = Color(0xBFFFFF00)
-        val yellow3 = Color(0x9FFFFF00)
-        val yellow4 = Color(0x7FFFFF00)
-        val yellow5 = Color(0x5FFFFF00)
-        val yellow6 = Color(0x3FFFFF00)
-        val yellow7 = Color(0x1FFFFF00)
-        val yellow8 = Color(0x0EFFFF00)
-        val yellow9 = Color(0x0CFFFF00)
-        val yellow10 = Color(0x09FFFF00)
-        val yellow11 = Color(0x05FFFF00)
-        val yellow12 = Color(0x02FFFF00)
-        val yellowDark0 = Color(0xFFEFEF00)
+        val yellow = Color(0xFFFFFF00)
         val yellowDark1 = Color(0xFFDFDF00)
         val yellowDark2 = Color(0xFFCFCF00)
         val yellowDark3 = Color(0xFFBFBF00)
@@ -140,17 +75,7 @@ inline class MyColor(val color: Color){
         val yellowDark11 = Color(0xFF3F3F00)
         val yellowDark12 = Color(0xFF2F2F00)
 
-        val red0= Color(0xFFFF0000)
-        val red1= Color(0xDFFF0000)
-        val red2= Color(0xBFFF0000)
-        val red3= Color(0x9FFF0000)
-        val red4= Color(0x7FFF0000)
-        val red5= Color(0x5FFF0000)
-        val red6= Color(0x3FFF0000)
-        val red7= Color(0x1FFF0000)
-        val red8= Color(0x0EFF0000)
-        val red9= Color(0x0CFF0000)
-        val red10= Color(0x0AFF0000)
+        val red= Color(0xFFFF0000)
         val redDark0= Color(0xFFFF0000)
         val redDark1= Color(0xFFDF0000)
         val redDark2= Color(0xFFCF0000)
@@ -191,11 +116,13 @@ inline class MyColor(val color: Color){
         val applicationText = Platinium
         val applicationContrast = Platinium
         val applicationContrastTransparent = Platinium.alpha(0.75F)
+//        val applicationContrastTransparentPlus = Platinium.alpha(0.05F)
+//        val applicationContrastTransparentPlus = Platinium.alpha(0.05F)
 
-        val applicationSurface = grayDark2
-        val applicationSurfaceDark = grayDark3
-        val applicationSurfaceDarkDark = grayDark4
-        val applicationTextDark = whiteDark5
-        val applicationNiceGreen = greenSecondVariant
+//        val applicationSurface = grayDark2
+//        val applicationSurfaceDark = grayDark3
+//        val applicationSurfaceDarkDark = grayDark4
+//        val applicationTextDark = whiteDark5
+//        val applicationNiceGreen = greenSecondVariant
     }
 }

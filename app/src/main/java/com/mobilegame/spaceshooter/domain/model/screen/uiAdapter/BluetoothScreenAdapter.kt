@@ -12,9 +12,17 @@ object BluetoothScreenAdapter {
     val list = ListBluetoothScreen
     val colors = ColorsBluetoothScreen
     var backButton = BackButtonAdapter
-//    var bluetoothIcon = BluetoothIconObj
     lateinit var bluetoothIcon: BluetoothIconAdapter
+    var banner = BannerBluetoothScreen
 
+    object BannerBluetoothScreen {
+        val padding = PaddingBannerBluetoothScreen
+
+        object PaddingBannerBluetoothScreen {
+            const val top = 0.3F
+//            const val bottom = 0.5F
+        }
+    }
     object ColorsBluetoothScreen {
         val contrast = MyColor.applicationContrast
     }
@@ -44,7 +52,7 @@ object BluetoothScreenAdapter {
 
         object RatiosBluetoothScreen {
             const val heightWeight = 4.94F
-            const val heightBanner = 0.5F
+            const val heightBanner = 1F
         }
     }
 
@@ -77,9 +85,12 @@ object BluetoothScreenAdapter {
         }
 
         initHeader()
-//        bluetoothIcon = BluetoothIconObj.create(context, 150F)
-        bluetoothIcon = BluetoothIconAdapter(context, list.ratios.heightBanner * heightFull)
         backButton = BackButtonAdapter.create(context, header.sizes.height)
+        bluetoothIcon = BluetoothIconAdapter(
+            context,
+            list.ratios.heightBanner * heightFull,
+//            color = MyColor.applicationContrastTransparentPlus
+        )
         return this
     }
 }

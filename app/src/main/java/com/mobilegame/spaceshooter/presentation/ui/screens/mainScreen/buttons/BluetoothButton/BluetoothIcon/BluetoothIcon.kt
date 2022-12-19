@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.graphics.drawscope.Stroke
 import com.mobilegame.spaceshooter.domain.model.screen.uiAdapter.BluetoothIconAdapter
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
@@ -24,7 +27,7 @@ fun BluetoothIcon(ui: BluetoothIconAdapter) {
                 drawLine(
                     start = ui.points.p2,
                     end = ui.points.p5,
-                    color = MyColor.Platinium,
+                    color = ui.colors.stroke,
                     cap = StrokeCap.Round,
                     strokeWidth = ui.sizes.iconBigStroke
                 )
@@ -32,34 +35,34 @@ fun BluetoothIcon(ui: BluetoothIconAdapter) {
                     start = ui.points.p5,
                     end = ui.points.p6,
                     cap = StrokeCap.Round,
-                    color = MyColor.Platinium,
+                    color = ui.colors.stroke,
                     strokeWidth = ui.sizes.iconBigStroke
                 )
                 drawLine(
                     start = ui.points.p5,
                     end = ui.points.p6,
                     cap = StrokeCap.Round,
-                    color = MyColor.Platinium,
+                    color = ui.colors.stroke,
                     strokeWidth = ui.sizes.iconBigStroke
                 )
                 drawLine(
                     start = ui.points.p6,
                     end = ui.points.p1,
-                    color = MyColor.Platinium,
+                    color = ui.colors.stroke,
                     cap = StrokeCap.Round,
                     strokeWidth = ui.sizes.iconBigStroke
                 )
                 drawLine(
                     start = ui.points.p1,
                     end = ui.points.p3,
-                    color = MyColor.Platinium,
+                    color = ui.colors.stroke,
                     cap = StrokeCap.Round,
                     strokeWidth = ui.sizes.iconBigStroke
                 )
                 drawLine(
                     start = ui.points.p3,
                     end = ui.points.p4,
-                    color = MyColor.Platinium,
+                    color = ui.colors.stroke,
                     cap = StrokeCap.Round,
                     strokeWidth = ui.sizes.iconBigStroke
                 )
