@@ -22,7 +22,7 @@ internal fun List(navigator: Navigator, vm: MainScreenViewModel) {
             }
             AlignComposableToEnd {
                 CenterComposableVertically {
-                    WifiButton(vm)
+                    WifiButton(vm, navigator)
                 }
             }
         }

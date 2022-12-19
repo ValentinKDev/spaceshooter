@@ -8,13 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
-import com.mobilegame.spaceshooter.presentation.ui.screens.utils.PaddingComposable
 import com.mobilegame.spaceshooter.utils.analyze.verbalLog
-import com.mobilegame.spaceshooter.utils.extensions.alpha
 
 @Composable
 fun MainScreen(navigator: Navigator, vm: MainScreenViewModel = viewModel()) {

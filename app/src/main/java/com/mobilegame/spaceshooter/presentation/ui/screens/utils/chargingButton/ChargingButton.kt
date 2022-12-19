@@ -4,8 +4,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
@@ -14,25 +12,28 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
-import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.PressureHandler
+import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.PressureNavigationViewModel
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.BluetoothButton.BluetoothIcon.BluetoothSquare
-import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.BluetoothIcon
-import com.mobilegame.spaceshooter.utils.analyze.vLog
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
+import com.mobilegame.spaceshooter.presentation.ui.screens.utils.chargingButton.FilterRoundShape
 
 
 @Composable
-fun ChargingButton(handler: PressureHandler, size: Dp, content: @Composable () -> Unit) {
+fun ChargingButton(
+    handler: PressureNavigationViewModel,
+    sizeDp: Dp,
+    navigator: Navigator,
+    roundShape: Boolean? = null,
+    content: @Composable () -> Unit
+) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
     LaunchedEffect(isPressed) {
         when (isPressed) {
             true -> handler.handlePressureStart()
-            false -> handler.handlePressureRelease()
+            false -> handler.handlePressureRelease(navigator)
         }
     }
 
@@ -47,7 +48,8 @@ fun ChargingButton(handler: PressureHandler, size: Dp, content: @Composable () -
         animationSpec = tween(handler.timerValidation)
     )
 
-    Box( Modifier.size(size)) {
+    //todo : add round corner to the box
+    Box( Modifier.size(sizeDp)) {
         Column(Modifier.fillMaxSize()) {
             Box(
                 Modifier
@@ -61,6 +63,9 @@ fun ChargingButton(handler: PressureHandler, size: Dp, content: @Composable () -
                     .background(MyColor.applicationContrast)
             )
         }
+
+        roundShape?.let { FilterRoundShape(sizeDp) }
+
         Box( Modifier.then(clickable)) {
             content.invoke()
         }
