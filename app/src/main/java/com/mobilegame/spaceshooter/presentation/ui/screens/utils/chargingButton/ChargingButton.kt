@@ -32,8 +32,8 @@ fun ChargingButton(
 
     LaunchedEffect(isPressed) {
         when (isPressed) {
-            true -> handler.handlePressureStart()
-            false -> handler.handlePressureRelease(navigator)
+            true -> handler.handlePressureStart(navigator)
+            false -> handler.handlePressureRelease()
         }
     }
 
@@ -45,7 +45,7 @@ fun ChargingButton(
 
     val heightWeight by animateFloatAsState(
         targetValue = if (isPressed) 0.99F else 0.01F,
-        animationSpec = tween(handler.timerValidation)
+        animationSpec = tween(handler.timerValidationAnim)
     )
 
     //todo : add round corner to the box

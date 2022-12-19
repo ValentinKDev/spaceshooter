@@ -7,48 +7,38 @@ import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PressureNavigationViewModel(): ViewModel() {
 
     private var screenNav: Screens? = null
-    private var pressure: Boolean? = null
-    private var timerStart = 0L
-    private var timerEnd = 0L
-    private var diff = 0L
-    val timerValidation = 900
+    private var pressureState: Boolean = false
+    private val timerValidation = 900L
+    val timerValidationAnim = (timerValidation * 1.1F).toInt()
 
-    fun setPressure() { pressure = true }
-    fun setTimerStart() { timerStart = System.currentTimeMillis() }
-    fun setTimerEnd() { timerEnd = System.currentTimeMillis() }
-    fun setDiff() { diff = timerEnd - timerStart}
-    fun resetTimerStart() { timerStart = 0L}
-    fun resetTimerEnd() { timerEnd = 0L}
-    fun resetDiff() { diff = 0L }
+    fun setPressureStateTo(state: Boolean) { pressureState = state }
 
-    fun handlePressureStart() {
-        resetDiff()
-        resetTimerStart()
-        resetTimerEnd()
-        setPressure()
-        setTimerStart()
+    fun handlePressureStart(navigator: Navigator) {
+        setPressureStateTo(true)
+        viewModelScope.launch(Dispatchers.IO) { timer(navigator) }
     }
 
-    //todo: force the realese logic when diff >= timerValidation before the user release his finger
-    fun handlePressureRelease(navigator: Navigator) {
-        pressure?.let {
-            vLog("PressureHandler::handlePressureRelease" , "start")
-            setTimerEnd()
-            setDiff()
-            if (diff >= timerValidation) {
-                screenNav?.let {
-                    eLog("PressureHandler::handlePressureRelease" , "Go to ${it.route}")
-                    viewModelScope.launch(Dispatchers.IO) {
-                        navigator.navig(it)
-                    }
-                }
+    private suspend fun timer(navigator: Navigator) {
+        delay(timerValidation.toLong())
+        if (pressureState) {
+            screenNav?.let {
+                eLog("PressureNavVM::startTimer", "Go to ${it.route}")
+                navigator.navig(it)
             }
+        } else {
+            eLog("PressureNavVM::startTimer", "User release button before the end")
         }
+    }
+
+    fun handlePressureRelease() {
+        vLog("PressureNavVM:handlePressureRelease" , "release")
+        setPressureStateTo(false)
     }
 
     fun create(screen: Screens): PressureNavigationViewModel {
