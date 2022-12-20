@@ -9,22 +9,26 @@ import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.PressureNaviga
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposableVertically
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.ChargingButton
+import com.mobilegame.spaceshooter.presentation.ui.screens.utils.PaddingComposable
 
 @Composable
 fun BackButton(vm: PressureNavigationViewModel, navigator: Navigator, ui: BackButtonAdapter) {
-
-    CenterComposableVertically {
-        ChargingButton(
-            handler = vm,
-            sizeDp = ui.sizes.canvasDp,
-            roundShape = true,
-            navigator = navigator
-        ) {
-            Box(
-                Modifier
-                    .fillMaxHeight()
+    PaddingComposable(
+        startPaddingRatio = ui.ratios.startPadding
+    ) {
+        CenterComposableVertically {
+            ChargingButton(
+                handler = vm,
+                sizeDp = ui.sizes.canvasDp,
+                roundShape = true,
+                navigator = navigator
             ) {
-                BackIcon(ui)
+                Box(
+                    Modifier
+                        .fillMaxHeight()
+                ) {
+                    BackIcon(ui)
+                }
             }
         }
     }

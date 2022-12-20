@@ -17,6 +17,7 @@ object BackButtonAdapter {
 
     object RatiosBackButton {
         var canvasHeightPercent = 0.75F
+        var startPadding = 0.01F
     }
     object SizesBackButton {
         var boxHeight = 0F

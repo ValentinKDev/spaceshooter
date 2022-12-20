@@ -15,4 +15,5 @@ fun TutoScreen(navigator: Navigator, vm: TutoScreenViewModel = viewModel()) {
     }
 
     BackButtonLayer(vm, navigator)
+    SmartphonesFaceToFace(vm)
 }

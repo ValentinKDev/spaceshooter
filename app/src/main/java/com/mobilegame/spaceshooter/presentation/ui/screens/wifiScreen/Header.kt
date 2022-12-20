@@ -9,13 +9,9 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.utils.backButton.Back
 
 @Composable
 internal fun Header(vm: WifiScreenViewModel, navigator: Navigator) {
-    PaddingComposable(
-        startPaddingRatio = 0.01F
-    ) {
-        BackButton(
-            vm = vm.backButtonPressureNavigationVM,
-            navigator = navigator,
-            ui = vm.ui.backButton
-        )
-    }
+    BackButton(
+        vm = vm.backButtonPressureNavigationVM,
+        navigator = navigator,
+        ui = vm.ui.backButton
+    )
 }
