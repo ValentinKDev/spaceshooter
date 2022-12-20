@@ -5,11 +5,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
+import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.analyze.wLog
 import com.mobilegame.spaceshooter.utils.extensions.alpha
 import com.mobilegame.spaceshooter.utils.extensions.toDp
 import com.mobilegame.spaceshooter.utils.extensions.toSp
+import com.mobilegame.spaceshooter.utils.extensions.toSpRef
 
 object MainScreenAdapter {
     val header = HeaderMainScreen
@@ -69,7 +71,8 @@ object MainScreenAdapter {
             const val iconTextHeightPercent = 0.38F
             const val iconTextSpacePercent = 0.005F
 
-            const val mainTextHeightPercent = 0.98F
+            const val mainTextHeightPercent = 1F
+//            const val mainTextHeightPercent = 0.33F
             const val mainTextSpacePercent = 0.004F
         }
 
@@ -290,7 +293,7 @@ object MainScreenAdapter {
         header.sizes.iconTextSpace = widthFull * header.ratios.iconTextSpacePercent
         header.sizes.iconTextSpaceSp = header.sizes.iconTextSpace.toSp(density)
         header.sizes.mainTextHeight = header.sizes.height * header.ratios.mainTextHeightPercent
-        header.sizes.mainTextHeightSp = header.sizes.mainTextHeight.toSp(density)
+        header.sizes.mainTextHeightSp = header.sizes.mainTextHeight.toSpRef(density)
         header.sizes.mainTextSpace = widthFull * header.ratios.mainTextSpacePercent
         header.sizes.mainTextSpaceSp = header.sizes.mainTextSpace.toSp(density)
 
@@ -305,6 +308,7 @@ object MainScreenAdapter {
             vLog("MainScreenObj::initHeader", "iconTextSpace ${header.sizes.iconTextSpace}")
             vLog("MainScreenObj::initHeader", "iconTextSpaceSp ${header.sizes.iconTextSpaceSp}")
             vLog("MainScreenObj::initHeader", "mainTextHeight ${header.sizes.mainTextHeight}")
+            eLog("MainScreenObj::initHeader", "ratioText ${header.sizes.mainTextHeightSp / header.sizes.height}")
             vLog("MainScreenObj::initHeader", "mainTextHeightSp ${header.sizes.mainTextHeightSp}")
             vLog("MainScreenObj::initHeader", "mainTextSpace ${header.sizes.mainTextSpace}")
             vLog("MainScreenObj::initHeader", "mainTextSpaceSp ${header.sizes.mainTextSpaceSp}")
@@ -320,6 +324,7 @@ object MainScreenAdapter {
         widthFull = context.resources.displayMetrics.widthPixels
         heightFull = context.resources.displayMetrics.heightPixels
         density = context.resources.displayMetrics.density
+//        density = context.resources.displayMetrics.density
         allWeightsHeight = header.ratios.heightWeight + delimiter.ratios.heightWeight + list.ratios.heightWeight
 
         wLog("MainScreenObj::create", "start")

@@ -1,6 +1,5 @@
 package com.mobilegame.spaceshooter.domain.model.screen.mainScreen
 
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.domain.model.screen.Screens

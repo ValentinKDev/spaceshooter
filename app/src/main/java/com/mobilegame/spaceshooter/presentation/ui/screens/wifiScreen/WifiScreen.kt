@@ -1,10 +1,7 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.wifiScreen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -34,18 +31,18 @@ fun WifiScreen(navigator: Navigator, vm: WifiScreenViewModel = viewModel()) {
                 navigator = navigator,
             )
         }
-        Box(
+        Row(
             Modifier
                 .fillMaxWidth()
                 .weight(vm.ui.delimiter.ratios.heightWeight)
                 .background(vm.ui.color.contrast)
-        ) {
-        }
+        ){ }
         Box(
             Modifier
                 .fillMaxWidth()
                 .weight(vm.ui.list.ratios.heightWeight)
         ) {
+            List()
         }
     }
 }

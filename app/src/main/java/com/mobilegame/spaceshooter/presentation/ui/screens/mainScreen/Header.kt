@@ -1,9 +1,11 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -13,6 +15,7 @@ import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenView
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.TutoButton
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.*
+import com.mobilegame.spaceshooter.utils.extensions.alpha
 
 @Composable
 internal fun Header(navigator: Navigator, vm: MainScreenViewModel) {
@@ -33,7 +36,8 @@ internal fun Header(navigator: Navigator, vm: MainScreenViewModel) {
                             letterSpacing = vm.ui.header.sizes.mainTextSpaceSp,
                             fontWeight = FontWeight.Black
                         ),
-                        textAlign = TextAlign.Justify
+                        textAlign = TextAlign.Justify,
+//                        modifier = Modifier.background(Color.Black.alpha(0.1F))
                     )
             }
             }
