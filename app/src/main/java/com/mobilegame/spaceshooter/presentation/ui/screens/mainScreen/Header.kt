@@ -1,21 +1,17 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import com.mobilegame.spaceshooter.domain.model.screen.bluetoothScreen.BluetoothScreenViewModel
 import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.elements.buttons.TutoButton
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.*
-import com.mobilegame.spaceshooter.utils.extensions.alpha
 
 @Composable
 internal fun Header(navigator: Navigator, vm: MainScreenViewModel) {
@@ -59,7 +55,7 @@ internal fun Header(navigator: Navigator, vm: MainScreenViewModel) {
                         )
                     }
                     CenterComposableVertically {
-                        TutoButton(vm)
+                        TutoButton(vm, navigator)
                     }
                 }
             }

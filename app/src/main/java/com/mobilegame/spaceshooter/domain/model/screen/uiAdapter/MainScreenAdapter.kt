@@ -19,11 +19,9 @@ object MainScreenAdapter {
     val delimiter = DelimiterMainScreen
     val list = ListMainScreen
     val tutorialButton = TutorialButton
-//    val buttonWifi = ButtonWifiMainScreen
-//    var buttonBluetooth = BluetoothIconObj
+    val instruction = InstructionMainScreen
     lateinit var buttonBluetooth: BluetoothIconAdapter
     lateinit var buttonWifi: WifiIconAdapter
-    val instruction = InstructionMainScreen
 
     object InstructionMainScreen {
         val ratios = RatiosInstructionMainScreen
