@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.WifiButton.WifiIcon
+package com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.elements.buttons.WifiButton.WifiIcon
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box

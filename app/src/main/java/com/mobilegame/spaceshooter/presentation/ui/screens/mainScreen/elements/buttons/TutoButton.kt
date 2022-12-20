@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons
+package com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.elements.buttons
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize

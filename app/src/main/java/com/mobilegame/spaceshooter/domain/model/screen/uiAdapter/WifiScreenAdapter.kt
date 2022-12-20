@@ -12,6 +12,7 @@ object WifiScreenAdapter {
     val list = ListWifiScreenAdapter
     val color = ColorWifiScreen
     var backButton = BackButtonAdapter
+    val banner = BannerWifiScreenAdapter
 
     object ColorWifiScreen {
         val contrast = MyColor.applicationContrast
@@ -42,6 +43,15 @@ object WifiScreenAdapter {
             const val heightBanner = 1F
         }
     }
+    object BannerWifiScreenAdapter {
+        val ratios = RatiosHeaderWifiScreen
+        lateinit var wifiIcon: WifiIconAdapter
+
+        object RatiosHeaderWifiScreen {
+            const val heightBanner = 1F
+            const val topPadding = 0.3F
+        }
+    }
 
 
     private var widthFull = 0
@@ -56,6 +66,9 @@ object WifiScreenAdapter {
             wLog("WifiScreenAdapter::initHeader", "header")
             vLog("WifiScreenAdapter::initHeader", "height ${BluetoothScreenAdapter.header.sizes.height}")
         }
+    }
+    private fun initBanner(context: Context) {
+        banner.wifiIcon = WifiIconAdapter(context, heightFull * banner.ratios.heightBanner)
     }
 
     fun create(context: Context): WifiScreenAdapter {
@@ -73,6 +86,7 @@ object WifiScreenAdapter {
         }
 
         initHeader()
+        initBanner(context)
         backButton = BackButtonAdapter.create(context, header.sizes.height)
         return this
     }

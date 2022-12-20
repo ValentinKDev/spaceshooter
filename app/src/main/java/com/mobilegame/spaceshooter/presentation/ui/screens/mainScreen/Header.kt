@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.mobilegame.spaceshooter.domain.model.screen.bluetoothScreen.BluetoothScreenViewModel
 import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
-import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.buttons.TutoButton
+import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.elements.buttons.TutoButton
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.*
 import com.mobilegame.spaceshooter.utils.extensions.alpha
 

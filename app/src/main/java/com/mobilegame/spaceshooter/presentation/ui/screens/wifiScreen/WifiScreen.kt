@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mobilegame.spaceshooter.domain.model.screen.wifiScreen.WifiScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
-import com.mobilegame.spaceshooter.presentation.ui.screens.bluetoothScreen.Header
 import com.mobilegame.spaceshooter.utils.analyze.wLog
 
 
@@ -42,7 +41,7 @@ fun WifiScreen(navigator: Navigator, vm: WifiScreenViewModel = viewModel()) {
                 .fillMaxWidth()
                 .weight(vm.ui.list.ratios.heightWeight)
         ) {
-            List()
+            List(vm)
         }
     }
 }

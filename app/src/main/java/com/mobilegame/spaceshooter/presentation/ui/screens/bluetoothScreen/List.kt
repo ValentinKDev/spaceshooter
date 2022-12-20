@@ -13,11 +13,11 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.utils.PaddingComposab
 @Composable
 internal fun List(vm: BluetoothScreenViewModel) {
     PaddingComposable(
-        topPaddingRatio = vm.ui.banner.padding.top,
+        topPaddingRatio = vm.ui.banner.ratios.topPadding,
     ) {
         AlignComposableToStart {
             Box( Modifier.size(1.dp) ) {
-                BluetoothBanner(ui = vm.ui.bluetoothIcon)
+                BluetoothBanner(ui = vm.ui.banner.bluetoothIcon)
             }
         }
     }

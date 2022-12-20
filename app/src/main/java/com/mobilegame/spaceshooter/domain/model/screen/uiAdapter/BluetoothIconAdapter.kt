@@ -14,7 +14,6 @@ import com.mobilegame.spaceshooter.utils.extensions.toDp
 class BluetoothIconAdapter(
     context: Context,
     squareSize: Float,
-//    color: Color = MyColor.applicationContrast
 ) {
     val ratios = RatiosButtonBluetooth()
     val sizes = SizesButtonBluetooth()
@@ -54,7 +53,6 @@ class BluetoothIconAdapter(
     private var density = 0F
 
     init {
-//        colors.stroke = color
         density = context.resources.displayMetrics.density
 
         sizes.squareHeight = squareSize

@@ -18,9 +18,10 @@ object MainScreenAdapter {
     val delimiter = DelimiterMainScreen
     val list = ListMainScreen
     val tutorialButton = TutorialButton
-    val buttonWifi = ButtonWifiMainScreen
+//    val buttonWifi = ButtonWifiMainScreen
 //    var buttonBluetooth = BluetoothIconObj
     lateinit var buttonBluetooth: BluetoothIconAdapter
+    lateinit var buttonWifi: WifiIconAdapter
     val instruction = InstructionMainScreen
 
     object InstructionMainScreen {
@@ -159,48 +160,48 @@ object MainScreenAdapter {
         }
     }
 
-    object ButtonWifiMainScreen {
-        val ratios = RatiosButtonWifi
-        val sizes = SizesButtonWifi
-        val circles = CircleButtonWifi
-        val color = ColorButtonWifi
-        val stroke = StrokeButtonWifi
-
-        object RatiosButtonWifi {
-            const val squareHeightPercent = 0.30F
-            const val squareStrokePercent = 0.01F
-            const val canvasHeightPercent = 1F
-            const val p1strokeHeightPercent = 0.007F
-            const val p1InnerHeightPercent = 0.0035F
-            const val bigStrokeHeightPercent = 0.025F
-            const val smallStrokeHeightPercent = 0.011F
-        }
-        object SizesButtonWifi {
-            var squareHeight = 0F
-            var squareHeightDp = Dp.Unspecified
-            var canvas = 0F
-            var canvasDp = Dp.Unspecified
-        }
-        object StrokeButtonWifi {
-            var squareStrokeDp = Dp.Unspecified
-            //            var p1stroke = 0F
-            var bigStroke = 0F
-            var smallStroke = 0F
-        }
-        object CircleButtonWifi {
-            var p1Radius = 0F
-            var p1RadiusInner = 0F
-            var p1CanvasSize = 0F
-            var p1CanvasSizeDp = Dp.Unspecified
-            var p2CanvasSizeDp = Dp.Unspecified
-            var p3CanvasSizeDp = Dp.Unspecified
-            var p4CanvasSizeDp = Dp.Unspecified
-        }
-        object ColorButtonWifi {
-            var icon = MyColor.applicationContrast
-            var iconInner = MyColor.applicationBackground
-        }
-    }
+//    object ButtonWifiMainScreen {
+//        val ratios = RatiosButtonWifi
+//        val sizes = SizesButtonWifi
+//        val circles = CircleButtonWifi
+//        val color = ColorButtonWifi
+//        val stroke = StrokeButtonWifi
+//
+//        object RatiosButtonWifi {
+//            const val squareHeightPercent = 0.30F
+//            const val squareStrokePercent = 0.01F
+//            const val canvasHeightPercent = 1F
+//            const val p1strokeHeightPercent = 0.007F
+//            const val p1InnerHeightPercent = 0.0035F
+//            const val bigStrokeHeightPercent = 0.025F
+//            const val smallStrokeHeightPercent = 0.011F
+//        }
+//        object SizesButtonWifi {
+//            var squareHeight = 0F
+//            var squareHeightDp = Dp.Unspecified
+//            var canvas = 0F
+//            var canvasDp = Dp.Unspecified
+//        }
+//        object StrokeButtonWifi {
+//            var squareStrokeDp = Dp.Unspecified
+//            //            var p1stroke = 0F
+//            var bigStroke = 0F
+//            var smallStroke = 0F
+//        }
+//        object CircleButtonWifi {
+//            var p1Radius = 0F
+//            var p1RadiusInner = 0F
+//            var p1CanvasSize = 0F
+//            var p1CanvasSizeDp = Dp.Unspecified
+//            var p2CanvasSizeDp = Dp.Unspecified
+//            var p3CanvasSizeDp = Dp.Unspecified
+//            var p4CanvasSizeDp = Dp.Unspecified
+//        }
+//        object ColorButtonWifi {
+//            var icon = MyColor.applicationContrast
+//            var iconInner = MyColor.applicationBackground
+//        }
+//    }
 
     private fun initInstruction() {
         instruction.sizes.boxHeight = (1F - instruction.padding.top - instruction.padding.bottom) * heightFull
@@ -214,41 +215,41 @@ object MainScreenAdapter {
         }
     }
 
-    private fun initWifiButton() {
-        buttonWifi.sizes.squareHeight = heightFull * buttonWifi.ratios.squareHeightPercent
-        buttonWifi.sizes.squareHeightDp = buttonWifi.sizes.squareHeight.toDp(density)
-        buttonWifi.stroke.squareStrokeDp = (heightFull * buttonWifi.ratios.squareStrokePercent).toDp(density)
-        buttonWifi.sizes.canvas = buttonWifi.sizes.squareHeight * buttonWifi.ratios.canvasHeightPercent
-        buttonWifi.sizes.canvasDp = buttonWifi.sizes.canvas.toDp(density)
-
-        buttonWifi.circles.p1CanvasSize = buttonWifi.sizes.canvas * 0.2F
-        buttonWifi.circles.p1CanvasSizeDp = buttonWifi.circles.p1CanvasSize.toDp(density)
-        buttonWifi.circles.p1Radius = buttonWifi.circles.p1CanvasSize / 3F
-        buttonWifi.circles.p1RadiusInner = buttonWifi.circles.p1CanvasSize * (2F / 9F)
-        buttonWifi.circles.p2CanvasSizeDp = buttonWifi.sizes.canvasDp * 0.40F
-        buttonWifi.circles.p3CanvasSizeDp = buttonWifi.sizes.canvasDp * 0.70F
-        buttonWifi.circles.p4CanvasSizeDp = buttonWifi.sizes.canvasDp * 1F
+//    private fun initWifiButton() {
+//        buttonWifi.sizes.squareHeight = heightFull * buttonWifi.ratios.squareHeightPercent
+//        buttonWifi.sizes.squareHeightDp = buttonWifi.sizes.squareHeight.toDp(density)
+//        buttonWifi.stroke.squareStrokeDp = (heightFull * buttonWifi.ratios.squareStrokePercent).toDp(density)
+//        buttonWifi.sizes.canvas = buttonWifi.sizes.squareHeight * buttonWifi.ratios.canvasHeightPercent
+//        buttonWifi.sizes.canvasDp = buttonWifi.sizes.canvas.toDp(density)
+//
+//        buttonWifi.circles.p1CanvasSize = buttonWifi.sizes.canvas * 0.2F
+//        buttonWifi.circles.p1CanvasSizeDp = buttonWifi.circles.p1CanvasSize.toDp(density)
+//        buttonWifi.circles.p1Radius = buttonWifi.circles.p1CanvasSize / 3F
+//        buttonWifi.circles.p1RadiusInner = buttonWifi.circles.p1CanvasSize * (2F / 9F)
+//        buttonWifi.circles.p2CanvasSizeDp = buttonWifi.sizes.canvasDp * 0.40F
+//        buttonWifi.circles.p3CanvasSizeDp = buttonWifi.sizes.canvasDp * 0.70F
+//        buttonWifi.circles.p4CanvasSizeDp = buttonWifi.sizes.canvasDp * 1F
 
 //        buttonWifi.stroke.p1stroke = buttonWifi.ratios.p1strokeHeightPercent * heightFull
 //        buttonWifi.stroke.
-        buttonWifi.stroke.bigStroke = buttonWifi.ratios.bigStrokeHeightPercent * heightFull
-        buttonWifi.stroke.smallStroke = buttonWifi.ratios.smallStrokeHeightPercent * heightFull
+//        buttonWifi.stroke.bigStroke = buttonWifi.ratios.bigStrokeHeightPercent * heightFull
+//        buttonWifi.stroke.smallStroke = buttonWifi.ratios.smallStrokeHeightPercent * heightFull
 
-        displayDataUI?.let {
-            wLog("MainScreenObj::initWifiButton", "start")
-            vLog("MainScreenObj::initWifiButton", "squareHeight ${buttonWifi.sizes.squareHeight}")
-            vLog("MainScreenObj::initWifiButton", "squareHeightDp ${buttonWifi.sizes.squareHeightDp}")
-            vLog("MainScreenObj::initWifiButton", "squareStrokeDp ${buttonWifi.stroke.squareStrokeDp}")
-            vLog("MainScreenObj::initWifiButton", "canvas ${buttonWifi.sizes.canvas}")
-            vLog("MainScreenObj::initWifiButton", "canvasDp ${buttonWifi.sizes.canvasDp}")
-            vLog("MainScreenObj::initWifiButton", "p1Stroke ${2 * density}")
+//        displayDataUI?.let {
+//            wLog("MainScreenObj::initWifiButton", "start")
+//            vLog("MainScreenObj::initWifiButton", "squareHeight ${buttonWifi.sizes.squareHeight}")
+//            vLog("MainScreenObj::initWifiButton", "squareHeightDp ${buttonWifi.sizes.squareHeightDp}")
+//            vLog("MainScreenObj::initWifiButton", "squareStrokeDp ${buttonWifi.stroke.squareStrokeDp}")
+//            vLog("MainScreenObj::initWifiButton", "canvas ${buttonWifi.sizes.canvas}")
+//            vLog("MainScreenObj::initWifiButton", "canvasDp ${buttonWifi.sizes.canvasDp}")
+//            vLog("MainScreenObj::initWifiButton", "p1Stroke ${2 * density}")
 //            vLog("MainScreenObj::initWifiButton", "p1Stroke ${buttonWifi.stroke.p1stroke}")
-            vLog("MainScreenObj::initWifiButton", "bigStroke ${8 * density}")
-            vLog("MainScreenObj::initWifiButton", "bigStroke ${buttonWifi.stroke.bigStroke}")
-            vLog("MainScreenObj::initWifiButton", "smallStroke ${3.5 * density}")
-            vLog("MainScreenObj::initWifiButton", "smallStroke ${buttonWifi.stroke.smallStroke}")
-        }
-    }
+//            vLog("MainScreenObj::initWifiButton", "bigStroke ${8 * density}")
+//            vLog("MainScreenObj::initWifiButton", "bigStroke ${buttonWifi.stroke.bigStroke}")
+//            vLog("MainScreenObj::initWifiButton", "smallStroke ${3.5 * density}")
+//            vLog("MainScreenObj::initWifiButton", "smallStroke ${buttonWifi.stroke.smallStroke}")
+//        }
+//    }
 
     private fun initTutoButton() {
         tutorialButton.sizes.iconButtonHeight = tutorialButton.ratios.iconButtonHeightPercentage * header.sizes.height
@@ -314,6 +315,12 @@ object MainScreenAdapter {
             vLog("MainScreenObj::initHeader", "mainTextSpaceSp ${header.sizes.mainTextSpaceSp}")
         }
     }
+    fun initBluetoothButton(context: Context) {
+        buttonBluetooth = BluetoothIconAdapter(context, heightFull * 0.3F)
+    }
+    fun initWifiButton(context: Context) {
+        buttonWifi = WifiIconAdapter(context, heightFull * 0.3F)
+    }
 
     private var widthFull = 0
     private var heightFull = 0
@@ -324,7 +331,6 @@ object MainScreenAdapter {
         widthFull = context.resources.displayMetrics.widthPixels
         heightFull = context.resources.displayMetrics.heightPixels
         density = context.resources.displayMetrics.density
-//        density = context.resources.displayMetrics.density
         allWeightsHeight = header.ratios.heightWeight + delimiter.ratios.heightWeight + list.ratios.heightWeight
 
         wLog("MainScreenObj::create", "start")
@@ -335,13 +341,12 @@ object MainScreenAdapter {
             vLog("MainScreenObj::create", "weight height = $allWeightsHeight")
         }
 
-//        buttonBluetooth = BluetoothIconObj.create(context, heightFull * 0.3F)
-        buttonBluetooth = BluetoothIconAdapter(context, heightFull * 0.3F)
+        initBluetoothButton(context)
+        initWifiButton(context)
         initHeader()
         initTutoButton()
         initDelimiter()
         initList()
-        initWifiButton()
         initInstruction()
         return this
     }
