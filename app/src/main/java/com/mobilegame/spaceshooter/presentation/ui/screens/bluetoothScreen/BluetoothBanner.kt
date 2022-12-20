@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -16,7 +17,7 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposabl
 @Composable
 fun BluetoothBanner(ui: BluetoothIconAdapter) {
     Box(
-        androidx.compose.ui.Modifier
+        Modifier
             .size(ui.sizes.squareHeightDp)
     ) {
         CenterComposable {
@@ -31,7 +32,7 @@ fun BluetoothBanner(ui: BluetoothIconAdapter) {
             )
 
             Canvas(
-                androidx.compose.ui.Modifier
+                Modifier
                     .size(ui.sizes.canvasDp)
             ) {
                 val bluetoothSymbol = Path().apply {

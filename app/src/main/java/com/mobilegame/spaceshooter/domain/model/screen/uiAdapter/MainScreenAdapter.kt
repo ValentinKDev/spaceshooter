@@ -1,6 +1,7 @@
 package com.mobilegame.spaceshooter.domain.model.screen.uiAdapter
 
 import android.content.Context
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
@@ -160,96 +161,17 @@ object MainScreenAdapter {
         }
     }
 
-//    object ButtonWifiMainScreen {
-//        val ratios = RatiosButtonWifi
-//        val sizes = SizesButtonWifi
-//        val circles = CircleButtonWifi
-//        val color = ColorButtonWifi
-//        val stroke = StrokeButtonWifi
-//
-//        object RatiosButtonWifi {
-//            const val squareHeightPercent = 0.30F
-//            const val squareStrokePercent = 0.01F
-//            const val canvasHeightPercent = 1F
-//            const val p1strokeHeightPercent = 0.007F
-//            const val p1InnerHeightPercent = 0.0035F
-//            const val bigStrokeHeightPercent = 0.025F
-//            const val smallStrokeHeightPercent = 0.011F
-//        }
-//        object SizesButtonWifi {
-//            var squareHeight = 0F
-//            var squareHeightDp = Dp.Unspecified
-//            var canvas = 0F
-//            var canvasDp = Dp.Unspecified
-//        }
-//        object StrokeButtonWifi {
-//            var squareStrokeDp = Dp.Unspecified
-//            //            var p1stroke = 0F
-//            var bigStroke = 0F
-//            var smallStroke = 0F
-//        }
-//        object CircleButtonWifi {
-//            var p1Radius = 0F
-//            var p1RadiusInner = 0F
-//            var p1CanvasSize = 0F
-//            var p1CanvasSizeDp = Dp.Unspecified
-//            var p2CanvasSizeDp = Dp.Unspecified
-//            var p3CanvasSizeDp = Dp.Unspecified
-//            var p4CanvasSizeDp = Dp.Unspecified
-//        }
-//        object ColorButtonWifi {
-//            var icon = MyColor.applicationContrast
-//            var iconInner = MyColor.applicationBackground
-//        }
-//    }
-
     private fun initInstruction() {
         instruction.sizes.boxHeight = (1F - instruction.padding.top - instruction.padding.bottom) * heightFull
         instruction.sizes.text = instruction.sizes.boxHeight * instruction.ratios.textHeightPercent
         instruction.sizes.textSp = instruction.sizes.text.toSp(density)
         displayDataUI?.let {
-            wLog("MainScreenObj::initInstruction", "start")
-            vLog("MainScreenObj::initInstruction", "boxHeight ${instruction.sizes.boxHeight}")
-            vLog("MainScreenObj::initInstruction", "text ${instruction.sizes.text}")
-            vLog("MainScreenObj::initInstruction", "textSp ${instruction.sizes.textSp}")
+            wLog("MainScreenAdapter::initInstruction", "instruction")
+            vLog("MainScreenAdapter::initInstruction", "boxHeight ${instruction.sizes.boxHeight}")
+            vLog("MainScreenAdapter::initInstruction", "text ${instruction.sizes.text}")
+            vLog("MainScreenAdapter::initInstruction", "textSp ${instruction.sizes.textSp}")
         }
     }
-
-//    private fun initWifiButton() {
-//        buttonWifi.sizes.squareHeight = heightFull * buttonWifi.ratios.squareHeightPercent
-//        buttonWifi.sizes.squareHeightDp = buttonWifi.sizes.squareHeight.toDp(density)
-//        buttonWifi.stroke.squareStrokeDp = (heightFull * buttonWifi.ratios.squareStrokePercent).toDp(density)
-//        buttonWifi.sizes.canvas = buttonWifi.sizes.squareHeight * buttonWifi.ratios.canvasHeightPercent
-//        buttonWifi.sizes.canvasDp = buttonWifi.sizes.canvas.toDp(density)
-//
-//        buttonWifi.circles.p1CanvasSize = buttonWifi.sizes.canvas * 0.2F
-//        buttonWifi.circles.p1CanvasSizeDp = buttonWifi.circles.p1CanvasSize.toDp(density)
-//        buttonWifi.circles.p1Radius = buttonWifi.circles.p1CanvasSize / 3F
-//        buttonWifi.circles.p1RadiusInner = buttonWifi.circles.p1CanvasSize * (2F / 9F)
-//        buttonWifi.circles.p2CanvasSizeDp = buttonWifi.sizes.canvasDp * 0.40F
-//        buttonWifi.circles.p3CanvasSizeDp = buttonWifi.sizes.canvasDp * 0.70F
-//        buttonWifi.circles.p4CanvasSizeDp = buttonWifi.sizes.canvasDp * 1F
-
-//        buttonWifi.stroke.p1stroke = buttonWifi.ratios.p1strokeHeightPercent * heightFull
-//        buttonWifi.stroke.
-//        buttonWifi.stroke.bigStroke = buttonWifi.ratios.bigStrokeHeightPercent * heightFull
-//        buttonWifi.stroke.smallStroke = buttonWifi.ratios.smallStrokeHeightPercent * heightFull
-
-//        displayDataUI?.let {
-//            wLog("MainScreenObj::initWifiButton", "start")
-//            vLog("MainScreenObj::initWifiButton", "squareHeight ${buttonWifi.sizes.squareHeight}")
-//            vLog("MainScreenObj::initWifiButton", "squareHeightDp ${buttonWifi.sizes.squareHeightDp}")
-//            vLog("MainScreenObj::initWifiButton", "squareStrokeDp ${buttonWifi.stroke.squareStrokeDp}")
-//            vLog("MainScreenObj::initWifiButton", "canvas ${buttonWifi.sizes.canvas}")
-//            vLog("MainScreenObj::initWifiButton", "canvasDp ${buttonWifi.sizes.canvasDp}")
-//            vLog("MainScreenObj::initWifiButton", "p1Stroke ${2 * density}")
-//            vLog("MainScreenObj::initWifiButton", "p1Stroke ${buttonWifi.stroke.p1stroke}")
-//            vLog("MainScreenObj::initWifiButton", "bigStroke ${8 * density}")
-//            vLog("MainScreenObj::initWifiButton", "bigStroke ${buttonWifi.stroke.bigStroke}")
-//            vLog("MainScreenObj::initWifiButton", "smallStroke ${3.5 * density}")
-//            vLog("MainScreenObj::initWifiButton", "smallStroke ${buttonWifi.stroke.smallStroke}")
-//        }
-//    }
 
     private fun initTutoButton() {
         tutorialButton.sizes.iconButtonHeight = tutorialButton.ratios.iconButtonHeightPercentage * header.sizes.height
@@ -259,28 +181,28 @@ object MainScreenAdapter {
         tutorialButton.sizes.circleStrokeWidth = tutorialButton.ratios.strokeHeightPercentage * header.sizes.height
 
         displayDataUI?.let {
-            wLog("MainScreenObj::initTutoButton", "start")
-            vLog("MainScreenObj::initTutoButton", "iconButtonHeight ${tutorialButton.sizes.iconButtonHeight}")
-            vLog("MainScreenObj::initTutoButton", "iconButtonHeightDp ${tutorialButton.sizes.iconButtonHeightDp}")
-            vLog("MainScreenObj::initTutoButton", "iconQuestionMarkHeight ${tutorialButton.sizes.iconQuestionMarkHeight}")
-            vLog("MainScreenObj::initTutoButton", "iconQuestionMarkHeightDp ${tutorialButton.sizes.iconQuestionMarkHeightDp}")
-            vLog("MainScreenObj::initTutoButton", "circleStrokeWidth ${tutorialButton.sizes.circleStrokeWidth}")
+            wLog("MainScreenAdapter::initTutoButton", "tuto button")
+            vLog("MainScreenAdapter::initTutoButton", "iconButtonHeight ${tutorialButton.sizes.iconButtonHeight}")
+            vLog("MainScreenAdapter::initTutoButton", "iconButtonHeightDp ${tutorialButton.sizes.iconButtonHeightDp}")
+            vLog("MainScreenAdapter::initTutoButton", "iconQuestionMarkHeight ${tutorialButton.sizes.iconQuestionMarkHeight}")
+            vLog("MainScreenAdapter::initTutoButton", "iconQuestionMarkHeightDp ${tutorialButton.sizes.iconQuestionMarkHeightDp}")
+            vLog("MainScreenAdapter::initTutoButton", "circleStrokeWidth ${tutorialButton.sizes.circleStrokeWidth}")
         }
     }
     private fun initList() {
         list.sizes.heightDp = (heightFull * (list.ratios.heightWeight / allWeightsHeight)).toDp( density)
 
         displayDataUI?.let {
-            wLog("MainScreenObj::iniList", "start")
-            vLog("MainScreenObj::iniList", "heightDp ${list.sizes.heightDp}")
+            wLog("MainScreenAdapter::iniList", "list")
+            vLog("MainScreenAdapter::iniList", "heightDp ${list.sizes.heightDp}")
         }
     }
     private fun initDelimiter() {
         delimiter.sizes.heightDp = (heightFull * (delimiter.ratios.heightWeight / allWeightsHeight)).toDp( density)
 
         displayDataUI?.let {
-            wLog("MainScreenObj::initDelimiter", "start")
-            vLog("MainScreenObj::initDelimiter", "heightDp ${delimiter.sizes.heightDp}")
+            wLog("MainScreenAdapter::initDelimiter", "delimiter")
+            vLog("MainScreenAdapter::initDelimiter", "heightDp ${delimiter.sizes.heightDp}")
         }
     }
 
@@ -299,27 +221,29 @@ object MainScreenAdapter {
         header.sizes.mainTextSpaceSp = header.sizes.mainTextSpace.toSp(density)
 
         displayDataUI?.let {
-            wLog("MainScreenObj::initHeader", "start")
-            vLog("MainScreenObj::initHeader", "height ${header.sizes.height}")
-            vLog("MainScreenObj::initHeader", "heightDp ${header.sizes.heightDp}")
-            vLog("MainScreenObj::initHeader", "spaceBetweenTextAndIcon ${header.padding.spaceBetweenTextAndIcon}")
-            vLog("MainScreenObj::initHeader", "spaceBetweenTextAndIconDp ${header.padding.spaceBetweenTextAndIconDp}")
-            vLog("MainScreenObj::initHeader", "iconText ${header.sizes.iconText}")
-            vLog("MainScreenObj::initHeader", "iconTextSp ${header.sizes.iconTextSp}")
-            vLog("MainScreenObj::initHeader", "iconTextSpace ${header.sizes.iconTextSpace}")
-            vLog("MainScreenObj::initHeader", "iconTextSpaceSp ${header.sizes.iconTextSpaceSp}")
-            vLog("MainScreenObj::initHeader", "mainTextHeight ${header.sizes.mainTextHeight}")
-            eLog("MainScreenObj::initHeader", "ratioText ${header.sizes.mainTextHeightSp / header.sizes.height}")
-            vLog("MainScreenObj::initHeader", "mainTextHeightSp ${header.sizes.mainTextHeightSp}")
-            vLog("MainScreenObj::initHeader", "mainTextSpace ${header.sizes.mainTextSpace}")
-            vLog("MainScreenObj::initHeader", "mainTextSpaceSp ${header.sizes.mainTextSpaceSp}")
+            wLog("MainScreenAdapter::initHeader", "header")
+            vLog("MainScreenAdapter::initHeader", "height ${header.sizes.height}")
+            vLog("MainScreenAdapter::initHeader", "heightDp ${header.sizes.heightDp}")
+            vLog("MainScreenAdapter::initHeader", "spaceBetweenTextAndIcon ${header.padding.spaceBetweenTextAndIcon}")
+            vLog("MainScreenAdapter::initHeader", "spaceBetweenTextAndIconDp ${header.padding.spaceBetweenTextAndIconDp}")
+            vLog("MainScreenAdapter::initHeader", "iconText ${header.sizes.iconText}")
+            vLog("MainScreenAdapter::initHeader", "iconTextSp ${header.sizes.iconTextSp}")
+            vLog("MainScreenAdapter::initHeader", "iconTextSpace ${header.sizes.iconTextSpace}")
+            vLog("MainScreenAdapter::initHeader", "iconTextSpaceSp ${header.sizes.iconTextSpaceSp}")
+            vLog("MainScreenAdapter::initHeader", "mainTextHeight ${header.sizes.mainTextHeight}")
+            eLog("MainScreenAdapter::initHeader", "ratioText ${header.sizes.mainTextHeightSp / header.sizes.height}")
+            vLog("MainScreenAdapter::initHeader", "mainTextHeightSp ${header.sizes.mainTextHeightSp}")
+            vLog("MainScreenAdapter::initHeader", "mainTextSpace ${header.sizes.mainTextSpace}")
+            vLog("MainScreenAdapter::initHeader", "mainTextSpaceSp ${header.sizes.mainTextSpaceSp}")
         }
     }
     fun initBluetoothButton(context: Context) {
-        buttonBluetooth = BluetoothIconAdapter(context, heightFull * 0.3F)
+        val squareSize = heightFull * 0.3F
+        buttonBluetooth = BluetoothIconAdapter(context, squareSize)
     }
     fun initWifiButton(context: Context) {
-        buttonWifi = WifiIconAdapter(context, heightFull * 0.3F)
+        val squareSize = heightFull * 0.3F
+        buttonWifi = WifiIconAdapter(context, squareSize, StrokeCap.Square, outlined = true)
     }
 
     private var widthFull = 0
@@ -333,24 +257,21 @@ object MainScreenAdapter {
         density = context.resources.displayMetrics.density
         allWeightsHeight = header.ratios.heightWeight + delimiter.ratios.heightWeight + list.ratios.heightWeight
 
-        wLog("MainScreenObj::create", "start")
         displayDataUI?.let {
-            vLog("MainScreenObj::create", "widthFull = $widthFull")
-            vLog("MainScreenObj::create", "heightFull = $heightFull")
-            vLog("MainScreenObj::create", "density = $density")
-            vLog("MainScreenObj::create", "weight height = $allWeightsHeight")
+            wLog("MainScreenAdapter::create", "start")
+            vLog("MainScreenAdapter::create", "widthFull = $widthFull")
+            vLog("MainScreenAdapter::create", "heightFull = $heightFull")
+            vLog("MainScreenAdapter::create", "density = $density")
+            vLog("MainScreenAdapter::create", "weight height = $allWeightsHeight")
         }
 
-        initBluetoothButton(context)
-        initWifiButton(context)
         initHeader()
         initTutoButton()
         initDelimiter()
         initList()
         initInstruction()
+        initBluetoothButton(context)
+        initWifiButton(context)
         return this
     }
-//    init {
-//        buttonBluetooth.c
-//    }
 }

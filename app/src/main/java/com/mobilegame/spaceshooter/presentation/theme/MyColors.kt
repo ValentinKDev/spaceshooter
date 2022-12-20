@@ -109,13 +109,12 @@ inline class MyColor(val color: Color){
         val GoldMetallic = Color(0XFFDDB967)
         val AeroBlue = Color(0XFFB2FAEB)
 
-//        val applicationBackground = BlastOffBronze
-//        val applicationBackground = GreenXanadou
-//        val applicationBackground = Platinium
         val applicationBackground = Bore
         val applicationText = Platinium
         val applicationContrast = Platinium
         val applicationContrastTransparent = Platinium.alpha(0.75F)
+        val applicationBackgroundBannerInitial = Platinium.alpha(0.02F)
+        val applicationBackgroundBannerTarget = Platinium.alpha(0.13F)
 //        val applicationContrastTransparentPlus = Platinium.alpha(0.05F)
 //        val applicationContrastTransparentPlus = Platinium.alpha(0.05F)
 

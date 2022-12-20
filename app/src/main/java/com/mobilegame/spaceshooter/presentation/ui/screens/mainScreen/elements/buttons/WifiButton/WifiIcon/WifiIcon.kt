@@ -1,89 +1,88 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.elements.buttons.WifiButton.WifiIcon
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
-import androidx.compose.ui.graphics.drawscope.Stroke
-import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenViewModel
+import com.mobilegame.spaceshooter.domain.model.screen.uiAdapter.WifiIconAdapter
 
 @Composable
-fun WifiIcon(vm: MainScreenViewModel) {
-    Box( contentAlignment = Alignment.Center ) {
-        Canvas(
-            Modifier
-                .size(vm.ui.buttonWifi.circles.p1CanvasSizeDp)
-        ) {
+fun WifiIcon(ui: WifiIconAdapter, color: Color? = null) {
+    Canvas(
+        Modifier
+            .fillMaxSize()
+    ) {
+        val useCenter = false
+
+        drawCircle(
+            center = ui.shapes.bigCircleCenter,
+            radius = ui.sizes.bigCircleSize,
+            color = color ?: ui.colors.icon,
+            style = Fill
+        )
+        drawArc(
+            startAngle = -135f,
+            sweepAngle = 90f,
+            color = color ?: ui.colors.icon,
+            useCenter = useCenter,
+            style = ui.stroke.big,
+            size = ui.sizes.size1,
+            topLeft = ui.shapes.topLeft1
+        )
+        drawArc(
+            startAngle = -135f,
+            sweepAngle = 90f,
+            color = color ?: ui.colors.icon,
+            useCenter = useCenter,
+            style = ui.stroke.big,
+            size = ui.sizes.size2,
+            topLeft = ui.shapes.topLeft2,
+        )
+        drawArc(
+            startAngle = -135f,
+            sweepAngle = 90f,
+            color = color ?: ui.colors.icon,
+            useCenter = useCenter,
+            style = ui.stroke.big,
+            size = ui.sizes.size3,
+            topLeft = ui.shapes.topLeft3,
+        )
+
+        ui.outlined?.let {
             drawCircle(
-                radius = vm.ui.buttonWifi.circles.p1Radius,
-                color = vm.ui.buttonWifi.color.icon,
+                center = ui.shapes.smallCircleCenter,
+                radius = ui.sizes.smallCircleSize,
+                color = ui.colors.iconInner,
                 style = Fill
             )
-            drawCircle(
-                radius = vm.ui.buttonWifi.circles.p1RadiusInner,
-                color = vm.ui.buttonWifi.color.iconInner,
-                style = Fill
-            )
-        }
-        Canvas(
-            Modifier
-                .size(vm.ui.buttonWifi.circles.p2CanvasSizeDp)
-        ) {
             drawArc(
                 startAngle = -135f,
                 sweepAngle = 90f,
-                useCenter = false,
-                color = vm.ui.buttonWifi.color.icon,
-                style = Stroke(vm.ui.buttonWifi.stroke.bigStroke, cap = StrokeCap.Square)
+                color = ui.colors.iconInner,
+                useCenter = useCenter,
+                style = ui.stroke.small,
+                size = ui.sizes.size1,
+                topLeft = ui.shapes.topLeft1,
             )
             drawArc(
                 startAngle = -135f,
                 sweepAngle = 90f,
-                useCenter = false,
-                color = vm.ui.buttonWifi.color.iconInner,
-                style = Stroke(vm.ui.buttonWifi.stroke.smallStroke, cap = StrokeCap.Square)
-            )
-        }
-        Canvas(
-            Modifier
-                .size(vm.ui.buttonWifi.circles.p3CanvasSizeDp)
-        ) {
-            drawArc(
-                color = vm.ui.buttonWifi.color.icon,
-                startAngle = -135f,
-                sweepAngle = 90f,
-                useCenter = false,
-                style = Stroke(vm.ui.buttonWifi.stroke.bigStroke, cap = StrokeCap.Square)
+                color = ui.colors.iconInner,
+                useCenter = useCenter,
+                style = ui.stroke.small,
+                size = ui.sizes.size2,
+                topLeft = ui.shapes.topLeft2,
             )
             drawArc(
-                color = vm.ui.buttonWifi.color.iconInner,
                 startAngle = -135f,
                 sweepAngle = 90f,
-                useCenter = false,
-                style = Stroke(vm.ui.buttonWifi.stroke.smallStroke, cap = StrokeCap.Square)
-            )
-        }
-        Canvas(
-            Modifier
-                .size(vm.ui.buttonWifi.circles.p4CanvasSizeDp)
-        ) {
-            drawArc(
-                color = vm.ui.buttonWifi.color.icon,
-                startAngle = -135f,
-                sweepAngle = 90f,
-                useCenter = false,
-                style = Stroke(vm.ui.buttonWifi.stroke.bigStroke, cap = StrokeCap.Square)
-            )
-            drawArc(
-                color = vm.ui.buttonWifi.color.iconInner,
-                startAngle = -135f,
-                sweepAngle = 90f,
-                useCenter = false,
-                style = Stroke(vm.ui.buttonWifi.stroke.smallStroke, cap = StrokeCap.Square)
+                color = ui.colors.iconInner,
+                useCenter = useCenter,
+                style = ui.stroke.small,
+                size = ui.sizes.size3,
+                topLeft = ui.shapes.topLeft3,
             )
         }
     }

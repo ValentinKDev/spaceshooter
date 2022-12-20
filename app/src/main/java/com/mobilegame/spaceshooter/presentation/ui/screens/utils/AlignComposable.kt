@@ -11,6 +11,26 @@ import androidx.compose.ui.Modifier
 
 
 @Composable
+fun AlignComposableToCenterEnd(content: @Composable () -> Unit) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.CenterEnd
+    ) {
+        content.invoke()
+    }
+}
+
+@Composable
+fun AlignComposableToCenterStart(content: @Composable () -> Unit) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.CenterStart
+    ) {
+        content.invoke()
+    }
+}
+
+@Composable
 fun AlignComposableToEnd(content: @Composable () -> Unit) {
     AlignComposableHorizontally(alignment = Alignment.End) { content.invoke() }
 }

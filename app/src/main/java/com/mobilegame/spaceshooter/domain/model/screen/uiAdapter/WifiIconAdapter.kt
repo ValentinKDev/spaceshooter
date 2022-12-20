@@ -1,7 +1,11 @@
 package com.mobilegame.spaceshooter.domain.model.screen.uiAdapter
 
 import android.content.Context
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
@@ -12,49 +16,62 @@ import com.mobilegame.spaceshooter.utils.extensions.toDp
 class WifiIconAdapter(
     context: Context,
     squareSize: Float,
+    strokeCap: StrokeCap,
+    val outlined: Boolean? = null
 ) {
-    val ratios = RatiosButtonWifi()
-    val sizes = SizesButtonWifi()
-    val circles = CircleButtonWifi()
-    val color = ColorButtonWifi()
-    val stroke = StrokeButtonWifi()
+    val ratios = RatiosWifiIconAdapter()
+    val sizes = SizesWifiIconAdapter()
+    val shapes = ShapesWifiIconAdapter()
+    val colors = ColorButtonWifi()
+    val stroke = StrokeWifiIconAdapter()
 
-    data class RatiosButtonWifi (
+    data class RatiosWifiIconAdapter (
          val squareHeightPercent: Float = 0.30F,
          val squareStrokePercent: Float = 0.03F,
          val canvasHeightPercent: Float = 1F,
-         val p1strokeHeightPercent: Float = 0.007F,
-         val p1InnerHeightPercent: Float = 0.0035F,
-         val iconSmallStrokeHeightPercent: Float = 0.05F,
-         val iconBigStrokeHeightPercent: Float = 0.10F,
+         val rSmallCircle: Float = 0.04F,
+         val rBigCircle: Float = 0.065F,
+         val r1size: Float = (1F/ 3F),
+         val r2size: Float = (4F/ 6F),
+         val r3size: Float = 1F,
+         val r1offset: Float = (1F/ 3F),
+         val r2offset: Float = (1F/ 6F),
+         val r3offset: Float = 0F,
     )
 
-    data class SizesButtonWifi (
+    data class SizesWifiIconAdapter (
         var squareHeight: Float = 0F,
         var squareHeightDp: Dp = Dp.Unspecified,
         var canvas: Float = 0F,
         var canvasDp: Dp = Dp.Unspecified,
+
+        var size1: Size = Size.Zero,
+        var size2: Size = Size.Zero,
+        var size3: Size = Size.Zero,
+        var smallCircleSize: Float = 0F,
+        var bigCircleSize: Float = 0F,
     )
 
-    data class StrokeButtonWifi (
+    data class StrokeWifiIconAdapter (
         var squareStrokeDp: Dp = Dp.Unspecified,
-        var bigStroke: Float = 0F,
-        var smallStroke: Float = 0F,
+        var strokeCap: StrokeCap = StrokeCap.Square,
+        var small: Stroke = Stroke(width = 0F, cap = StrokeCap.Butt),
+        var big: Stroke = Stroke(width = 0F, cap = StrokeCap.Butt),
     )
 
-    data class CircleButtonWifi (
-        var p1Radius: Float = 0F,
-        var p1RadiusInner: Float = 0F,
-        var p1CanvasSize: Float = 0F,
-        var p1CanvasSizeDp: Dp = Dp.Unspecified,
-        var p2CanvasSizeDp: Dp = Dp.Unspecified,
-        var p3CanvasSizeDp: Dp = Dp.Unspecified,
-        var p4CanvasSizeDp: Dp = Dp.Unspecified,
+    data class ShapesWifiIconAdapter (
+        var topLeft1: Offset = Offset.Zero,
+        var topLeft2: Offset = Offset.Zero,
+        var topLeft3: Offset = Offset.Zero,
+        var smallCircleCenter: Offset = Offset.Zero,
+        var bigCircleCenter: Offset = Offset.Zero,
     )
 
     data class ColorButtonWifi (
         var icon: Color = MyColor.applicationContrast,
         var iconInner: Color = MyColor.applicationBackground,
+        var transparentStart: Color = MyColor.applicationBackgroundBannerInitial,
+        var transparentTarget: Color = MyColor.applicationBackgroundBannerTarget,
     )
 
     private var density = 0F
@@ -63,34 +80,32 @@ class WifiIconAdapter(
         density = context.resources.displayMetrics.density
 
         sizes.squareHeight = squareSize
-        sizes.squareHeightDp = sizes.squareHeight.toDp( density )
+        sizes.squareHeightDp = squareSize.toDp(density)
         stroke.squareStrokeDp = (squareSize * ratios.squareStrokePercent).toDp( density )
         sizes.canvas = sizes.squareHeight * ratios.canvasHeightPercent
         sizes.canvasDp = sizes.canvas.toDp( density )
 
-        circles.p1CanvasSize = sizes.canvas * 0.2F
-        circles.p1CanvasSizeDp = circles.p1CanvasSize.toDp( density )
-        circles.p1Radius = circles.p1CanvasSize / 3F
-        circles.p1RadiusInner = circles.p1CanvasSize * (2F / 9F)
-        circles.p2CanvasSizeDp = sizes.canvasDp * 0.40F
-        circles.p3CanvasSizeDp = sizes.canvasDp * 0.70F
-        circles.p4CanvasSizeDp = sizes.canvasDp * 1F
+        sizes.size1 = Size(sizes.canvas * ratios.r1size, sizes.canvas * ratios.r1size)
+        sizes.size2 = Size(sizes.canvas * ratios.r2size, sizes.canvas * ratios.r2size)
+        sizes.size3 = Size(sizes.canvas * ratios.r3size, sizes.canvas * ratios.r3size)
+        sizes.smallCircleSize = sizes.canvas * ratios.rSmallCircle
+        sizes.bigCircleSize = sizes.canvas * ratios.rBigCircle
 
-        stroke.smallStroke = squareSize * ratios.iconSmallStrokeHeightPercent
-        stroke.bigStroke = squareSize * ratios.iconBigStrokeHeightPercent
+        shapes.topLeft1 = Offset(sizes.canvas * (ratios.r1offset), sizes.canvas * ratios.r1offset)
+        shapes.topLeft2 = Offset(sizes.canvas * (ratios.r2offset), sizes.canvas * ratios.r2offset)
+        shapes.topLeft3 = Offset(ratios.r3offset, ratios.r3offset)
+        shapes.smallCircleCenter = Offset(sizes.canvas * 0.5F, sizes.canvas * 0.5F)
+        shapes.bigCircleCenter = Offset(sizes.canvas * 0.5F, sizes.canvas * 0.5F)
 
+        stroke.big = Stroke(width = (sizes.canvas * 0.1F), cap = strokeCap)
+        stroke.small = Stroke(width = (sizes.canvas * 0.05F), cap = strokeCap)
         displayDataUI?.let {
-            wLog("MainScreenObj::initWifiButton", "start")
-            vLog("MainScreenObj::initWifiButton", "squareHeight ${sizes.squareHeight}")
-            vLog("MainScreenObj::initWifiButton", "squareHeightDp ${sizes.squareHeightDp}")
-            vLog("MainScreenObj::initWifiButton", "squareStrokeDp ${stroke.squareStrokeDp}")
-            vLog("MainScreenObj::initWifiButton", "canvas ${sizes.canvas}")
-            vLog("MainScreenObj::initWifiButton", "canvasDp ${sizes.canvasDp}")
-            vLog("MainScreenObj::initWifiButton", "p1Stroke ${2 * density}")
-            vLog("MainScreenObj::initWifiButton", "bigStroke ${8 * density}")
-            vLog("MainScreenObj::initWifiButton", "bigStroke ${stroke.bigStroke}")
-            vLog("MainScreenObj::initWifiButton", "smallStroke ${3.5 * density}")
-            vLog("MainScreenObj::initWifiButton", "smallStroke ${stroke.smallStroke}")
+            wLog("WifiIconAdapter::init", "start")
+            vLog("WifiIconAdapter::init", "squareHeight ${sizes.squareHeight}")
+            vLog("WifiIconAdapter::init", "squareHeightDp ${sizes.squareHeightDp}")
+            vLog("WifiIconAdapter::init", "squareStrokeDp ${stroke.squareStrokeDp}")
+            vLog("WifiIconAdapter::init", "canvas ${sizes.canvas}")
+            vLog("WifiIconAdapter::init", "canvasDp ${sizes.canvasDp}")
         }
     }
 }

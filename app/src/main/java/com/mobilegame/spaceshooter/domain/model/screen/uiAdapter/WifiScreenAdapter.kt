@@ -1,6 +1,7 @@
 package com.mobilegame.spaceshooter.domain.model.screen.uiAdapter
 
 import android.content.Context
+import androidx.compose.ui.graphics.StrokeCap
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.vLog
@@ -53,7 +54,6 @@ object WifiScreenAdapter {
         }
     }
 
-
     private var widthFull = 0
     private var heightFull = 0
     private var density = 0F
@@ -67,8 +67,13 @@ object WifiScreenAdapter {
             vLog("WifiScreenAdapter::initHeader", "height ${BluetoothScreenAdapter.header.sizes.height}")
         }
     }
+
     private fun initBanner(context: Context) {
-        banner.wifiIcon = WifiIconAdapter(context, heightFull * banner.ratios.heightBanner)
+        banner.wifiIcon = WifiIconAdapter(context, heightFull * banner.ratios.heightBanner, StrokeCap.Square)
+    }
+
+    private fun initBackButton(context: Context) {
+        backButton = BackButtonAdapter.create(context, header.sizes.height)
     }
 
     fun create(context: Context): WifiScreenAdapter {
@@ -87,7 +92,7 @@ object WifiScreenAdapter {
 
         initHeader()
         initBanner(context)
-        backButton = BackButtonAdapter.create(context, header.sizes.height)
+        initBackButton(context)
         return this
     }
 }

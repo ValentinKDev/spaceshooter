@@ -44,8 +44,8 @@ class BluetoothIconAdapter(
         var p6: Offset = Offset.Unspecified,
     )
     data class ColorButtonBluetooth (
-        var transparentStart: Color = MyColor.applicationContrast.alpha(0.02F),
-        var transparentTarget: Color = MyColor.applicationContrast.alpha(0.13F),
+        var transparentStart: Color = MyColor.applicationBackgroundBannerInitial,
+        var transparentTarget: Color = MyColor.applicationBackgroundBannerTarget,
         var stroke: Color = MyColor.applicationContrast,
         var background: Color = MyColor.applicationBackground,
     )
