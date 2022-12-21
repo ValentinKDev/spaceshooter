@@ -25,13 +25,7 @@ fun DrawMunition(vm: SpaceShipViewModel, ui: SpaceShipIconAdapter, n: Int) {
 @Composable
 fun DefaultShipMunitions(vm: SpaceShipViewModel, ui: SpaceShipIconAdapter) {
     val munitions by remember { vm.munitions }.collectAsState()
-    Box(
-        Modifier
-            .size(ui.sizes.shipBoxDp)
-    ) {
-        for (n in 1..munitions) {
-            eLog("Munition", "$n")
-            DrawMunition(vm, ui, n)
-        }
+    for (n in 1..munitions) {
+        DrawMunition(vm, ui, n)
     }
 }

@@ -14,6 +14,7 @@ fun TutoScreen(navigator: Navigator, vm: TutoScreenViewModel = viewModel()) {
         eLog("TutoScreen", "Launch")
     }
 
+    FakeJoystickLayer(vm)
     BackButtonLayer(vm, navigator)
     SmartphonesFaceToFace(vm)
 }

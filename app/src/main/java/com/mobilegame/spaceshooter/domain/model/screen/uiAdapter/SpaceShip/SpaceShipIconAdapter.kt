@@ -13,7 +13,7 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-class SpaceShipIconAdapter(context: Context, type: SpaceShipType, shipBox: Float) {
+class SpaceShipIconAdapter(context: Context, type: SpaceShipType = SpaceShipType.Default, shipBox: Float) {
     val sizes = SizesSpaceShipIcon()
     val points = PointsSpaceShipIcon()
     val colors = ColorsSpaceShipIcon()

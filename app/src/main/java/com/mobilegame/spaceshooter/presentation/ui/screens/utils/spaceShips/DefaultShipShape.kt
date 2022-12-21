@@ -18,29 +18,24 @@ import com.mobilegame.spaceshooter.utils.analyze.vLog
 
 @Composable
 fun DefaultShipShape(ui: SpaceShipIconAdapter) {
-    Box(
+    Canvas(
         Modifier
-            .size(ui.sizes.shipBoxDp)
+            .fillMaxSize()
     ) {
-        Canvas(
-            Modifier
-                .fillMaxSize()
-        ) {
-            drawCircle(
-                color = ui.colors.body,
-                style = Fill
-            )
-            drawCircle(
-                color = ui.colors.strokes,
-                style = Stroke(ui.sizes.strokeWidth)
-            )
-            drawLine(
-                color = ui.colors.strokes,
-                start = ui.points.pTopCentralBar,
-                end = ui.points.pBottomCentralBar,
-                strokeWidth = ui.sizes.strokeWidth,
-                cap = StrokeCap.Round,
-            )
-        }
+        drawCircle(
+            color = ui.colors.body,
+            style = Fill
+        )
+        drawCircle(
+            color = ui.colors.strokes,
+            style = Stroke(ui.sizes.strokeWidth)
+        )
+        drawLine(
+            color = ui.colors.strokes,
+            start = ui.points.pTopCentralBar,
+            end = ui.points.pBottomCentralBar,
+            strokeWidth = ui.sizes.strokeWidth,
+            cap = StrokeCap.Round,
+        )
     }
 }
