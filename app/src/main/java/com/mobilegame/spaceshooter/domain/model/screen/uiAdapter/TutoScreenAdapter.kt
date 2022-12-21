@@ -69,14 +69,11 @@ object TutoScreenAdapter {
         smartphoneEmulator.sizes.borderDp = smartphoneEmulator.sizes.border.toDp(density)
         smartphoneEmulator.sizes.height = (generalLayout.smartphoneWeight / allWeightsHeight) * heightFull
         smartphoneEmulator.sizes.width = (1F - (2F * generalLayout.horizontalPadd)) * widthFull
-        smartphoneEmulator.sizes.screenWidth = smartphoneEmulator.sizes.width * (1F - (2F * smartphoneEmulator.padd.screenHorizontal))
-        smartphoneEmulator.sizes.screenHeight = smartphoneEmulator.sizes.height * (1F - (2F * smartphoneEmulator.padd.screenVertical))
+        smartphoneEmulator.sizes.screenWidth = smartphoneEmulator.sizes.width * (1F - (2F * smartphoneEmulator.padd.screenHorizontal))+ (2F * smartphoneEmulator.sizes.border)
+//        smartphoneEmulator.sizes.screenHeight = smartphoneEmulator.sizes.height * (1F - (2F * smartphoneEmulator.padd.screenVertical))
+        smartphoneEmulator.sizes.screenHeight = smartphoneEmulator.sizes.height * (1F - (2F * smartphoneEmulator.padd.screenVertical)) + (2F * smartphoneEmulator.sizes.border)
         smartphoneEmulator.sizes.screenWidthDp = smartphoneEmulator.sizes.screenWidth.toDp(density)
         smartphoneEmulator.sizes.screenHeightDp = smartphoneEmulator.sizes.screenHeight.toDp(density)
-//        smartphoneEmulator.sizes.screenInnerHeightDp =
-//            (smartphoneEmulator.sizes.screenHeight - ( 2F * smartphoneEmulator.sizes.border)).toDp(density)
-//        smartphoneEmulator.sizes.screenInnerWidthDp =
-//            (smartphoneEmulator.sizes.screenWidth - ( 2F * smartphoneEmulator.sizes.border)).toDp(density)
         val sizeHeight = (smartphoneEmulator.sizes.screenHeight - ( 2F * smartphoneEmulator.sizes.border))
         val sizeHeightDp = sizeHeight.toDp(density)
         val sizeWidth = (smartphoneEmulator.sizes.screenWidth - ( 2F * smartphoneEmulator.sizes.border))
