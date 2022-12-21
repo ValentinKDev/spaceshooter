@@ -6,6 +6,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.domain.model.screen.inGameScreen.SpaceShipViewModel
+import com.mobilegame.spaceshooter.utils.analyze.eLog
+import com.mobilegame.spaceshooter.utils.analyze.iLog
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -37,6 +39,7 @@ class MotionsViewModel(val shipVM: SpaceShipViewModel): ViewModel() {
             shipVM.moveShipTo( getNewPlacement(motion.value) )
             delay(10)
         }
+        iLog("MotionsVM::move", "position ${shipVM.pCenterDp.value}")
     }
 
     private fun getNewPlacement(motionCall: Motions): DpOffset {

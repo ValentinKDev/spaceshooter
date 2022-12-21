@@ -7,3 +7,5 @@ fun Offset.toDpOffset(densityF: Float): DpOffset = DpOffset(
     x = this.x.toDp(densityF),
     y = this.y.toDp(densityF)
 )
+
+//fun DpOffset.withX(newX: Dp): DpOffset
