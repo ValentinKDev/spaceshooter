@@ -8,8 +8,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.mobilegame.spaceshooter.domain.model.screen.inGameScreen.SpaceShipViewModel
 import com.mobilegame.spaceshooter.domain.model.screen.tutoScreen.TutoScreenViewModel
+import com.mobilegame.spaceshooter.domain.model.screen.uiAdapter.SpaceShip.SpaceShipIconAdapter
+import com.mobilegame.spaceshooter.domain.model.screen.uiAdapter.SpaceShip.SpaceShipType
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.PaddingComposable
@@ -32,7 +36,14 @@ fun SmartphoneScreen(vm: TutoScreenViewModel) {
                 .background(Color.Black)
         ) {
             CenterComposable {
-                DefaultShip()
+                DefaultShip(
+                    SpaceShipViewModel(),
+                    SpaceShipIconAdapter(
+                        LocalContext.current,
+                        SpaceShipType.Default,
+                        shipBox = 50F
+                    )
+                )
             }
         }
     }
