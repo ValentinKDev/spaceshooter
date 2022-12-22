@@ -16,7 +16,7 @@ class MainScreenViewModel(): ViewModel() {
 
     fun handleTutoButtonClick(navigator: Navigator) {
         viewModelScope.launch(Dispatchers.IO) {
-            navigator.navig(Screens.TutoScreen)
+            navigator.navig(Screens.DuelTutoScreen)
         }
     }
 }

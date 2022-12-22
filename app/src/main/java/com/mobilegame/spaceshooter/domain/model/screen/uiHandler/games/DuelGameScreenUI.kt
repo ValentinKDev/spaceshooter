@@ -15,46 +15,31 @@ import com.mobilegame.spaceshooter.utils.extensions.toDpOffset
 import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 
 class DuelGameScreenUI(displaySize: Size) {
-    lateinit var spaceShip: SpaceShipIconAdapter
-    val position = PositionInGameScreen()
-    val sizes = SizesInGameScreen()
-    private val device = Device
+    val position = PositionInGameScreen(displaySize)
+    val sizes = SizesInGameScreen(displaySize)
+    var spaceShip: SpaceShipIconAdapter = SpaceShipIconAdapter(shipBox = sizes.shipBox)
 
-    data class SizesInGameScreen (
-        var display: Size = Size.Zero,
-        var displayDp: DpSize = DpSize.Zero,
-        var displayDpDeltaBox: DpSize = DpSize.Zero,
-        var shipBox: Float = 0F,
-        var shipBoxDp: Dp = Dp.Unspecified,
-    )
+    class SizesInGameScreen(displaySize: Size) {
+        var displayDp: DpSize = displaySize.toDpSize()
+        var shipBox: Float = displaySize.height * 0.11F
+        var shipBoxDp: Dp = shipBox.toDp()
+        var displayDpDeltaBox: DpSize = DpSize(
+            width = displayDp.width - shipBoxDp,
+            height = displayDp.height - shipBoxDp,
+        )
+    }
 
-    data class PositionInGameScreen (
-        var pCenter: Offset = Offset.Zero,
-        var pCenterDp: DpOffset = DpOffset.Zero,
-    )
-
-    fun initSpaceShip() {
+    class PositionInGameScreen(displaySize: Size) {
+        var pCenter: Offset = Offset(x = displaySize.width / 2F, y = displaySize.height / 2F)
+        var pCenterDp: DpOffset =  pCenter.toDpOffset()
     }
 
     init {
-        sizes.display = displaySize
-        sizes.displayDp = sizes.display.toDpSize()
-        sizes.shipBox = sizes.display.height * 0.11F
-        sizes.shipBoxDp = sizes.shipBox.toDp()
-        sizes.displayDpDeltaBox = DpSize(
-            width = sizes.displayDp.width - sizes.shipBoxDp,
-            height = sizes.displayDp.height - sizes.shipBoxDp,
-        )
-        spaceShip = SpaceShipIconAdapter( shipBox = 25F )
-        position.pCenter = Offset(x = sizes.display.width / 2F, y = sizes.display.height / 2F)
-        position.pCenterDp = position.pCenter.toDpOffset()
         displayDataUI?.let {
-            wLog("InGameScreenAdapter::initSpaceShip", "spaceShip")
-            vLog("InGameScreenAdapter::initSpaceShip", "shipBox ${sizes.shipBox}")
-            vLog("InGameScreenAdapter::initSpaceShip", "pCenter ${position.pCenter}")
+            wLog("DuelGameScreenUI::init", "spaceShip")
+            vLog("DuelGameScreenUI::init", "shipBox ${sizes.shipBox}")
+            vLog("DuelGameScreenUI::init", "pCenter ${position.pCenter}")
         }
 
-        displayDataUI?.let { wLog("InGameScreenAdapter::create", "init") }
-        initSpaceShip()
     }
 }

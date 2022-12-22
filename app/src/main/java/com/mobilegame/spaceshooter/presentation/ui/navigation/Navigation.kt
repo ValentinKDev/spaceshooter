@@ -28,11 +28,11 @@ fun Navigation(navigator: Navigator) {
     NavHost(
         navController = navController,
 //        startDestination = Screens.MainScreen.route,
-        startDestination = Screens.WifiScreen.route,
+        startDestination = Screens.DuelTutoScreen.route,
     ) {
         composable(route = Screens.MainScreen.route) { MainScreen(navigator) }
         composable(route = Screens.BluetoothScreen.route) { BluetoothScreen(navigator) }
         composable(route = Screens.WifiScreen.route) { WifiScreen(navigator) }
-        composable(route = Screens.TutoScreen.route) { DuelTutoScreen(navigator) }
+        composable(route = Screens.DuelTutoScreen.route) { DuelTutoScreen(navigator) }
     }
 }

@@ -11,7 +11,7 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 @Composable
 fun DuelTutoScreen(navigator: Navigator, vm: TutoScreenViewModel = viewModel()) {
     LaunchedEffect(true) {
-        eLog("TutoScreen", "Launch")
+        eLog("DuelTutoScreen", "Launch duel Tuto Screen")
     }
 
     FakeJoystickLayer(vm)
