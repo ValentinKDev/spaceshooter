@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreen.emulator
+package com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreens.duelTutoScreen.emulator
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border

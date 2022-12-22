@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreen
+package com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreens.duelTutoScreen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mobilegame.spaceshooter.domain.model.screen.tutoScreen.TutoScreenViewModel
+import com.mobilegame.spaceshooter.presentation.ui.screens.duelTutoScreen.SmartphoneEmulator
 
 @Composable
 fun SmartphonesFaceToFace(vm: TutoScreenViewModel) {

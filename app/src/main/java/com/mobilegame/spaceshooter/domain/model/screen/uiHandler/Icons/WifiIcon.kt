@@ -1,6 +1,5 @@
-package com.mobilegame.spaceshooter.domain.model.screen.uiAdapter
+package com.mobilegame.spaceshooter.domain.model.screen.uiHandler.Icons
 
-import android.content.Context
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -8,13 +7,9 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
-import com.mobilegame.spaceshooter.utils.analyze.vLog
-import com.mobilegame.spaceshooter.utils.analyze.wLog
 import com.mobilegame.spaceshooter.utils.extensions.toDp
 
-class WifiIconAdapter(
-    context: Context,
+class WifiIcon(
     squareSize: Float,
     strokeCap: StrokeCap,
     val outlined: Boolean? = null
@@ -74,16 +69,12 @@ class WifiIconAdapter(
         var transparentTarget: Color = MyColor.applicationBackgroundBannerTarget,
     )
 
-    private var density = 0F
-
     init {
-        density = context.resources.displayMetrics.density
-
         sizes.squareHeight = squareSize
-        sizes.squareHeightDp = squareSize.toDp(density)
-        stroke.squareStrokeDp = (squareSize * ratios.squareStrokePercent).toDp( density )
+        sizes.squareHeightDp = squareSize.toDp()
+        stroke.squareStrokeDp = (squareSize * ratios.squareStrokePercent).toDp()
         sizes.canvas = sizes.squareHeight * ratios.canvasHeightPercent
-        sizes.canvasDp = sizes.canvas.toDp( density )
+        sizes.canvasDp = sizes.canvas.toDp()
 
         sizes.size1 = Size(sizes.canvas * ratios.r1size, sizes.canvas * ratios.r1size)
         sizes.size2 = Size(sizes.canvas * ratios.r2size, sizes.canvas * ratios.r2size)
@@ -99,13 +90,5 @@ class WifiIconAdapter(
 
         stroke.big = Stroke(width = (sizes.canvas * 0.1F), cap = strokeCap)
         stroke.small = Stroke(width = (sizes.canvas * 0.05F), cap = strokeCap)
-        displayDataUI?.let {
-            wLog("WifiIconAdapter::init", "start")
-            vLog("WifiIconAdapter::init", "squareHeight ${sizes.squareHeight}")
-            vLog("WifiIconAdapter::init", "squareHeightDp ${sizes.squareHeightDp}")
-            vLog("WifiIconAdapter::init", "squareStrokeDp ${stroke.squareStrokeDp}")
-            vLog("WifiIconAdapter::init", "canvas ${sizes.canvas}")
-            vLog("WifiIconAdapter::init", "canvasDp ${sizes.canvasDp}")
-        }
     }
 }

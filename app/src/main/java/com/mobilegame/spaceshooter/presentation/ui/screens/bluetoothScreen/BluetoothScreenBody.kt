@@ -11,9 +11,9 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.utils.PaddingComposab
 
 
 @Composable
-internal fun List(vm: BluetoothScreenViewModel) {
+internal fun BluetoothScreenBody(vm: BluetoothScreenViewModel) {
     PaddingComposable(
-        topPaddingRatio = vm.ui.banner.ratios.topPadding,
+        topPaddingRatio = vm.ui.banner.topPadding,
     ) {
         AlignComposableToStart {
             Box( Modifier.size(1.dp) ) {

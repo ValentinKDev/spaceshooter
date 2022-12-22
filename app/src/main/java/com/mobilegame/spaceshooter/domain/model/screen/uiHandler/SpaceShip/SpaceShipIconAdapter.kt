@@ -1,6 +1,5 @@
-package com.mobilegame.spaceshooter.domain.model.screen.uiAdapter.SpaceShip
+package com.mobilegame.spaceshooter.domain.model.screen.uiHandler.SpaceShip
 
-import android.content.Context
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
@@ -13,13 +12,11 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-class SpaceShipIconAdapter(context: Context, type: SpaceShipType = SpaceShipType.Default, shipBox: Float) {
+class SpaceShipIconAdapter(type: SpaceShipType = SpaceShipType.Default, shipBox: Float) {
     val sizes = SizesSpaceShipIcon()
     val points = PointsSpaceShipIcon()
     val colors = ColorsSpaceShipIcon()
     val munitions = MunitionsSpaceShipIcon()
-
-    private var density = 0F
 
     data class ColorsSpaceShipIcon (
         var strokes: Color = MyColor.applicationContrast,
@@ -61,6 +58,10 @@ class SpaceShipIconAdapter(context: Context, type: SpaceShipType = SpaceShipType
         var m9: Offset = Offset.Zero,
         var m10: Offset = Offset.Zero,
     )
+
+    private enum class Axe {
+        X, Y
+    }
 
     private infix fun Axe.munition(n: Int ): Float {
         val newAngle = ((n - 1) * munitions.intervalRadian) + munitions.startRadian
@@ -114,22 +115,16 @@ class SpaceShipIconAdapter(context: Context, type: SpaceShipType = SpaceShipType
     }
 
     init {
-        density = context.resources.displayMetrics.density
         sizes.shipBox = shipBox
-        sizes.shipBoxDp = shipBox.toDp(density)
+        sizes.shipBoxDp = shipBox.toDp()
 
         displayDataUI?.let {
             wLog("SpaceShipIconAdapter::init", type.name)
-            vLog("SpaceShipIconAdapter::init", "density $density")
             vLog("SpaceShipIconAdapter::init", "shipBox $shipBox")
             vLog("SpaceShipIconAdapter::init", "shipBoxDp ${sizes.shipBoxDp}")
         }
-
         initShip()
         initMunitions()
     }
 
-    private enum class Axe {
-        X, Y
-    }
 }

@@ -5,16 +5,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Fill
-import androidx.compose.ui.graphics.drawscope.Stroke
-import com.mobilegame.spaceshooter.domain.model.screen.uiAdapter.BluetoothIconAdapter
+import com.mobilegame.spaceshooter.domain.model.screen.uiHandler.Icons.BluetoothIcon
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
 
 @Composable
-fun BluetoothIcon(ui: BluetoothIconAdapter) {
+fun BluetoothIcon(ui: BluetoothIcon) {
     Box(
         Modifier
             .size(ui.sizes.squareHeightDp)

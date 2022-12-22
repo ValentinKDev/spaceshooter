@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreen
+package com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreens.duelTutoScreen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -14,13 +14,13 @@ fun BackButtonLayer(vm: TutoScreenViewModel, navigator: Navigator) {
         Modifier
             .fillMaxSize()
     ) {
-        Box( Modifier.weight(vm.ui.backButtonLayer.buttonHeightWeight) ) {
+        Box( Modifier.weight(vm.ui.template.headerHeightWeight) ) {
             BackButton(
                 vm = vm.backButtonPressureNavigationVM,
                 navigator = navigator,
-                ui = vm.ui.backButton
+                ui = vm.ui.template.backButton
             )
         }
-        Box( Modifier.weight(vm.ui.backButtonLayer.emptyHeightWeight) )
+        Box( Modifier.weight(vm.ui.template.emptySpaceHeightWeight))
     }
 }

@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import com.mobilegame.spaceshooter.domain.model.screen.uiAdapter.BluetoothIconAdapter
+import com.mobilegame.spaceshooter.domain.model.screen.uiHandler.Icons.BluetoothIcon
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
 
 @Composable
-fun BluetoothBanner(ui: BluetoothIconAdapter) {
+fun BluetoothBanner(ui: BluetoothIcon) {
     Box(
         Modifier
             .size(ui.sizes.squareHeightDp)

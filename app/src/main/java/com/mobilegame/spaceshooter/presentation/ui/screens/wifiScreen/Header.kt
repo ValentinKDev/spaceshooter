@@ -12,6 +12,6 @@ internal fun Header(vm: WifiScreenViewModel, navigator: Navigator) {
     BackButton(
         vm = vm.backButtonPressureNavigationVM,
         navigator = navigator,
-        ui = vm.ui.backButton
+        ui = vm.ui.template.backButton
     )
 }

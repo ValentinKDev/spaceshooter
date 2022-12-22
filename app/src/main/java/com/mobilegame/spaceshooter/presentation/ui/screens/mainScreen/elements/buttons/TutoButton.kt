@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.Stroke
-import com.mobilegame.spaceshooter.domain.model.screen.Screens
 import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
@@ -32,22 +31,22 @@ fun TutoButton(vm: MainScreenViewModel, navigator: Navigator) {
 
     Box(
         Modifier
-            .size(vm.ui.tutorialButton.sizes.iconButtonHeightDp)
+            .size( vm.ui.tutoButton.sizes.iconButtonHeightDp )
             .then(clickable)
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             drawCircle(
-                color = vm.ui.tutorialButton.colors.tint,
-                style = Stroke(width = vm.ui.tutorialButton.sizes.circleStrokeWidth)
+                color = vm.ui.tutoButton.colors.tint ,
+                style = Stroke(width = vm.ui.tutoButton.sizes.circleStrokeWidth )
             )
         }
         CenterComposable {
             Icon(
-                modifier = Modifier.size(vm.ui.tutorialButton.sizes.iconQuestionMarkHeightDp)
+                modifier = Modifier.size( vm.ui.tutoButton.sizes.iconQuestionMarkHeightDp )
                 ,
                 imageVector = Icons.Sharp.QuestionMark,
-                tint = vm.ui.tutorialButton.colors.tint,
-                contentDescription = vm.ui.tutorialButton.text.description
+                tint = vm.ui.tutoButton.colors.tint,
+                contentDescription = vm.ui.tutoButton.text.description,
             )
         }
     }

@@ -1,6 +1,5 @@
-package com.mobilegame.spaceshooter.domain.model.screen.uiAdapter
+package com.mobilegame.spaceshooter.domain.model.screen.uiHandler.Icons
 
-import android.content.Context
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
@@ -8,11 +7,9 @@ import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.analyze.wLog
-import com.mobilegame.spaceshooter.utils.extensions.alpha
 import com.mobilegame.spaceshooter.utils.extensions.toDp
 
-class BluetoothIconAdapter(
-    context: Context,
+class BluetoothIcon(
     squareSize: Float,
 ) {
     val ratios = RatiosButtonBluetooth()
@@ -50,16 +47,12 @@ class BluetoothIconAdapter(
         var background: Color = MyColor.applicationBackground,
     )
 
-    private var density = 0F
-
     init {
-        density = context.resources.displayMetrics.density
-
         sizes.squareHeight = squareSize
-        sizes.squareHeightDp = (sizes.squareHeight).toDp( density )
-        sizes.squareStrokeDp = (squareSize * ratios.squareStrokePercent).toDp( density )
+        sizes.squareHeightDp = (sizes.squareHeight).toDp()
+        sizes.squareStrokeDp = (squareSize * ratios.squareStrokePercent).toDp()
         sizes.canvas = (sizes.squareHeight * ratios.canvasHeightPercent)
-        sizes.canvasDp = sizes.canvas.toDp( density )
+        sizes.canvasDp = sizes.canvas.toDp()
 
         val size = sizes.canvas
 

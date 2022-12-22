@@ -5,7 +5,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
-import com.mobilegame.spaceshooter.domain.model.screen.uiAdapter.SpaceShip.SpaceShipIconAdapter
+import com.mobilegame.spaceshooter.domain.model.screen.uiHandler.SpaceShip.SpaceShipIconAdapter
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

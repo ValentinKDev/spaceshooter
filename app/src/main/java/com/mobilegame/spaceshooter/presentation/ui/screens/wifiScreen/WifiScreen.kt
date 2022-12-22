@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mobilegame.spaceshooter.domain.model.screen.wifiScreen.WifiScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
+import com.mobilegame.spaceshooter.presentation.theme.mainTemplate.MainTemplate
 import com.mobilegame.spaceshooter.utils.analyze.wLog
 
 
@@ -17,31 +18,12 @@ fun WifiScreen(navigator: Navigator, vm: WifiScreenViewModel = viewModel()) {
         wLog("WifiScreen", "start")
     }
 
-    Column(
-        Modifier.fillMaxSize()
-    ) {
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .weight(vm.ui.header.ratios.heightWeight)
-        ) {
-            Header(
-                vm = vm,
-                navigator = navigator,
-            )
-        }
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .weight(vm.ui.delimiter.ratios.heightWeight)
-                .background(vm.ui.color.contrast)
-        ){ }
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .weight(vm.ui.list.ratios.heightWeight)
-        ) {
+    MainTemplate(
+        header = {
+            Header( vm = vm, navigator = navigator, )
+        },
+        emptySpace = {
             List(vm)
-        }
-    }
+        },
+    )
 }

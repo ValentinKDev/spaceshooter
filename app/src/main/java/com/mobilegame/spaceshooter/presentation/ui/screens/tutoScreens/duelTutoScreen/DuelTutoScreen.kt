@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreen
+package com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreens.duelTutoScreen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -9,7 +9,7 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 
 
 @Composable
-fun TutoScreen(navigator: Navigator, vm: TutoScreenViewModel = viewModel()) {
+fun DuelTutoScreen(navigator: Navigator, vm: TutoScreenViewModel = viewModel()) {
     LaunchedEffect(true) {
         eLog("TutoScreen", "Launch")
     }

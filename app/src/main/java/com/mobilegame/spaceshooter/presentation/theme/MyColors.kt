@@ -115,13 +115,5 @@ inline class MyColor(val color: Color){
         val applicationContrastTransparent = Platinium.alpha(0.75F)
         val applicationBackgroundBannerInitial = Platinium.alpha(0.02F)
         val applicationBackgroundBannerTarget = Platinium.alpha(0.13F)
-//        val applicationContrastTransparentPlus = Platinium.alpha(0.05F)
-//        val applicationContrastTransparentPlus = Platinium.alpha(0.05F)
-
-//        val applicationSurface = grayDark2
-//        val applicationSurfaceDark = grayDark3
-//        val applicationSurfaceDarkDark = grayDark4
-//        val applicationTextDark = whiteDark5
-//        val applicationNiceGreen = greenSecondVariant
     }
 }
