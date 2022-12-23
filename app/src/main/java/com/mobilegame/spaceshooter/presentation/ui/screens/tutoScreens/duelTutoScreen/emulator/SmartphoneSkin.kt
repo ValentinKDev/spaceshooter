@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
-import com.mobilegame.spaceshooter.domain.model.screen.tutoScreen.TutoScreenViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.tutoScreen.TutoScreenViewModel
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
 

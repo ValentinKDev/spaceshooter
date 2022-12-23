@@ -14,8 +14,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mobilegame.spaceshooter.domain.model.screen.inGameScreen.motions.Motions
-import com.mobilegame.spaceshooter.domain.model.screen.tutoScreen.TutoScreenViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreen.motions.Motions
+import com.mobilegame.spaceshooter.logic.model.screen.tutoScreen.TutoScreenViewModel
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.PaddingComposable
 
@@ -43,7 +43,9 @@ fun FakeJoystickLayer(vm: TutoScreenViewModel) {
     val clickLeft = Modifier.clickable (
         interactionSource = interactionSourceLeft,
         indication = null,
-        onClick = {}
+        onClick = {
+
+        }
     )
     val clickRight = Modifier.clickable (
         interactionSource = interactionSourceRight,
@@ -75,44 +77,24 @@ fun FakeJoystickLayer(vm: TutoScreenViewModel) {
                 Modifier
                     .size(100.dp)
             ) {
-//                Box(
-//                    Modifier
-//                        .align(Alignment.TopStart)
-//                        .size(25.dp)
-//                        .background(MyColor.applicationContrast) )
                 Box(
                     Modifier
                         .align(Alignment.TopCenter)
                         .size(25.dp)
                         .then(clickUp)
                         .background(MyColor.applicationContrast) )
-//                Box(
-//                    Modifier
-//                        .align(Alignment.TopEnd)
-//                        .size(25.dp)
-//                        .background(MyColor.applicationContrast) )
                 Box(
                     Modifier
                         .align(Alignment.CenterStart)
                         .size(25.dp)
                         .then(clickLeft)
                         .background(MyColor.applicationContrast) )
-//                Box(
-//                    Modifier
-//                        .align(Alignment.BottomStart)
-//                        .size(25.dp)
-//                        .background(MyColor.applicationContrast) )
                 Box(
                     Modifier
                         .align(Alignment.CenterEnd)
                         .size(25.dp)
                         .then(clickRight)
                         .background(MyColor.applicationContrast) )
-//                Box(
-//                    Modifier
-//                        .align(Alignment.BottomEnd)
-//                        .size(25.dp)
-//                        .background(MyColor.applicationContrast) )
                 Box(
                     Modifier
                         .align(Alignment.BottomCenter)

@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
-import com.mobilegame.spaceshooter.domain.model.screen.uiHandler.SpaceShip.SpaceShipIconAdapter
+import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.SpaceShip.SpaceShipIconAdapter
 
 @Composable
 fun DefaultShipShape(ui: SpaceShipIconAdapter) {

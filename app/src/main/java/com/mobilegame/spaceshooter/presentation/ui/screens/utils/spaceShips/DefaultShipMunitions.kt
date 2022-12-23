@@ -4,8 +4,8 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.Fill
-import com.mobilegame.spaceshooter.domain.model.screen.inGameScreen.SpaceShipViewModel
-import com.mobilegame.spaceshooter.domain.model.screen.uiHandler.SpaceShip.SpaceShipIconAdapter
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreen.SpaceShipViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.SpaceShip.SpaceShipIconAdapter
 
 @Composable
 fun DrawMunition(vm: SpaceShipViewModel, ui: SpaceShipIconAdapter, n: Int) {

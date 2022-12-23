@@ -7,7 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.MainScreenViewModel
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 
 @Composable

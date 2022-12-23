@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.mobilegame.spaceshooter.domain.model.screen.tutoScreen.TutoScreenViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.tutoScreen.TutoScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.InGameScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
 

@@ -8,8 +8,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenViewModel
-import com.mobilegame.spaceshooter.domain.model.screen.uiHandler.mainTemplate.MainTemplate
+import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.MainScreenViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.mainTemplate.MainTemplate
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.elements.buttons.TutoButton
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.*

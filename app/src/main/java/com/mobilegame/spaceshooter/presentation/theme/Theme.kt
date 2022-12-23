@@ -21,7 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.mobilegame.spaceshooter.domain.model.screen.uiHandler.Device
+import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.Device
 import com.mobilegame.spaceshooter.presentation.ui.screens.lock.LockScreenOrientation
 
 private val DarkColorScheme = darkColorScheme(

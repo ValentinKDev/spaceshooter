@@ -3,7 +3,7 @@ package com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreens.duelTuto
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.mobilegame.spaceshooter.domain.model.screen.tutoScreen.TutoScreenViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.tutoScreen.TutoScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.backButton.BackButton
 

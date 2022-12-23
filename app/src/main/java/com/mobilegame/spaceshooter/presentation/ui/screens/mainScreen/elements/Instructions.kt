@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.MainScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.AlignComposableToBottom
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposableHorizontally
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.PaddingComposable

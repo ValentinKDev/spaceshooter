@@ -13,7 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.PressureNavigationViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.PressureNavigationViewModel
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.chargingButton.FilterRoundShape

@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.Stroke
-import com.mobilegame.spaceshooter.domain.model.screen.mainScreen.MainScreenViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.MainScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
 
