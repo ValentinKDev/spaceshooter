@@ -4,6 +4,8 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mobilegame.spaceshooter.logic.model.data.AccelerometerListener
+import com.mobilegame.spaceshooter.logic.model.data.XYZ
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreen.SpaceShipViewModel
 import com.mobilegame.spaceshooter.utils.analyze.iLog
 import com.mobilegame.spaceshooter.utils.analyze.vLog
@@ -21,6 +23,14 @@ class MotionsViewModel(val shipVM: SpaceShipViewModel): ViewModel() {
         changeMotionTo(motion)
         startMoving()
     }
+
+    fun updatePlayerPosition() {
+        getMotionFrom( AccelerometerListener.devicePosition )
+    }
+    private fun getMotionFrom(xyz: XYZ) {
+
+    }
+
     private fun changeMotionTo(motion: Motions) {
         vLog("MotionsVM::changeMotionTo", motion.name)
         _motion.value = motion
