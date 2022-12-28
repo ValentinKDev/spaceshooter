@@ -4,11 +4,11 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.Fill
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreen.SpaceShipViewModel
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.SpaceShip.SpaceShipIconAdapter
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.SpaceShipViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.SpaceShip.SpaceShipIconUI
 
 @Composable
-fun DrawMunition(vm: SpaceShipViewModel, ui: SpaceShipIconAdapter, n: Int) {
+fun DrawMunition(vm: SpaceShipViewModel, ui: SpaceShipIconUI, n: Int) {
     Canvas(Modifier){
         drawCircle(
             center = vm.getMunitionOffset(ui, n),
@@ -20,7 +20,7 @@ fun DrawMunition(vm: SpaceShipViewModel, ui: SpaceShipIconAdapter, n: Int) {
 }
 
 @Composable
-fun DefaultShipMunitions(vm: SpaceShipViewModel, ui: SpaceShipIconAdapter) {
+fun DefaultShipMunitions(vm: SpaceShipViewModel, ui: SpaceShipIconUI) {
     val munitions by remember { vm.munitions }.collectAsState()
     for (n in 1..munitions) {
         DrawMunition(vm, ui, n)

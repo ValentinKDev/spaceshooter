@@ -5,7 +5,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.SpaceShip.SpaceShipIconAdapter
+import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.SpaceShip.SpaceShipIconUI
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.analyze.wLog
@@ -16,7 +16,7 @@ import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 class DuelGameScreenUI(displaySize: Size) {
     val position = PositionInGameScreen(displaySize)
     val sizes = SizesInGameScreen(displaySize)
-    var spaceShip: SpaceShipIconAdapter = SpaceShipIconAdapter(shipBox = sizes.shipBox)
+    var spaceShip: SpaceShipIconUI = SpaceShipIconUI(shipBox = sizes.shipBox)
 
     class SizesInGameScreen(displaySize: Size) {
         var displayDp: DpSize = displaySize.toDpSize()

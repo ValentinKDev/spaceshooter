@@ -14,7 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreen.motions.Motions
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.Motions
 import com.mobilegame.spaceshooter.logic.model.screen.tutoScreen.TutoScreenViewModel
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.PaddingComposable
@@ -31,13 +31,13 @@ fun FakeJoystickLayer(vm: TutoScreenViewModel) {
     val downIsPressed by interactionSourceDown.collectIsPressedAsState()
 
     LaunchedEffect(key1 = rightIsPressed || leftIsPressed || upIsPressed || downIsPressed) {
-        when {
-            rightIsPressed -> vm.gameVM.motionVM.motionChange(Motions.Right)
-            leftIsPressed -> vm.gameVM.motionVM.motionChange(Motions.Left)
-            upIsPressed -> vm.gameVM.motionVM.motionChange(Motions.Up)
-            downIsPressed -> vm.gameVM.motionVM.motionChange(Motions.Down)
-            else -> vm.gameVM.motionVM.motionChange(Motions.None)
-        }
+//        when {
+//            rightIsPressed -> vm.gameVM.motionVM.motionChange(Motions.Right)
+//            leftIsPressed -> vm.gameVM.motionVM.motionChange(Motions.Left)
+//            upIsPressed -> vm.gameVM.motionVM.motionChange(Motions.Up)
+//            downIsPressed -> vm.gameVM.motionVM.motionChange(Motions.Down)
+//            else -> vm.gameVM.motionVM.motionChange(Motions.None)
+//        }
     }
 
     val clickLeft = Modifier.clickable (

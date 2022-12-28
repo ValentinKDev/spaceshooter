@@ -14,6 +14,7 @@ fun wLog(firstpart: String = "", secondpart: String) = Log.w(firstpart, secondpa
 fun debugLog(firstpart: String = "", secondpart: String) = Log.d(firstpart, secondpart)
 fun dLog(firstpart: String = "", secondpart: String) = Log.d(firstpart, secondpart)
 
+@JvmOverloads
 fun <T>prettyPrint(tag: String, name: String, element: T, logType: Int = Log.INFO) {
     val prettyPrinter = GsonBuilder().setPrettyPrinting().create()
     val prettyJsonString = prettyPrinter.toJson(element)

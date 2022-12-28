@@ -4,11 +4,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreen.SpaceShipViewModel
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.SpaceShip.SpaceShipIconAdapter
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.SpaceShipViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.SpaceShip.SpaceShipIconUI
 
 @Composable
-fun DefaultShip(vm: SpaceShipViewModel, ui: SpaceShipIconAdapter) {
+fun DefaultShip(vm: SpaceShipViewModel, ui: SpaceShipIconUI) {
     Box(
         Modifier
             .size(ui.sizes.shipBoxDp)
