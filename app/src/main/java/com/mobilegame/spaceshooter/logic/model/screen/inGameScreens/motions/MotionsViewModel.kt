@@ -1,8 +1,6 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions
 
 import android.content.Context
-import android.util.Log
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
@@ -10,14 +8,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.sensor.AccelerometerSensor
-import com.mobilegame.spaceshooter.logic.model.data.sensor.AccelerometerListener
-import com.mobilegame.spaceshooter.logic.model.data.sensor.notZero
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.Device
 import com.mobilegame.spaceshooter.logic.model.sensor.AccelerometerViewModel
-import com.mobilegame.spaceshooter.utils.analyze.eLog
-import com.mobilegame.spaceshooter.utils.analyze.prettyPrint
-import com.mobilegame.spaceshooter.utils.analyze.vLog
-import com.mobilegame.spaceshooter.utils.extensions.printTo
+import com.mobilegame.spaceshooter.logic.model.sensor.notZero
+import com.mobilegame.spaceshooter.utils.extensions.List.numberOf
+import com.mobilegame.spaceshooter.utils.extensions.List.smooth
+import com.mobilegame.spaceshooter.utils.extensions.not
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,77 +20,83 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlin.math.absoluteValue
 
 class MotionsViewModel(
-  context: Context,
-//    private val context: Context,
+    context: Context,
     startPosition: DpOffset,
     private val displaySizeDp: DpSize,
-//  val accelerometerVM : AccelerometerViewModel
 ): ViewModel() {
-//class MotionsViewModel(private val shipVM: SpaceShipViewModel, context: Context): ViewModel() {
-//class MotionsViewModel(private val shipVM: SpaceShipViewModel, application: Application): AndroidViewModel(application) {
-    private val maxSpeed = 2.dp
+    private val accelerometerVM = AccelerometerViewModel(AccelerometerSensor(context))
+//    private val maxSpeed = 0.2.dp
+//private val maxSpeed = 0.6.dp
+    private val maxSpeed = 0.7.dp
     private val gravity = 9.81F
     private val maxAcceleration = 1F
     private var deltaX = 0.dp
     private var deltaY = 0.dp
+    private val smooth = 4
+    private val lastIndex = smooth - 1
+    private var speedsF: MutableList<Float> = smooth numberOf 0F
+    private fun resetSpeeds() {
+        speedsF = smooth numberOf 0F
+    }
+    private fun shiftSpeeds(lastSpeed: Float) {
+        for (i in lastIndex  downTo 0) {
+            if (i == 0) speedsF[i] = lastSpeed
+            else speedsF[i] = speedsF[i - 1]
+        }
+    }
+
+    private var averageSpeed = 0F
+    private fun setAverageSpeed() {
+        averageSpeed = speedsF.sum() / smooth
+    }
+
+    private fun handleNewSpeed(speedF: Float) {
+        shiftSpeeds(speedF)
+        speedsF.smooth(10)
+        setAverageSpeed()
+    }
 
     private val _shipPosition = MutableStateFlow(startPosition)
     val shipPosition: StateFlow<DpOffset> = _shipPosition.asStateFlow()
-    fun moveShipTo(newPCenter: DpOffset) {
-//        _shipPosition.value = newPCenter inBoundsOf displaySizeDp
-        _shipPosition.value = newPCenter
-    }
+    fun moveShipTo(newPCenter: DpOffset) { _shipPosition.value = newPCenter inBoundsOf displaySizeDp }
 
     private val _motion = MutableStateFlow(Motions.None)
     val motion: StateFlow<Motions> = _motion.asStateFlow()
-    fun motionChange(motion: Motions) {
-        _motion.value = motion
+    fun changeMotionTo(motion: Motions) { _motion.value = motion }
 
-    }
-
-    val accelerometerVM = AccelerometerViewModel(AccelerometerSensor(context))
-
-    init {
-        eLog("MotionsVM::init", "start $startPosition")
-        eLog("MotionsVM::init", "ship ${shipPosition.value}")
-//        AccelerometerListener.initializeSensor(AccelerometerSensor(context))
-        viewModelScope.launch(Dispatchers.Main) {
-            frameLoop = true
-            startFrameLoop()
-        }
-    }
+    init { startFrameLoop() }
 
     fun updateFrame() {
         val newMotion = getMotion()
-        motionChange(newMotion)
+        upDateSpeed ( newMotion )
+        changeMotionTo( newMotion )
         getMotionSpeed()
         val newShipPosition = getUpdatedShipPosition()
         moveShipTo( newShipPosition )
-//        shipVM.moveShipTo( newShipPosition )
-
-//        vLog("MotionsVM::updatePlayerPosition", "Motion ${motion.value.name}")
-//        vLog("MotionsVM::updatePlayerPosition", "position $newShipPosition")
     }
 
-//    private val frameLoop = viewModelScope.async(Dispatchers.IO) { startFrameLoop() }
-//    fun stopFrameLoop() { frameLoop.cancel() }
-    private var frameLoop: Boolean = false
-
-    private suspend fun startFrameLoop() {
-        eLog("MotionsVM::frameLoop", "start")
-//        if (AccelerometerListener.isNotGoingOn())
-//            AccelerometerListener.initializeSensor(AccelerometerSensor(context))
-//        while (AccelerometerListener.isGoingOn()) {
-        while (frameLoop) {
-            delay(10)
-            if (accelerometerVM.devicePosition.notZero()) updateFrame()
+    private fun upDateSpeed(newMotion: Motions) {
+        if ( newMotion not motion.value) {
+            resetSpeeds()
         }
-        eLog("MotionsVM::frameLoop", "stop")
     }
 
+    private var frameLoopState: Boolean = false
+    private  fun startFrameLoop() {
+        viewModelScope.launch(Dispatchers.Main) {
+            frameLoopState = true
+            frameLoop()
+        }
+    }
+
+    private suspend fun frameLoop() {
+        while (frameLoopState) {
+            delay(1)
+            if (accelerometerVM.averagePosition.notZero()) updateFrame()
+        }
+    }
 
     private fun getUpdatedShipPosition(): DpOffset {
-//        val oldPlacement = shipVM.pCenterDp.value
         val oldPlacementDp = shipPosition.value
         val newX: Dp = when (motion.value) {
             Motions.DownRight, Motions.UpRight-> {
@@ -119,7 +120,7 @@ class MotionsViewModel(
     }
 
     private fun getMotion(): Motions {
-        val xyz = accelerometerVM.devicePosition
+        val xyz = accelerometerVM.averagePosition
 
         return if (xyz.x < 0) {
             if (xyz.y < 0) {
@@ -137,17 +138,17 @@ class MotionsViewModel(
     }
 
     private fun getMotionSpeed() {
-        val xyz = accelerometerVM.devicePosition
-        val speed = if (gravity - xyz.z.absoluteValue >= maxAcceleration) maxSpeed else (((gravity - xyz.z.absoluteValue) / maxAcceleration ) * maxSpeed.value).dp
+        val xyz = accelerometerVM.averagePosition
+        val speedF: Float = if (gravity - xyz.z.absoluteValue >= maxAcceleration) maxSpeed.value else (((gravity - xyz.z.absoluteValue) / maxAcceleration ) * maxSpeed.value)
+        handleNewSpeed( speedF )
 
-        deltaX = ((xyz.y.absoluteValue / (xyz.x.absoluteValue + xyz.y.absoluteValue)) * speed.value).dp
-        deltaY = ((xyz.x.absoluteValue / (xyz.x.absoluteValue + xyz.y.absoluteValue)) * speed.value).dp
+//        deltaX = ((xyz.y.absoluteValue / (xyz.x.absoluteValue + xyz.y.absoluteValue)) * speedF).dp
+//        deltaY = ((xyz.x.absoluteValue / (xyz.x.absoluteValue + xyz.y.absoluteValue)) * speedF).dp
+        deltaX = ((xyz.y.absoluteValue / (xyz.x.absoluteValue + xyz.y.absoluteValue)) * averageSpeed).dp
+        deltaY = ((xyz.x.absoluteValue / (xyz.x.absoluteValue + xyz.y.absoluteValue)) * averageSpeed).dp
     }
 
-    private infix fun Motions.not(motions: Motions): Boolean = this != motions
-
     private infix fun DpOffset.inBoundsOf(sizeDp: DpSize): DpOffset {
-//        return if (this.x < 0.dp)
         return when {
             this.x < 0.dp -> DpOffset(0.dp, this.y)
             this.y < 0.dp -> DpOffset(this.x, 0.dp)
@@ -162,28 +163,3 @@ class MotionsViewModel(
         super.onCleared()
     }
 }
-
-//class FrameHandler() {
-//    init {
-//
-//        viewModelScope.launch() {
-//            frameLoop()
-//        }
-//    }
-//    suspend fun truc() {
-//        coroutineScope {
-//
-//        }
-//    }
-//
-//    private suspend fun frameLoop() {
-//
-//        eLog("MotionsVM::frameLoop", "start")
-//        while (motion.value not Motions.None && AccelerometerListener.isGoingOn()) {
-////            delay(10)
-//            delay(100)
-//            updateFrame()
-//        }
-//        eLog("MotionsVM::frameLoop", "stop")
-//    }
-//}

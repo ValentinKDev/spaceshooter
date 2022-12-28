@@ -1,6 +1,5 @@
 package com.mobilegame.spaceshooter.presentation.ui.navigation
 
-import com.mobilegame.spaceshooter.logic.model.data.sensor.AccelerometerListener
 import com.mobilegame.spaceshooter.logic.model.screen.NavigationDestination
 import com.mobilegame.spaceshooter.utils.extensions.addNavArg
 import kotlinx.coroutines.flow.MutableSharedFlow

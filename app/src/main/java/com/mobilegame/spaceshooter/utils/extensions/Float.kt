@@ -27,3 +27,15 @@ fun Float.printTo(n: Int): String {
         return ret
     } else return this.toString()
 }
+
+//fun Float.applyLowPassFilter(alpha: Float): Float {
+//    var output = this
+//    if ( output == null ) return input;
+//
+//    output = output + alpha * ()
+//    for (i in 0 until )
+//    for ( int i=0; i<input.length; i++ ) {
+//        output[i] = output[i] + ALPHA * (input[i] - output[i]);
+//    }
+//    return output
+//}

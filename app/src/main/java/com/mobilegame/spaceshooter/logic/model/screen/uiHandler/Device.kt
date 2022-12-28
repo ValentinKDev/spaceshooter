@@ -1,7 +1,7 @@
 package com.mobilegame.spaceshooter.logic.model.screen.uiHandler
 
 import android.content.Context
-import com.mobilegame.spaceshooter.logic.model.data.sensor.XYZ
+import com.mobilegame.spaceshooter.logic.model.sensor.XYZ
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.wLog
 
@@ -10,7 +10,7 @@ object Device {
     var height = 0F
     var density = 0F
     var initiated: Boolean? = null
-//    var position: XYZ = XYZ(0F, 0F, 0F)
+    var position: XYZ = XYZ(0F, 0F, 0F)
 
     fun initWith(context: Context) {
         initiated = true
