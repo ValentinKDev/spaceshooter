@@ -13,29 +13,23 @@ fun Float.toSp(): TextUnit = (this / Device.density).sp
 fun Float.toSpRef(): TextUnit = ((this / densityRef) * (densityRef / Device.density)).sp
 
 fun Float.printTo(n: Int): String {
-    if (this < 10F) {
-        var str = this.toString()
-        var startCounting = false
-        var count = -3
-        var ret = ""
+    val str = this.toString()
+    var ret = ""
+    var count = 0
+    var pointIndex = 0
 
-        for (i in 0 until str.length) {
-            ret += str[i]
-            count += 1
-            if (count >= n) break
-        }
-        return ret
-    } else return this.toString()
+    for (i in 0 until str.length) {
+        ret += str[i]
+        if (str[i] == '.') break
+        pointIndex += 1
+    }
+    for (i in pointIndex + 1 until str.length) {
+        ret += str[i]
+        count += 1
+        if (count >= n) break
+    }
+    for (i in count until n) {
+        ret += '0'
+    }
+    return ret
 }
-
-//fun Float.applyLowPassFilter(alpha: Float): Float {
-//    var output = this
-//    if ( output == null ) return input;
-//
-//    output = output + alpha * ()
-//    for (i in 0 until )
-//    for ( int i=0; i<input.length; i++ ) {
-//        output[i] = output[i] + ALPHA * (input[i] - output[i]);
-//    }
-//    return output
-//}

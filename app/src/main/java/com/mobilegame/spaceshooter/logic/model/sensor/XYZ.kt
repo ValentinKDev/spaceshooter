@@ -49,7 +49,7 @@ fun MutableList<XYZ>.getSumZ(): Float {
 
 fun MutableList<XYZ>.smooth(smoothRatio: Int) {
     var value = this[0]
-    for ( i in 1 until lastIndex) {
+    for ( i in 1 until this.lastIndex) {
         val current = this[i]
         value = (current minus value) div smoothRatio
         this[i] = value
