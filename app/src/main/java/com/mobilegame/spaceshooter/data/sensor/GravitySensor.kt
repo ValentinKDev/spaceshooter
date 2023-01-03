@@ -8,6 +8,6 @@ class GravitySensor (
     context: Context,
 ) : AndroidSensor(
     context = context,
-    feature = PackageManager.FEATURE_SENSOR_GYROSCOPE,
+    feature = PackageManager.FEATURE_SENSOR_ACCELEROMETER,
     type = Sensor.TYPE_GRAVITY,
 )

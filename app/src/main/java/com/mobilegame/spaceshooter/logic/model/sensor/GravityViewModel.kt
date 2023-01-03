@@ -1,11 +1,13 @@
 package com.mobilegame.spaceshooter.logic.model.sensor
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
+import com.mobilegame.spaceshooter.data.sensor.GravitySensor
 import com.mobilegame.spaceshooter.logic.domain.MeasurableSensor
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.extensions.printTo
 
-class AccelerometerViewModel2(
+class GravityViewModel(
     private val sensor: MeasurableSensor,
 ): ViewModel() {
     init { initializeSensor() }
@@ -20,6 +22,10 @@ class AccelerometerViewModel2(
     fun initializeSensor() {
         sensor.start()
         sensor.setOnSensorValuesChanged { values ->
+            var str = "values ["
+            values.forEach { str += "${it.printTo(2)}, " }
+            str += "]"
+            eLog("AccelerometerVM::initializeSensor", str)
             if (firstTime) {
                 firstTime = false
                 averagePosition = XYZ(
