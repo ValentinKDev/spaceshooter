@@ -24,7 +24,6 @@ import com.mobilegame.spaceshooter.utils.extensions.*
 @Composable
 fun InGameScreen(navigator: Navigator = Navigator(), vm: DuelInGameViewModel) {
     val position by remember { vm.motionVM.shipPosition }.collectAsState()
-//    val motionLR by remember { vm.motionVM.motionLR }.collectAsState()
     val motion by remember { vm.motionVM.motion }.collectAsState()
 
 
@@ -50,7 +49,6 @@ fun InGameScreen(navigator: Navigator = Navigator(), vm: DuelInGameViewModel) {
             Modifier
                 .wrapContentSize()
                 .offset(position.x, position.y)
-//                .offset(animOffSetDp.x, animOffSetDp.y)
                 .rotate(angle)
         ) {
             DefaultShip( vm.shipVM, vm.ui.spaceShip )

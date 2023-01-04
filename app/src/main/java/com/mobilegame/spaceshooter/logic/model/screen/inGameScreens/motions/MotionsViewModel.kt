@@ -10,8 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.sensor.GravitySensor
 import com.mobilegame.spaceshooter.logic.model.sensor.AccelerometerViewModel
 import com.mobilegame.spaceshooter.logic.model.sensor.XYZ
-import com.mobilegame.spaceshooter.utils.extensions.or
-import com.mobilegame.spaceshooter.utils.extensions.toMotionLR
+import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -98,27 +97,16 @@ class MotionsViewModel(
 
     private fun getUpdatedShipPosition(): DpOffset {
         val oldPlacementDp = shipPosition.value
-        val newX: Dp = when (motion.value) {
-            Motions.DownRightNorth, Motions.DownRightSouth,
-            Motions.UpRightNorth, Motions.UpRightSouth-> {
-                (oldPlacementDp.x.value + deltaX).dp
-            }
-            Motions.DownLeftNorth, Motions.DownLeftSouth,
-            Motions.UpLeftNorth, Motions.UpLeftSouth -> {
-                (oldPlacementDp.x.value - deltaX).dp
-            }
-            Motions.None -> oldPlacementDp.x.value.dp
+        val newX: Dp = when {
+
+            motion.value.isRight() -> { (oldPlacementDp.x.value + deltaX).dp }
+            motion.value.isLeft() -> { (oldPlacementDp.x.value - deltaX).dp }
+            else -> { oldPlacementDp.x.value.dp }
         }
-        val newY: Dp = when (motion.value) {
-            Motions.UpLeftNorth, Motions.UpLeftSouth,
-            Motions.UpRightNorth, Motions.UpRightSouth-> {
-                (oldPlacementDp.y.value - deltaY).dp
-            }
-            Motions.DownLeftNorth, Motions.DownLeftSouth,
-            Motions.DownRightNorth, Motions.DownRightSouth -> {
-                (oldPlacementDp.y.value + deltaY).dp
-            }
-            Motions.None -> oldPlacementDp.x.value.dp
+        val newY: Dp = when {
+            motion.value.isUp() -> { (oldPlacementDp.y.value - deltaY).dp }
+            motion.value.isDown() -> { (oldPlacementDp.y.value + deltaY).dp }
+            else -> oldPlacementDp.x.value.dp
         }
         return DpOffset(newX, newY) or oldPlacementDp
     }
