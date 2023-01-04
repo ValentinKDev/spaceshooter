@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.mainTemplate.MainTemplate
+import com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate.MainTemplate
 import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.Delimiter
 
 @Composable

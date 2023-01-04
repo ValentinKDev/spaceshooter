@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.model.screen.uiHandler.SpaceShip
+package com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color

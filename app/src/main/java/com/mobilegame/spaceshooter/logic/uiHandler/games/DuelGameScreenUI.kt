@@ -1,11 +1,11 @@
-package com.mobilegame.spaceshooter.logic.model.screen.uiHandler.games
+package com.mobilegame.spaceshooter.logic.uiHandler.games
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.SpaceShip.SpaceShipIconUI
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUI
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.analyze.wLog

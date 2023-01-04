@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.model.screen.uiHandler.mainTemplate
+package com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate
 
 object MainTemplate {
     const val allWeights = 6F

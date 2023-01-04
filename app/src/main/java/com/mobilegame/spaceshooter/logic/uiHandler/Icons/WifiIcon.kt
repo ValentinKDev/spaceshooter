@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.model.screen.uiHandler.Icons
+package com.mobilegame.spaceshooter.logic.uiHandler.Icons
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size

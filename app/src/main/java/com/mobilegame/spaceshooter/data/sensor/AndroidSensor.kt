@@ -51,8 +51,8 @@ abstract class AndroidSensor(
 
     private fun registerListener() {
 //        sensor?.let { manager?.registerListener(this, it, SensorManager.SENSOR_DELAY_FASTEST) }
-//        sensor?.let { manager?.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME) }
-        sensor?.let { manager?.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL) }
+//        sensor?.let { manager?.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL) }
+        sensor?.let { manager?.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME) }
     }
 
     private fun unregisterListener() {

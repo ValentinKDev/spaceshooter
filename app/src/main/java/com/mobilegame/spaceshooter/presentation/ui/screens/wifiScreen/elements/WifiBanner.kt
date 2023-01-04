@@ -4,7 +4,7 @@ import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.Icons.WifiIcon
+import com.mobilegame.spaceshooter.logic.uiHandler.Icons.WifiIcon
 import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.elements.buttons.WifiButton.WifiIcon.WifiIcon
 
 

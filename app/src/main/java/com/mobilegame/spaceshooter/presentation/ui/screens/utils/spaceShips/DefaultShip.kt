@@ -9,7 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.SpaceShipViewModel
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.SpaceShip.SpaceShipIconUI
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUI
 
 @Composable
 fun DefaultShip(vm: SpaceShipViewModel, ui: SpaceShipIconUI) {

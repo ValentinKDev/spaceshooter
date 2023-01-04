@@ -13,8 +13,6 @@ fun DuelTutoScreen(navigator: Navigator, vm: TutoScreenViewModel = viewModel()) 
     LaunchedEffect(true) {
         eLog("DuelTutoScreen", "Launch duel Tuto Screen")
     }
-
-    FakeJoystickLayer(vm)
     BackButtonLayer(vm, navigator)
     SmartphonesFaceToFace(vm)
 }

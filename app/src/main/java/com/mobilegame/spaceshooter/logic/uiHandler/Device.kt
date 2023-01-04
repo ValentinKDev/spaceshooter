@@ -1,6 +1,8 @@
-package com.mobilegame.spaceshooter.logic.model.screen.uiHandler
+package com.mobilegame.spaceshooter.logic.uiHandler
 
 import android.content.Context
+import android.view.Window
+import androidx.compose.ui.platform.LocalDensity
 import com.mobilegame.spaceshooter.logic.model.sensor.XYZ
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.wLog

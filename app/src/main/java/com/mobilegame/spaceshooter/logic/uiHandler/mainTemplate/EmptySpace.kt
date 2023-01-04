@@ -1,6 +1,6 @@
-package com.mobilegame.spaceshooter.logic.model.screen.uiHandler.mainTemplate
+package com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate
 
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.Device
+import com.mobilegame.spaceshooter.logic.uiHandler.Device
 
 class EmptySpace {
     val heightWeight = MainTemplate.allWeights - MainTemplate.headerHeightWeight - MainTemplate.delimiterHeightWeight

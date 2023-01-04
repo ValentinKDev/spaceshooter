@@ -19,31 +19,32 @@ class AccelerometerViewModel(
     fun initializeSensor() {
         sensor.start()
         sensor.setOnSensorValuesChanged { values ->
-            if (firstTime) {
-                firstTime = false
-                averagePosition = XYZ(
-                    x = values[0],
-                    y = values[1],
-                    z = values[2],
-                )
-            }
-            averagePosition = XYZ(
-                x = position.x + alpha * ( values[0] - position.x ),
-                y = position.y + alpha * ( values[1] - position.y ),
-                z = position.z + alpha * ( values[2] - position.z ),
-            )
             upDateMaxZ(averagePosition.z)
+            lowAndHighPassFilter(
+                xValue = values[0],
+                yValue = values[1],
+                zValue = values[2],
+            )
         }
     }
 
-    private fun upDateMaxZ(z: Float) {
-        if (maxZ < z) {
-            maxZ = z
-            eLog("AccelerometerVM::upDateMaxZ", "max Z $maxZ")
+    private fun lowAndHighPassFilter(xValue: Float, yValue: Float, zValue: Float) {
+        if (firstTime) {
+            firstTime = false
+            averagePosition = XYZ(
+                x = xValue,
+                y = yValue,
+                z = zValue
+            )
         }
+        averagePosition = XYZ(
+            x = position.x + alpha * ( xValue - position.x ),
+            y = position.y + alpha * ( yValue - position.y ),
+            z = position.z + alpha * ( zValue - position.z ),
+        )
     }
 
-    fun stop() {
-        sensor.stop()
-    }
+    private fun upDateMaxZ(z: Float) { if (maxZ < z) { maxZ = z } }
+
+    fun stop() { sensor.stop() }
 }

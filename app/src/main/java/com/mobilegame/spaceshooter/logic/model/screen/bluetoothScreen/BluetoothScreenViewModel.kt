@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.PressureNavigationViewModel
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.BluetoothScreenUI
+import com.mobilegame.spaceshooter.logic.uiHandler.BluetoothScreenUI
 
 class BluetoothScreenViewModel(application: Application): AndroidViewModel(application) {
 

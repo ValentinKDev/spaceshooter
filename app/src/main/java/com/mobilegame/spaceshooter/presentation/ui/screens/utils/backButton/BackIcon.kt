@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.mainTemplate.BackButtonUI
+import com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate.BackButtonUI
 
 @Composable
 fun BackIcon(ui: BackButtonUI) {

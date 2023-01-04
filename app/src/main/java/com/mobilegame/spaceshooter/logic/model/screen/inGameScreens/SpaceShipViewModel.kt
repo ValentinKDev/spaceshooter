@@ -2,7 +2,7 @@ package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens
 
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.ViewModel
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.SpaceShip.SpaceShipIconUI
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUI
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -4,7 +4,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.Device
+import com.mobilegame.spaceshooter.logic.uiHandler.Device
 
 const val densityRef = 3.0F
 fun Float.toDp(): Dp = (this / Device.density).dp

@@ -1,12 +1,12 @@
-package com.mobilegame.spaceshooter.logic.model.screen.uiHandler
+package com.mobilegame.spaceshooter.logic.uiHandler
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.Icons.BluetoothIcon
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.Icons.WifiIcon
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.mainTemplate.MainTemplate
+import com.mobilegame.spaceshooter.logic.uiHandler.Icons.BluetoothIcon
+import com.mobilegame.spaceshooter.logic.uiHandler.Icons.WifiIcon
+import com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate.MainTemplate
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.extensions.alpha
 import com.mobilegame.spaceshooter.utils.extensions.toDp
@@ -32,7 +32,7 @@ class MainScreenUI {
             val end: Float = 0.2F,
         )
 
-        class SizesInstructionsMainScreen( padding: PaddingInstructionsMainScreen ) {
+        class SizesInstructionsMainScreen( padding: PaddingInstructionsMainScreen) {
             val boxHeight: Float = (1F - padding.top - padding.bottom) * Device.height
             val text: Float = boxHeight * 0.45F
             val textSp: TextUnit = text.toSp()

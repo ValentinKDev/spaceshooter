@@ -1,9 +1,9 @@
-package com.mobilegame.spaceshooter.logic.model.screen.uiHandler
+package com.mobilegame.spaceshooter.logic.uiHandler
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.Icons.WifiIcon
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.mainTemplate.MainTemplate
+import com.mobilegame.spaceshooter.logic.uiHandler.Icons.WifiIcon
+import com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate.MainTemplate
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 
 class WifiScreenUI {

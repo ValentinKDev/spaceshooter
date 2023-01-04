@@ -34,7 +34,7 @@ fun SmartphoneSkin(vm: TutoScreenViewModel) {
             drawRect(
                 color = Color.Black,
                 topLeft = vm.ui.smartphoneEmulator.points.screenTopLeft,
-                size = Size(vm.ui.smartphoneEmulator.sizes.screenWidth, vm.ui.smartphoneEmulator.sizes.screenHeight),
+                size = vm.ui.smartphoneEmulator.sizes.screenInner,
                 blendMode = BlendMode.Xor
             )
         }

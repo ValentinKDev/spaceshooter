@@ -1,9 +1,9 @@
-package com.mobilegame.spaceshooter.logic.model.screen.uiHandler.mainTemplate
+package com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
-import com.mobilegame.spaceshooter.logic.model.screen.uiHandler.Device
+import com.mobilegame.spaceshooter.logic.uiHandler.Device
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.wLog
