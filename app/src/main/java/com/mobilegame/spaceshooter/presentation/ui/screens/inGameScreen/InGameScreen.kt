@@ -14,33 +14,31 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.DpOffset
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelInGameScreen.DuelInGameViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.MotionLR
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.Motions
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.spaceShips.DefaultShip
 import com.mobilegame.spaceshooter.utils.analyze.eLog
-import com.mobilegame.spaceshooter.utils.extensions.toDpOffset
-import com.mobilegame.spaceshooter.utils.extensions.toOffset
+import com.mobilegame.spaceshooter.utils.extensions.*
 
 
 @Composable
 fun InGameScreen(navigator: Navigator = Navigator(), vm: DuelInGameViewModel) {
-//    val position by remember { vm.shipVM.pCenterDp }.collectAsState()
     val position by remember { vm.motionVM.shipPosition }.collectAsState()
-    val motionLR by remember { vm.motionVM.motionLR }.collectAsState()
+//    val motionLR by remember { vm.motionVM.motionLR }.collectAsState()
+    val motion by remember { vm.motionVM.motion }.collectAsState()
+
 
     LaunchedEffect(true) {
         eLog("InGameScreen", "Launch Screen")
     }
 
-//    val animOffset by animateOffsetAsState(
-//        targetValue = position.toOffset(),
-//        animationSpec = tween(10)
-//    )
-//    val animOffSetDp = animOffset.toDpOffset()
     val angle by animateFloatAsState(
-        targetValue = when (motionLR) {
-            MotionLR.None -> 0F
-            MotionLR.Right -> 8F
-            MotionLR.Left -> -8F
+        targetValue = when {
+            motion.isLeftNorth() -> -4F
+            motion.isLeftSouth() -> -8F
+            motion.isRightNorth() -> 4F
+            motion.isRightSouth() -> 8F
+            else -> 0F
         }
         ,
         animationSpec = tween(400)
