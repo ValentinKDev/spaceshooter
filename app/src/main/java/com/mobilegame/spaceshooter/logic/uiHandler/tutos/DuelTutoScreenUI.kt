@@ -23,16 +23,12 @@ class DuelTutoScreenUI() {
         val points = PointsSmartphoneEmulatorTutoScreen(sizes, padd)
 
         class SizesSmartphoneEmulator(generalLayout: GeneralLayoutTutoScreen, padd: PaddingSmartphoneEmulator) {
-//            private val strokeHeightPercent: Float = 0.005F
             private val strokeHeightPercent: Float = 0.020F
 
             var height: Float = (generalLayout.smartphoneWeight / generalLayout.allWeightsHeight) * Device.height
             var width: Float = (1F - (2F * generalLayout.horizontalPadd)) * Device.width
             val paddVertical: Float = padd.screenVertical * height
             val paddHorizontal: Float = padd.screenHorizontal * width
-//            var screenHeight: Float = height * (1F - (2F * padd.screenVertical)) + (2F * border)
-//            var screenWidth: Float = width * (1F - (2F * padd.screenHorizontal))+ (2F * border)
-//            var border: Float = Device.height * strokeHeightPercent
             var screenHeight: Float = (height * (1F - (2F * padd.screenVertical)))
             var screenWidth: Float = (width * (1F - (2F * padd.screenHorizontal)))
             var border: Float = screenHeight * strokeHeightPercent
@@ -50,9 +46,6 @@ class DuelTutoScreenUI() {
         )
         class PointsSmartphoneEmulatorTutoScreen(sizes: SizesSmartphoneEmulator, padd: PaddingSmartphoneEmulator) {
             val screenTopLeft: Offset = Offset(
-//                x = (sizes.width - sizes.screenWidth) / 2F,
-//                y = sizes.height - sizes.screenHeight - (2f * sizes.border),
-//                x = sizes.width - sizes.screenInner.width - sizes.paddHorizontal ,
                 x = sizes.width - sizes.screenInner.width - sizes.paddHorizontal - sizes.border,
                 y = sizes.height - sizes.screenHeight - sizes.paddVertical + sizes.border,
             )
@@ -63,7 +56,7 @@ class DuelTutoScreenUI() {
         val paddVertical: Float = 1F,
         val smartphoneWeight: Float = 5F,
         val paddMid: Float = 1.5F,
-        val horizontalPadd: Float = 0.27F,
+        val horizontalPadd: Float = 0.30F,
         val allWeightsHeight: Float = (paddVertical * 2F) + (smartphoneWeight * 2F) + paddMid,
     )
 

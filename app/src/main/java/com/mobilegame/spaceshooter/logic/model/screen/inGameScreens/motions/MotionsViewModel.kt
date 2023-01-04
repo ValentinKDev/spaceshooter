@@ -57,7 +57,6 @@ class MotionsViewModel(
 
     private fun getMotionSpeed() {
         val maxVector = accelerometerVM.maxZ * 0.78F
-
         speedF = when(xyz.z.absoluteValue) {
             in accelerometerVM.maxZ..42F -> {
                 frameInterval = 1L
@@ -94,7 +93,6 @@ class MotionsViewModel(
     private fun getUpdatedShipPosition(): DpOffset {
         val oldPlacementDp = shipPosition.value
         val newX: Dp = when {
-
             motion.value.isRight() -> { (oldPlacementDp.x.value + deltaX).dp }
             motion.value.isLeft() -> { (oldPlacementDp.x.value - deltaX).dp }
             else -> { oldPlacementDp.x.value.dp }
