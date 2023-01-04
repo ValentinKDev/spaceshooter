@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
-import kotlin.math.max
 
 class MotionsViewModel(
     context: Context,
@@ -131,12 +130,33 @@ class MotionsViewModel(
 
     private infix fun DpOffset.inBoundsOf(sizeDp: DpSize): DpOffset {
         return when {
-            this.x < 0.dp -> DpOffset(0.dp, this.y)
-            this.y < 0.dp -> DpOffset(this.x, 0.dp)
-            this.x > sizeDp.width -> DpOffset(sizeDp.width, this.y)
-            this.y > sizeDp.height -> DpOffset(this.x, sizeDp.height)
+            this.x < 0.dp -> this xStartVerticalBounds sizeDp
+            this.x > sizeDp.width -> this xEndVerticalBounds sizeDp
+            this.y < 0.dp -> this yStartHorizontalBounds sizeDp
+            this.y > sizeDp.height ->  this yEndHorizontalBounds sizeDp
             else -> this
         }
+    }
+
+    private infix fun DpOffset.xStartVerticalBounds(sizeDp: DpSize): DpOffset =
+        this.verticalBounds( x = 0.dp, verticalBounds = 0.dp..sizeDp.height)
+    private infix fun DpOffset.xEndVerticalBounds(sizeDp: DpSize): DpOffset =
+        this.verticalBounds( x = sizeDp.width, verticalBounds = 0.dp..sizeDp.height)
+    private infix fun DpOffset.yStartHorizontalBounds(sizeDp: DpSize): DpOffset =
+        this.horizontalBounds( y = 0.dp, horizontalBounds = 0.dp..sizeDp.width)
+    private infix fun DpOffset.yEndHorizontalBounds(sizeDp: DpSize): DpOffset =
+        this.horizontalBounds( y = sizeDp.height, horizontalBounds = 0.dp..sizeDp.width)
+
+    private fun DpOffset.verticalBounds(x: Dp, verticalBounds: ClosedRange<Dp>): DpOffset = when {
+        this.y < verticalBounds.start -> DpOffset(x, verticalBounds.start)
+        this.y > verticalBounds.endInclusive -> DpOffset(x, verticalBounds.endInclusive)
+        else -> DpOffset(x, this.y)
+    }
+
+    private fun DpOffset.horizontalBounds(y: Dp, horizontalBounds: ClosedRange<Dp>): DpOffset = when {
+        this.x < horizontalBounds.start -> DpOffset(horizontalBounds.start, y)
+        this.x > horizontalBounds.endInclusive -> DpOffset(horizontalBounds.endInclusive, y)
+        else -> DpOffset(this.x, y)
     }
 
     override fun onCleared() {
