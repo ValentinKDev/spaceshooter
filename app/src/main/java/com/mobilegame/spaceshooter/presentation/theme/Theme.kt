@@ -1,11 +1,8 @@
 package com.mobilegame.spaceshooter.presentation.theme
 
-import android.app.Activity
 import android.content.pm.ActivityInfo
-import android.graphics.Color
 import android.os.Build
 import android.view.Window
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -18,14 +15,17 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalView
-import com.google.accompanist.systemuicontroller.SystemUiController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.logic.uiHandler.Device
 import com.mobilegame.spaceshooter.presentation.ui.screens.lock.LockScreenOrientation
+import com.mobilegame.spaceshooter.presentation.ui.screens.utils.HideScreenBars
 import com.mobilegame.spaceshooter.utils.analyze.eLog
+import com.mobilegame.spaceshooter.utils.extensions.fromDp
+import com.mobilegame.spaceshooter.utils.extensions.toDp
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -63,8 +63,6 @@ fun SpaceShooterTheme(
     LockScreenOrientation(orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
 
     LaunchedEffect(true) {
-        window.setFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        Device.initWith(context)
     }
 
     val colorScheme = when {
@@ -77,14 +75,14 @@ fun SpaceShooterTheme(
 
     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-//    val systemUiController: SystemUiController = rememberSystemUiController()
-//    systemUiController.isStatusBarVisible = false
-//    systemUiController.isNavigationBarVisible = false
+    HideScreenBars(window)
 
     Box(
         Modifier
             .fillMaxSize()
-            .background(MyColor.applicationBackground)) {
+            .background(MyColor.applicationBackground)
+            .onGloballyPositioned { layout -> Device.initiated ?: run { Device.initWith(context, layout) } }
+    ) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,

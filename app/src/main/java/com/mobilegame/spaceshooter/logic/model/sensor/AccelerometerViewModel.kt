@@ -3,11 +3,14 @@ package com.mobilegame.spaceshooter.logic.model.sensor
 import androidx.lifecycle.ViewModel
 import com.mobilegame.spaceshooter.logic.domain.MeasurableSensor
 import com.mobilegame.spaceshooter.utils.analyze.eLog
+import com.mobilegame.spaceshooter.utils.analyze.prettyPrint
+import com.mobilegame.spaceshooter.utils.analyze.wLog
 
 class AccelerometerViewModel(
     private val sensor: MeasurableSensor,
-): ViewModel() {
+) {
     init { initializeSensor() }
+    var isRunning = false
     private var firstTime = true
     private var position = XYZ.ZERO
     private val alpha = 0.6f
@@ -17,9 +20,10 @@ class AccelerometerViewModel(
 
     //todo: delete motionVM from Param
     fun initializeSensor() {
-        sensor.start()
+        start()
         sensor.setOnSensorValuesChanged { values ->
             upDateMaxZ(averagePosition.z)
+//            prettyPrint("AccelerometerVM::initializeSensor", "XYZ", values)
             lowAndHighPassFilter(
                 xValue = values[0],
                 yValue = values[1],
@@ -46,5 +50,17 @@ class AccelerometerViewModel(
 
     private fun upDateMaxZ(z: Float) { if (maxZ < z) { maxZ = z } }
 
-    fun stop() { sensor.stop() }
+    fun start() {
+        isRunning = true
+        sensor.start()
+    }
+    fun stop() {
+        isRunning = false
+        sensor.stop()
+    }
+    fun restart() {
+        wLog("AccelerometerVM::restart", "isRunning $isRunning")
+
+        if (isRunning) initializeSensor()
+    }
 }

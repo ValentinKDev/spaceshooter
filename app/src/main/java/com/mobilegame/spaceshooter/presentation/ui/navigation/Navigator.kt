@@ -11,7 +11,6 @@ class Navigator {
     var des: SharedFlow<String> = dest.asSharedFlow()
 
     suspend fun navig(destination: NavigationDestination, argumentStr: String = "") {
-//        AccelerometerListener.stop()
         val fullRoute =
             if (argumentStr.isEmpty()) destination.route
             else destination.route.addNavArg(argumentStr)

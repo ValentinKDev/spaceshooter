@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.sensor.GravitySensor
 import com.mobilegame.spaceshooter.logic.model.sensor.AccelerometerViewModel
 import com.mobilegame.spaceshooter.logic.model.sensor.XYZ
+import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
+import kotlin.math.max
 
 class MotionsViewModel(
     context: Context,
@@ -25,10 +27,9 @@ class MotionsViewModel(
     private val displaySizeDp: DpSize,
 ): ViewModel() {
     private val accelerometerVM = AccelerometerViewModel(GravitySensor(context))
-    private val sensitivity = 1f/64F
-    private val maxSpeed = 17.dp * sensitivity
-    private var minSpeed = (maxSpeed.value * 0.15F).dp
-    private var frameInterval = 1L
+    private val maxSpeed = (0.001F * displaySizeDp.width.value).dp
+    private val minSpeed = (maxSpeed.value * 0.15F).dp
+    private val frameInterval = 1L
 
     private var speedF = 0F
     private var deltaX = 0F
@@ -58,17 +59,9 @@ class MotionsViewModel(
     private fun getMotionSpeed() {
         val maxVector = accelerometerVM.maxZ * 0.78F
         speedF = when(xyz.z.absoluteValue) {
-            in accelerometerVM.maxZ..42F -> {
-                frameInterval = 1L
-                minSpeed.value
-            }
-            in maxVector..accelerometerVM.maxZ -> {
-                frameInterval = 1L
-                ((accelerometerVM.maxZ - xyz.z.absoluteValue) / (accelerometerVM.maxZ - maxVector)) * maxSpeed.value
-            }
-            else -> {
-                maxSpeed.value
-            }
+            in maxVector..accelerometerVM.maxZ -> { ((accelerometerVM.maxZ - xyz.z.absoluteValue) / (accelerometerVM.maxZ - maxVector)) * maxSpeed.value }
+            in accelerometerVM.maxZ..42F -> { minSpeed.value }
+            else -> { maxSpeed.value }
         }
         speedF = if (speedF < minSpeed.value) minSpeed.value else speedF
         deltaX = (xyz.y.absoluteValue / (xyz.x.absoluteValue + xyz.y.absoluteValue)) * speedF
