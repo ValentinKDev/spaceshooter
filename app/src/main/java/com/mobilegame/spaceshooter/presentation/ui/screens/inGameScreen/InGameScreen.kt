@@ -34,8 +34,8 @@ fun InGameScreen(navigator: Navigator = Navigator(), vm: DuelInGameViewModel) {
     val angle by animateFloatAsState(
         targetValue = when {
             motion.isLeftNorth() -> -4F
-            motion.isLeftSouth() -> -8F
             motion.isRightNorth() -> 4F
+            motion.isLeftSouth() -> -8F
             motion.isRightSouth() -> 8F
             else -> 0F
         }

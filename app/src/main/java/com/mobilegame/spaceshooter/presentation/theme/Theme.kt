@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.os.Build
+import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -17,6 +19,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import com.google.accompanist.systemuicontroller.SystemUiController
@@ -48,7 +51,9 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun SpaceShooterTheme(
+    window: Window,
     darkTheme: Boolean = isSystemInDarkTheme(),
+    //todo: dynamic color for the LogoScreen
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
@@ -74,11 +79,10 @@ fun SpaceShooterTheme(
 
     (LocalView.current.context as Activity).window.statusBarColor = Color.TRANSPARENT
 
-    //todo : bug when switching app Navigation bar and Status bar are visible
-    val systemUiController: SystemUiController = rememberSystemUiController()
-    systemUiController.isStatusBarVisible = false
-    systemUiController.isNavigationBarVisible = false
-//    systemUiController.setNavigationBarColor(color = MyColor.applicationBackground)
+    window.setFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+//    val systemUiController: SystemUiController = rememberSystemUiController()
+//    systemUiController.isStatusBarVisible = false
+//    systemUiController.isNavigationBarVisible = false
 
     Box(
         Modifier

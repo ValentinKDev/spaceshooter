@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
+import kotlin.math.max
 
 class MotionsViewModel(
     context: Context,
@@ -26,7 +27,8 @@ class MotionsViewModel(
 ): ViewModel() {
     private val accelerometerVM = AccelerometerViewModel(GravitySensor(context))
     private val sensitivity = 1f/64F
-    private val maxSpeed = 13.dp * sensitivity
+    private val maxSpeed = 17.dp * sensitivity
+    private var minSpeed = (maxSpeed.value * 0.15F).dp
     private var frameInterval = 1L
 
     private var speedF = 0F
@@ -41,12 +43,7 @@ class MotionsViewModel(
 
     private val _motion = MutableStateFlow(Motions.None)
     val motion: StateFlow<Motions> = _motion.asStateFlow()
-    private val _motionLR = MutableStateFlow(MotionLR.None)
-    val motionLR: StateFlow<MotionLR> = _motionLR.asStateFlow()
-    fun changeMotionTo(motion: Motions) {
-        _motion.value = motion
-        _motionLR.value = motion.toMotionLR()
-    }
+    fun changeMotionTo(motion: Motions) { _motion.value = motion }
 
     init { startFrameLoop() }
 
@@ -60,13 +57,12 @@ class MotionsViewModel(
     }
 
     private fun getMotionSpeed() {
-        val maxVector = accelerometerVM.maxZ * 0.8F
-        val speedMinF = 0.065F
+        val maxVector = accelerometerVM.maxZ * 0.78F
 
         speedF = when(xyz.z.absoluteValue) {
             in accelerometerVM.maxZ..42F -> {
                 frameInterval = 1L
-                speedMinF
+                minSpeed.value
             }
             in maxVector..accelerometerVM.maxZ -> {
                 frameInterval = 1L
@@ -76,6 +72,7 @@ class MotionsViewModel(
                 maxSpeed.value
             }
         }
+        speedF = if (speedF < minSpeed.value) minSpeed.value else speedF
         deltaX = (xyz.y.absoluteValue / (xyz.x.absoluteValue + xyz.y.absoluteValue)) * speedF
         deltaY = (xyz.x.absoluteValue / (xyz.x.absoluteValue + xyz.y.absoluteValue)) * speedF
     }
