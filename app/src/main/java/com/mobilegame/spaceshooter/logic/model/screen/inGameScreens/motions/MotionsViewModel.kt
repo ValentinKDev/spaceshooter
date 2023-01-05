@@ -10,7 +10,6 @@ import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.sensor.GravitySensor
 import com.mobilegame.spaceshooter.logic.model.sensor.AccelerometerViewModel
 import com.mobilegame.spaceshooter.logic.model.sensor.XYZ
-import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -19,7 +18,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
-import kotlin.math.max
 
 class MotionsViewModel(
     context: Context,
@@ -28,6 +26,7 @@ class MotionsViewModel(
 ): ViewModel() {
     private val accelerometerVM = AccelerometerViewModel(GravitySensor(context))
     private val maxSpeed = (0.001F * displaySizeDp.width.value).dp
+    private val halfMaxSpeedF = maxSpeed.value / 2F
     private val minSpeed = (maxSpeed.value * 0.15F).dp
     private val frameInterval = 1L
 
@@ -45,6 +44,13 @@ class MotionsViewModel(
     val motion: StateFlow<Motions> = _motion.asStateFlow()
     fun changeMotionTo(motion: Motions) { _motion.value = motion }
 
+    private val _speedMagnitude = MutableStateFlow(SpeedMagnitude.Slow)
+    val speedMagnitude: StateFlow<SpeedMagnitude> = _speedMagnitude.asStateFlow()
+    fun upDateSpeedMagnitude() {
+        if (speedF > halfMaxSpeedF) _speedMagnitude.value = SpeedMagnitude.Fast
+        else _speedMagnitude.value = SpeedMagnitude.Slow
+    }
+
     init { startFrameLoop() }
 
     fun updateFrame() {
@@ -52,6 +58,7 @@ class MotionsViewModel(
         val newMotion = getMotion()
         changeMotionTo( newMotion )
         getMotionSpeed()
+        upDateSpeedMagnitude()
         val newShipPosition = getUpdatedShipPosition()
         moveShipTo( newShipPosition )
     }
@@ -148,6 +155,36 @@ class MotionsViewModel(
         this.x < horizontalBounds.start -> DpOffset(horizontalBounds.start, y)
         this.x > horizontalBounds.endInclusive -> DpOffset(horizontalBounds.endInclusive, y)
         else -> DpOffset(this.x, y)
+    }
+
+    fun getTargetAngle(motion: Motions, speed: SpeedMagnitude): Float = when {
+        motion.isUp() -> {
+            when {
+                motion.isLeftNorth() && speed.isSlow() -> -1F
+                motion.isLeftNorth() && speed.isFast() -> -3F
+                motion.isRightNorth() && speed.isSlow() -> 1F
+                motion.isRightNorth() && speed.isFast() -> 3F
+                motion.isLeftSouth() && speed.isSlow() -> -4F
+                motion.isLeftSouth() && speed.isFast() -> -8F
+                motion.isRightSouth() && speed.isSlow()-> 4F
+                motion.isRightSouth() && speed.isFast()-> 8F
+                else -> 0F
+            }
+        }
+        motion.isDown() -> {
+            when {
+                motion.isLeftSouth() && speed.isSlow()-> -1F
+                motion.isLeftSouth() && speed.isFast()-> -3F
+                motion.isRightSouth() && speed.isSlow()-> 1F
+                motion.isRightSouth() && speed.isFast()-> 3F
+                motion.isLeftNorth() && speed.isSlow()-> -4F
+                motion.isLeftNorth() && speed.isFast()-> -8F
+                motion.isRightNorth() && speed.isSlow()-> 4F
+                motion.isRightNorth() && speed.isFast()-> 8F
+                else -> 0F
+            }
+        }
+        else -> 0F
     }
 
     override fun onCleared() {

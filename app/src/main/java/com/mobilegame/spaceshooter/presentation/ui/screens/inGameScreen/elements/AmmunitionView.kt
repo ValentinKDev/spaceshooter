@@ -10,7 +10,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.DuelGameViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.AmmunitionViewModel
 
 @Composable
@@ -35,7 +34,5 @@ fun AmmunitionView(vm: AmmunitionViewModel) {
         Modifier
             .fillMaxSize()
             .then(clickable)
-    ) {
-
-    }
+    )
 }

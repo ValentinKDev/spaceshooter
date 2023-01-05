@@ -10,26 +10,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.DuelGameViewModel
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.spaceShips.DefaultShip
-import com.mobilegame.spaceshooter.utils.extensions.isLeftNorth
-import com.mobilegame.spaceshooter.utils.extensions.isLeftSouth
-import com.mobilegame.spaceshooter.utils.extensions.isRightNorth
-import com.mobilegame.spaceshooter.utils.extensions.isRightSouth
+import com.mobilegame.spaceshooter.utils.extensions.*
 
 @Composable
 fun SpaceShipView(vm: DuelGameViewModel) {
     val position by remember { vm.motionVM.shipPosition }.collectAsState()
     val motion by remember { vm.motionVM.motion }.collectAsState()
+    val speed by remember { vm.motionVM.speedMagnitude }.collectAsState()
 
     val angle by animateFloatAsState(
-        targetValue = when {
-            motion.isLeftNorth() -> -4F
-            motion.isRightNorth() -> 4F
-            motion.isLeftSouth() -> -8F
-            motion.isRightSouth() -> 8F
-            else -> 0F
-        }
-        ,
-        animationSpec = tween(400)
+        targetValue = vm.motionVM.getTargetAngle(motion, speed),
+        animationSpec = tween(600)
     )
 
     Box(
