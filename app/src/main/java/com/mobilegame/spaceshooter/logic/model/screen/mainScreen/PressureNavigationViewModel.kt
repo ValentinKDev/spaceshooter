@@ -46,6 +46,7 @@ class PressureNavigationViewModel() : ViewModel() {
         setPressureStateTo(false)
     }
 
+    //todo : put screen in the class params
     fun create(screen: Screens): PressureNavigationViewModel {
         screenNav = screen
         return this

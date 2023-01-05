@@ -16,7 +16,7 @@ class SpaceShipIconUI(type: SpaceShipType = SpaceShipType.Default, shipBox: Floa
     val sizes = SizesSpaceShipIcon(shipBox)
     val points = PointsSpaceShipIcon(sizes)
     val colors = ColorsSpaceShipIcon()
-    val munitions = MunitionsSpaceShipIcon(shipBox)
+    val ammunition = MunitionsSpaceShipIcon(shipBox)
 
     data class ColorsSpaceShipIcon (
         var strokes: Color = MyColor.applicationContrast,
