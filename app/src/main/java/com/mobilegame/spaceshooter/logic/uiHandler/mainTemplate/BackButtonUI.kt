@@ -21,7 +21,7 @@ class BackButtonUI() {
         var start: Float = 0.01F,
     )
     data class SizesBackButton (
-        val boxHeight: Float = Device.height * (MainTemplate.headerHeightWeight / MainTemplate.allWeights),
+        val boxHeight: Float = Device.height * (MainTemplateUI.headerHeightWeight / MainTemplateUI.allWeights),
         val boxHeightDp: Dp = boxHeight.toDp(),
         val canvas: Float = boxHeight * 0.75F,
         val canvasDp: Dp = canvas.toDp(),

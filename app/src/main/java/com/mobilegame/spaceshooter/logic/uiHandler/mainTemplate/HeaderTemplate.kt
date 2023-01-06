@@ -10,11 +10,16 @@ import com.mobilegame.spaceshooter.utils.extensions.toSp
 import com.mobilegame.spaceshooter.utils.extensions.toSpRef
 
 class HeaderTemplate {
+    val id = "HeaderTemplate"
     val sizes = SizesHeaderTemplate()
     val padding = PaddingHeaderTemplate()
     val colors = ColorsHeaderTemplate()
     val text = TextHeaderTemplate()
+    val percent = PercentHeaderTemplate()
 
+    data class PercentHeaderTemplate (
+        val height: Float = ( MainTemplateUI.headerHeightWeight / MainTemplateUI.allWeights)
+    )
     data class PaddingHeaderTemplate (
         val textPaddingStart: Float = 0.03F,
         val buttonPaddingEnd: Float = 0.03F,
@@ -25,7 +30,7 @@ class HeaderTemplate {
     )
 
     data class SizesHeaderTemplate(
-        val height: Float = Device.height * ( MainTemplate.headerHeightWeight / MainTemplate.allWeights),
+        val height: Float = Device.height * ( MainTemplateUI.headerHeightWeight / MainTemplateUI.allWeights),
         private val iconTextSpace: Float = Device.width * 0.005F,
         private val iconText: Float = height * 0.38F,
         private val mainTextHeight: Float = height * 1F,

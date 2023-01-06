@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mobilegame.spaceshooter.logic.model.screen.wifiScreen.WifiScreenViewModel
+import com.mobilegame.spaceshooter.presentation.theme.TemplateWithoutBand
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
-import com.mobilegame.spaceshooter.presentation.theme.mainTemplate.MainTemplate
 import com.mobilegame.spaceshooter.utils.analyze.wLog
 
 
@@ -15,7 +15,7 @@ fun WifiScreen(navigator: Navigator, vm: WifiScreenViewModel = viewModel()) {
         wLog("WifiScreen", "start")
     }
 
-    MainTemplate(
+    TemplateWithoutBand(
         header = {
             Header( vm = vm, navigator = navigator, )
         },

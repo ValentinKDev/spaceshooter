@@ -17,6 +17,7 @@ fun DuelGameScreen(navigator: Navigator = Navigator(), vm: DuelGameViewModel) {
         eLog("InGameScreen", "Launch Screen")
     }
 
+    //todo: Use ConstraintSet with Width Ratio to reduce screen size depending on enemy device
     DefaultSpaceBackGround {
         Elements(vm)
     }

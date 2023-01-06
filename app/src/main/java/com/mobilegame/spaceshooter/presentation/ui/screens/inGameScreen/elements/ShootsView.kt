@@ -21,14 +21,6 @@ fun ShootsView(vm: DuelGameViewModel) {
     val shoots by remember { vm.shipVM.motionVM.shootList }.collectAsState()
 
     shoots.forEach{
-//        Box(
-//            Modifier
-//                .wrapContentSize()
-//                .offset(it.offsetDp.x, it.offsetDp.y)
-////                .size(15.dp)
-//                .background(Color.Red)
-//        ) {
-//        }
         DrawMunition(center = it.offsetDp.toOffset(), ui = vm.ui.spaceShip, type = MunitionsType.Shoot)
     }
 }

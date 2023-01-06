@@ -28,8 +28,8 @@ fun Navigation(navigator: Navigator) {
 
     NavHost(
         navController = navController,
-//        startDestination = Screens.MainScreen.route,
-        startDestination = Screens.BluetoothScreen.route,
+        startDestination = Screens.MainScreen.route,
+//        startDestination = Screens.BluetoothScreen.route,
 //        startDestination = Screens.DuelTutoScreen.route,
 //        startDestination = Screens.Creator.route,
     ) {

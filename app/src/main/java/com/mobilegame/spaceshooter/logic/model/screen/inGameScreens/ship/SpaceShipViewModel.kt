@@ -13,8 +13,6 @@ class SpaceShipViewModel(application: Application, ui: DuelGameScreenUI) : ViewM
     val motionVM = MotionsViewModel(
         context = application,
         ui = ui,
-//        startPosition = ui.position.pCenterDp,
-//        displaySizeDp = ui.sizes.displayDpDeltaBox,
     )
     val ammoVM = MunitionsViewModel(motionVM, type)
 

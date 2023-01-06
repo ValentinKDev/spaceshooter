@@ -14,15 +14,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shipType: ShipType) : ViewModel() {
-
     private val shootingTimeInterval = 120L
     private val ammunitionTimeInterval = 450L
     private val _ammunition = MutableStateFlow<Int>(10)
     val ammunition: StateFlow<Int> = _ammunition.asStateFlow()
     fun incrementAmmo() { if (_ammunition.value < 10) _ammunition.value = _ammunition.value + 1 }
     fun decrementAmmo() { if (_ammunition.value > 0) { _ammunition.value = _ammunition.value - 1 } }
-//    fun isAmmoFull(): Boolean = _ammunition.value < 10
-//    fun isAmmoEmpty(): Boolean = _ammunition.value > 10
     private var ammoBeforeCharging = _ammunition.value
     private fun updateAmmoBeforeCharging() {ammoBeforeCharging = _ammunition.value}
     private var recoveringJob: Job = viewModelScope.launch(Dispatchers.IO) {}

@@ -9,7 +9,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.MainScreenViewModel
-import com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate.MainTemplate
+import com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate.MainTemplateUI
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.elements.buttons.TutoButton
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.*
@@ -42,13 +42,13 @@ internal fun MainScreenHeader(navigator: Navigator, vm: MainScreenViewModel) {
                     CenterComposableVertically {
                         Text(
                             modifier = Modifier.padding(end = vm.ui.template.header.padding.spaceBetweenTextAndIconDp),
-                            text = MainTemplate.header.text.iconText,
+                            text = MainTemplateUI.header.text.iconText,
                             //todo : make the tuto text color shine a little bit
-                            color = MainTemplate.header.colors.iconText,
+                            color = MainTemplateUI.header.colors.iconText,
                             textAlign = TextAlign.Center,
                             style = TextStyle(
-                                fontSize = MainTemplate.header.sizes.iconTextSp,
-                                letterSpacing = MainTemplate.header.sizes.iconTextSpaceSp,
+                                fontSize = MainTemplateUI.header.sizes.iconTextSp,
+                                letterSpacing = MainTemplateUI.header.sizes.iconTextSpaceSp,
                                 fontWeight = FontWeight.ExtraBold,
                                 fontFamily = FontFamily.Default
                             )

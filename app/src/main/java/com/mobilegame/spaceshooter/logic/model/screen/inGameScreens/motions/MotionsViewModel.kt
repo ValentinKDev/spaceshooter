@@ -24,8 +24,6 @@ import kotlin.math.absoluteValue
 class MotionsViewModel(
     context: Context,
     ui: DuelGameScreenUI,
-//    startPosition: DpOffset,
-//    private val displaySizeDp: DpSize,
 ): ViewModel() {
     private val startPosition = ui.position.pCenterDp
     private val displaySizeDp = ui.sizes.displayDpDeltaBox
@@ -48,8 +46,6 @@ class MotionsViewModel(
     val shipPosition: StateFlow<DpOffset> = _shipPosition.asStateFlow()
     fun moveShipTo(newPCenter: DpOffset) { _shipPosition.value = newPCenter inBoundsOf displaySizeDp }
     fun getShipTopCenter(): DpOffset = DpOffset(x = _shipPosition.value.x + shipCenterDeltaDp, y = _shipPosition.value.y)
-//    private fun updateShipTopCenter() { shipTopCenter = getShipTopCenter()}
-//    var shipTopCenter = DpOffset(x = _shipPosition.value.x + shipCenterDeltaDp, y = _shipPosition.value.y)
 
     private val _motion = MutableStateFlow(Motions.None)
     val motion: StateFlow<Motions> = _motion.asStateFlow()
@@ -155,8 +151,6 @@ class MotionsViewModel(
     fun addShoot(shoot: Shoot) {
         _shootList.value = _shootList.value.plus(shoot)
     }
-
-//    fun getShootVector(): Size = Size(deltaX, maxSpeed.value - deltaY)
 
     fun getShootVector(): Size {
         val x = when {

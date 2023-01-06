@@ -6,7 +6,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.mobilegame.spaceshooter.logic.uiHandler.Icons.BluetoothIcon
 import com.mobilegame.spaceshooter.logic.uiHandler.Icons.WifiIcon
-import com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate.MainTemplate
+import com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate.MainTemplateUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.extensions.alpha
 import com.mobilegame.spaceshooter.utils.extensions.toDp
@@ -17,7 +17,7 @@ class MainScreenUI {
     val instruction = InstructionMainScreen()
     val buttonBluetooth: BluetoothIcon = BluetoothIcon(Device.height * 0.3F)
     val buttonWifi: WifiIcon = WifiIcon(Device.height * 0.3F, StrokeCap.Square, outlined = true)
-    val template = MainTemplate
+    val template = MainTemplateUI
 
     class InstructionMainScreen {
         val padding = PaddingInstructionsMainScreen()
@@ -52,11 +52,11 @@ class MainScreenUI {
         val text = TextTutorialButton()
 
         class SizesTutorialButton {
-            private val iconButtonHeight: Float = MainTemplate.header.sizes.height * 0.75F
-            private val iconQuestionMarkHeight: Float = MainTemplate.header.sizes.height * 0.55F
+            private val iconButtonHeight: Float = MainTemplateUI.header.sizes.height * 0.75F
+            private val iconQuestionMarkHeight: Float = MainTemplateUI.header.sizes.height * 0.55F
             val iconButtonHeightDp: Dp = iconButtonHeight.toDp()
             val iconQuestionMarkHeightDp: Dp = iconButtonHeight.toDp()
-            val circleStrokeWidth: Float = MainTemplate.header.sizes.height * 0.07F
+            val circleStrokeWidth: Float = MainTemplateUI.header.sizes.height * 0.07F
         }
         data class ColorsTutorialButton (
             val tint: Color = MyColor.applicationText,
