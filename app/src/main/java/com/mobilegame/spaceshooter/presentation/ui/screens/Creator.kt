@@ -3,6 +3,7 @@ package com.mobilegame.spaceshooter.presentation.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -23,7 +24,7 @@ import com.mobilegame.spaceshooter.utils.extensions.alpha
 
 @Composable
 fun Creator(navigator: Navigator,vm: MainScreenViewModel = viewModel()) {
-//    TextTruc()
+    TextTruc()
 //    Template(
 //        type = TemplatesType.WithoutHeadBand,
 //        type = TemplatesType.WithHeadBand,
@@ -41,26 +42,27 @@ fun TextTruc() {
         val redBox = createRefFor("redBox")
         val yellowBox = createRefFor("yellowBox")
 
-        constrain(greenBox) {
-            top.linkTo(parent.top)
-            start.linkTo(parent.start)
-            width = Dimension.value(100.dp)
-            height = Dimension.percent(0.1F)
-        }
-        constrain(yellowBox) {
-            top.linkTo(greenBox.bottom)
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-            bottom.linkTo(redBox.bottom)
-            width = Dimension.fillToConstraints
-            height = Dimension.fillToConstraints
-        }
+//        constrain(greenBox) {
+//            top.linkTo(parent.top)
+//            start.linkTo(parent.start)
+//            width = Dimension.value(100.dp)
+//            height = Dimension.percent(0.1F)
+//        }
+//        constrain(yellowBox) {
+//            top.linkTo(greenBox.bottom)
+//            start.linkTo(parent.start)
+//            end.linkTo(parent.end)
+//            bottom.linkTo(redBox.bottom)
+//            width = Dimension.fillToConstraints
+//            height = Dimension.fillToConstraints
+//        }
         constrain(redBox) {
-            top.linkTo(greenBox.bottom)
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-            width = Dimension.value(100.dp)
-            height = Dimension.percent(0.1F)
+            top.linkTo(parent.top)
+//            start.linkTo(parent.start)
+//            end.linkTo(parent.end)
+            bottom.linkTo(parent.bottom)
+            width = Dimension.wrapContent
+            height = Dimension.wrapContent
         }
     }
     ConstraintLayout(constraints, Modifier.fillMaxSize()) {
@@ -73,7 +75,9 @@ fun TextTruc() {
             Modifier
                 .background(Color.Red)
                 .layoutId("redBox")
-        )
+        ) {
+            Box(modifier = Modifier.size(40.dp))
+        }
         Box(
             Modifier
                 .background(Color.Yellow)

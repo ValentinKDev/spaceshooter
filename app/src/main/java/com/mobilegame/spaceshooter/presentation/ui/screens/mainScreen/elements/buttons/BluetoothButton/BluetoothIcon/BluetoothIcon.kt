@@ -16,7 +16,8 @@ fun BluetoothIcon(ui: BluetoothIcon) {
         Modifier
             .size(ui.sizes.squareHeightDp)
     ) {
-        CenterComposable {
+//        CenterComposable {
+        CenterComposable(id = ui.id) {
             Canvas(
                 Modifier
                     .size(ui.sizes.canvasDp)

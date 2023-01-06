@@ -40,7 +40,8 @@ fun TutoButton(vm: MainScreenViewModel, navigator: Navigator) {
                 style = Stroke(width = vm.ui.tutoButton.sizes.circleStrokeWidth )
             )
         }
-        CenterComposable {
+//        CenterComposable {
+        CenterComposable( id = vm.ui.tutoButton.id) {
             Icon(
                 modifier = Modifier.size( vm.ui.tutoButton.sizes.iconQuestionMarkHeightDp )
                 ,

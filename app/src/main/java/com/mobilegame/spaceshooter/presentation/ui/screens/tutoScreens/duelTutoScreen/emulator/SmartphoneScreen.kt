@@ -11,8 +11,9 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.DuelGame
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
 
 @Composable
-fun EmulatorScreen(vm: TutoScreenViewModel) {
-    CenterComposable {
+fun EmulatorScreen(vm: TutoScreenViewModel, id: String) {
+//    CenterComposable {
+    CenterComposable(id = id) {
         Box(
             Modifier
                 .size(vm.ui.smartphoneEmulator.sizes.screenInnerDp)

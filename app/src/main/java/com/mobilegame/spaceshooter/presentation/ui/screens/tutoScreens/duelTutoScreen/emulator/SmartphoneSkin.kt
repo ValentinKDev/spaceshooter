@@ -39,7 +39,8 @@ fun SmartphoneSkin(vm: TutoScreenViewModel) {
             blendMode = BlendMode.Xor
         )
     }
-    CenterComposable {
+//    CenterComposable {
+    CenterComposable(id = vm.ui.smartphoneEmulator.idSkinIn) {
         Box(
             Modifier
                 .height(vm.ui.smartphoneEmulator.sizes.screenHeightDp)
@@ -51,7 +52,8 @@ fun SmartphoneSkin(vm: TutoScreenViewModel) {
                 )
         )
     }
-    CenterComposable {
+//    CenterComposable {
+    CenterComposable(id = vm.ui.smartphoneEmulator.idSkinOut) {
         Box(
             Modifier
                 .fillMaxSize()

@@ -16,7 +16,7 @@ fun BackButton(vm: PressureNavigationViewModel, navigator: Navigator, ui: BackBu
     PaddingComposable(
         startPaddingRatio = ui.padding.start
     ) {
-        CenterComposableVertically {
+        CenterComposableVertically(ui.id) {
             ChargingButton(
                 handler = vm,
                 sizeDp = ui.sizes.canvasDp,

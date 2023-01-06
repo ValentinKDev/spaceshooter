@@ -13,12 +13,12 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreens.duelTutoS
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.PaddingComposable
 
 @Composable
-fun SmartphoneEmulator(vm: TutoScreenViewModel) {
+fun SmartphoneEmulator(vm: TutoScreenViewModel, id: String) {
     PaddingComposable(
         horizontalPadding = vm.ui.generalLayout.horizontalPadd
     ) {
         Box() {
-            EmulatorScreen(vm)
+            EmulatorScreen(vm, id)
             SmartphoneSkin(vm)
         }
     }

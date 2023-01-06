@@ -10,6 +10,7 @@ import com.mobilegame.spaceshooter.utils.analyze.wLog
 import com.mobilegame.spaceshooter.utils.extensions.toDp
 
 class BackButtonUI() {
+    val id = "back_button"
     val padding = PaddingBackButton()
     val colors = ColorsBackButton()
     val points = PointsBackButton()

@@ -18,6 +18,10 @@ class DuelTutoScreenUI() {
     var template = MainTemplateUI
 
     class SmartphoneEmulatorTutoScreen(generalLayout: GeneralLayoutTutoScreen) {
+        val idTop = "smartphone_emulator_top"
+        val idBottom = "smartphone_emulator_bottom"
+        val idSkinIn = "smartphone_skin_in"
+        val idSkinOut = "smartphone_skin_out"
         val padd = PaddingSmartphoneEmulator()
         val sizes = SizesSmartphoneEmulator(generalLayout, padd)
         val points = PointsSmartphoneEmulatorTutoScreen(sizes, padd)

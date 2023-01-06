@@ -11,12 +11,18 @@ import com.mobilegame.spaceshooter.utils.extensions.toSpRef
 
 class HeaderTemplate {
     val id = "HeaderTemplate"
+    val ids = IdsHeaderTemplate()
     val sizes = SizesHeaderTemplate()
     val padding = PaddingHeaderTemplate()
     val colors = ColorsHeaderTemplate()
     val text = TextHeaderTemplate()
     val percent = PercentHeaderTemplate()
 
+    data class IdsHeaderTemplate (
+        val mainTextId: String = "main_text_header_template",
+        val tutorialTextId: String = "tutorial_text_header_template",
+        val tutorialButtonId: String = "tutorial_button_header_template",
+    )
     data class PercentHeaderTemplate (
         val height: Float = ( MainTemplateUI.headerHeightWeight / MainTemplateUI.allWeights)
     )

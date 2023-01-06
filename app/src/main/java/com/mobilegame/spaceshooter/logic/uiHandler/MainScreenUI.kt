@@ -47,6 +47,7 @@ class MainScreenUI {
     }
 
     class TutorialButton {
+        val id = "tutorial_Button"
         val sizes = SizesTutorialButton()
         val colors = ColorsTutorialButton()
         val text = TextTutorialButton()

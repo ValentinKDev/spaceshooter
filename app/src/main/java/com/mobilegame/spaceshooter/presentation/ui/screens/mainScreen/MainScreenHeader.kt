@@ -24,7 +24,8 @@ internal fun MainScreenHeader(navigator: Navigator, vm: MainScreenViewModel) {
     ) {
         Box {
             AlignComposableToStart {
-                CenterComposableVertically {
+//                CenterComposableVertically {
+                CenterComposableVertically(vm.ui.template.header.ids.mainTextId) {
                     Text(
                         text = vm.ui.template.header.text.mainText,
                         color = vm.ui.template.header.colors.mainText,
@@ -39,7 +40,9 @@ internal fun MainScreenHeader(navigator: Navigator, vm: MainScreenViewModel) {
             }
             AlignComposableToEnd {
                 Row {
-                    CenterComposableVertically {
+//                    CenterComposableVertically {
+//                    CenterComposableVertically(vm.ui.template.) {
+                    CenterComposableVertically(vm.ui.template.header.ids.tutorialTextId) {
                         Text(
                             modifier = Modifier.padding(end = vm.ui.template.header.padding.spaceBetweenTextAndIconDp),
                             text = MainTemplateUI.header.text.iconText,
@@ -54,7 +57,8 @@ internal fun MainScreenHeader(navigator: Navigator, vm: MainScreenViewModel) {
                             )
                         )
                     }
-                    CenterComposableVertically {
+//                    CenterComposableVertically {
+                    CenterComposableVertically(vm.ui.template.header.ids.tutorialButtonId) {
                         TutoButton(vm, navigator)
                     }
                 }

@@ -12,6 +12,7 @@ import com.mobilegame.spaceshooter.utils.extensions.toDp
 class BluetoothIcon(
     squareSize: Float,
 ) {
+    val id = "BlueToothIcon"
     val ratios = RatiosButtonBluetooth()
     val sizes = SizesButtonBluetooth()
     val points = PointsButtonBluetooth()

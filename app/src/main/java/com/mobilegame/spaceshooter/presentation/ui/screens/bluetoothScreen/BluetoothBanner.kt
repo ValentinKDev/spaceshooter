@@ -20,7 +20,8 @@ fun BluetoothBanner(ui: BluetoothIcon) {
         Modifier
             .size(ui.sizes.squareHeightDp)
     ) {
-        CenterComposable {
+//        CenterComposable {
+        CenterComposable(id = ui.id) {
             val infiniteTransition = rememberInfiniteTransition()
             val animateColor by infiniteTransition.animateColor(
                 initialValue = ui.colors.transparentStart,

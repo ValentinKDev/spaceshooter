@@ -35,7 +35,7 @@ fun SmartphonesFaceToFace(vm: TutoScreenViewModel) {
                 .fillMaxWidth()
                 .weight(vm.ui.generalLayout.smartphoneWeight)
         ) {
-            SmartphoneEmulator(vm)
+            SmartphoneEmulator(vm, vm.ui.smartphoneEmulator.idBottom)
         }
         Box(
             Modifier
