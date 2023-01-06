@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
+import com.mobilegame.spaceshooter.presentation.ui.screens.Creator
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.LaunchDuelGameScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.MainScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreens.duelTutoScreen.DuelTutoScreen
@@ -28,13 +29,15 @@ fun Navigation(navigator: Navigator) {
     NavHost(
         navController = navController,
 //        startDestination = Screens.MainScreen.route,
-//        startDestination = Screens.DuelTutoScreen.route,
         startDestination = Screens.BluetoothScreen.route,
+//        startDestination = Screens.DuelTutoScreen.route,
+//        startDestination = Screens.Creator.route,
     ) {
         composable(route = Screens.MainScreen.route) { MainScreen(navigator) }
 //        composable(route = Screens.BluetoothScreen.route) { BluetoothScreen(navigator) }
         composable(route = Screens.BluetoothScreen.route) { LaunchDuelGameScreen(navigator) }
         composable(route = Screens.WifiScreen.route) { WifiScreen(navigator) }
         composable(route = Screens.DuelTutoScreen.route) { DuelTutoScreen(navigator) }
+        composable(route = Screens.Creator.route) { Creator(navigator) }
     }
 }

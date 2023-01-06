@@ -3,24 +3,27 @@ package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.MotionsViewModel
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUI
 import com.mobilegame.spaceshooter.utils.analyze.eLog
+import com.mobilegame.spaceshooter.utils.analyze.iLog
 import com.mobilegame.spaceshooter.utils.extensions.notZero
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
-class AmmunitionViewModel(): ViewModel() {
+class AmmunitionViewModel(private val motionVM: MotionsViewModel, private val shipType: ShipType) : ViewModel() {
 
+    private val shootingTimeInterval = 120L
     private val ammunitionTimeInterval = 450L
     private val _ammunition = MutableStateFlow<Int>(10)
     val ammunition: StateFlow<Int> = _ammunition.asStateFlow()
     fun incrementAmmo() { if (_ammunition.value < 10) _ammunition.value = _ammunition.value + 1 }
     fun decrementAmmo() { if (_ammunition.value > 0) { _ammunition.value = _ammunition.value - 1 } }
+    private var ammoBeforeCharging = _ammunition.value
+    private fun updateAmmoBeforeCharging() {ammoBeforeCharging = _ammunition.value}
     private var recoveringJob: Job = viewModelScope.launch(Dispatchers.IO){}
     suspend fun startAmmoRecovery() {
         while (_ammunition.value < 10) {
@@ -41,6 +44,7 @@ class AmmunitionViewModel(): ViewModel() {
     private fun startChargingShoot() { startChargingTime = System.currentTimeMillis() }
     private fun stopChargingTime() { endChargingTime = System.currentTimeMillis() }
     fun chargingShoot() {
+        updateAmmoBeforeCharging()
         startChargingShoot()
         recoveringJob.cancel()
         screenIsPressed = true
@@ -48,12 +52,34 @@ class AmmunitionViewModel(): ViewModel() {
     }
     fun shoot() {
         if (startChargingTime.notZero()) {
+            eLog("SpaceShipVM::shoot", "before ammo chargeing $ammoBeforeCharging")
             screenIsPressed = false
             stopChargingTime()
-            chargingTime = endChargingTime - startChargingTime
-            var ammoCharged = (chargingTime.toFloat() / ammunitionTimeInterval).toInt() + 1
             recoveringJob = viewModelScope.launch(Dispatchers.IO) { startAmmoRecovery() }
+//            chargingTime = endChargingTime - startChargingTime
+//            var ammoCharged = (chargingTime.toFloat() / ammunitionTimeInterval).toInt() + 1
+//            if (ammoCharged >= ammoBeforeCharging) ammoCharged = ammoBeforeCharging
+            val ammoCharged = ammoBeforeCharging - _ammunition.value
+            startShooting(ammoCharged)
             eLog("SpaceShipVM::shoot", "ammo charged $ammoCharged")
+        }
+    }
+
+
+    private fun startShooting(ammoCharged: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            var ammo = ammoCharged
+            while (ammo >= 0) {
+                ammo -= 1
+                val newShoot = Shoot(
+                    type = shipType,
+                    from = ShipOrigin.User,
+                    vector = motionVM.getShootVector(),
+                    offsetDp = motionVM.shipPosition.value.copy()
+                )
+                motionVM.addShoot(newShoot)
+                delay(shootingTimeInterval)
+            }
         }
     }
 

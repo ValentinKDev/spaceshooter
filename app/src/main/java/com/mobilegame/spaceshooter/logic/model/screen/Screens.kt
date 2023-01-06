@@ -5,6 +5,7 @@ sealed class Screens(override val route: String, val key: Int): NavigationDestin
     object  BluetoothScreen: Screens("bluetooth_screen", 1)
     object  WifiScreen: Screens("wifi_screen", 2)
     object  DuelTutoScreen: Screens("duel_tuto_screen", 3)
+    object  Creator: Screens("creator_screen", 4)
 
 //    object  Unknown: Screens("unknown_screen", 42)
 //    object  Loading: Screens("loading_screen", 69)

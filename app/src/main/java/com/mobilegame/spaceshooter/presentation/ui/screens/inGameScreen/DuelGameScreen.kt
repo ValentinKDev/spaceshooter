@@ -5,6 +5,8 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScre
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.backGrounds.DefaultSpaceBackGround
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.AmmunitionView
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.Elements
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.ShootsView
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.SpaceShipView
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 
@@ -16,7 +18,6 @@ fun DuelGameScreen(navigator: Navigator = Navigator(), vm: DuelGameViewModel) {
     }
 
     DefaultSpaceBackGround {
-        SpaceShipView(vm)
-        AmmunitionView(vm.shipVM.ammoVM)
+        Elements(vm)
     }
 }

@@ -14,12 +14,12 @@ import com.mobilegame.spaceshooter.utils.extensions.*
 
 @Composable
 fun SpaceShipView(vm: DuelGameViewModel) {
-    val position by remember { vm.motionVM.shipPosition }.collectAsState()
-    val motion by remember { vm.motionVM.motion }.collectAsState()
-    val speed by remember { vm.motionVM.speedMagnitude }.collectAsState()
+    val position by remember { vm.shipVM.motionVM.shipPosition }.collectAsState()
+    val motion by remember { vm.shipVM.motionVM.motion }.collectAsState()
+    val speed by remember { vm.shipVM.motionVM.speedMagnitude }.collectAsState()
 
     val angle by animateFloatAsState(
-        targetValue = vm.motionVM.getTargetAngle(motion, speed),
+        targetValue = vm.shipVM.motionVM.getTargetAngle(motion, speed),
         animationSpec = tween(600)
     )
 

@@ -1,6 +1,7 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions
 
 import android.content.Context
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
@@ -8,8 +9,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.sensor.GravitySensor
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
 import com.mobilegame.spaceshooter.logic.model.sensor.AccelerometerViewModel
 import com.mobilegame.spaceshooter.logic.model.sensor.XYZ
+import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -27,7 +30,7 @@ class MotionsViewModel(
     private val accelerometerVM = AccelerometerViewModel(GravitySensor(context))
     private val maxSpeed = (0.001F * displaySizeDp.width.value).dp
     private val halfMaxSpeedF = maxSpeed.value / 2F
-    private val minSpeed = (maxSpeed.value * 0.15F).dp
+    private val minSpeed = (maxSpeed.value * 0.07F).dp
     private val frameInterval = 1L
 
     private var speedF = 0F
@@ -58,6 +61,7 @@ class MotionsViewModel(
         val newMotion = getMotion()
         changeMotionTo( newMotion )
         getMotionSpeed()
+        updateShootsMotions()
         upDateSpeedMagnitude()
         val newShipPosition = getUpdatedShipPosition()
         moveShipTo( newShipPosition )
@@ -125,36 +129,25 @@ class MotionsViewModel(
         }
     }
 
+    private val _shootList = MutableStateFlow<List<Shoot>>(emptyList())
+    val shootList: StateFlow<List<Shoot>> = _shootList.asStateFlow()
+    fun addShoot(shoot: Shoot) {
+        _shootList.value = _shootList.value.plus(shoot)
+    }
 
-    private infix fun DpOffset.inBoundsOf(sizeDp: DpSize): DpOffset {
-        return when {
-            this.x < 0.dp -> this xStartVerticalBounds sizeDp
-            this.x > sizeDp.width -> this xEndVerticalBounds sizeDp
-            this.y < 0.dp -> this yStartHorizontalBounds sizeDp
-            this.y > sizeDp.height ->  this yEndHorizontalBounds sizeDp
-            else -> this
+    fun getShootVector(): Size = Size(deltaX, deltaY + maxSpeed.value)
+
+    private fun updateShootsListPositions(shootList: List<Shoot>) {
+        for (i in shootList.indices) {
+            if (shootList[i].offsetDp isInBoundsOf displaySizeDp)
+                shootList[i].upDateDpOffset()
         }
     }
 
-    private infix fun DpOffset.xStartVerticalBounds(sizeDp: DpSize): DpOffset =
-        this.verticalBounds( x = 0.dp, verticalBounds = 0.dp..sizeDp.height)
-    private infix fun DpOffset.xEndVerticalBounds(sizeDp: DpSize): DpOffset =
-        this.verticalBounds( x = sizeDp.width, verticalBounds = 0.dp..sizeDp.height)
-    private infix fun DpOffset.yStartHorizontalBounds(sizeDp: DpSize): DpOffset =
-        this.horizontalBounds( y = 0.dp, horizontalBounds = 0.dp..sizeDp.width)
-    private infix fun DpOffset.yEndHorizontalBounds(sizeDp: DpSize): DpOffset =
-        this.horizontalBounds( y = sizeDp.height, horizontalBounds = 0.dp..sizeDp.width)
-
-    private fun DpOffset.verticalBounds(x: Dp, verticalBounds: ClosedRange<Dp>): DpOffset = when {
-        this.y < verticalBounds.start -> DpOffset(x, verticalBounds.start)
-        this.y > verticalBounds.endInclusive -> DpOffset(x, verticalBounds.endInclusive)
-        else -> DpOffset(x, this.y)
-    }
-
-    private fun DpOffset.horizontalBounds(y: Dp, horizontalBounds: ClosedRange<Dp>): DpOffset = when {
-        this.x < horizontalBounds.start -> DpOffset(horizontalBounds.start, y)
-        this.x > horizontalBounds.endInclusive -> DpOffset(horizontalBounds.endInclusive, y)
-        else -> DpOffset(this.x, y)
+    private fun updateShootsMotions() {
+        updateShootsListPositions( shootList.value )
+        val newShootsList = shootList.value.cloneIfInBounds(displaySizeDp)
+        _shootList.value = newShootsList
     }
 
     fun getTargetAngle(motion: Motions, speed: SpeedMagnitude): Float = when {
