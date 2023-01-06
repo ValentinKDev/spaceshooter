@@ -10,10 +10,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.AmmunitionViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.MunitionsViewModel
 
 @Composable
-fun AmmunitionView(vm: AmmunitionViewModel) {
+fun AmmunitionView(vm: MunitionsViewModel) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 

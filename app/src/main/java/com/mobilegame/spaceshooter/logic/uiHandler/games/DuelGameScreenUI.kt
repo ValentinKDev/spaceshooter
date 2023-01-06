@@ -22,6 +22,8 @@ class DuelGameScreenUI(displaySize: Size) {
         var displayDp: DpSize = displaySize.toDpSize()
         var shipBox: Float = displaySize.height * 0.11F
         var shipBoxDp: Dp = shipBox.toDp()
+        private val shipBoxCenter = shipBox / 2F
+        val shipBoxCenterDp = shipBoxCenter.toDp()
         var displayDpDeltaBox: DpSize = DpSize(
             width = displayDp.width - shipBoxDp,
             height = displayDp.height - shipBoxDp,

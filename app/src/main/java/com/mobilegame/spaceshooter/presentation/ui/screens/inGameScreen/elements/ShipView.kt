@@ -9,7 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.DuelGameViewModel
-import com.mobilegame.spaceshooter.presentation.ui.screens.utils.spaceShips.DefaultShip
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.DefaultShip
 import com.mobilegame.spaceshooter.utils.extensions.*
 
 @Composable

@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.utils.spaceShips
+package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize

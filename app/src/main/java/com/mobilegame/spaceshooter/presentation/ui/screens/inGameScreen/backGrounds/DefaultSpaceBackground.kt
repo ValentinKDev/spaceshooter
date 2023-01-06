@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import com.mobilegame.spaceshooter.presentation.ui.screens.utils.spaceShips.DefaultShip
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.DefaultShip
 
 @Composable
 fun DefaultSpaceBackGround(content: @Composable () -> Unit) {

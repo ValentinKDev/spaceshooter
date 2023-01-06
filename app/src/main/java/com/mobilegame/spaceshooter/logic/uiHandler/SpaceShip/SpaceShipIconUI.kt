@@ -21,7 +21,8 @@ class SpaceShipIconUI(type: SpaceShipType = SpaceShipType.Default, shipBox: Floa
     data class ColorsSpaceShipIcon (
         var strokes: Color = MyColor.applicationContrast,
         var body: Color = MyColor.applicationBackground,
-        var munitions: Color = MyColor.applicationContrast
+        var ammo: Color = MyColor.applicationContrast,
+        var shoot: Color = MyColor.defaultShip
     )
 
     class SizesSpaceShipIcon (shipBox: Float) {
@@ -39,6 +40,7 @@ class SpaceShipIconUI(type: SpaceShipType = SpaceShipType.Default, shipBox: Floa
     class MunitionsSpaceShipIcon(shipBox: Float) {
         val width = shipBox
         val radius: Float = width * 0.1F
+        val innerRadius: Float = radius * 0.8F
         private val delta: Float = width * 0.25F
         private val distance: Float = (width / 2F) + delta
         private val center: Float = width / 2F

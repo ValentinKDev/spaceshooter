@@ -1,5 +1,6 @@
 package com.mobilegame.spaceshooter.utils.extensions
 
+import androidx.compose.ui.node.modifierElementOf
 import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
 import com.mobilegame.spaceshooter.utils.analyze.eLog
@@ -25,6 +26,7 @@ fun List<Shoot>.cloneIfInBounds(boundaries: DpSize): List<Shoot> {
             mutableList.add(
                 Shoot(
                     type = shoot.type,
+                    motion = shoot.motion,
                     from = shoot.from,
                     vector = shoot.vector,
                     offsetDp = shoot.offsetDp
@@ -39,6 +41,7 @@ fun List<Shoot>.clone(): List<Shoot> {
         mutableList.add(
             Shoot(
                 type = shoot.type,
+                motion = shoot.motion,
                 from = shoot.from,
                 vector = shoot.vector,
                 offsetDp = shoot.offsetDp

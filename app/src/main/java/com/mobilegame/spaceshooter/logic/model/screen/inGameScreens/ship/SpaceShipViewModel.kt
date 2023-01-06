@@ -12,10 +12,11 @@ class SpaceShipViewModel(application: Application, ui: DuelGameScreenUI) : ViewM
     val type = ShipType.Default
     val motionVM = MotionsViewModel(
         context = application,
-        startPosition = ui.position.pCenterDp,
-        displaySizeDp = ui.sizes.displayDpDeltaBox,
+        ui = ui,
+//        startPosition = ui.position.pCenterDp,
+//        displaySizeDp = ui.sizes.displayDpDeltaBox,
     )
-    val ammoVM = AmmunitionViewModel(motionVM, type)
+    val ammoVM = MunitionsViewModel(motionVM, type)
 
     private val _life = MutableStateFlow(100)
     val life: StateFlow<Int> = _life.asStateFlow()

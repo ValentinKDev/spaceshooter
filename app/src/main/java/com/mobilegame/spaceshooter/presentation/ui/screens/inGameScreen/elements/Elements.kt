@@ -8,5 +8,5 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScre
 fun Elements(vm: DuelGameViewModel) {
     SpaceShipView(vm)
     AmmunitionView(vm.shipVM.ammoVM)
-    ShootsView(vm.shipVM.motionVM)
+    ShootsView(vm)
 }

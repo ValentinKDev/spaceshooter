@@ -117,5 +117,6 @@ inline class MyColor(val color: Color){
         val applicationContrastTransparent = Platinium.alpha(0.75F)
         val applicationBackgroundBannerInitial = Platinium.alpha(0.02F)
         val applicationBackgroundBannerTarget = Platinium.alpha(0.13F)
+        val defaultShip = Bore
     }
 }
