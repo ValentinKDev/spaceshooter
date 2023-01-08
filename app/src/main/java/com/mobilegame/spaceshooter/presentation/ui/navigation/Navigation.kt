@@ -26,6 +26,7 @@ fun Navigation(navigator: Navigator) {
         }.launchIn(this)
     }
 
+//    LifeCycl
     NavHost(
         navController = navController,
         startDestination = Screens.MainScreen.route,

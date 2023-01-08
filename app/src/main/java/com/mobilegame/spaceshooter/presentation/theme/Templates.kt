@@ -53,12 +53,6 @@ private fun Template(
     headBand: @Composable () -> Unit,
     emptySpace: @Composable () -> Unit,
 ) {
-    LaunchedEffect(true) {
-        eLog("Creator", "percent header ${MainTemplateUI.header.percent.height}")
-        eLog("Creator", "percent topdelimiter ${MainTemplateUI.topDelimiter.percent.height}")
-        eLog("Creator", "percent emptySpace ${MainTemplateUI.emptySpace.percent.heightWithoutBand}")
-        eLog("Creator", "percent total ${MainTemplateUI.emptySpace.percent.heightWithoutBand + MainTemplateUI.topDelimiter.percent.height + MainTemplateUI.header.percent.height}")
-    }
     val constraints = remember {
         ConstraintSet {
             val head = createRefFor(MainTemplateUI.header.id)
