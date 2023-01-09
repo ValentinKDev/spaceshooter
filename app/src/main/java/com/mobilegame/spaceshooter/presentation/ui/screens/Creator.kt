@@ -1,30 +1,33 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.MainScreenViewModel
-import com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate.MainTemplateUI
-import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
-import com.mobilegame.spaceshooter.utils.analyze.eLog
-import com.mobilegame.spaceshooter.utils.extensions.alpha
 
 @Composable
 fun Creator(navigator: Navigator,vm: MainScreenViewModel = viewModel()) {
-    TextTruc()
+    Column {
+//        Text(
+//            text = "WRITE YOUR NAME",
+//            color = MaterialTheme.colorScheme.background,
+//            fontSize = 20.sp,
+//            modifier = Modifier.fillMaxWidth()
+//        )
+//        TextTruc()
+    }
 //    Template(
 //        type = TemplatesType.WithoutHeadBand,
 //        type = TemplatesType.WithHeadBand,

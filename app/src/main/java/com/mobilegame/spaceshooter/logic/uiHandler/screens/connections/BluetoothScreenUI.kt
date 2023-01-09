@@ -1,7 +1,8 @@
-package com.mobilegame.spaceshooter.logic.uiHandler
+package com.mobilegame.spaceshooter.logic.uiHandler.screens.connections
 
+import com.mobilegame.spaceshooter.logic.uiHandler.Device
 import com.mobilegame.spaceshooter.logic.uiHandler.Icons.BluetoothIcon
-import com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate.MainTemplateUI
+import com.mobilegame.spaceshooter.logic.uiHandler.template.MainTemplateUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 
 class BluetoothScreenUI {

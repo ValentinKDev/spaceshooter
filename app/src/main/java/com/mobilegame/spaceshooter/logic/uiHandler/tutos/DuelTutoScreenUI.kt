@@ -5,7 +5,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.logic.uiHandler.Device
-import com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate.MainTemplateUI
+import com.mobilegame.spaceshooter.logic.uiHandler.template.MainTemplateUI
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.analyze.wLog

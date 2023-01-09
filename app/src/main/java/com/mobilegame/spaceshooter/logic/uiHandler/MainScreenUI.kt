@@ -6,7 +6,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.mobilegame.spaceshooter.logic.uiHandler.Icons.BluetoothIcon
 import com.mobilegame.spaceshooter.logic.uiHandler.Icons.WifiIcon
-import com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate.MainTemplateUI
+import com.mobilegame.spaceshooter.logic.uiHandler.template.MainTemplateUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.extensions.alpha
 import com.mobilegame.spaceshooter.utils.extensions.toDp

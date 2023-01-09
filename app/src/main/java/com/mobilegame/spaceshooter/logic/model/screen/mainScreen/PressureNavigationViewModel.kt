@@ -14,7 +14,7 @@ class PressureNavigationViewModel(private val screenNav: Screens) : ViewModel() 
 //    private var screenNav: Screens? = null
     private var pressureState: Boolean = false
     private var pressureNumber: Int = 0
-    private val timerValidation = 900L
+    private val timerValidation = 700L
     val timerValidationAnim = (timerValidation * 1F).toInt()
 
     fun setPressureStateTo(state: Boolean) { pressureState = state }

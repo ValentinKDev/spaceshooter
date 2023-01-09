@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate
+package com.mobilegame.spaceshooter.logic.uiHandler.template
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp

@@ -1,10 +1,9 @@
-package com.mobilegame.spaceshooter.presentation.theme
+package com.mobilegame.spaceshooter.presentation.ui.template
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
@@ -13,53 +12,13 @@ import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.PressureNavigationViewModel
-import com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate.MainTemplateUI
+import com.mobilegame.spaceshooter.logic.uiHandler.template.MainTemplateUI
+import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.backButton.BackButton
-import com.mobilegame.spaceshooter.utils.analyze.eLog
-
 
 @Composable
-fun TemplateWithoutBand(
-    navigator: Navigator,
-    backNav: Screens,
-    header: @Composable () -> Unit,
-    emptySpace: @Composable () -> Unit,
-) {
-    Template(
-        type = TemplatesType.WithoutHeadBand,
-        navigator = navigator,
-        backNav = backNav,
-        header = { header.invoke() },
-        headBand = { },
-        emptySpace = { emptySpace.invoke()}
-    )
-}
-
-private enum class TemplatesType {
-    WithHeadBand, WithoutHeadBand
-}
-
-@Composable
-fun TemplateWithBand(
-    navigator: Navigator,
-    backNav: Screens,
-    header: @Composable () -> Unit,
-    band: @Composable () -> Unit,
-    emptySpace: @Composable () -> Unit,
-) {
-    Template(
-        type = TemplatesType.WithHeadBand,
-        navigator = navigator,
-        backNav = backNav,
-        header = { header.invoke() },
-        headBand = { band.invoke() },
-        emptySpace = { emptySpace.invoke()}
-    )
-}
-
-@Composable
-private fun Template(
+internal fun Template(
     type: TemplatesType,
     navigator: Navigator,
     backNav: Screens,

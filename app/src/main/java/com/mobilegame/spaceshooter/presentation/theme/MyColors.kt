@@ -105,7 +105,8 @@ inline class MyColor(val color: Color){
         val GreenXanadou = Color(0XFF667761)
         val Redwood = Color(0XFF8D5B4C)
         val BlastOffBronze = Color(0xFF9f6856)
-        val Bore = Color(0xFF855747)
+        val Bole = Color(0xFF855747)
+        val Liver = Color(0xFF6A4539)
         val GoldMetallic = Color(0XFFDDB967)
         val AeroBlue = Color(0XFFB2FAEB)
 
@@ -117,6 +118,6 @@ inline class MyColor(val color: Color){
         val applicationContrastTransparent = Platinium.alpha(0.75F)
         val applicationBackgroundBannerInitial = Platinium.alpha(0.02F)
         val applicationBackgroundBannerTarget = Platinium.alpha(0.13F)
-        val defaultShip = Bore
+        val defaultShip = Bole
     }
 }

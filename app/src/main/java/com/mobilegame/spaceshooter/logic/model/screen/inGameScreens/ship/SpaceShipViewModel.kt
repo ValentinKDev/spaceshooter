@@ -3,7 +3,7 @@ package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.MotionsViewModel
-import com.mobilegame.spaceshooter.logic.uiHandler.games.DuelGameScreenUI
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.DuelGameScreenUI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

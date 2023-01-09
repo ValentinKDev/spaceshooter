@@ -11,7 +11,7 @@ import com.mobilegame.spaceshooter.data.sensor.GravitySensor
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
 import com.mobilegame.spaceshooter.logic.model.sensor.AccelerometerViewModel
 import com.mobilegame.spaceshooter.logic.model.sensor.XYZ
-import com.mobilegame.spaceshooter.logic.uiHandler.games.DuelGameScreenUI
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.DuelGameScreenUI
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
