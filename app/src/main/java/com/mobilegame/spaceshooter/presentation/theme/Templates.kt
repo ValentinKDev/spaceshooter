@@ -11,17 +11,25 @@ import androidx.compose.ui.layout.layoutId
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import com.mobilegame.spaceshooter.logic.model.screen.Screens
+import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.PressureNavigationViewModel
 import com.mobilegame.spaceshooter.logic.uiHandler.mainTemplate.MainTemplateUI
+import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
+import com.mobilegame.spaceshooter.presentation.ui.screens.utils.backButton.BackButton
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 
 
 @Composable
 fun TemplateWithoutBand(
+    navigator: Navigator,
+    backNav: Screens,
     header: @Composable () -> Unit,
     emptySpace: @Composable () -> Unit,
 ) {
     Template(
         type = TemplatesType.WithoutHeadBand,
+        navigator = navigator,
+        backNav = backNav,
         header = { header.invoke() },
         headBand = { },
         emptySpace = { emptySpace.invoke()}
@@ -34,12 +42,16 @@ private enum class TemplatesType {
 
 @Composable
 fun TemplateWithBand(
+    navigator: Navigator,
+    backNav: Screens,
     header: @Composable () -> Unit,
     band: @Composable () -> Unit,
     emptySpace: @Composable () -> Unit,
 ) {
     Template(
         type = TemplatesType.WithHeadBand,
+        navigator = navigator,
+        backNav = backNav,
         header = { header.invoke() },
         headBand = { band.invoke() },
         emptySpace = { emptySpace.invoke()}
@@ -49,6 +61,9 @@ fun TemplateWithBand(
 @Composable
 private fun Template(
     type: TemplatesType,
+    navigator: Navigator,
+    backNav: Screens,
+    vm: PressureNavigationViewModel = PressureNavigationViewModel(backNav),
     header: @Composable () -> Unit,
     headBand: @Composable () -> Unit,
     emptySpace: @Composable () -> Unit,
@@ -60,6 +75,7 @@ private fun Template(
             val band = createRefFor(MainTemplateUI.band.id)
             val bottomDelimiter = createRefFor(MainTemplateUI.bottomDelimiter.id)
             val space = createRefFor(MainTemplateUI.emptySpace.id)
+            val backButton = createRefFor(MainTemplateUI.backButton.id)
 
             constrain( head ) {
                 top.linkTo(parent.top)
@@ -70,11 +86,18 @@ private fun Template(
                 height = Dimension.percent(MainTemplateUI.header.percent.height)
             }
 
+            constrain( backButton ) {
+                top.linkTo(head.top)
+                start.linkTo(head.start)
+                bottom.linkTo(head.bottom)
+                width = Dimension.wrapContent
+                height = Dimension.wrapContent
+            }
+
             constrain( topDelimiter ) {
                 top.linkTo(head.bottom)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
-//                bottom.linkTo(space.top)
                 width = Dimension.fillToConstraints
                 height = Dimension.percent(MainTemplateUI.topDelimiter.percent.height)
             }
@@ -98,12 +121,6 @@ private fun Template(
             }
 
             constrain( space ) {
-//                top.linkTo(
-//                    when (type) {
-//                        TemplatesType.WithoutHeadBand -> topDelimiter.bottom
-//                        TemplatesType.WithHeadBand -> bottomDelimiter.bottom
-//                    }
-//                )
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
                 bottom.linkTo(parent.bottom)
@@ -120,8 +137,11 @@ private fun Template(
     ConstraintLayout(constraints, Modifier.fillMaxSize()) {
         Box(
             Modifier
-//                .background(Color.Blue.alpha(0.5F))
-                .layoutId(MainTemplateUI.header.id)) { header.invoke() }
+                .layoutId(MainTemplateUI.header.id)
+        ) { header.invoke() }
+        Box(
+            Modifier.layoutId(MainTemplateUI.backButton.id)
+        ) { BackButton(vm, navigator = navigator) }
         Box(
             Modifier
                 .background(MyColor.Platinium)
@@ -129,8 +149,8 @@ private fun Template(
         if (type == TemplatesType.WithHeadBand) {
             Box(
                 Modifier
-//                    .background(Color.Magenta.alpha(0.5F))
-                    .layoutId(MainTemplateUI.band.id) ) { headBand.invoke() }
+                    .layoutId(MainTemplateUI.band.id)
+            ) { headBand.invoke() }
             Box(
                 Modifier
                     .background(MyColor.Platinium)
@@ -138,7 +158,7 @@ private fun Template(
         }
         Box(
             Modifier
-//                .background(Color.Yellow.alpha(0.5F))
-                .layoutId(MainTemplateUI.emptySpace.id) ) { emptySpace.invoke() }
+                .layoutId(MainTemplateUI.emptySpace.id)
+        ) { emptySpace.invoke() }
     }
 }

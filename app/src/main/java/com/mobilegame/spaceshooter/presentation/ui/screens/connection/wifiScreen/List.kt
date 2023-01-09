@@ -1,9 +1,9 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.wifiScreen
 
 import androidx.compose.runtime.Composable
-import com.mobilegame.spaceshooter.logic.model.screen.wifiScreen.WifiScreenViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen.WifiScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.PaddingComposable
-import com.mobilegame.spaceshooter.presentation.ui.screens.wifiScreen.elements.WifiBanner
+import com.mobilegame.spaceshooter.presentation.ui.screens.connection.wifiScreen.elements.WifiBanner
 
 @Composable
 internal fun List(vm: WifiScreenViewModel) {

@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.model.screen.bluetoothScreen
+package com.mobilegame.spaceshooter.logic.model.screen.connection.bluetoothScreen
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -10,5 +10,5 @@ class BluetoothScreenViewModel(application: Application): AndroidViewModel(appli
 
     val ui = BluetoothScreenUI()
 
-    val backButtonPressureNavigationVM = PressureNavigationViewModel().create(Screens.MainScreen)
+//    val backButtonPressureNavigationVM = PressureNavigationViewModel().create(Screens.MainScreen)
 }

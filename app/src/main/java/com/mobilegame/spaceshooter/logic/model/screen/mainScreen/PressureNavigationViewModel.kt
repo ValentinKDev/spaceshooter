@@ -6,11 +6,12 @@ import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.analyze.vLog
+import com.mobilegame.spaceshooter.utils.extensions.exist
 import kotlinx.coroutines.*
 
-class PressureNavigationViewModel() : ViewModel() {
+class PressureNavigationViewModel(private val screenNav: Screens) : ViewModel() {
 
-    private var screenNav: Screens? = null
+//    private var screenNav: Screens? = null
     private var pressureState: Boolean = false
     private var pressureNumber: Int = 0
     private val timerValidation = 900L
@@ -31,13 +32,8 @@ class PressureNavigationViewModel() : ViewModel() {
     private suspend fun timer(navigator: Navigator) {
         val pressureNumberAtStart = pressureNumber
         delay(timerValidation.toLong())
-        if (pressureState && pressureNumberAtStart == pressureNumber) {
-            screenNav?.let {
-                eLog("PressureNavVM::startTimer", "Go to ${it.route}")
-                navigator.navig(it)
-            }
-        } else {
-            eLog("PressureNavVM::startTimer", "User release button before the end")
+        if (pressureState && pressureNumberAtStart == pressureNumber && screenNav.exist()) {
+                navigator.navig(screenNav)
         }
     }
 
@@ -47,8 +43,8 @@ class PressureNavigationViewModel() : ViewModel() {
     }
 
     //todo : put screen in the class params
-    fun create(screen: Screens): PressureNavigationViewModel {
-        screenNav = screen
-        return this
-    }
+//    fun create(screen: Screens): PressureNavigationViewModel {
+//        screenNav = screen
+//        return this
+//    }
 }

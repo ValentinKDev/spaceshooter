@@ -1,7 +1,6 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreens.duelTutoScreen.emulator
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -18,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.logic.model.screen.tutoScreen.TutoScreenViewModel
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
-import com.mobilegame.spaceshooter.utils.extensions.alpha
 
 @Composable
 fun SmartphoneSkin(vm: TutoScreenViewModel) {

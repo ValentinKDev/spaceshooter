@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.bluetoothScreen
+package com.mobilegame.spaceshooter.presentation.ui.screens.connection.bluetoothScreen
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.*

@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 class MainScreenViewModel(): ViewModel() {
     val ui = MainScreenUI()
 
-    val bluetoothPressure = PressureNavigationViewModel().create(Screens.BluetoothScreen)
-    val wifiPressure = PressureNavigationViewModel().create(Screens.WifiScreen)
+    val bluetoothPressure = PressureNavigationViewModel(Screens.BluetoothScreen)
+    val wifiPressure = PressureNavigationViewModel(Screens.WifiScreen)
 
     fun handleTutoButtonClick(navigator: Navigator) {
         viewModelScope.launch(Dispatchers.IO) {

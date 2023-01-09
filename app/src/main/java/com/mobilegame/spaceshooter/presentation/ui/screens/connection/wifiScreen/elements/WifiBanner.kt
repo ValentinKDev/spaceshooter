@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.wifiScreen.elements
+package com.mobilegame.spaceshooter.presentation.ui.screens.connection.wifiScreen.elements
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.*

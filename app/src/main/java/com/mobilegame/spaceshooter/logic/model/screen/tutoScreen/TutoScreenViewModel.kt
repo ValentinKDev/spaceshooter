@@ -11,5 +11,5 @@ class TutoScreenViewModel(application: Application): AndroidViewModel(applicatio
     val ui = DuelTutoScreenUI()
     val gameVM = DuelGameViewModel(application, ui.smartphoneEmulator.sizes.screenInner)
 
-    val backButtonPressureNavigationVM = PressureNavigationViewModel().create(Screens.MainScreen)
+    val backButtonPressureNavigationVM = PressureNavigationViewModel(Screens.DuelTutoScreen.backNav)
 }

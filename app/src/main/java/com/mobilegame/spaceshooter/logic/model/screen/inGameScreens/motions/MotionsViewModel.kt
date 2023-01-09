@@ -2,13 +2,9 @@ package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions
 
 import android.content.Context
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.sensor.GravitySensor
@@ -16,7 +12,6 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScre
 import com.mobilegame.spaceshooter.logic.model.sensor.AccelerometerViewModel
 import com.mobilegame.spaceshooter.logic.model.sensor.XYZ
 import com.mobilegame.spaceshooter.logic.uiHandler.games.DuelGameScreenUI
-import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

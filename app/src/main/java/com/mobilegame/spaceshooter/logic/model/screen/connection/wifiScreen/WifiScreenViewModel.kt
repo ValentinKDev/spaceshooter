@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.model.screen.wifiScreen
+package com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -8,5 +8,6 @@ import com.mobilegame.spaceshooter.logic.uiHandler.WifiScreenUI
 
 class WifiScreenViewModel(application: Application): AndroidViewModel(application) {
     val ui = WifiScreenUI()
-    val backButtonPressureNavigationVM = PressureNavigationViewModel().create(Screens.MainScreen)
+//    val backButtonPressureNavigationVM = PressureNavigationViewModel().create(Screens.MainScreen)
+//    val backButtonPressureNavigationVM = PressureNavigationViewModel().create(Screens.MainScreen)
 }
