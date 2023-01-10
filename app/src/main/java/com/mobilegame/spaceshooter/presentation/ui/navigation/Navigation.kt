@@ -31,10 +31,10 @@ fun Navigation(navigator: Navigator) {
 //    LifeCycl
     NavHost(
         navController = navController,
-        startDestination = Screens.MainScreen.route,
+//        startDestination = Screens.MainScreen.route,
 //        startDestination = Screens.BluetoothScreen.route,
 //        startDestination = Screens.DuelTutoScreen.route,
-//        startDestination = Screens.Creator.route,
+        startDestination = Screens.Creator.route,
 //        startDestination = Screens.Test.route,
     ) {
         composable(route = Screens.MainScreen.route) { MainScreen(navigator) }

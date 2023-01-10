@@ -22,10 +22,8 @@ import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.MainScreenViewM
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
-import com.mobilegame.spaceshooter.utils.analyze.eLog
-import com.mobilegame.spaceshooter.utils.extensions.alpha
-import com.mobilegame.spaceshooter.utils.extensions.toRad
 import com.mobilegame.spaceshooter.utils.extensions.fromDp
+import com.mobilegame.spaceshooter.utils.extensions.reverseElements
 import com.mobilegame.spaceshooter.utils.extensions.toRadian
 import kotlin.math.cos
 import kotlin.math.sin
@@ -36,83 +34,184 @@ fun Creator(navigator: Navigator,vm: MainScreenViewModel = viewModel()) {
         Row {
             DrawD()
             Spacer(Modifier.width(10.dp))
-//            DrawE()
+            DrawU()
+            Spacer(Modifier.width(10.dp))
+//            DrawEllipse()
         }
     }
 }
 
-@Composable
-fun DrawE() {
+//  E, L, S, P, A, C, E, H, I, P, W, R, T, O, N, I, Y
+// spaceShooter, duel, spaceship, wars, spacewar stats, donations, hockey
+// SPACEWAR, HOCKEY, STATS, DONATIONS
 
+@Composable
+fun DrawU() {
+    val listEllipseOffsetExt = remember {
+        getListEllipseOffset(
+            center = Offset(50.dp.fromDp(), 69.dp.fromDp()),
+            radius = 30.5.dp.fromDp(),
+            alphaX = 1.6F,
+            betaY = 1F,
+            angleRange = (-180F..0F).toRadian()
+        )
+    }
+    val listEllipseOffsetInt = remember {
+        getListEllipseOffset(
+            center = Offset(50.dp.fromDp(), 65.dp.fromDp()),
+            radius = 16.5.dp.fromDp(),
+            alphaX = 1.4F,
+            betaY = 0.7F,
+            angleRange = (-180F..0F).toRadian()
+        ).reverseElements()
+//            .reverseElements()
+    }
+    val pathEllipse = Path().apply {
+        moveTo(listEllipseOffsetInt[0].x, listEllipseOffsetInt[0].y - 127F)
+        lineTo(listEllipseOffsetInt[0].x, listEllipseOffsetInt[0].y)
+        var i = 1
+        while (i in 1 until listEllipseOffsetInt.size) {
+            val point = Offset(listEllipseOffsetInt[i].x, listEllipseOffsetInt[i].y)
+            lineTo(point.x, point.y)
+            i += 1
+        }
+//        lineTo(listEllipseOffsetInt[i - 1].x, listEllipseOffsetInt[i-1].y - 127F)
+    }
+    val pathU = Path().apply {
+        moveTo(listEllipseOffsetExt[0].x, listEllipseOffsetExt[0].y - 135F)
+        lineTo(listEllipseOffsetExt[0].x, listEllipseOffsetExt[0].y)
+        var i = 1
+        while (i in 1 until listEllipseOffsetExt.size) {
+            val point = Offset(listEllipseOffsetExt[i].x, listEllipseOffsetExt[i].y)
+            lineTo(point.x, point.y)
+            i += 1
+        }
+        lineTo(listEllipseOffsetExt[i-1].x, listEllipseOffsetExt[i-1].y - 135F)
+
+        lineTo(listEllipseOffsetInt[0].x, listEllipseOffsetInt[0].y - 127F)
+        lineTo(listEllipseOffsetInt[0].x, listEllipseOffsetInt[0].y)
+        i = 1
+        while (i in 1 until listEllipseOffsetInt.size) {
+            val point = Offset(listEllipseOffsetInt[i].x, listEllipseOffsetInt[i].y)
+            lineTo(point.x, point.y)
+            i += 1
+        }
+        lineTo(listEllipseOffsetInt[i - 1].x, listEllipseOffsetInt[i-1].y - 127F)
+
+        lineTo(listEllipseOffsetExt[0].x, listEllipseOffsetExt[0].y - 135F)
+    }
+    Canvas(
+        Modifier
+            .size(100.dp)
+//            .background(Color.Black)
+    ) {
+        drawPath(
+            path = pathEllipse,
+            color = MyColor.Platinium,
+            style = Stroke(width = 5F, cap = StrokeCap.Round, join = StrokeJoin.Round),
+        )
+        drawPath(
+            path = pathU,
+            color = MyColor.Platinium,
+            style = Stroke(width = 5F, cap = StrokeCap.Round, join = StrokeJoin.Round),
+        )
+    }
 }
 
-@Composable
-fun DrawD() {
-        val listDEx = remember { getListCircleOffset(Offset(50.dp.fromDp(), 50.dp.fromDp()), 50.dp.fromDp(), (-95F..95F).toRadian())}
-        val listDIn = remember { getListCircleOffset(Offset(50.dp.fromDp(), 50.dp.fromDp()), 25.dp.fromDp(), (-95F..95F).toRadian())}
-        val pathDIn = Path().apply {
-            moveTo(listDIn[0].x - 30, listDIn[0].y)
-            lineTo(listDIn[0].x, listDIn[0].y)
-            var i = 1
-            while (i in 1 until listDIn.size) {
-                val point = Offset(listDIn[i].x, listDIn[i].y)
-                lineTo(point.x, point.y)
-                i += 1
-            }
-            lineTo(listDIn[i - 1].x - 30, listDIn[i - 1].y)
-            lineTo(listDIn[0].x - 30, listDIn[0].y)
-        }
-        val pathDEx = Path().apply {
-            if (listDEx.isEmpty()) eLog("ERROR", "list Offset size ${listDEx.size}")
-            else {
-                eLog("size", "list Offset size ${listDEx.size}")
-                moveTo(listDEx[0].x - 90, listDEx[0].y)
-                lineTo(listDEx[0].x, listDEx[0].y)
-                var i = 1
-                while (i in 1 until listDEx.size) {
-                    val point = Offset(listDEx[i].x, listDEx[i].y)
-                    lineTo(point.x, point.y)
-                    i += 1
-                }
-                lineTo(listDEx[i-1].x - 90, listDEx[i-1].y)
-                lineTo(listDEx[0].x - 90, listDEx[0].y)
-            }
-        }
-        Canvas(
-            Modifier
-                .size(100.dp)
-//                .background(Color.Yellow.alpha(0.5F))
-        ) {
-            drawPath(
-                path = pathDEx,
-                color = MyColor.Platinium,
-                style = Stroke(width = 5F, cap = StrokeCap.Round, join = StrokeJoin.Round),
-            )
-            drawPath(
-                path = pathDIn,
-                color = MyColor.Platinium,
-                style = Stroke(width = 5F, cap = StrokeCap.Round, join = StrokeJoin.Round),
-            )
-        }
-}
-
-fun getListCircleOffset(center: Offset, radius: Float, angleRange: ClosedFloatingPointRange<Float>): MutableList<Offset> {
+fun getListEllipseOffset(
+    center: Offset,
+    radius: Float,
+    alphaX: Float,
+    betaY: Float,
+    angleRange: ClosedFloatingPointRange<Float>
+): MutableList<Offset> {
     var angle = angleRange.start
     val list = mutableListOf<Offset>()
     while (angle <= angleRange.endInclusive) {
-        list += getCircleOffsetAt(center, radius, angle)
+        list += getEllipseOffsetAt(center, radius, angle, alphaX, betaY)
         angle += 0.01F
     }
     return list
 }
 
-fun getCircleOffsetAt(center: Offset, radius: Float, angle: Float): Offset {
-    val x = radius * cos(angle)
-    val y = radius * sin(angle)
+fun getEllipseOffsetAt(
+    center: Offset,
+    radius: Float,
+    angle: Float,
+    alphaX: Float,
+    betaY: Float,
+): Offset {
+    val x = radius * cos(angle) * alphaX
+    val y = radius * sin(angle) * betaY
     return (Offset(center.x + x, center.y + y))
 }
 
+@Composable
+fun getPathExteriorD(): Path {
+    val listDEx = remember { getListCircleOffset(Offset(50.dp.fromDp(), 50.dp.fromDp()), 50.dp.fromDp(), (-95F..95F).toRadian())}
+    val pathDEx = Path().apply {
+        moveTo(listDEx[0].x - 90, listDEx[0].y)
+        lineTo(listDEx[0].x, listDEx[0].y)
+        var i = 1
+        while (i in 1 until listDEx.size) {
+            val point = Offset(listDEx[i].x, listDEx[i].y)
+            lineTo(point.x, point.y)
+            i += 1
+        }
+        lineTo(listDEx[i-1].x - 90, listDEx[i-1].y)
+        lineTo(listDEx[0].x - 90, listDEx[0].y)
+    }
+    return pathDEx
+}
+@Composable
+fun getPathInteriorD(): Path {
+    val listDIn = remember { getListCircleOffset(Offset(50.dp.fromDp(), 50.dp.fromDp()), 25.dp.fromDp(), (-95F..95F).toRadian())}
 
+    val pathDIn = Path().apply {
+        moveTo(listDIn[0].x - 30, listDIn[0].y)
+        lineTo(listDIn[0].x, listDIn[0].y)
+        var i = 1
+        while (i in 1 until listDIn.size) {
+            val point = Offset(listDIn[i].x, listDIn[i].y)
+            lineTo(point.x, point.y)
+            i += 1
+        }
+        lineTo(listDIn[i - 1].x - 30, listDIn[i - 1].y)
+        lineTo(listDIn[0].x - 30, listDIn[0].y)
+    }
+    return pathDIn
+}
+
+@Composable
+fun DrawD() {
+    val pathDIn = getPathInteriorD()
+    val pathDEx = getPathExteriorD()
+    Canvas(
+        Modifier
+            .size(100.dp)
+    ) {
+        drawPath(
+            path = pathDEx,
+            color = MyColor.Platinium,
+            style = Stroke(width = 5F, cap = StrokeCap.Round, join = StrokeJoin.Round),
+        )
+        drawPath(
+            path = pathDIn,
+            color = MyColor.Platinium,
+            style = Stroke(width = 5F, cap = StrokeCap.Round, join = StrokeJoin.Round),
+        )
+    }
+}
+
+fun getListCircleOffset(center: Offset, radius: Float, angleRange: ClosedFloatingPointRange<Float>): MutableList<Offset> {
+    return getListEllipseOffset(
+        center = center,
+        radius = radius,
+        alphaX = 1F,
+        betaY = 1F,
+        angleRange = angleRange,
+    )
+}
 
 @Composable
 fun TextTruc() {
