@@ -19,6 +19,7 @@ fun BluetoothScreen(navigator: Navigator, vm: BluetoothScreenViewModel = viewMod
     TemplateWithoutBand(
         navigator = navigator,
         backNav = Screens.BluetoothScreen.backNav,
+        ui = vm.ui.template,
         header = {
 //            BlueToothScreenHeader(navigator, vm)
         },

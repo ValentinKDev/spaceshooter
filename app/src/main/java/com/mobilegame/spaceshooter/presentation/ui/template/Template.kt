@@ -12,7 +12,7 @@ import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.PressureNavigationViewModel
-import com.mobilegame.spaceshooter.logic.uiHandler.template.MainTemplateUI
+import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.backButton.BackButton
@@ -23,18 +23,19 @@ internal fun Template(
     navigator: Navigator,
     backNav: Screens,
     vm: PressureNavigationViewModel = PressureNavigationViewModel(backNav),
+    ui: TemplateUI,
     header: @Composable () -> Unit,
     headBand: @Composable () -> Unit,
     emptySpace: @Composable () -> Unit,
 ) {
     val constraints = remember {
         ConstraintSet {
-            val head = createRefFor(MainTemplateUI.header.id)
-            val topDelimiter = createRefFor(MainTemplateUI.topDelimiter.id)
-            val band = createRefFor(MainTemplateUI.band.id)
-            val bottomDelimiter = createRefFor(MainTemplateUI.bottomDelimiter.id)
-            val space = createRefFor(MainTemplateUI.emptySpace.id)
-            val backButton = createRefFor(MainTemplateUI.backButton.id)
+            val head = createRefFor(ui.header.id)
+            val topDelimiter = createRefFor(ui.topDelimiter.id)
+            val band = createRefFor(ui.band.id)
+            val bottomDelimiter = createRefFor(ui.bottomDelimiter.id)
+            val space = createRefFor(ui.emptySpace.id)
+            val backButton = createRefFor(ui.backButton.id)
 
             constrain( head ) {
                 top.linkTo(parent.top)
@@ -42,7 +43,7 @@ internal fun Template(
                 end.linkTo(parent.end)
                 bottom.linkTo(topDelimiter.top)
                 width = Dimension.fillToConstraints
-                height = Dimension.percent(MainTemplateUI.header.percent.height)
+                height = Dimension.percent(ui.percent.header)
             }
 
             constrain( backButton ) {
@@ -58,7 +59,7 @@ internal fun Template(
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
                 width = Dimension.fillToConstraints
-                height = Dimension.percent(MainTemplateUI.topDelimiter.percent.height)
+                height = Dimension.percent(ui.percent.topDelimiter)
             }
 
             constrain( band ) {
@@ -67,7 +68,7 @@ internal fun Template(
                 end.linkTo(parent.end)
                 bottom.linkTo(bottomDelimiter.top)
                 width = Dimension.fillToConstraints
-                height = Dimension.percent(MainTemplateUI.band.percent.height)
+                height = Dimension.percent(ui.percent.band)
             }
 
             constrain( bottomDelimiter ) {
@@ -76,7 +77,7 @@ internal fun Template(
                 end.linkTo(parent.end)
                 bottom.linkTo(space.top)
                 width = Dimension.fillToConstraints
-                height = Dimension.percent(MainTemplateUI.bottomDelimiter.percent.height)
+                height = Dimension.percent(ui.percent.bottomDelimiter)
             }
 
             constrain( space ) {
@@ -86,38 +87,38 @@ internal fun Template(
                 width = Dimension.fillToConstraints
                 height = Dimension.percent(
                     when (type) {
-                        TemplatesType.WithoutHeadBand -> MainTemplateUI.emptySpace.percent.heightWithoutBand
-                        TemplatesType.WithHeadBand -> MainTemplateUI.emptySpace.percent.heightWithBand
+                        TemplatesType.WithoutHeadBand -> ui.percent.emptySpaceWithoutBand
+                        TemplatesType.WithHeadBand -> ui.percent.emptySpaceWithBand
                     }
                 )
             }
         }
     }
-    ConstraintLayout(constraints, Modifier.fillMaxSize()) {
+    ConstraintLayout(constraints, Modifier.fillMaxSize().background(MyColor.applicationBackground)) {
         Box(
             Modifier
-                .layoutId(MainTemplateUI.header.id)
+                .layoutId(ui.header.id)
         ) { header.invoke() }
         Box(
-            Modifier.layoutId(MainTemplateUI.backButton.id)
-        ) { BackButton(vm, navigator = navigator) }
+            Modifier.layoutId(ui.backButton.id)
+        ) { BackButton(vm, navigator = navigator, ui.backButton) }
         Box(
             Modifier
                 .background(MyColor.Platinium)
-                .layoutId(MainTemplateUI.topDelimiter.id) )
+                .layoutId(ui.topDelimiter.id) )
         if (type == TemplatesType.WithHeadBand) {
             Box(
                 Modifier
-                    .layoutId(MainTemplateUI.band.id)
+                    .layoutId(ui.band.id)
             ) { headBand.invoke() }
             Box(
                 Modifier
                     .background(MyColor.Platinium)
-                    .layoutId(MainTemplateUI.bottomDelimiter.id) )
+                    .layoutId(ui.bottomDelimiter.id) )
         }
         Box(
             Modifier
-                .layoutId(MainTemplateUI.emptySpace.id)
+                .layoutId(ui.emptySpace.id)
         ) { emptySpace.invoke() }
     }
 }

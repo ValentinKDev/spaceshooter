@@ -9,24 +9,24 @@ import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.wLog
 import com.mobilegame.spaceshooter.utils.extensions.toDp
 
-class BackButtonUI() {
+class BackButtonUI(percent: TemplateUI.TemplatePercents) {
     val id = "back_button"
     val padding = PaddingBackButton()
     val colors = ColorsBackButton()
     val points = PointsBackButton()
-    val sizes = SizesBackButton()
+    val sizes = SizesBackButton(percent)
 
     init { initPoints() }
 
     data class PaddingBackButton (
         var start: Float = 0.01F,
     )
-    data class SizesBackButton (
-        val boxHeight: Float = Device.height * (MainTemplateUI.headerHeightWeight / MainTemplateUI.allWeights),
-        val boxHeightDp: Dp = boxHeight.toDp(),
-        val canvas: Float = boxHeight * 0.75F,
-        val canvasDp: Dp = canvas.toDp(),
-    )
+    class SizesBackButton(percent: TemplateUI.TemplatePercents) {
+        val boxHeight: Float = percent.header * Device.height
+        val boxHeightDp: Dp = boxHeight.toDp()
+        val canvas: Float = boxHeight * 0.75F
+        val canvasDp: Dp = canvas.toDp()
+    }
     data class ColorsBackButton (
         val contrast: Color = MyColor.applicationContrast,
         val background: Color = MyColor.applicationBackground,

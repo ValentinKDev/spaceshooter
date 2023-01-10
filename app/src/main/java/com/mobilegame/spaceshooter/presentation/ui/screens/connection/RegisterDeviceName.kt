@@ -20,55 +20,47 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.connection.registerDevice.RegisterDeviceViewModel
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.elements.Keyboard.MyKeyboard
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
+import com.mobilegame.spaceshooter.presentation.ui.template.TemplateWithBand
+import com.mobilegame.spaceshooter.presentation.ui.template.TemplateWithoutBand
 import kotlinx.coroutines.delay
 
 @Composable
 fun RegisterDeviceName(navigator: Navigator, vm: RegisterDeviceViewModel = viewModel()) {
-    Column(Modifier.fillMaxSize()) {
-        Column(
-            Modifier
-                .weight(1F)
-                .fillMaxSize()
-        ) {
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .weight(10F)) {
-                CenterComposable(id = "instruction") {
-                    Text(
-                        text = "ENTER YOUR NAME :",
-                        color = MaterialTheme.colorScheme.background,
-                        modifier = Modifier.wrapContentSize(),
-                        style = TextStyle(
-                            color = Color.Black,
-                            fontSize = 30.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                        )
+    TemplateWithoutBand(
+        navigator = navigator,
+        backNav = Screens.MainScreen,
+        ui = vm.ui.template,
+        header = {
+            CenterComposable(id = "instruction") {
+                Text(
+                    text = "ENTER YOUR NAME :",
+                    color = MaterialTheme.colorScheme.background,
+                    modifier = Modifier.wrapContentSize(),
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontSize = 30.sp,
+                        fontWeight = FontWeight.ExtraBold,
                     )
+                )
+            }
+        },
+        emptySpace = {
+            Column() {
+                Box(Modifier.weight(1F)) {
+                    MyTextField(vm)
+                }
+                Box(Modifier.weight(1F)) {
+                    MyKeyboard()
                 }
             }
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .weight(1F)
-                    .background(MyColor.Platinium))
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .weight(25F)
-            ) {
-                MyTextField(vm)
-            }
         }
-        Box(Modifier.weight(1F)) {
-            MyKeyboard()
-        }
-    }
+    )
 }
 
 @Composable

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.uiHandler.MainScreenUI
+import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

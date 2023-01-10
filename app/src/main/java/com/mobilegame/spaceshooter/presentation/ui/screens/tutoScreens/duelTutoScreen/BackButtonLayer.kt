@@ -14,13 +14,13 @@ fun BackButtonLayer(vm: TutoScreenViewModel, navigator: Navigator) {
         Modifier
             .fillMaxSize()
     ) {
-        Box( Modifier.weight(vm.ui.template.headerHeightWeight) ) {
+        Box( Modifier.weight(vm.ui.template.percent.header) ) {
             BackButton(
                 vm = vm.backButtonPressureNavigationVM,
                 navigator = navigator,
                 ui = vm.ui.template.backButton
             )
         }
-        Box( Modifier.weight(vm.ui.template.emptySpaceHeightWeight))
+        Box( Modifier.weight(vm.ui.template.percent.emptySpaceWithoutBand))
     }
 }

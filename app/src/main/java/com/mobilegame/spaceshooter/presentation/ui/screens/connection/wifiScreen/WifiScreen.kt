@@ -1,5 +1,6 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.wifiScreen
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -28,7 +29,10 @@ fun WifiScreen(navigator: Navigator, vm: WifiScreenViewModel = viewModel()) {
         TemplateWithoutBand(
             navigator = navigator,
             backNav = Screens.BluetoothScreen.backNav,
-            header = {},
+            ui = vm.ui.template,
+            header = {
+                     Text("du TExt")
+            },
             emptySpace = { List(vm) },
         )
     }

@@ -2,12 +2,14 @@ package com.mobilegame.spaceshooter.logic.uiHandler.screens.connections
 
 import androidx.compose.ui.unit.Dp
 import com.mobilegame.spaceshooter.logic.uiHandler.Device
+import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.analyze.wLog
 import com.mobilegame.spaceshooter.utils.extensions.toDp
 
 class RegisterDeviceNameUI {
+    val template = TemplateUI()
     val keyboard = Keyboard()
 
     class Keyboard {

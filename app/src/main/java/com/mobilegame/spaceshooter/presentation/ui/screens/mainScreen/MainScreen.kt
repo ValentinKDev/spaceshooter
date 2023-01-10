@@ -18,6 +18,7 @@ fun MainScreen(navigator: Navigator, vm: MainScreenViewModel = viewModel()) {
     TemplateWithoutBand(
         navigator = navigator,
         backNav = Screens.MainScreen.backNav,
+        ui = vm.ui.template,
         header = { MainScreenHeader(navigator, vm) },
         emptySpace = { MainScreenBody(navigator, vm) },
     )

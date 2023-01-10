@@ -7,9 +7,12 @@ import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.elements.buttons.BluetoothButton.BlueToothButton
 import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.elements.buttons.WifiButton.WifiButton
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.*
+import com.mobilegame.spaceshooter.utils.analyze.eLog
 
 @Composable
 internal fun MainScreenBody(navigator: Navigator, vm: MainScreenViewModel) {
+    eLog("MainScreenBody", "recompose")
+
     PaddingComposable(
         horizontalPadding = 0.17F,
     ) {

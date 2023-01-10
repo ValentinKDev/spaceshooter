@@ -5,7 +5,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.logic.uiHandler.Device
-import com.mobilegame.spaceshooter.logic.uiHandler.template.MainTemplateUI
+import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.analyze.wLog
@@ -15,7 +15,7 @@ import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 class DuelTutoScreenUI() {
     var generalLayout = GeneralLayoutTutoScreen()
     var smartphoneEmulator = SmartphoneEmulatorTutoScreen(generalLayout)
-    var template = MainTemplateUI
+    var template = TemplateUI()
 
     class SmartphoneEmulatorTutoScreen(generalLayout: GeneralLayoutTutoScreen) {
         val idTop = "smartphone_emulator_top"

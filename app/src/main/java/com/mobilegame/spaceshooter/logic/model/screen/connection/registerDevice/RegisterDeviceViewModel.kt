@@ -5,12 +5,14 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.lifecycle.AndroidViewModel
 import com.mobilegame.spaceshooter.data.store.DataStoreService
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.RegisterDeviceNameUI
+import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class RegisterDeviceViewModel(application: Application): AndroidViewModel(application) {
     val ui = RegisterDeviceNameUI()
+//    val templateUI = TemplateUI()
     val deviceNameDatastore = DataStoreService.createDeviceName(application)
 
     private val _input = MutableStateFlow("")
