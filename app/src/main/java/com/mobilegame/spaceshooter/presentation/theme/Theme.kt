@@ -13,20 +13,13 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.logic.uiHandler.Device
 import com.mobilegame.spaceshooter.presentation.ui.screens.lock.LockScreenOrientation
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.HideScreenBars
-import com.mobilegame.spaceshooter.utils.analyze.eLog
-import com.mobilegame.spaceshooter.utils.extensions.fromDp
-import com.mobilegame.spaceshooter.utils.extensions.toDp
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,

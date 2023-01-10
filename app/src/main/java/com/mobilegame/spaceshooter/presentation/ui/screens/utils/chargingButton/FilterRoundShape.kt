@@ -10,10 +10,11 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 
 @Composable
-internal fun FilterRoundShape(sizeDp: Dp) {
+internal fun FilterRoundShape(sizeDp: DpSize) {
     Box(
         Modifier
             .size(sizeDp)

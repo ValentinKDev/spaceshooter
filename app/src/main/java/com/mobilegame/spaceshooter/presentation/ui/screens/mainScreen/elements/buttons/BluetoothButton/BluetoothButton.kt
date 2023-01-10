@@ -11,7 +11,7 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.utils.ChargingButton
 fun BlueToothButton(navigator: Navigator, vm: MainScreenViewModel) {
     ChargingButton(
         handler = vm.bluetoothPressure,
-        sizeDp = vm.ui.buttonBluetooth.sizes.squareHeightDp,
+        sizeDp = vm.ui.buttonBluetooth.sizes.squareSizeDp,
         navigator = navigator,
     ) {
         BluetoothSquare(vm) {

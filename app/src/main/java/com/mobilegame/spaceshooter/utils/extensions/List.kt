@@ -44,7 +44,7 @@ fun List<Shoot>.clone(): List<Shoot> {
     }
     return mutableList.toList()
 }
-fun List<Shoot>.plus(element: Shoot): List<Shoot> {
+fun List<Shoot>.add(element: Shoot): List<Shoot> {
     val mutableList: MutableList<Shoot> = this.clone().toMutableList()
     mutableList.add(element)
     return mutableList.toList()

@@ -3,11 +3,13 @@ package com.mobilegame.spaceshooter.logic.uiHandler.template
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.logic.uiHandler.Device
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.wLog
 import com.mobilegame.spaceshooter.utils.extensions.toDp
+import com.mobilegame.spaceshooter.utils.extensions.toSquare
 
 class BackButtonUI(percent: TemplateUI.TemplatePercents) {
     val id = "back_button"
@@ -26,6 +28,7 @@ class BackButtonUI(percent: TemplateUI.TemplatePercents) {
         val boxHeightDp: Dp = boxHeight.toDp()
         val canvas: Float = boxHeight * 0.75F
         val canvasDp: Dp = canvas.toDp()
+        val canvasSizeDp: DpSize = canvasDp.toSquare()
     }
     data class ColorsBackButton (
         val contrast: Color = MyColor.applicationContrast,

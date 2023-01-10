@@ -11,7 +11,7 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.utils.ChargingButton
 fun WifiButton(vm: MainScreenViewModel, navigator: Navigator) {
     ChargingButton(
         handler = vm.wifiPressure,
-        sizeDp = vm.ui.buttonWifi.sizes.squareHeightDp,
+        sizeDp = vm.ui.buttonWifi.sizes.squareSizeDp,
         navigator = navigator,
     ) {
         WifiSquare(vm) {

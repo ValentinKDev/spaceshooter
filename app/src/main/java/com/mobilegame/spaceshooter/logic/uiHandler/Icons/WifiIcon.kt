@@ -6,8 +6,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.extensions.toDp
+import com.mobilegame.spaceshooter.utils.extensions.toSquare
 
 class WifiIcon(
     squareSize: Float,
@@ -37,6 +39,7 @@ class WifiIcon(
     data class SizesWifiIconAdapter (
         var squareHeight: Float = 0F,
         var squareHeightDp: Dp = Dp.Unspecified,
+        var squareSizeDp: DpSize = DpSize.Unspecified,
         var canvas: Float = 0F,
         var canvasDp: Dp = Dp.Unspecified,
 
@@ -72,6 +75,7 @@ class WifiIcon(
     init {
         sizes.squareHeight = squareSize
         sizes.squareHeightDp = squareSize.toDp()
+        sizes.squareSizeDp = sizes.squareHeightDp.toSquare()
         stroke.squareStrokeDp = (squareSize * ratios.squareStrokePercent).toDp()
         sizes.canvas = sizes.squareHeight * ratios.canvasHeightPercent
         sizes.canvasDp = sizes.canvas.toDp()
