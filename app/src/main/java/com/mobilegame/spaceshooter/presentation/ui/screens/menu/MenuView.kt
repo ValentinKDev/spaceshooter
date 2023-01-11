@@ -9,11 +9,12 @@ import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.PressureNavigationViewModel
 import com.mobilegame.spaceshooter.logic.uiHandler.Device
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterAUI
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterPUI
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterSUI
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.DrawD
-import com.mobilegame.spaceshooter.presentation.ui.screens.DrawU
+import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.DrawA
 import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.DrawP
 import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.DrawS
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
@@ -35,6 +36,7 @@ fun MenuView(navigator: Navigator) {
             Spacer(Modifier.width(10.dp))
             DrawS( LetterSUI(100.dp, 15.dp) )
             DrawP( LetterPUI(100.dp, 15.dp))
+            DrawA( LetterAUI(100.dp, 15.dp) )
         }
     }
 }
