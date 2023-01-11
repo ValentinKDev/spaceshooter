@@ -37,10 +37,6 @@ fun Creator(navigator: Navigator,vm: MainScreenViewModel = viewModel()) {
     }
 }
 
-// E, L, S, P, A, C, E, H, I, P, W, R, T, O, N, I, Y
-// spaceShooter, duel, spaceship, wars, spacewar stats, donations, hockey
-// SPACEWAR, HOCKEY, STATS, DONATIONS
-
 @Composable
 fun DrawU() {
     val listEllipseOffsetExt = remember {
@@ -49,7 +45,7 @@ fun DrawU() {
             radius = 30.5.dp.DpToPixel(),
             alphaX = 1.6F,
             betaY = 1F,
-            angleRange = (-180F..0F).toRadianRange()
+            angleRange = (-180F..0F).degreeToRadianRange()
         )
     }
     val listEllipseOffsetInt = remember {
@@ -58,7 +54,7 @@ fun DrawU() {
             radius = 16.5.dp.DpToPixel(),
             alphaX = 1.4F,
             betaY = 0.7F,
-            angleRange = (-180F..0F).toRadianRange()
+            angleRange = (-180F..0F).degreeToRadianRange()
         ).reverseElements()
 //            .reverseElements()
     }
@@ -111,7 +107,7 @@ fun DrawU() {
 
 @Composable
 fun getPathExteriorD(): Path {
-    val listDEx = remember { getListCircleOffset(Offset(50.dp.DpToPixel(), 50.dp.DpToPixel()), 50.dp.DpToPixel(), (-95F..95F).toRadianRange())}
+    val listDEx = remember { getListCircleOffset(Offset(50.dp.DpToPixel(), 50.dp.DpToPixel()), 50.dp.DpToPixel(), (-95F..95F).degreeToRadianRange())}
     val pathDEx = Path().apply {
         moveTo(listDEx[0].x - 80, listDEx[0].y)
         lineTo(listDEx[0].x, listDEx[0].y)
@@ -128,7 +124,7 @@ fun getPathExteriorD(): Path {
 }
 @Composable
 fun getPathInteriorD(): Path {
-    val listDIn = remember { getListCircleOffset(Offset(50.dp.DpToPixel(), 50.dp.DpToPixel()), 25.dp.DpToPixel(), (-95F..95F).toRadianRange())}
+    val listDIn = remember { getListCircleOffset(Offset(50.dp.DpToPixel(), 50.dp.DpToPixel()), 25.dp.DpToPixel(), (-95F..95F).degreeToRadianRange())}
 
     val pathDIn = Path().apply {
         moveTo(listDIn[0].x - 30, listDIn[0].y)

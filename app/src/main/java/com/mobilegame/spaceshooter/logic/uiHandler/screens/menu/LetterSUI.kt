@@ -1,16 +1,14 @@
 package com.mobilegame.spaceshooter.logic.uiHandler.screens.menu
 
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.getListEllipseOffset
 import com.mobilegame.spaceshooter.utils.extensions.*
 
 class LetterSUI(val canvasSizeDp: Dp, val padding: Dp) {
-    val canvasSizePixel = canvasSizeDp.DpToPixel()
-    val strokeWidth = canvasSizePixel / 40
+    private val canvasSizePixel = canvasSizeDp.DpToPixel()
+    val strokeWidth = canvasSizePixel / 80
 
     private val inEllipseXOffsetAlpha = 0.33F
     private val inEllipseYOffsetAlpha = 0.31F
@@ -38,7 +36,7 @@ class LetterSUI(val canvasSizeDp: Dp, val padding: Dp) {
 
     private fun getTopExtEllipseList(): List<Offset> {
         val topExtEllipseCenter = Offset(canvasSizePixel * extEllipseXOffsetAlpha, canvasSizePixel * extEllipseYOffsetAlpha )
-        val topExtEllipseAngleRange = (90F rotate extEllipseRadianRotation).toRadianRange()
+        val topExtEllipseAngleRange = (90F sweepAngle extEllipseRadianRotation).degreeToRadianRange()
         val topExtEllipseRadius = canvasSizePixel * extEllipseRadiusAlpha
         val topExtEllipseAlphaX = extEllipseXAlpha
         val topExtEllipseBetaY = extEllipseYAlpha
@@ -53,7 +51,7 @@ class LetterSUI(val canvasSizeDp: Dp, val padding: Dp) {
     }
     private fun getBottomExtEllipseList(): List<Offset> {
         val bottomExtEllipseCenter = Offset(canvasSizePixel * (1F - extEllipseXOffsetAlpha), (canvasSizePixel * (1F - extEllipseYOffsetAlpha)))
-        val bottomExtEllipseAngleRange = (-90F rotate extEllipseRadianRotation).toRadianRange()
+        val bottomExtEllipseAngleRange = (-90F sweepAngle extEllipseRadianRotation).degreeToRadianRange()
         val bottomExtEllipseRadius = canvasSizePixel * extEllipseRadiusAlpha
         val bottomExtEllipseAlphaX = extEllipseXAlpha
         val bottomExtEllipseBetaY = extEllipseYAlpha
@@ -69,7 +67,7 @@ class LetterSUI(val canvasSizeDp: Dp, val padding: Dp) {
 
     private fun getTopInEllipseList(): List<Offset> {
         val topInEllipseCenter = Offset(canvasSizePixel * inEllipseXOffsetAlpha, ( canvasSizePixel * inEllipseYOffsetAlpha ))
-        val topInEllipseAngleRange = (90F rotate inEllipseRadianRotation).toRadianRange()
+        val topInEllipseAngleRange = (90F sweepAngle inEllipseRadianRotation).degreeToRadianRange()
         val topInEllipseRadius = canvasSizePixel * inEllipseRadiusAlpha
         val topInEllipseAlphaX = inEllipseXAlpha
         val topInEllipseBetaY = inEllipseYAlpha
@@ -85,7 +83,7 @@ class LetterSUI(val canvasSizeDp: Dp, val padding: Dp) {
 
     private fun getBottomInEllipseList(): List<Offset> {
         val bottomInEllipseCenter = Offset(canvasSizePixel * (1F - inEllipseXOffsetAlpha), (canvasSizePixel * (1F - inEllipseYOffsetAlpha)))
-        val bottomInEllipseAngleRange = (-90F rotate inEllipseRadianRotation).toRadianRange()
+        val bottomInEllipseAngleRange = (-90F sweepAngle inEllipseRadianRotation).degreeToRadianRange()
         val bottomInEllipseRadius = canvasSizePixel * inEllipseRadiusAlpha
         val bottomInEllipseAlphaX = inEllipseXAlpha
         val bottomInEllipseBetaY = inEllipseYAlpha
