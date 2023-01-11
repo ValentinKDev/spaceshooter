@@ -18,4 +18,9 @@ infix fun Dp.time(dp: Dp): Dp = (this.value * dp.value).dp
 infix fun Dp.add(dp: Dp): Dp = (this.value + dp.value).dp
 infix fun Dp.subtract(dp: Dp): Dp = (this.value - dp.value).dp
 
+//infix fun Dp.div(a: Int): Int = (this.value / a).a
+//infix fun Dp.time(a: Int): Int = (this.value * a).a
+//infix fun Dp.add(a: Int): Int = (this.value + a).a
+//infix fun Dp.subtract(a: Int): Int = (this.value - a.value).a
+
 fun Dp.toSquare(): DpSize = DpSize(this, this)

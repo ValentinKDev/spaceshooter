@@ -3,15 +3,14 @@ package com.mobilegame.spaceshooter.logic.uiHandler.screens.menu
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.getListEllipseOffset
-import com.mobilegame.spaceshooter.utils.extensions.DpToPixel
-import com.mobilegame.spaceshooter.utils.extensions.degreeToRadianRange
-import com.mobilegame.spaceshooter.utils.extensions.reverseElements
-import com.mobilegame.spaceshooter.utils.extensions.sweepAngle
+import com.mobilegame.spaceshooter.utils.extensions.*
 
-class LetterCUI(val canvasSizeDp: Dp, val padding: Dp) {
-    private val canvasSizePx: Float = canvasSizeDp.DpToPixel()
+class LetterCUI(val canvasSizeDp: DpSize) {
+    private val canvasSizePx: Float = canvasSizeDp.width.DpToPixel()
     val strokeWidth = canvasSizePx / 80F
+    val verticalPadding = (canvasSizeDp.height subtract  (canvasSizePx.toDp())) div 2F
 
     private val spaceBetweenElements = canvasSizePx * 0.03F
 

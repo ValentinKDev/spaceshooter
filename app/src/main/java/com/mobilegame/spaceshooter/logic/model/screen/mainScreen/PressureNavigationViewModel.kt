@@ -9,13 +9,10 @@ import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.extensions.exist
 import kotlinx.coroutines.*
 
-class PressureNavigationViewModel(private val screenNav: Screens) : ViewModel() {
-
-//    private var screenNav: Screens? = null
+class PressureNavigationViewModel(private val screenNav: Screens, val timerValidation: Long = 700L) : ViewModel() {
     private var pressureState: Boolean = false
     private var pressureNumber: Int = 0
-    private val timerValidation = 700L
-    val timerValidationAnim = (timerValidation * 1F).toInt()
+//    val timerValidationAnim = (timerValidation * 1F).toInt()
 
     fun setPressureStateTo(state: Boolean) { pressureState = state }
     fun incrementPressureNumber() { pressureNumber += 1 }

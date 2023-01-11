@@ -1,10 +1,15 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.menu
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.PressureNavigationViewModel
@@ -13,37 +18,47 @@ import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterAUI
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterCUI
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterPUI
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterSUI
+import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
-import com.mobilegame.spaceshooter.presentation.ui.screens.DrawD
-import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.DrawA
-import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.DrawC
-import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.DrawP
-import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.DrawS
-import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
-import com.mobilegame.spaceshooter.presentation.ui.screens.utils.ChargingButton
-import com.mobilegame.spaceshooter.presentation.ui.screens.utils.ClickableBoundaries
-import com.mobilegame.spaceshooter.utils.extensions.toID
+import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.*
+import com.mobilegame.spaceshooter.presentation.ui.screens.utils.SpacerWithBackground
+import com.mobilegame.spaceshooter.presentation.ui.screens.utils.chargingEffect.chargingScreen.ChargingScreen
+import com.mobilegame.spaceshooter.utils.extensions.div
+import com.mobilegame.spaceshooter.utils.extensions.subtract
+import com.mobilegame.spaceshooter.utils.extensions.time
+import com.mobilegame.spaceshooter.utils.extensions.toSquare
 
 @Composable
-fun MenuView(navigator: Navigator) {
-    ChargingButton(
-        handler = PressureNavigationViewModel(Screens.MainScreen),
-        sizeDp = Device.sizeDp,
-        clickableBoundaries = ClickableBoundaries.OutContent,
+fun MenuScreen(navigator: Navigator) {
+    val letterSizeDp = 100.dp.toSquare()
+    val letterPaddingDp = letterSizeDp.width * 0.15F
+    val letterSpacerSizeDp = DpSize(letterPaddingDp, letterSizeDp.height)
+    val verticalPadding = (Device.sizeDp.height subtract letterSizeDp.height) div 2F
+
+    val word = "SPAC"
+    ChargingScreen(
         navigator = navigator,
-    ) {}
-    CenterComposable(id = Screens.MenuScreen.route.toID()) {
+        handler = PressureNavigationViewModel(Screens.MainScreen, 900L),
+        contentSize = DpSize((letterSizeDp.width time word.length.toFloat()) + (letterPaddingDp time (word.length - 1).toFloat()), letterSizeDp.height),
+        screenSize = Device.sizeDp,
+        startPadding = (Device.sizeDp.width subtract (letterSizeDp.width time 4F)) div 2F,
+        endPadding = (Device.sizeDp.width subtract (letterSizeDp.width time 4F)) div 2F,
+        topPadding = verticalPadding,
+        bottomPadding = verticalPadding,
+    ) {
         Row {
-            DrawD()
-            Spacer(Modifier.width(10.dp))
-            DrawS( LetterSUI(100.dp, 15.dp) )
-            DrawP( LetterPUI(100.dp, 15.dp))
-            DrawA( LetterAUI(100.dp, 15.dp) )
-            DrawC( LetterCUI(100.dp, 15.dp) )
+            DrawS( LetterSUI( letterSizeDp )  )
+            SpacerWithBackground(size = letterSpacerSizeDp)
+            DrawP( LetterPUI( letterSizeDp )  )
+            SpacerWithBackground(size = letterSpacerSizeDp)
+            DrawA( LetterAUI( letterSizeDp ) )
+            SpacerWithBackground(size = letterSpacerSizeDp)
+            DrawC( LetterCUI( letterSizeDp ) )
+            SpacerWithBackground(size = letterSpacerSizeDp)
         }
     }
 }
 
-// P, A, C, E, W, R, L, H, I, T, O, N, I, Y
+// P, E, W, R, L, H, I, T, O, N, I, Y
 // spaceShooter, duel, spaceship, wars, spacewar stats, donations, hockey
 // SPACEWAR, HOCKEY, STATS, DONATIONS

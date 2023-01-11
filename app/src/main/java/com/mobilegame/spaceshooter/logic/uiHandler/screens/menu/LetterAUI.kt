@@ -2,11 +2,16 @@ package com.mobilegame.spaceshooter.logic.uiHandler.screens.menu
 
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.utils.extensions.DpToPixel
+import com.mobilegame.spaceshooter.utils.extensions.div
+import com.mobilegame.spaceshooter.utils.extensions.subtract
+import com.mobilegame.spaceshooter.utils.extensions.toDp
 
-class LetterAUI(val canvasSizeDp: Dp, val padding: Dp) {
-    private val canvasSizePx: Float = canvasSizeDp.DpToPixel()
+class LetterAUI(val canvasSizeDp: DpSize) {
+    private val canvasSizePx: Float = canvasSizeDp.width.DpToPixel()
     val strokeWidth = canvasSizePx / 80F
+    val verticalPadding = (canvasSizeDp.height subtract  (canvasSizePx.toDp())) div 2F
 
     private val bottomBarWidth = canvasSizePx * 0.25F
     private val rectHeightPx = canvasSizePx * 0.20F

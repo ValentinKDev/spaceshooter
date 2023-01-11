@@ -2,7 +2,7 @@ package com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -25,12 +25,8 @@ fun DrawP(ui: LetterPUI) {
 
     Canvas(
         Modifier
-            .size(
-                DpSize(
-                    width = ui.canvasSizeDp add (ui.padding time 2F),
-                    height = Device.sizeDp.height
-                )
-            )
+            .width(ui.canvasSizeDp.width)
+            .height(ui.canvasSizeDp.width)
             .graphicsLayer(alpha = 0.99f)
     ) {
         drawRect(

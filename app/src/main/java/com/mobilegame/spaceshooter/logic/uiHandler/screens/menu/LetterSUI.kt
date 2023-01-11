@@ -3,12 +3,14 @@ package com.mobilegame.spaceshooter.logic.uiHandler.screens.menu
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.getListEllipseOffset
 import com.mobilegame.spaceshooter.utils.extensions.*
 
-class LetterSUI(val canvasSizeDp: Dp, val padding: Dp) {
-    private val canvasSizePixel = canvasSizeDp.DpToPixel()
-    val strokeWidth = canvasSizePixel / 80
+class LetterSUI(val canvasSizeDp: DpSize) {
+    private val canvasSizePx = canvasSizeDp.width.DpToPixel()
+    val strokeWidth = canvasSizePx / 80
+    val verticalPadding = (canvasSizeDp.height subtract  (canvasSizePx.toDp())) div 2F
 
     private val inEllipseXOffsetAlpha = 0.33F
     private val inEllipseYOffsetAlpha = 0.31F
@@ -32,12 +34,12 @@ class LetterSUI(val canvasSizeDp: Dp, val padding: Dp) {
     private val topLineHeightWithoutStroke = topInEllipseList.first().y - topExtEllipseList.last().y - strokeWidth
     private val squareSizeWithoutStroke = topLineHeightWithoutStroke
     private val squareSizeWithStroke = topLineHeightWithoutStroke + strokeWidth
-    private val paddingBetweenLetterAndSquare = canvasSizePixel * 0.05F
+    private val paddingBetweenLetterAndSquare = canvasSizePx * 0.05F
 
     private fun getTopExtEllipseList(): List<Offset> {
-        val topExtEllipseCenter = Offset(canvasSizePixel * extEllipseXOffsetAlpha, canvasSizePixel * extEllipseYOffsetAlpha )
+        val topExtEllipseCenter = Offset(canvasSizePx * extEllipseXOffsetAlpha, canvasSizePx * extEllipseYOffsetAlpha )
         val topExtEllipseAngleRange = (90F sweepAngle extEllipseRadianRotation).degreeToRadianRange()
-        val topExtEllipseRadius = canvasSizePixel * extEllipseRadiusAlpha
+        val topExtEllipseRadius = canvasSizePx * extEllipseRadiusAlpha
         val topExtEllipseAlphaX = extEllipseXAlpha
         val topExtEllipseBetaY = extEllipseYAlpha
 
@@ -50,9 +52,9 @@ class LetterSUI(val canvasSizeDp: Dp, val padding: Dp) {
         )
     }
     private fun getBottomExtEllipseList(): List<Offset> {
-        val bottomExtEllipseCenter = Offset(canvasSizePixel * (1F - extEllipseXOffsetAlpha), (canvasSizePixel * (1F - extEllipseYOffsetAlpha)))
+        val bottomExtEllipseCenter = Offset(canvasSizePx * (1F - extEllipseXOffsetAlpha), (canvasSizePx * (1F - extEllipseYOffsetAlpha)))
         val bottomExtEllipseAngleRange = (-90F sweepAngle extEllipseRadianRotation).degreeToRadianRange()
-        val bottomExtEllipseRadius = canvasSizePixel * extEllipseRadiusAlpha
+        val bottomExtEllipseRadius = canvasSizePx * extEllipseRadiusAlpha
         val bottomExtEllipseAlphaX = extEllipseXAlpha
         val bottomExtEllipseBetaY = extEllipseYAlpha
 
@@ -66,9 +68,9 @@ class LetterSUI(val canvasSizeDp: Dp, val padding: Dp) {
     }
 
     private fun getTopInEllipseList(): List<Offset> {
-        val topInEllipseCenter = Offset(canvasSizePixel * inEllipseXOffsetAlpha, ( canvasSizePixel * inEllipseYOffsetAlpha ))
+        val topInEllipseCenter = Offset(canvasSizePx * inEllipseXOffsetAlpha, ( canvasSizePx * inEllipseYOffsetAlpha ))
         val topInEllipseAngleRange = (90F sweepAngle inEllipseRadianRotation).degreeToRadianRange()
-        val topInEllipseRadius = canvasSizePixel * inEllipseRadiusAlpha
+        val topInEllipseRadius = canvasSizePx * inEllipseRadiusAlpha
         val topInEllipseAlphaX = inEllipseXAlpha
         val topInEllipseBetaY = inEllipseYAlpha
 
@@ -82,9 +84,9 @@ class LetterSUI(val canvasSizeDp: Dp, val padding: Dp) {
     }
 
     private fun getBottomInEllipseList(): List<Offset> {
-        val bottomInEllipseCenter = Offset(canvasSizePixel * (1F - inEllipseXOffsetAlpha), (canvasSizePixel * (1F - inEllipseYOffsetAlpha)))
+        val bottomInEllipseCenter = Offset(canvasSizePx * (1F - inEllipseXOffsetAlpha), (canvasSizePx * (1F - inEllipseYOffsetAlpha)))
         val bottomInEllipseAngleRange = (-90F sweepAngle inEllipseRadianRotation).degreeToRadianRange()
-        val bottomInEllipseRadius = canvasSizePixel * inEllipseRadiusAlpha
+        val bottomInEllipseRadius = canvasSizePx * inEllipseRadiusAlpha
         val bottomInEllipseAlphaX = inEllipseXAlpha
         val bottomInEllipseBetaY = inEllipseYAlpha
 
@@ -120,10 +122,10 @@ class LetterSUI(val canvasSizeDp: Dp, val padding: Dp) {
             val point = Offset(topExtEllipseList[index].x, topExtEllipseList[index].y)
             lineTo(point.x, point.y)
         }
-        lineTo(canvasSizePixel - strokeWidth - (2 * (squareSizeWithStroke + paddingBetweenLetterAndSquare)), topExtEllipseList.last().y)
+        lineTo(canvasSizePx - strokeWidth - (2 * (squareSizeWithStroke + paddingBetweenLetterAndSquare)), topExtEllipseList.last().y)
 
         // Top Interior Ellipse
-        lineTo(canvasSizePixel - strokeWidth - (2 * (squareSizeWithStroke + paddingBetweenLetterAndSquare)), topInEllipseList.first().y)
+        lineTo(canvasSizePx - strokeWidth - (2 * (squareSizeWithStroke + paddingBetweenLetterAndSquare)), topInEllipseList.first().y)
         for (index in topInEllipseList.indices) {
             val point = Offset(topInEllipseList[index].x, topInEllipseList[index].y)
             lineTo(point.x, point.y)
@@ -147,27 +149,27 @@ class LetterSUI(val canvasSizeDp: Dp, val padding: Dp) {
 
     fun getTopSquare1() = Path().apply {
         //topRight
-        moveTo(canvasSizePixel - strokeWidth - paddingBetweenLetterAndSquare - squareSizeWithStroke, topExtEllipseList.last().y)
+        moveTo(canvasSizePx - strokeWidth - paddingBetweenLetterAndSquare - squareSizeWithStroke, topExtEllipseList.last().y)
         //bottomRight
-        lineTo(canvasSizePixel - strokeWidth - paddingBetweenLetterAndSquare - squareSizeWithStroke, topInEllipseList.first().y)
+        lineTo(canvasSizePx - strokeWidth - paddingBetweenLetterAndSquare - squareSizeWithStroke, topInEllipseList.first().y)
         //bottomLeft
-        lineTo(canvasSizePixel - strokeWidth - squareSizeWithoutStroke - paddingBetweenLetterAndSquare - squareSizeWithStroke, topInEllipseList.first().y)
+        lineTo(canvasSizePx - strokeWidth - squareSizeWithoutStroke - paddingBetweenLetterAndSquare - squareSizeWithStroke, topInEllipseList.first().y)
         //topLeft
-        lineTo(canvasSizePixel - strokeWidth - squareSizeWithoutStroke - paddingBetweenLetterAndSquare - squareSizeWithStroke, topExtEllipseList.last().y)
+        lineTo(canvasSizePx - strokeWidth - squareSizeWithoutStroke - paddingBetweenLetterAndSquare - squareSizeWithStroke, topExtEllipseList.last().y)
         //topRight
-        lineTo(canvasSizePixel - strokeWidth - paddingBetweenLetterAndSquare - squareSizeWithStroke, topExtEllipseList.last().y)
+        lineTo(canvasSizePx - strokeWidth - paddingBetweenLetterAndSquare - squareSizeWithStroke, topExtEllipseList.last().y)
     }
 
     fun getTopSquare2() = Path().apply {
         //topRight
-        moveTo(canvasSizePixel - strokeWidth, topExtEllipseList.last().y)
+        moveTo(canvasSizePx - strokeWidth, topExtEllipseList.last().y)
         //bottomRight
-        lineTo(canvasSizePixel - strokeWidth, topInEllipseList.first().y)
+        lineTo(canvasSizePx - strokeWidth, topInEllipseList.first().y)
         //bottomLeft
-        lineTo(canvasSizePixel - strokeWidth - squareSizeWithoutStroke, topInEllipseList.first().y)
+        lineTo(canvasSizePx - strokeWidth - squareSizeWithoutStroke, topInEllipseList.first().y)
         //topLeft
-        lineTo(canvasSizePixel - strokeWidth - squareSizeWithoutStroke, topExtEllipseList.last().y)
+        lineTo(canvasSizePx - strokeWidth - squareSizeWithoutStroke, topExtEllipseList.last().y)
         //topRight
-        lineTo(canvasSizePixel - strokeWidth, topExtEllipseList.last().y)
+        lineTo(canvasSizePx - strokeWidth, topExtEllipseList.last().y)
     }
 }

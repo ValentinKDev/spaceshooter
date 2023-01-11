@@ -3,14 +3,14 @@ package com.mobilegame.spaceshooter.logic.uiHandler.screens.menu
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.getListEllipseOffset
-import com.mobilegame.spaceshooter.utils.extensions.DpToPixel
-import com.mobilegame.spaceshooter.utils.extensions.sweepAngle
-import com.mobilegame.spaceshooter.utils.extensions.degreeToRadianRange
+import com.mobilegame.spaceshooter.utils.extensions.*
 
-class LetterPUI(val canvasSizeDp: Dp, val padding: Dp) {
-    private val canvasSizePixel: Float = canvasSizeDp.DpToPixel()
-    val strokeWidth = canvasSizePixel / 80F
+class LetterPUI(val canvasSizeDp: DpSize) {
+    private val canvasSizePx: Float = canvasSizeDp.width.DpToPixel()
+    val strokeWidth = canvasSizePx / 80F
+    val verticalPadding = (canvasSizeDp.height subtract  (canvasSizePx.toDp())) div 2F
 
     private val extEllipseRadiusAlpha = 0.36F
     private val extEllipseXAlpha = 1F
@@ -18,11 +18,11 @@ class LetterPUI(val canvasSizeDp: Dp, val padding: Dp) {
     private val extEllipseList = getExtEllipseList()
     private fun getExtEllipseList(): List<Offset> {
         val ellipseCenter = Offset(
-            x = canvasSizePixel * (1 - (extEllipseRadiusAlpha * extEllipseXAlpha)) - strokeWidth,
-            y = canvasSizePixel * (extEllipseRadiusAlpha * extEllipseYAlpha) + strokeWidth,
+            x = canvasSizePx * (1 - (extEllipseRadiusAlpha * extEllipseXAlpha)) - strokeWidth,
+            y = canvasSizePx * (extEllipseRadiusAlpha * extEllipseYAlpha) + strokeWidth,
         )
         val ellipseAngleRange = (-90F sweepAngle 180F).degreeToRadianRange()
-        val ellipseRadius = canvasSizePixel * extEllipseRadiusAlpha
+        val ellipseRadius = canvasSizePx * extEllipseRadiusAlpha
         val ellipseAlphaX = extEllipseXAlpha
         val ellipseBetaY = extEllipseYAlpha
 
@@ -35,22 +35,22 @@ class LetterPUI(val canvasSizeDp: Dp, val padding: Dp) {
         )
     }
 
-    private val barWidth = 0.25F * canvasSizePixel
+    private val barWidth = 0.25F * canvasSizePx
     private val inEllipseRadiusAlpha = 0.15F
     private val inEllipseXAlpha = 1.1F
     private val inEllipseYAlpha = .8F
     private val inEllipseList = getInEllipseList()
     private fun getInEllipseList(): List<Offset> {
         val ellipseCenter = Offset(
-            x = canvasSizePixel * (1 - (extEllipseRadiusAlpha * extEllipseXAlpha)) - strokeWidth,
-            y = canvasSizePixel * (extEllipseRadiusAlpha * extEllipseYAlpha) + strokeWidth,
+            x = canvasSizePx * (1 - (extEllipseRadiusAlpha * extEllipseXAlpha)) - strokeWidth,
+            y = canvasSizePx * (extEllipseRadiusAlpha * extEllipseYAlpha) + strokeWidth,
         )
 //        val ellipseCenter = Offset(
 //            x = canvasSizePixel * (1 - (inEllipseRadiusAlpha * inEllipseXAlpha)) - strokeWidth,
 //            y = canvasSizePixel * (inEllipseRadiusAlpha * inEllipseYAlpha) + strokeWidth,
 //        )
         val ellipseAngleRange = (-90F sweepAngle 180F).degreeToRadianRange()
-        val ellipseRadius = canvasSizePixel * inEllipseRadiusAlpha
+        val ellipseRadius = canvasSizePx * inEllipseRadiusAlpha
         val ellipseAlphaX = inEllipseXAlpha
         val ellipseBetaY = inEllipseYAlpha
 
@@ -65,15 +65,15 @@ class LetterPUI(val canvasSizeDp: Dp, val padding: Dp) {
 
     fun getsquarePath() = Path().apply {
         //bottom right
-        moveTo(canvasSizePixel - strokeWidth, canvasSizePixel - strokeWidth)
+        moveTo(canvasSizePx - strokeWidth, canvasSizePx - strokeWidth)
         //top right
-        lineTo(canvasSizePixel - strokeWidth, canvasSizePixel - strokeWidth - barWidth + strokeWidth)
+        lineTo(canvasSizePx - strokeWidth, canvasSizePx - strokeWidth - barWidth + strokeWidth)
         //top left
-        lineTo(canvasSizePixel - strokeWidth - barWidth + strokeWidth, canvasSizePixel - strokeWidth - barWidth + strokeWidth)
+        lineTo(canvasSizePx - strokeWidth - barWidth + strokeWidth, canvasSizePx - strokeWidth - barWidth + strokeWidth)
         //bottom right
-        lineTo(canvasSizePixel - strokeWidth - barWidth + strokeWidth, canvasSizePixel - strokeWidth)
+        lineTo(canvasSizePx - strokeWidth - barWidth + strokeWidth, canvasSizePx - strokeWidth)
         //bottom right
-        lineTo(canvasSizePixel - strokeWidth, canvasSizePixel - strokeWidth)
+        lineTo(canvasSizePx - strokeWidth, canvasSizePx - strokeWidth)
     }
 
     fun getPathPIn() = Path().apply {
@@ -82,14 +82,14 @@ class LetterPUI(val canvasSizeDp: Dp, val padding: Dp) {
             val point = Offset(inEllipseList[index].x, inEllipseList[index].y)
             lineTo(point.x, point.y)
         }
-        lineTo(inEllipseList.last().x - (0.1F * canvasSizePixel), inEllipseList.last().y)
-        lineTo(inEllipseList.last().x - (0.1F * canvasSizePixel), inEllipseList.first().y)
+        lineTo(inEllipseList.last().x - (0.1F * canvasSizePx), inEllipseList.last().y)
+        lineTo(inEllipseList.last().x - (0.1F * canvasSizePx), inEllipseList.first().y)
         lineTo(inEllipseList.first().x, inEllipseList.first().y)
     }
 
     fun getPathPExt() = Path().apply {
         //top Left
-        moveTo(strokeWidth, canvasSizePixel - strokeWidth)
+        moveTo(strokeWidth, canvasSizePx - strokeWidth)
         lineTo(strokeWidth, extEllipseList.first().y)
         lineTo(extEllipseList.first().x, extEllipseList.first().y)
         //top Ellipse
@@ -100,14 +100,14 @@ class LetterPUI(val canvasSizeDp: Dp, val padding: Dp) {
         //bottom Ellipse
         lineTo(barWidth, extEllipseList.last().y)
         //bottom Left
-        lineTo(barWidth, canvasSizePixel - strokeWidth)
-        lineTo(strokeWidth, canvasSizePixel - strokeWidth)
+        lineTo(barWidth, canvasSizePx - strokeWidth)
+        lineTo(strokeWidth, canvasSizePx - strokeWidth)
     }
 
-    private val ellipseHeight = extEllipseYAlpha * extEllipseRadiusAlpha * canvasSizePixel * 2F
-    private val paddingRect = 0.15F * canvasSizePixel
+    private val ellipseHeight = extEllipseYAlpha * extEllipseRadiusAlpha * canvasSizePx * 2F
+    private val paddingRect = 0.15F * canvasSizePx
     private val rectHeightPixelWithStroke = ellipseHeight - (2 * paddingRect)
-    private val rectWidthPixelWithStroke = canvasSizePixel * 0.20F
+    private val rectWidthPixelWithStroke = canvasSizePx * 0.20F
     private val rectSidePixelWithoutStroke = rectHeightPixelWithStroke - 2F * strokeWidth
     fun getRectanglePath() = Path().apply {
         //top left

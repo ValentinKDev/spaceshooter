@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.utils.chargingButton
+package com.mobilegame.spaceshooter.presentation.ui.screens.utils.chargingEffect.chargingButton
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
