@@ -1,14 +1,7 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.menu
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
@@ -18,9 +11,11 @@ import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterAUI
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterCUI
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterPUI
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterSUI
-import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
-import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.*
+import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.DrawA
+import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.DrawC
+import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.DrawP
+import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.DrawS
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.SpacerWithBackground
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.chargingEffect.chargingScreen.ChargingScreen
 import com.mobilegame.spaceshooter.utils.extensions.div
