@@ -63,6 +63,19 @@ class LetterPUI(val canvasSizeDp: Dp, val padding: Dp) {
         )
     }
 
+    fun getsquarePath() = Path().apply {
+        //bottom right
+        moveTo(canvasSizePixel - strokeWidth, canvasSizePixel - strokeWidth)
+        //top right
+        lineTo(canvasSizePixel - strokeWidth, canvasSizePixel - strokeWidth - barWidth + strokeWidth)
+        //top left
+        lineTo(canvasSizePixel - strokeWidth - barWidth + strokeWidth, canvasSizePixel - strokeWidth - barWidth + strokeWidth)
+        //bottom right
+        lineTo(canvasSizePixel - strokeWidth - barWidth + strokeWidth, canvasSizePixel - strokeWidth)
+        //bottom right
+        lineTo(canvasSizePixel - strokeWidth, canvasSizePixel - strokeWidth)
+    }
+
     fun getPathPIn() = Path().apply {
         moveTo(inEllipseList.first().x, inEllipseList.first().y)
         for (index in inEllipseList.indices) {

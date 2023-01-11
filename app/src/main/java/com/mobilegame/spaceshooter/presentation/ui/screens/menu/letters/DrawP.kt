@@ -21,6 +21,7 @@ fun DrawP(ui: LetterPUI) {
     val pathPExt = remember { ui.getPathPExt() }
     val rectPath = remember { ui.getRectanglePath() }
     val pathPIn = remember { ui.getPathPIn() }
+    val squarePath = remember { ui.getsquarePath() }
 
     Canvas(
         Modifier
@@ -45,9 +46,20 @@ fun DrawP(ui: LetterPUI) {
             style = Fill,
             blendMode = BlendMode.Xor
         )
+        drawPath(
+            path = squarePath,
+            color = MyColor.Platinium,
+            style = Fill,
+            blendMode = BlendMode.Xor
+        )
 
         drawPath(
             path = pathPExt,
+            color = MyColor.Platinium,
+            style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
+        )
+        drawPath(
+            path = squarePath,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
