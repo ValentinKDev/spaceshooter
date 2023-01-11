@@ -17,6 +17,7 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
     init {
         viewModelScope.launch() {
             userName = userNameDataStore.getString(DataStoreNameProvider.DeviceName.NameKey)
+            userName = "TEST"
         }
     }
 }

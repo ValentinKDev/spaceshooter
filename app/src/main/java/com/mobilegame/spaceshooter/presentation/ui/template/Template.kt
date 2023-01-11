@@ -94,6 +94,7 @@ internal fun Template(
             }
         }
     }
+
     ConstraintLayout(constraints, Modifier.fillMaxSize().background(MyColor.applicationBackground)) {
         Box(
             Modifier

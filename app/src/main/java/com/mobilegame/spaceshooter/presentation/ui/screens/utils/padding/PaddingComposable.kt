@@ -22,27 +22,19 @@ fun PaddingComposable(
     verticalElementWeight?.let {
         horizontalElementWeight?.let {
             Column(Modifier.fillMaxSize()) {
-                if (topPaddingRatio == 0F)
-                    Row( content = {}, modifier = Modifier.fillMaxWidth().background(enableColor?.let { Color.Red.alpha(0.5F) } ?: Color.Transparent))
-                else
+                if (topPaddingRatio != 0F)
                     Row( content = {}, modifier = Modifier.fillMaxWidth().weight(topPaddingRatio).background(enableColor?.let { Color.Red.alpha(0.5F) } ?: Color.Transparent))
                 Row(Modifier.fillMaxWidth().weight(verticalElementWeight)) {
-                    if (startPaddingRatio == 0F)
-                        Column( content = {}, modifier = Modifier.fillMaxHeight().background(enableColor?.let { Color.Green.alpha(0.4F) } ?: Color.Transparent))
-                    else
+                    if (startPaddingRatio != 0F)
                         Column( content = {}, modifier = Modifier.fillMaxHeight().weight(startPaddingRatio).background(enableColor?.let { Color.Green.alpha(0.4F) } ?: Color.Transparent))
                     Column( Modifier.fillMaxWidth().weight(horizontalElementWeight))
                     {
                         content.invoke()
                     }
-                    if (endPaddingRatio == 0F)
-                        Column( content = {}, modifier = Modifier.fillMaxHeight().background(enableColor?.let { Color.Yellow.alpha(0.4F) } ?: Color.Transparent))
-                    else
+                    if (endPaddingRatio != 0F)
                         Column( content = {}, modifier = Modifier.fillMaxHeight().weight(endPaddingRatio).background(enableColor?.let { Color.Yellow.alpha(0.4F) } ?: Color.Transparent))
                 }
-                if (bottomPaddingRatio == 0F)
-                    Row( content = {}, modifier = Modifier.fillMaxWidth().background(enableColor?.let { Color.Blue.alpha(0.4F) } ?: Color.Transparent))
-                else
+                if (bottomPaddingRatio != 0F)
                     Row( content = {}, modifier = Modifier.fillMaxWidth().weight(bottomPaddingRatio).background(enableColor?.let { Color.Blue.alpha(0.4F) } ?: Color.Transparent))
             }
         }
@@ -62,26 +54,19 @@ fun PaddingComposable(
     rowElementRatio?.let {
         columnElementRatio?.let {
             Column(Modifier.fillMaxSize()) {
-                if (verticalPadding == 0F)
-                    Row( content = {}, modifier = Modifier.fillMaxWidth().background(enableColor?.let { Color.Blue.alpha(0.4F) } ?: Color.Transparent))
-                else
+                if (verticalPadding != 0F)
                     Row( content = {}, modifier = Modifier.fillMaxWidth().weight(verticalPadding).background(enableColor?.let { Color.Blue.alpha(0.4F) } ?: Color.Transparent))
                 Row(Modifier.fillMaxWidth().weight(rowElementRatio)) {
-                    if (horizontalPadding == 0F)
-                        Column( content = {}, modifier = Modifier.fillMaxHeight().background(enableColor?.let { Color.Green.alpha(0.4F) } ?: Color.Transparent))
-                    else
+                    if (horizontalPadding != 0F)
                         Column( content = {}, modifier = Modifier.fillMaxHeight().weight(horizontalPadding).background(enableColor?.let { Color.Green.alpha(0.4F) } ?: Color.Transparent))
-                    Column( Modifier.fillMaxWidth().weight(columnElementRatio)) {
+                    Column( Modifier.fillMaxWidth().weight(columnElementRatio))
+                    {
                         content.invoke()
                     }
-                    if (horizontalPadding == 0F)
-                        Column( content = {}, modifier = Modifier.fillMaxHeight().background(enableColor?.let { Color.Yellow.alpha(0.4F) } ?: Color.Transparent))
-                    else
+                    if (horizontalPadding != 0F)
                         Column( content = {}, modifier = Modifier.fillMaxHeight().weight(horizontalPadding).background(enableColor?.let { Color.Yellow.alpha(0.4F) } ?: Color.Transparent))
                 }
-                if (verticalPadding == 0F)
-                    Row( content = {}, modifier = Modifier.fillMaxWidth().background(enableColor?.let { Color.Blue.alpha(0.4F) } ?: Color.Transparent))
-                else
+                if (verticalPadding != 0F)
                     Row( content = {}, modifier = Modifier.fillMaxWidth().weight(verticalPadding).background(enableColor?.let { Color.Blue.alpha(0.4F) } ?: Color.Transparent))
             }
         }
