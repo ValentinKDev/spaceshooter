@@ -13,6 +13,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -57,6 +58,10 @@ fun SpaceShooterTheme(
 ) {
     val context = LocalContext.current
 
+    LaunchedEffect(true) {
+        Device.initDatastore(context)
+    }
+
     LockScreenOrientation(orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
 
     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -78,7 +83,14 @@ fun SpaceShooterTheme(
         Modifier
             .fillMaxSize()
             .background(MyColor.applicationBackground)
-            .onGloballyPositioned { layout -> Device.initiated ?: run { Device.initWith(context, layout) } }
+            .onGloballyPositioned { layout ->
+                Device.initiated ?: run {
+                    Device.initLayout(
+                        context,
+                        layout
+                    )
+                }
+            }
     ) {
         MaterialTheme(
             colorScheme = colorScheme,

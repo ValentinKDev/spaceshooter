@@ -2,6 +2,6 @@ package com.mobilegame.spaceshooter.data.store
 
 internal sealed class DataStoreNameProvider(val pref: String) {
     object DeviceName : DataStoreNameProvider("device_name_datastore") {
-        const val NameKey = "device_name_datastore_key"
+        val key = DataStoreKey("device_name_datastore_key")
     }
 }
