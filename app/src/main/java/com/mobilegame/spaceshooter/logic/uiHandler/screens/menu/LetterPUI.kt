@@ -10,7 +10,6 @@ import com.mobilegame.spaceshooter.utils.extensions.*
 class LetterPUI(val canvasSizeDp: DpSize) {
     private val canvasSizePx: Float = canvasSizeDp.width.DpToPixel()
     val strokeWidth = canvasSizePx / 80F
-    val verticalPadding = (canvasSizeDp.height subtract  (canvasSizePx.toDp())) div 2F
 
     private val extEllipseRadiusAlpha = 0.36F
     private val extEllipseXAlpha = 1F
@@ -63,7 +62,7 @@ class LetterPUI(val canvasSizeDp: DpSize) {
         )
     }
 
-    fun getsquarePath() = Path().apply {
+    val squarePath = Path().apply {
         //bottom right
         moveTo(canvasSizePx - strokeWidth, canvasSizePx - strokeWidth)
         //top right
@@ -76,7 +75,7 @@ class LetterPUI(val canvasSizeDp: DpSize) {
         lineTo(canvasSizePx - strokeWidth, canvasSizePx - strokeWidth)
     }
 
-    fun getPathPIn() = Path().apply {
+    val pathPIn = Path().apply {
         moveTo(inEllipseList.first().x, inEllipseList.first().y)
         for (index in inEllipseList.indices) {
             val point = Offset(inEllipseList[index].x, inEllipseList[index].y)
@@ -87,7 +86,7 @@ class LetterPUI(val canvasSizeDp: DpSize) {
         lineTo(inEllipseList.first().x, inEllipseList.first().y)
     }
 
-    fun getPathPExt() = Path().apply {
+    val pathPExt = Path().apply {
         //top Left
         moveTo(strokeWidth, canvasSizePx - strokeWidth)
         lineTo(strokeWidth, extEllipseList.first().y)
@@ -109,7 +108,7 @@ class LetterPUI(val canvasSizeDp: DpSize) {
     private val rectHeightPixelWithStroke = ellipseHeight - (2 * paddingRect)
     private val rectWidthPixelWithStroke = canvasSizePx * 0.20F
     private val rectSidePixelWithoutStroke = rectHeightPixelWithStroke - 2F * strokeWidth
-    fun getRectanglePath() = Path().apply {
+    val rectanglePath = Path().apply {
         //top left
         moveTo( barWidth, extEllipseList.first().y + paddingRect + strokeWidth)
         //bottom left

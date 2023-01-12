@@ -15,11 +15,6 @@ import com.mobilegame.spaceshooter.presentation.theme.MyColor
 
 @Composable
 fun DrawS(ui: LetterSUI) {
-    val uPath = remember { ui.getUPath() }
-    val topSquare1Path = remember {ui.getTopSquare1()}
-    val topSquare2Path = remember {ui.getTopSquare2()}
-    val bottomSquarePath = remember {ui.getBottomSquare()}
-
     Canvas(
         Modifier
             .width(ui.canvasSizeDp.width)
@@ -32,47 +27,47 @@ fun DrawS(ui: LetterSUI) {
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = bottomSquarePath,
+            path = ui.bottomSquare,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = topSquare1Path,
+            path = ui.topSquare1,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = topSquare2Path,
+            path = ui.topSquare2,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = uPath,
+            path = ui.uPath,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = uPath,
+            path = ui.uPath,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
 
         drawPath(
-            path = bottomSquarePath,
+            path = ui.bottomSquare,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
         drawPath(
-            path = topSquare1Path,
+            path = ui.topSquare1,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
         drawPath(
-            path = topSquare2Path,
+            path = ui.topSquare2,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
@@ -97,7 +92,7 @@ fun DrawS(ui: LetterSUI) {
 //            blendMode = BlendMode.Xor
 //        )
 //        drawPath(
-//            path = uPath,
+//            path = ui.uPath,
 //            color = MyColor.Platinium,
 //            style = Stroke(width = 5F, cap = StrokeCap.Round, join = StrokeJoin.Round),
 //            blendMode = BlendMode.Xor

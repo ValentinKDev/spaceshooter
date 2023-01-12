@@ -1,7 +1,6 @@
 package com.mobilegame.spaceshooter.logic.uiHandler.screens.menu
 
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.utils.extensions.DpToPixel
 import com.mobilegame.spaceshooter.utils.extensions.div
@@ -17,7 +16,7 @@ class LetterAUI(val canvasSizeDp: DpSize) {
     private val rectHeightPx = canvasSizePx * 0.20F
     private val rectWidthPx = canvasSizePx * 0.35F
     private val rectTopY = canvasSizePx * 0.46F
-    fun getRectCentralPath() = Path().apply {
+    val rectCentralPath = Path().apply {
         //top right
         moveTo((canvasSizePx / 2F) + (rectWidthPx / 2F), rectTopY)
         //bottom right
@@ -31,7 +30,7 @@ class LetterAUI(val canvasSizeDp: DpSize) {
     }
 
     private val bottomTopPathY = canvasSizePx * 0.53F
-    fun getTopPath() = Path().apply {
+    val topPath = Path().apply {
         //top left
         moveTo(strokeWidth, strokeWidth)
         //top right
@@ -50,7 +49,7 @@ class LetterAUI(val canvasSizeDp: DpSize) {
     }
 
     private val paddingBetweenTopAndLeg = canvasSizePx * 0.06F
-    fun getRectLeftPath() = Path().apply {
+    val rectLeftPath = Path().apply {
         //top left
         moveTo(strokeWidth, bottomTopPathY + paddingBetweenTopAndLeg)
         //top right
@@ -62,7 +61,8 @@ class LetterAUI(val canvasSizeDp: DpSize) {
         //top left
         lineTo(strokeWidth, bottomTopPathY + paddingBetweenTopAndLeg)
     }
-    fun getRectRightPath() = Path().apply {
+
+    val rectRightPath = Path().apply {
         //top right
         moveTo(canvasSizePx - strokeWidth, bottomTopPathY + paddingBetweenTopAndLeg)
         //top left

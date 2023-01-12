@@ -99,7 +99,7 @@ class LetterSUI(val canvasSizeDp: DpSize) {
         ).reverseElements()
     }
 
-    fun getUPath() = Path().apply {
+    val uPath = Path().apply {
         // Bottom Exterior Ellipse
         moveTo(bottomExtEllipseList.first().x, bottomExtEllipseList.first().y)
         for (index in bottomExtEllipseList.indices) {
@@ -134,7 +134,7 @@ class LetterSUI(val canvasSizeDp: DpSize) {
         lineTo(bottomExtEllipseList.first().x, bottomExtEllipseList.first().y)
     }
 
-    fun getBottomSquare() = Path().apply {
+    val bottomSquare = Path().apply {
         //topRight
         moveTo(strokeWidth + squareSizeWithoutStroke, bottomInEllipseList.first().y)
         //bottomRight
@@ -147,7 +147,7 @@ class LetterSUI(val canvasSizeDp: DpSize) {
         lineTo(strokeWidth + squareSizeWithoutStroke, bottomInEllipseList.first().y)
     }
 
-    fun getTopSquare1() = Path().apply {
+    val topSquare1 = Path().apply {
         //topRight
         moveTo(canvasSizePx - strokeWidth - paddingBetweenLetterAndSquare - squareSizeWithStroke, topExtEllipseList.last().y)
         //bottomRight
@@ -160,7 +160,7 @@ class LetterSUI(val canvasSizeDp: DpSize) {
         lineTo(canvasSizePx - strokeWidth - paddingBetweenLetterAndSquare - squareSizeWithStroke, topExtEllipseList.last().y)
     }
 
-    fun getTopSquare2() = Path().apply {
+    val topSquare2 = Path().apply {
         //topRight
         moveTo(canvasSizePx - strokeWidth, topExtEllipseList.last().y)
         //bottomRight

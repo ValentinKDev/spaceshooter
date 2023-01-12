@@ -99,7 +99,7 @@ class LetterCUI(val canvasSizeDp: DpSize) {
 
 //    private val ellipticLengthX = canvasSizePx * 0.7F
     private val ellipticLengthX = canvasSizePx - strokeWidth
-    fun getTopEllipsePath() = Path().apply {
+    val topEllipsePath = Path().apply {
         moveTo(topEllipseExtList.first().x, topEllipseExtList.first().y)
         for (index in topEllipseExtList.indices) {
             val point = Offset(topEllipseExtList[index].x, topEllipseExtList[index].y)
@@ -114,7 +114,7 @@ class LetterCUI(val canvasSizeDp: DpSize) {
         lineTo(topEllipseExtList.first().x, topEllipseExtList.first().y)
     }
 
-    fun getBottomEllipsePath() = Path().apply {
+    val bottomEllipsePath = Path().apply {
         moveTo(bottomExtEllipseList.first().x, bottomExtEllipseList.first().y)
         for (index in bottomExtEllipseList.indices) {
             val point = Offset(bottomExtEllipseList[index].x, bottomExtEllipseList[index].y)

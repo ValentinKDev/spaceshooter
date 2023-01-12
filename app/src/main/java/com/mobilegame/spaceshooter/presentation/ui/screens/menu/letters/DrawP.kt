@@ -18,11 +18,6 @@ import com.mobilegame.spaceshooter.utils.extensions.time
 
 @Composable
 fun DrawP(ui: LetterPUI) {
-    val pathPExt = remember { ui.getPathPExt() }
-    val rectPath = remember { ui.getRectanglePath() }
-    val pathPIn = remember { ui.getPathPIn() }
-    val squarePath = remember { ui.getsquarePath() }
-
     Canvas(
         Modifier
             .width(ui.canvasSizeDp.width)
@@ -35,45 +30,45 @@ fun DrawP(ui: LetterPUI) {
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = pathPExt,
+            path = ui.pathPExt,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = squarePath,
+            path = ui.squarePath,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
 
         drawPath(
-            path = pathPExt,
+            path = ui.pathPExt,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
         drawPath(
-            path = squarePath,
+            path = ui.squarePath,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
         drawPath(
-            path = pathPIn,
+            path = ui.pathPIn,
             color = MyColor.applicationBackground,
             style = Fill,
         )
         drawPath(
-            path = pathPIn,
+            path = ui.pathPIn,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
         drawPath(
-            path = rectPath,
+            path = ui.rectanglePath,
             color = MyColor.applicationBackground,
             style = Fill,
         )
         drawPath(
-            path = rectPath,
+            path = ui.rectanglePath,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )

@@ -1,10 +1,8 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.StrokeCap
@@ -12,20 +10,13 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.unit.DpSize
-import com.mobilegame.spaceshooter.logic.uiHandler.Device
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterAUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.utils.extensions.add
-import com.mobilegame.spaceshooter.utils.extensions.time
 
 
 @Composable
 fun DrawA(ui: LetterAUI) {
-    val topPath = remember { ui.getTopPath() }
-    val rectLeftPath = remember { ui.getRectLeftPath() }
-    val rectRightPath = remember { ui.getRectRightPath() }
-    val rectCentralPath = remember { ui.getRectCentralPath() }
+//    val ui.rectCentralPath = remember { ui.getRectCentralPath() }
     Canvas(
         Modifier
             .width(ui.canvasSizeDp.width)
@@ -39,47 +30,47 @@ fun DrawA(ui: LetterAUI) {
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = topPath,
+            path = ui.topPath,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = rectRightPath,
+            path = ui.rectRightPath,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = rectLeftPath,
+            path = ui.rectLeftPath,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = rectCentralPath,
+            path = ui.rectCentralPath,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
 
         drawPath(
-            path = topPath,
+            path = ui.topPath,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
         drawPath(
-            path = rectRightPath,
+            path = ui.rectRightPath,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
         drawPath(
-            path = rectLeftPath,
+            path = ui.rectLeftPath,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
         drawPath(
-            path = rectCentralPath,
+            path = ui.rectCentralPath,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )

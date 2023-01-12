@@ -22,8 +22,8 @@ import com.mobilegame.spaceshooter.utils.extensions.time
 
 @Composable
 fun DrawC(ui: LetterCUI) {
-    val topEllipse = remember { ui.getTopEllipsePath() }
-    val bottomEllipse = remember { ui.getBottomEllipsePath() }
+//    val topEllipse = remember { ui.getTopEllipsePath() }
+//    val bottomEllipse = remember { ui.getBottomEllipsePath() }
     Canvas(
         Modifier
             .width(ui.canvasSizeDp.width)
@@ -36,25 +36,25 @@ fun DrawC(ui: LetterCUI) {
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = bottomEllipse,
+            path = ui.bottomEllipsePath,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = topEllipse,
+            path = ui.topEllipsePath,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
 
         drawPath(
-            path = bottomEllipse,
+            path = ui.bottomEllipsePath,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
         drawPath(
-            path = topEllipse,
+            path = ui.topEllipsePath,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
