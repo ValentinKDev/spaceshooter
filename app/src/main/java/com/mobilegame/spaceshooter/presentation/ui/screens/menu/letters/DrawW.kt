@@ -5,17 +5,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
-import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterEUI
+import androidx.compose.ui.graphics.graphicsLayer
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterWUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 
 @Composable
-fun DrawE(ui: LetterEUI) {
+fun DrawW(ui: LetterWUI) {
     Canvas(
-        Modifier
+        androidx.compose.ui.Modifier
             .width(ui.canvasSizeDp.width)
             .height(ui.canvasSizeDp.width)
 //            .background(MyColor.Liver)
@@ -27,36 +29,36 @@ fun DrawE(ui: LetterEUI) {
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = ui.pathE,
+            path = ui.pathCenter,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = ui.centerSquare,
+            path = ui.pathRight,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
         drawPath(
-            path = ui.bottomSquare1,
+            path = ui.pathLeft,
             color = MyColor.Platinium,
             style = Fill,
             blendMode = BlendMode.Xor
         )
 
         drawPath(
-            path = ui.pathE,
+            path = ui.pathCenter,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
         drawPath(
-            path = ui.centerSquare,
+            path = ui.pathRight,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
         drawPath(
-            path = ui.bottomSquare1,
+            path = ui.pathLeft,
             color = MyColor.Platinium,
             style = Stroke(width = ui.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
