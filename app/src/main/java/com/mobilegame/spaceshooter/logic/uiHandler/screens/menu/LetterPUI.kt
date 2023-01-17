@@ -44,10 +44,6 @@ class LetterPUI(val canvasSizeDp: DpSize) {
             x = canvasSizePx * (1 - (extEllipseRadiusAlpha * extEllipseXAlpha)) - strokeWidth,
             y = canvasSizePx * (extEllipseRadiusAlpha * extEllipseYAlpha) + strokeWidth,
         )
-//        val ellipseCenter = Offset(
-//            x = canvasSizePixel * (1 - (inEllipseRadiusAlpha * inEllipseXAlpha)) - strokeWidth,
-//            y = canvasSizePixel * (inEllipseRadiusAlpha * inEllipseYAlpha) + strokeWidth,
-//        )
         val ellipseAngleRange = (-90F sweepAngle 180F).degreeToRadianRange()
         val ellipseRadius = canvasSizePx * inEllipseRadiusAlpha
         val ellipseAlphaX = inEllipseXAlpha

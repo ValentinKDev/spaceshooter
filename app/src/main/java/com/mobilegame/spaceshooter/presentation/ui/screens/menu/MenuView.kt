@@ -29,7 +29,7 @@ fun MenuScreen(navigator: Navigator) {
     val letterSpacerSizeDp = DpSize(letterPaddingDp, letterSizeDp.height)
     val verticalPadding = (Device.sizeDp.height subtract letterSizeDp.height) div 2F
 
-    val word = "SPACEWA"
+    val word = "SPACEWAR"
     ChargingScreen(
         navigator = navigator,
         handler = PressureNavigationViewModel(Screens.MainScreen, 900L),
@@ -54,12 +54,13 @@ fun MenuScreen(navigator: Navigator) {
             DrawW( LetterWUI( letterSizeDp ))
             SpacerWithBackground(size = letterSpacerSizeDp)
             DrawA( LetterAUI( letterSizeDp ) )
-//            DrawA( LetterAUI( letterSizeDp ) )
+            SpacerWithBackground(size = letterSpacerSizeDp)
+            DrawR( LetterRUI( letterSizeDp ) )
         }
     }
 }
 
-// space war    W, R,
+// space war    R,
 // stats        T
 // hockey       H, 0, K, Y
 // donation     I, T, N,

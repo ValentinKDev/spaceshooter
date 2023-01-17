@@ -29,7 +29,7 @@ class LetterAUI(val canvasSizeDp: DpSize) {
         lineTo((canvasSizePx / 2F) + (rectWidthPx / 2F), rectTopY)
     }
 
-    private val bottomTopPathY = canvasSizePx * 0.53F
+    private val bottomTopPathY = canvasSizePx * 0.48F
     val topPath = Path().apply {
         //top left
         moveTo(strokeWidth, strokeWidth)
