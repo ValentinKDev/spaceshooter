@@ -18,14 +18,14 @@ class SpaceShipIconUI(type: SpaceShipType = SpaceShipType.Default, shipBox: Floa
     val colors = ColorsSpaceShipIcon()
     val ammunition = MunitionsSpaceShipIcon(shipBox)
 
-    data class ColorsSpaceShipIcon (
+    data class ColorsSpaceShipIcon(
         var strokes: Color = MyColor.applicationContrast,
         var body: Color = MyColor.applicationBackground,
         var ammo: Color = MyColor.applicationContrast,
         var shoot: Color = MyColor.defaultShip
     )
 
-    class SizesSpaceShipIcon (shipBox: Float) {
+    class SizesSpaceShipIcon(shipBox: Float) {
         var shipBoxDp: Dp = shipBox.toDp()
         var strokeWidth: Float = shipBox * 0.06F
         var halfWidth: Float = shipBox * 0.5F
@@ -47,9 +47,7 @@ class SpaceShipIconUI(type: SpaceShipType = SpaceShipType.Default, shipBox: Floa
         private val openRadian: Double = (1.0 / 2.0)
         private val intervalRadian: Double = (2.0 - openRadian) / 9
         private val startRadian: Double = (3.0 / 4.0)
-        private val p1x: Float = ((PI * startRadian).toFloat() * (distance)) + center
-        private val p1y: Float = (sin(PI * startRadian).toFloat() * (distance) * -1F ) + center
-        val m1: Offset = Offset(p1x, p1y)
+        val m1: Offset = Offset(Axe.X munition 1, Axe.Y munition 1)
         val m2: Offset = Offset(Axe.X munition 2, Axe.Y munition 2)
         val m3: Offset = Offset(Axe.X munition 3, Axe.Y munition 3)
         val m4: Offset = Offset(Axe.X munition 4, Axe.Y munition 4)
