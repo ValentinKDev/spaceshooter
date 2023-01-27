@@ -17,12 +17,13 @@ import androidx.compose.ui.unit.sp
 import com.mobilegame.spaceshooter.logic.model.screen.connection.registerDevice.RegisterDeviceViewModel
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.RegisterDeviceNameUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
+import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterVertically
 import com.mobilegame.spaceshooter.utils.extensions.getKeyID
 
 @Composable
-fun ActionKey(vm: RegisterDeviceViewModel, actionKey: ActionKey) {
+fun ActionKey(vm: RegisterDeviceViewModel, navigator: Navigator, actionKey: ActionKeyType) {
     Box(
         Modifier
             .height(vm.ui.keyboard.key.heightDp)
@@ -34,9 +35,9 @@ fun ActionKey(vm: RegisterDeviceViewModel, actionKey: ActionKey) {
             )
             .clickable {
                 when (actionKey) {
-                    ActionKey.DELETE -> vm.deleteAction()
-                    ActionKey.SPACE -> vm.spaceAction()
-                    ActionKey.REGISTER -> vm.registerAction()
+                    ActionKeyType.DELETE -> vm.deleteAction()
+                    ActionKeyType.SPACE -> vm.spaceAction()
+                    ActionKeyType.REGISTER -> vm.registerAction(navigator)
                 }
             }
     ) {
@@ -44,7 +45,7 @@ fun ActionKey(vm: RegisterDeviceViewModel, actionKey: ActionKey) {
     }
 }
 
-enum class ActionKey {
+enum class ActionKeyType {
     DELETE, SPACE, REGISTER
 }
 
@@ -53,17 +54,10 @@ private fun ActionKeyText(text: String) {
     CenterComposable(id = text) {
         Text(
             text = text,
-//                            textAlign = TextAlign.Center,
-            modifier = Modifier
-//                                .shadow(elevation = 15.dp)
-//                                .padding(end = vm.ui.template.header.padding.spaceBetweenTextAndIconDp),
-            ,
             color = MyColor.Platinium,
             style = TextStyle(
                 fontSize = 25.sp,
-//                                letterSpacing = MainTemplateUI.header.sizes.iconTextSpaceSp,
                 fontWeight = FontWeight.ExtraBold,
-//                                fontFamily = FontFamily.Default
             )
         )
     }
@@ -89,17 +83,12 @@ fun Key(vm: RegisterDeviceViewModel, key: Char) {
             CenterComposable(id = key.getKeyID()) {
                 Text(
                     text = key.toString(),
-//                            textAlign = TextAlign.Center,
                     modifier = Modifier
-//                                .shadow(elevation = 15.dp)
-//                                .padding(end = vm.ui.template.header.padding.spaceBetweenTextAndIconDp),
                     ,
                     color = MyColor.Platinium,
                     style = TextStyle(
                         fontSize = 25.sp,
-//                                letterSpacing = MainTemplateUI.header.sizes.iconTextSpaceSp,
                         fontWeight = FontWeight.ExtraBold,
-//                                fontFamily = FontFamily.Default
                     )
                 )
             }

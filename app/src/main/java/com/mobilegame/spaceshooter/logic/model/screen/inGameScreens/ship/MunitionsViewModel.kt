@@ -18,14 +18,19 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
     private val ammunitionTimeInterval = 450L
     private val _ammunition = MutableStateFlow<Int>(10)
     val ammunition: StateFlow<Int> = _ammunition.asStateFlow()
-    fun incrementAmmo() { if (_ammunition.value < 10) _ammunition.value = _ammunition.value + 1 }
-    fun decrementAmmo() { if (_ammunition.value > 0) { _ammunition.value = _ammunition.value - 1 } }
+    private fun enoughAmmo(): Boolean = _ammunition.value > 0
+    private fun incrementAmmo() { if (_ammunition.value < 10) _ammunition.value = _ammunition.value + 1 ; eLog("MunitionsVM::incementAmmo", "_ammo.value = ${_ammunition.value}")
+
+    }
+    private fun decrementAmmo() { if (_ammunition.value >= 0) { _ammunition.value = _ammunition.value - 1 } }
     private var ammoBeforeCharging = _ammunition.value
     private fun updateAmmoBeforeCharging() {ammoBeforeCharging = _ammunition.value}
     private var recoveringJob: Job = viewModelScope.launch(Dispatchers.IO) {}
+//    private fun reload() = viewModelScope.launch(Dispatchers.IO) { startAmmoRecovery() }
     private fun recoverAmmo() {
         if (recoveringJob.isCompleted && _ammunition.value < 10) {
             recoveringJob = viewModelScope.launch(Dispatchers.IO) { startAmmoRecovery() }
+//            recoveringJob = reload()
         }
     }
     suspend fun startAmmoRecovery() {
@@ -54,19 +59,25 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
 
     fun shoot() {
         if (firstShoot) {
-            viewModelScope.launch() {
-                screenIsPressed = false
-                val ammoCharged = ammoBeforeCharging - _ammunition.value
-                startShooting(ammoCharged)
-                recoverAmmo()
-            }
+//            if (enoughAmmo())
+                viewModelScope.launch() {
+//                    updateAmmoBeforeCharging()
+                    screenIsPressed = false
+//                    val ammoCharged = ammoBeforeCharging - _ammunition.value
+                    if (_ammunition.value != 0)
+                        startShooting(1)
+                    else eLog("MunitionsVM::shoot", "${enoughAmmo()}")
+//                    if (ammoCharged == 1) eLog("MunitionsVM::shoot", "ammo bef $ammoBeforeCharging")
+                    eLog("MunitionsVM::shoot", "ammo ${_ammunition.value}")
+                    recoverAmmo()
+                }
         }
+//            else recoveringJob = viewModelScope.launch(Dispatchers.IO) { startAmmoRecovery() }
     }
-
 
     private suspend fun startShooting(ammoCharged: Int) {
         var ammo = ammoCharged
-        while (ammo >= 0) {
+        while (ammo > 0) {
             ammo -= 1
             val newShoot = Shoot(
                 type = shipType,

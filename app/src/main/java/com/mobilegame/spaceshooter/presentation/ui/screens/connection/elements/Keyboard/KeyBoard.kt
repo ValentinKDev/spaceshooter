@@ -13,13 +13,13 @@ import androidx.compose.ui.layout.layoutId
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mobilegame.spaceshooter.logic.model.screen.connection.registerDevice.RegisterDeviceViewModel
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
+import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
 
 @Composable
-fun MyKeyboard(vm: RegisterDeviceViewModel = viewModel()) {
+fun MyKeyboard(navigator: Navigator, vm: RegisterDeviceViewModel) {
     Column(Modifier.background(MyColor.Liver)) {
         Box(
             Modifier
@@ -47,7 +47,7 @@ fun MyKeyboard(vm: RegisterDeviceViewModel = viewModel()) {
                 .weight(1F)
                 .layoutId(vm.ui.keyboard.fourthLine.id)
         ) {
-            KeyBoardActionRow(vm)
+            KeyBoardActionRow(vm, navigator)
         }
     }
 }
@@ -65,12 +65,12 @@ fun KeyboardRow(vm: RegisterDeviceViewModel, id: String, keys: String) {
 }
 
 @Composable
-fun KeyBoardActionRow(vm: RegisterDeviceViewModel) {
+fun KeyBoardActionRow(vm: RegisterDeviceViewModel, navigator: Navigator) {
     val constraints = remember {
         ConstraintSet {
-            val deleteKey = createRefFor(ActionKey.DELETE.name)
-            val spaceKey = createRefFor(ActionKey.SPACE.name)
-            val registerKey = createRefFor(ActionKey.REGISTER.name)
+            val deleteKey = createRefFor(ActionKeyType.DELETE.name)
+            val spaceKey = createRefFor(ActionKeyType.SPACE.name)
+            val registerKey = createRefFor(ActionKeyType.REGISTER.name)
 
             constrain( registerKey ) {
                 top.linkTo(parent.top)
@@ -99,14 +99,14 @@ fun KeyBoardActionRow(vm: RegisterDeviceViewModel) {
         }
     }
     ConstraintLayout(constraints, Modifier.fillMaxSize()) {
-        Box(Modifier.layoutId(ActionKey.DELETE.name)) {
-            ActionKey(vm = vm, actionKey = ActionKey.DELETE)
+        Box(Modifier.layoutId(ActionKeyType.DELETE.name)) {
+            ActionKey(vm = vm, actionKey = ActionKeyType.DELETE, navigator = navigator)
         }
-        Box(Modifier.layoutId(ActionKey.SPACE.name)) {
-            ActionKey(vm = vm, actionKey = ActionKey.SPACE)
+        Box(Modifier.layoutId(ActionKeyType.SPACE.name)) {
+            ActionKey(vm = vm, actionKey = ActionKeyType.SPACE, navigator = navigator)
         }
-        Box(Modifier.layoutId(ActionKey.REGISTER.name)) {
-            ActionKey(vm = vm, actionKey = ActionKey.REGISTER)
+        Box(Modifier.layoutId(ActionKeyType.REGISTER.name)) {
+            ActionKey(vm = vm, actionKey = ActionKeyType.REGISTER, navigator = navigator)
         }
     }
 }

@@ -23,17 +23,4 @@ class Shoot (
             y = offsetDp.y - vector.height.dp,
         )
     }
-//    fun upDateDpOffset() {
-//        val newX: Dp = when {
-//            motion.isRight() -> { (offsetDp.x.value + vector.width).dp }
-//            motion.isLeft() -> { (offsetDp.x.value - vector.width).dp }
-//            else -> offsetDp.x.value.dp
-//        }
-//        val newY: Dp = when {
-//            motion.isUp() -> { (offsetDp.y.value - vector.height).dp }
-//            motion.isDown() -> { (offsetDp.y.value + vector.height).dp }
-//            else -> offsetDp.x.value.dp
-//        }
-//        offsetDp = DpOffset(newX, newY)
-//    }
 }

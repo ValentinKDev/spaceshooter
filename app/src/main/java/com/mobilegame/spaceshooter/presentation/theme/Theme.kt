@@ -65,7 +65,6 @@ fun SpaceShooterTheme(
     LockScreenOrientation(orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
 
     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -75,7 +74,6 @@ fun SpaceShooterTheme(
         else -> LightColorScheme
     }
 
-//    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
     HideScreenBars(window)
 
@@ -97,6 +95,5 @@ fun SpaceShooterTheme(
             typography = Typography,
             content = content
         )
-        content.invoke()
     }
 }

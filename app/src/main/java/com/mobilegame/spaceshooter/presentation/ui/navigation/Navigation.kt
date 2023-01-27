@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.presentation.ui.screens.Creator
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.bluetoothScreen.BluetoothScreen
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.LaunchDuelGameScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.MainScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.menu.MenuScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreens.duelTutoScreen.DuelTutoScreen
@@ -29,19 +30,20 @@ fun Navigation(navigator: Navigator) {
 
     NavHost(
         navController = navController,
-        startDestination = Screens.MainScreen.route,
-//        startDestination = Screens.WifiScreen.route,
+//        startDestination = Screens.MainScreen.route,
+        startDestination = Screens.WifiScreen.route,
+//        startDestination = Screens.MenuScreen.route,
 //        startDestination = Screens.DuelTutoScreen.route,
 //        startDestination = Screens.Creator.route,
 //        startDestination = Screens.Test.route,
     ) {
+        composable(route = Screens.MenuScreen.route) { MenuScreen(navigator) }
         composable(route = Screens.MainScreen.route) { MainScreen(navigator) }
         composable(route = Screens.BluetoothScreen.route) { BluetoothScreen(navigator) }
 //        composable(route = Screens.BluetoothScreen.route) { LaunchDuelGameScreen(navigator) }
         composable(route = Screens.WifiScreen.route) { WifiScreen(navigator) }
         composable(route = Screens.DuelTutoScreen.route) { DuelTutoScreen(navigator) }
-        composable(route = Screens.Creator.route) { Creator(navigator) }
-        composable(route = Screens.MenuScreen.route) { MenuScreen(navigator) }
-        composable(route = Screens.Test.route) { MenuScreen(navigator) }
+        composable(route = Screens.Creator.route) { Creator() }
+        composable(route = Screens.Test.route) { (LaunchDuelGameScreen(navigator = navigator)) }
     }
 }

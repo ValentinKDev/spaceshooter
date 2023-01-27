@@ -56,6 +56,7 @@ fun MenuScreen(navigator: Navigator) {
             DrawA( LetterAUI( letterSizeDp ) )
             SpacerWithBackground(size = letterSpacerSizeDp)
             DrawR( LetterRUI( letterSizeDp ) )
+            SpacerWithBackground(size = letterSpacerSizeDp)
         }
     }
 }

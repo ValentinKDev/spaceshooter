@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.mobilegame.spaceshooter"
-        minSdk 30
+        minSdk 29
         targetSdk 33
         versionCode 1
         versionName "0.01"

@@ -1,20 +1,30 @@
 package com.mobilegame.spaceshooter
 
+import android.content.BroadcastReceiver
+import android.content.ContentValues.TAG
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
+import android.net.wifi.WifiManager
+import android.net.wifi.p2p.WifiP2pDevice
+import android.net.wifi.p2p.WifiP2pManager
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatDelegate
-import com.google.accompanist.systemuicontroller.SystemUiController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mobilegame.spaceshooter.presentation.theme.SpaceShooterTheme
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigation
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 
 class MainActivity : ComponentActivity() {
+    lateinit var wifiManager: WifiManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        wifiManager = getSystemService(Context.WIFI_SERVICE) as WifiManager
+
         setContent {
             SpaceShooterTheme(this.window) {
                 Navigation(Navigator())
@@ -24,7 +34,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        eLog("MainActivity", "ON START")
+        eLog("MainActivity::onStart", "ON START")
     }
 
     override fun onPause() {
@@ -41,4 +51,5 @@ class MainActivity : ComponentActivity() {
         super.onDestroy()
         eLog("MainActivity", "ON DESTROY")
     }
+
 }

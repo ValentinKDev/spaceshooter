@@ -12,7 +12,7 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 @Composable
 fun MainScreen(navigator: Navigator, vm: MainScreenViewModel = viewModel()) {
     LaunchedEffect(true) {
-        eLog("MainScreen", "start")
+        eLog("MainScreen", "MainScreen start")
     }
 
     TemplateWithoutBand(

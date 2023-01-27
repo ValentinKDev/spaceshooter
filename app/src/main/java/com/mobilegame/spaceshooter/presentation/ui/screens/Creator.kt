@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -21,10 +22,15 @@ import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.getListCircleOffset
 import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.getListEllipseOffset
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
+import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.extensions.*
 
 @Composable
-fun Creator(navigator: Navigator,vm: MainScreenViewModel = viewModel()) {
+fun Creator() {
+    LaunchedEffect(true) {
+        eLog("Creator", "Creator launch")
+
+    }
     CenterComposable(id = "creation") {
         Row {
             DrawD()

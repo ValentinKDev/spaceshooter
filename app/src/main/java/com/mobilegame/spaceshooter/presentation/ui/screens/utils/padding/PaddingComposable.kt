@@ -27,7 +27,7 @@ fun PaddingComposable(
                 Row(Modifier.fillMaxWidth().weight(verticalElementWeight)) {
                     if (startPaddingRatio != 0F)
                             Column( content = {}, modifier = Modifier.fillMaxHeight().weight(startPaddingRatio).background(enableColor?.let { Color.Green.alpha(0.4F) } ?: Color.Transparent))
-                    Column( Modifier.fillMaxWidth().weight(horizontalElementWeight))
+                    Box( Modifier.fillMaxWidth().weight(horizontalElementWeight))
                     {
                         content.invoke()
                     }

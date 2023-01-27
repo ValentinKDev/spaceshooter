@@ -11,8 +11,6 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 
 @Composable
 internal fun MainScreenBody(navigator: Navigator, vm: MainScreenViewModel) {
-    eLog("MainScreenBody", "recompose")
-
     PaddingComposable(
         horizontalPadding = 0.17F,
     ) {

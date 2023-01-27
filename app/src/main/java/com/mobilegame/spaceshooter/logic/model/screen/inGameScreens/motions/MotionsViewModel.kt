@@ -149,6 +149,7 @@ class MotionsViewModel(
     private val _shootList = MutableStateFlow<List<Shoot>>(emptyList())
     val shootList: StateFlow<List<Shoot>> = _shootList.asStateFlow()
     fun addShoot(shoot: Shoot) {
+        //todo: simplify extension add
         _shootList.value = _shootList.value.add(shoot)
     }
 

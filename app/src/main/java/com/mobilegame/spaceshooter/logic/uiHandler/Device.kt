@@ -9,7 +9,6 @@ import com.mobilegame.spaceshooter.data.store.DataStoreService
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.wLog
 import com.mobilegame.spaceshooter.utils.extensions.toDp
-import kotlinx.coroutines.coroutineScope
 
 object Device {
     var width = 0F

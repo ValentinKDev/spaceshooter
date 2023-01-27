@@ -40,10 +40,9 @@ fun RegisterDeviceName(navigator: Navigator, vm: RegisterDeviceViewModel = viewM
             CenterComposable(id = "instruction") {
                 Text(
                     text = "ENTER YOUR NAME :",
-                    color = MaterialTheme.colorScheme.background,
+                    color = MyColor.applicationText,
                     modifier = Modifier.wrapContentSize(),
                     style = TextStyle(
-                        color = Color.Black,
                         fontSize = 30.sp,
                         fontWeight = FontWeight.ExtraBold,
                     )
@@ -56,7 +55,7 @@ fun RegisterDeviceName(navigator: Navigator, vm: RegisterDeviceViewModel = viewM
                     MyTextField(vm)
                 }
                 Box(Modifier.weight(1F)) {
-                    MyKeyboard()
+                    MyKeyboard(navigator, vm)
                 }
             }
         }
