@@ -1,5 +1,6 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.connection.elements.Keyboard
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -9,7 +10,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,17 +28,39 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterVerticall
 import com.mobilegame.spaceshooter.utils.extensions.getKeyID
 
 @Composable
-fun ActionKey(vm: RegisterDeviceViewModel, navigator: Navigator, actionKey: ActionKeyType) {
+fun ActionKey(
+    vm: RegisterDeviceViewModel,
+    navigator: Navigator,
+    actionKey: ActionKeyType,
+) {
+    val textInput by remember { vm.input }.collectAsState()
+    var enable = remember { true }
+
+    val backgroundColor: Modifier = when (actionKey) {
+        ActionKeyType.DELETE -> {
+            enable = vm.isDeleteActionEnable(textInput)
+            if (enable) Modifier
+            else Modifier.background(Color.DarkGray)
+        }
+        ActionKeyType.REGISTER -> {
+            enable = vm.isRegisteringActionEnable(textInput)
+            if (enable) Modifier
+            else Modifier.background(Color.DarkGray)
+        }
+        else -> Modifier
+    }
+
     Box(
         Modifier
             .height(vm.ui.keyboard.key.heightDp)
             .width(vm.ui.keyboard.key.widthActionKeyDp)
+            .then(backgroundColor)
             .border(
                 width = 1.dp,
                 shape = RoundedCornerShape(1.dp),
                 color = MyColor.Platinium
             )
-            .clickable {
+            .clickable(enabled = enable) {
                 when (actionKey) {
                     ActionKeyType.DELETE -> vm.deleteAction()
                     ActionKeyType.SPACE -> vm.spaceAction()
