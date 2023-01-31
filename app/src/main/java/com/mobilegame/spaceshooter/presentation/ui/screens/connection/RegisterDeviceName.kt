@@ -6,11 +6,9 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -26,7 +24,6 @@ import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.elements.Keyboard.MyKeyboard
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
-import com.mobilegame.spaceshooter.presentation.ui.template.TemplateWithBand
 import com.mobilegame.spaceshooter.presentation.ui.template.TemplateWithoutBand
 import kotlinx.coroutines.delay
 
@@ -49,17 +46,16 @@ fun RegisterDeviceName(navigator: Navigator, vm: RegisterDeviceViewModel = viewM
                 )
             }
         },
-        emptySpace = {
-            Column() {
-                Box(Modifier.weight(1F)) {
-                    MyTextField(vm)
-                }
-                Box(Modifier.weight(1F)) {
-                    MyKeyboard(navigator, vm)
-                }
+    ) {
+        Column() {
+            Box(Modifier.weight(1F)) {
+                MyTextField(vm)
+            }
+            Box(Modifier.weight(1F)) {
+                MyKeyboard(navigator, vm)
             }
         }
-    )
+    }
 }
 
 @Composable

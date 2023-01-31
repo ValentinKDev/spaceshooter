@@ -20,7 +20,7 @@ object Device {
     var initiated: Boolean? = null
 
     suspend fun initDatastore(context: Context) {
-        val nameDatastore = DataStoreService.createDeviceName(context)
+        val nameDatastore = DataStoreService.DeviceName(context)
         name = nameDatastore.getString(DataStoreNameProvider.DeviceName.key)
     }
 

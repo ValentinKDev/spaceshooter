@@ -1,9 +1,7 @@
 package com.mobilegame.spaceshooter.logic.model.screen.connection.registerDevice
 
-import android.app.Application
 import android.content.Context
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.store.DataStoreNameProvider
@@ -19,8 +17,7 @@ import kotlinx.coroutines.launch
 
 class RegisterDeviceViewModel(context: Context, val screenNav: Screens): ViewModel() {
     val ui = RegisterDeviceNameUI()
-//    val templateUI = TemplateUI()
-    val deviceNameDatastore = DataStoreService.createDeviceName(context)
+    val deviceNameDatastore = DataStoreService.DeviceName(context)
 
     private val _input = MutableStateFlow("")
     val input: StateFlow<String> = _input.asStateFlow()
@@ -48,14 +45,7 @@ class RegisterDeviceViewModel(context: Context, val screenNav: Screens): ViewMod
     fun setVisibleUnderscoreTargetTo(state: Boolean) {
         _visibleUnderscoreState.value.targetState = state
     }
-    fun reinitialiseVisibleUnderscoreState() {
-        _visibleUnderscoreState.value.targetState = !visibleUnderscoreState.value.currentState
-    }
-    fun getStringSpaces(length: Int): String {
-        var str = ""
-        for (i in 0 until length) {
-           str += " "
-        }
-        return str
-    }
+
+    fun isDeleteActionEnable(str: String): Boolean = str.isNotEmpty()
+    fun isRegisteringActionEnable(str: String): Boolean = str.length > 1
 }

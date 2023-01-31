@@ -21,7 +21,7 @@ interface DataStoreService {
     suspend fun delFloat(key: DataStoreKey)
 
     companion object {
-        fun createDeviceName(context: Context): DataStoreService {
+        fun DeviceName(context: Context): DataStoreService {
             return DataStoreImplementation(context.deviceNameDataStore)
         }
     }

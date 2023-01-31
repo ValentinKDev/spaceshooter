@@ -23,8 +23,7 @@ fun BluetoothScreen(navigator: Navigator, vm: BluetoothScreenViewModel = viewMod
         header = {
 //            BlueToothScreenHeader(navigator, vm)
         },
-        emptySpace = {
-            BluetoothScreenBody(vm)
-        }
-    )
+    ) {
+        BluetoothScreenBody(vm)
+    }
 }

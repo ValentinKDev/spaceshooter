@@ -30,8 +30,8 @@ fun Navigation(navigator: Navigator) {
 
     NavHost(
         navController = navController,
-//        startDestination = Screens.MainScreen.route,
-        startDestination = Screens.WifiScreen.route,
+        startDestination = Screens.MainScreen.route,
+//        startDestination = Screens.WifiScreen.route,
 //        startDestination = Screens.MenuScreen.route,
 //        startDestination = Screens.DuelTutoScreen.route,
 //        startDestination = Screens.Creator.route,

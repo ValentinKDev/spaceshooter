@@ -29,7 +29,7 @@ internal fun List(vm: WifiScreenViewModel) {
                     .size(40.dp)
                     .background(Color.Red)
                     .clickable {
-                        vm.goDiscovery()
+//                        vm.goDiscovery()
                     })
             Spacer(modifier = Modifier.size(10.dp.toSquare()))
             Box(
@@ -37,7 +37,7 @@ internal fun List(vm: WifiScreenViewModel) {
                     .size(40.dp)
                     .background(Color.Blue)
                     .clickable {
-                        vm.fetch()
+//                        vm.fetch()
                     })
         }
     }

@@ -20,6 +20,5 @@ fun MainScreen(navigator: Navigator, vm: MainScreenViewModel = viewModel()) {
         backNav = Screens.MainScreen.backNav,
         ui = vm.ui.template,
         header = { MainScreenHeader(navigator, vm) },
-        emptySpace = { MainScreenBody(navigator, vm) },
-    )
+    ) { MainScreenBody(navigator, vm) }
 }

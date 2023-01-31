@@ -12,7 +12,7 @@ fun TemplateWithoutBand(
     backNav: Screens,
     ui: TemplateUI,
     header: @Composable () -> Unit,
-    emptySpace: @Composable () -> Unit,
+    body: @Composable () -> Unit,
 ) {
     Template(
         type = TemplatesType.WithoutHeadBand,
@@ -21,7 +21,7 @@ fun TemplateWithoutBand(
         ui = ui,
         header = { header.invoke() },
         headBand = { },
-        emptySpace = { emptySpace.invoke()}
+        body = { body.invoke()},
     )
 }
 
@@ -32,7 +32,7 @@ fun TemplateWithBand(
     ui: TemplateUI,
     header: @Composable () -> Unit,
     band: @Composable () -> Unit,
-    emptySpace: @Composable () -> Unit,
+    body: @Composable () -> Unit,
 ) {
     Template(
         type = TemplatesType.WithHeadBand,
@@ -41,7 +41,7 @@ fun TemplateWithBand(
         ui = ui,
         header = { header.invoke() },
         headBand = { band.invoke() },
-        emptySpace = { emptySpace.invoke()}
+        body = { body.invoke()}
     )
 }
 

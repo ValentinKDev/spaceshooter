@@ -32,7 +32,7 @@ fun MenuScreen(navigator: Navigator) {
     val word = "SPACEWAR"
     ChargingScreen(
         navigator = navigator,
-        handler = PressureNavigationViewModel(Screens.MainScreen, 900L),
+        handler = PressureNavigationViewModel(screenNav = Screens.MainScreen, timerValidation = 900L),
         contentSize = DpSize((letterSizeDp.width time word.length.toFloat()) + (letterPaddingDp time (word.length - 1).toFloat()), letterSizeDp.height),
         screenSize = Device.sizeDp,
         startPadding = ((Device.sizeDp.width subtract (letterSizeDp.width time word.length.toFloat())) subtract (letterPaddingDp time (word.length - 1).toFloat())) div 2F,

@@ -26,7 +26,7 @@ internal fun Template(
     ui: TemplateUI,
     header: @Composable () -> Unit,
     headBand: @Composable () -> Unit,
-    emptySpace: @Composable () -> Unit,
+    body: @Composable () -> Unit,
 ) {
     val constraints = remember {
         ConstraintSet {
@@ -120,6 +120,6 @@ internal fun Template(
         Box(
             Modifier
                 .layoutId(ui.emptySpace.id)
-        ) { emptySpace.invoke() }
+        ) { body.invoke() }
     }
 }

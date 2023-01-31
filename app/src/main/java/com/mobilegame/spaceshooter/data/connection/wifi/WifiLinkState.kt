@@ -1,5 +1,5 @@
 package com.mobilegame.spaceshooter.data.connection.wifi
 
-enum class LinkState {
+enum class WifiLinkState {
     Connected, Connecting, NotConnected
 }
