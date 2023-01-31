@@ -36,7 +36,6 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
         } ?: let { Log.e(TAG, "init: ERROR deviceName Null") }
     }
 
-
     private fun getDeviceNameFromDataStore(): String? = runBlocking {
          deviceNameDataStore.getString(DataStoreNameProvider.DeviceName.key)
     }

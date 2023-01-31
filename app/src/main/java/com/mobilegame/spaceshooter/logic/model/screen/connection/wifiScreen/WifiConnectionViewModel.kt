@@ -37,9 +37,6 @@ class WifiConnectionViewModel(val info: WifiConnectionInfo): ViewModel() {
             startSearching()
             delayUntilConnected()
             stopSearching()
-//            startSearching()
-//            delayUntilConnected()
-//            stopSearching()
             when (info.linkState.value) {
                 WifiLinkState.Connected -> startListenServer()
                 WifiLinkState.Connecting -> startHosting()
@@ -69,6 +66,7 @@ class WifiConnectionViewModel(val info: WifiConnectionInfo): ViewModel() {
 
     private suspend fun startListenServer() {
         Log.e(TAG, "start listen server ")
+        //todo: restart if error ? Important bug connectino
         info.socket?.let {
             WifiChannelService.createChannelToServer(info).open()
         } ?: Log.e(TAG, "startListenServer : ERROR info.socket null cannot create a channel to server")
@@ -94,10 +92,6 @@ class WifiConnectionViewModel(val info: WifiConnectionInfo): ViewModel() {
                             Log.w(TAG, "startHosting: accept new client ${it.inetAddress}")
                             registerNewClient(it) ?: let { return@let }
                             val newClient = info.connectedClients.last()
-
-                            // Give the client server name
-//                            val serverNameEventMessage = EventMessage(EventMessageType.SendDeviceName.name, info.deviceName, "")
-//                            SendEvent(info, serverNameEventMessage).toClient(newClient)
 
                             // Start reading messages
                             val aside = async {
@@ -195,13 +189,6 @@ class WifiConnectionViewModel(val info: WifiConnectionInfo): ViewModel() {
         info.socket = Socket(serviceInfo.host, serviceInfo.port)
         info.writer = PrintWriter(info.socket!!.getOutputStream())
         val nameEventMessage = EventMessage(type = EventMessageType.SendDeviceName.name, sender = info.deviceName, message = info.deviceName)
-//        info.socket?.getOutputStream()?.let {
-//            PrintWriter(it)
-//        }?.let {
-//            it.print(nameEventMessage.toJson() + EventMessage.MESSAGE_TERMINATOR)
-//            it.flush()
-//        }
-//        val nameEventMessage = EventMessage(typeKey = EventMessageType.SendDeviceName.key, sender = info.deviceName, message = info.deviceName)
         SendEvent(info, nameEventMessage).toServer()
     }
 }

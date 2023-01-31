@@ -7,9 +7,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
 import com.mobilegame.spaceshooter.logic.uiHandler.Icons.WifiIcon
+import com.mobilegame.spaceshooter.logic.uiHandler.Icons.WifiIconUI
 
 @Composable
-fun WifiIcon(ui: WifiIcon, color: Color? = null) {
+//fun WifiIcon(ui: WifiIcon, color: Color? = null) {
+fun WifiIcon(ui: WifiIconUI, color: Color? = null) {
     Canvas(
         Modifier
             .fillMaxSize()

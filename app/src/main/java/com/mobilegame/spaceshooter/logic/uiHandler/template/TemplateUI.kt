@@ -10,7 +10,8 @@ class TemplateUI() {
     val backButton = BackButtonUI(percent)
 
     class TemplatePercents {
-        val header = 0.16F
+//        val header = 0.16F
+        val header = 0.18F
         val topDelimiter = 0.01F
         val band = header
         val bottomDelimiter = topDelimiter

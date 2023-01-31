@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
@@ -95,7 +96,8 @@ internal fun Template(
         }
     }
 
-    ConstraintLayout(constraints, Modifier.fillMaxSize().background(MyColor.applicationBackground)) {
+//    ConstraintLayout(constraints, Modifier.fillMaxSize().background(MyColor.applicationBackground)) {
+    ConstraintLayout(constraints, Modifier.fillMaxSize()) {
         Box(
             Modifier
                 .layoutId(ui.header.id)
@@ -120,6 +122,7 @@ internal fun Template(
         Box(
             Modifier
                 .layoutId(ui.emptySpace.id)
+//                .background(Color.Transparent)
         ) { body.invoke() }
     }
 }

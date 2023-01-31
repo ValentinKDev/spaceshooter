@@ -2,13 +2,16 @@ package com.mobilegame.spaceshooter.presentation.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
+import com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen.WifiScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.screens.Creator
+import com.mobilegame.spaceshooter.presentation.ui.screens.connection.DevicesMenu
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.bluetoothScreen.BluetoothScreen
-import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.LaunchDuelGameScreen
+import com.mobilegame.spaceshooter.presentation.ui.screens.connection.deviceMenu.DeviceMenuBand
 import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.MainScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.menu.MenuScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreens.duelTutoScreen.DuelTutoScreen
@@ -44,6 +47,11 @@ fun Navigation(navigator: Navigator) {
         composable(route = Screens.WifiScreen.route) { WifiScreen(navigator) }
         composable(route = Screens.DuelTutoScreen.route) { DuelTutoScreen(navigator) }
         composable(route = Screens.Creator.route) { Creator() }
-        composable(route = Screens.Test.route) { (LaunchDuelGameScreen(navigator = navigator)) }
+//        composable(route = Screens.Test.route) { Test(navigator) }
     }
 }
+
+//@Composable
+//fun Test(navigator: Navigator, vm: WifiScreenViewModel = viewModel()) {
+//    DevicesMenu(vm = vm, navigator = navigator)
+//}

@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen.WifiScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.PaddingComposable
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.wifiScreen.elements.WifiBanner
@@ -18,27 +17,8 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposabl
 import com.mobilegame.spaceshooter.utils.extensions.toSquare
 
 @Composable
-internal fun List(vm: WifiScreenViewModel) {
-    PaddingComposable(
-        topPaddingRatio = 0.4F,
-    ) { WifiBanner(ui = vm.ui.banner.wifiIcon) }
-    CenterComposable(id = "buttonBroadcast") {
-        Row() {
-            Box(
-                Modifier
-                    .size(40.dp)
-                    .background(Color.Red)
-                    .clickable {
-//                        vm.goDiscovery()
-                    })
-            Spacer(modifier = Modifier.size(10.dp.toSquare()))
-            Box(
-                Modifier
-                    .size(40.dp)
-                    .background(Color.Blue)
-                    .clickable {
-//                        vm.fetch()
-                    })
-        }
-    }
+internal fun Body(vm: WifiScreenViewModel) {
+//    PaddingComposable(
+//        topPaddingRatio = 0.4F,
+//    ) { WifiBanner(ui = vm.ui.banner.wifiIcon) }
 }

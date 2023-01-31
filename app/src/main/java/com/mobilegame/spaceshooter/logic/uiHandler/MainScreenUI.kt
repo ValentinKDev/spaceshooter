@@ -5,7 +5,9 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.mobilegame.spaceshooter.logic.uiHandler.Icons.BluetoothIcon
+import com.mobilegame.spaceshooter.logic.uiHandler.Icons.BtWifiIconsServiceUI
 import com.mobilegame.spaceshooter.logic.uiHandler.Icons.WifiIcon
+import com.mobilegame.spaceshooter.logic.uiHandler.Icons.WifiIconUI
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.extensions.alpha
@@ -17,7 +19,8 @@ class MainScreenUI {
     val tutoButton = TutorialButton(template)
     val instruction = InstructionMainScreen()
     val buttonBluetooth: BluetoothIcon = BluetoothIcon(Device.height * 0.3F)
-    val buttonWifi: WifiIcon = WifiIcon(Device.height * 0.3F, StrokeCap.Square, outlined = true)
+    val buttonWifi: WifiIconUI = BtWifiIconsServiceUI.createWifiIconUI(Device.height * 0.3F, StrokeCap.Square, outlined = true) as WifiIconUI
+//    val buttonWifi: WifiIcon = WifiIcon(Device.height * 0.3F, StrokeCap.Square, outlined = true
 
     class InstructionMainScreen {
         val padding = PaddingInstructionsMainScreen()
