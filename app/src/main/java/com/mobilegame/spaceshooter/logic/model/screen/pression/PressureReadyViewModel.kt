@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.model.screen.mainScreen
+package com.mobilegame.spaceshooter.logic.model.screen.pression
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,45 +7,39 @@ import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.extensions.exist
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class PressureNavigationViewModel(private val screenNav: Screens, val timerValidation: Long = 700L) : ViewModel() {
+class PressureReadyViewModel(
+    private val screenNav: Screens,
+    timer: Long = 700L
+) : ViewModel(), PressureVMInterface {
+    override val timerValidation = timer
     private var pressureState: Boolean = false
     private var pressureNumber: Int = 0
-//    val timerValidationAnim = (timerValidation * 1F).toInt()
+    private var navigator: Navigator? = null
 
     fun setPressureStateTo(state: Boolean) { pressureState = state }
     fun incrementPressureNumber() { pressureNumber += 1 }
 
-    var nav: Navigator? = null
-    fun handlePressureStart(navigator: Navigator) {
+    override fun handlePressureStart(nav: Navigator) {
         vLog("PressureNavVM" , "handlePressureStart: release pressure")
-        nav = navigator
+        navigator = nav
         setPressureStateTo(true)
         incrementPressureNumber()
-        viewModelScope.launch(Dispatchers.IO) { timer(navigator) }
+        viewModelScope.launch(Dispatchers.IO) { timer() }
     }
 
-    private suspend fun timer(navigator: Navigator) {
+    private suspend fun timer() {
         val pressureNumberAtStart = pressureNumber
         delay(timerValidation)
         if (pressureState && pressureNumberAtStart == pressureNumber && screenNav.exist()) {
-//            backJob?.start() ?: let {
-                navigator.navig(screenNav)
-//            }
+            navigator?.navig(screenNav)
         }
     }
 
-    fun handlePressureRelease() {
+    override fun handlePressureRelease() {
         vLog("PressureNavVM" , "handlePressureRelease: release")
         setPressureStateTo(false)
     }
-
-    //todo : put screen in the class params
-//    fun create(screen: Screens): PressureNavigationViewModel {
-//        screenNav = screen
-//        return this
-//    }
 }

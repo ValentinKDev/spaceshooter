@@ -12,7 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
-import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.PressureNavigationViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.pression.PressureVMInterface
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.chargingEffect.ChargingAnimation
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.chargingEffect.chargingButton.FilterRoundShape
@@ -20,9 +20,10 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.utils.chargingEffect.
 
 @Composable
 fun ChargingButton(
-    handler: PressureNavigationViewModel,
+    handler: PressureVMInterface,
     sizeDp: DpSize,
     navigator: Navigator,
+    alphaAnimation: Float = 1F,
     roundShape: Boolean? = null,
     content: @Composable () -> Unit
 ) {
@@ -44,7 +45,7 @@ fun ChargingButton(
 
     //todo : add round corner to the box
     Box(Modifier.size(sizeDp)) {
-        ChargingAnimation(isPressed = isPressed, timer = handler.timerValidation.toInt())
+        ChargingAnimation(isPressed = isPressed, timer = handler.timerValidation.toInt(), alpha = alphaAnimation)
 
         roundShape?.let { FilterRoundShape(sizeDp) }
         Box(modifier = Modifier

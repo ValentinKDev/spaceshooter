@@ -2,5 +2,16 @@ package com.mobilegame.spaceshooter.data.connection.dto
 
 
 enum class EventMessageType {
-    SendDeviceName, ConnectedDevice, DisconnectedDevice, SendGameData, DeviceLeaving, Loose, None
+    SendDeviceName,
+    NewConnectedDevice,
+    DisconnectDevice,
+    SendGameData,
+    ReadyToChooseSpaceShip,
+    NotReadyToChooseSpaceShip,
+    GoToSpaceShipMenuScreen,
+    ReadyToPlay,
+    NotReadyToPlay,
+    LaunchGame,
+    Loose,
+    None
 }

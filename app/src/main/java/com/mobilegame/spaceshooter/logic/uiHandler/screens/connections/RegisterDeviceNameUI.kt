@@ -1,7 +1,7 @@
 package com.mobilegame.spaceshooter.logic.uiHandler.screens.connections
 
 import androidx.compose.ui.unit.Dp
-import com.mobilegame.spaceshooter.logic.uiHandler.Device
+import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.vLog
@@ -21,7 +21,7 @@ class RegisterDeviceNameUI {
         val key = KeyKeyboard(size.lineHeight, firstLine.keys)
 
         data class SizesKeyboard(
-            private val height: Float = Device.height * 0.5F,
+            private val height: Float = Device.metrics.height * 0.5F,
             val heightDp: Dp = height.toDp(),
             val lineHeight: Float = height / 4F,
             val lineHeightDp: Dp = lineHeight.toDp(),
@@ -50,18 +50,18 @@ class RegisterDeviceNameUI {
             val heightDp: Dp = height.toDp()
 
             private val startEndPaddingRatio = 0.06F
-            private val startEndPadding = startEndPaddingRatio * Device.width
+            private val startEndPadding = startEndPaddingRatio * Device.metrics.width
             val startEndPaddingDp = startEndPadding.toDp()
             private val betweenKeyPaddingRatio = 0.008F
-            private val betweenKeyPadding = betweenKeyPaddingRatio * Device.width
+            private val betweenKeyPadding = betweenKeyPaddingRatio * Device.metrics.width
             val betweenKeyPaddingDp = betweenKeyPadding.toDp()
 
             private val betweenActionKeyPaddingRatio = 0.05F
-            private val betweenActionKeyPadding = betweenActionKeyPaddingRatio * Device.width
+            private val betweenActionKeyPadding = betweenActionKeyPaddingRatio * Device.metrics.width
             val betweenActionKeyPaddingDp = betweenActionKeyPadding.toDp()
-            private val width: Float = ((1F - (2 * startEndPaddingRatio) - ((longestKeyRow.length - 1) * betweenKeyPaddingRatio)) * Device.width) / (longestKeyRow.length)
+            private val width: Float = ((1F - (2 * startEndPaddingRatio) - ((longestKeyRow.length - 1) * betweenKeyPaddingRatio)) * Device.metrics.width) / (longestKeyRow.length)
             val widthDp: Dp = width.toDp()
-            private val widthActionKey: Float = ((1F - (2 * startEndPaddingRatio) - (2 * betweenActionKeyPaddingRatio)) * Device.width) / (3F)
+            private val widthActionKey: Float = ((1F - (2 * startEndPaddingRatio) - (2 * betweenActionKeyPaddingRatio)) * Device.metrics.width) / (3F)
             val widthActionKeyDp: Dp = widthActionKey.toDp()
 
             init {

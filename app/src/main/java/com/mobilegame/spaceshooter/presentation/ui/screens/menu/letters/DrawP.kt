@@ -1,20 +1,14 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.unit.DpSize
-import com.mobilegame.spaceshooter.logic.uiHandler.Device
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.LetterPUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.utils.extensions.add
-import com.mobilegame.spaceshooter.utils.extensions.time
 
 @Composable
 fun DrawP(ui: LetterPUI) {

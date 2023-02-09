@@ -6,13 +6,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
-import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.PressureNavigationViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.pression.PressureNavigationViewModel
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
@@ -35,7 +34,7 @@ internal fun Template(
             val topDelimiter = createRefFor(ui.topDelimiter.id)
             val band = createRefFor(ui.band.id)
             val bottomDelimiter = createRefFor(ui.bottomDelimiter.id)
-            val space = createRefFor(ui.emptySpace.id)
+            val space = createRefFor(ui.body.id)
             val backButton = createRefFor(ui.backButton.id)
 
             constrain( head ) {
@@ -88,8 +87,8 @@ internal fun Template(
                 width = Dimension.fillToConstraints
                 height = Dimension.percent(
                     when (type) {
-                        TemplatesType.WithoutHeadBand -> ui.percent.emptySpaceWithoutBand
-                        TemplatesType.WithHeadBand -> ui.percent.emptySpaceWithBand
+                        TemplatesType.WithoutHeadBand -> ui.percent.bodyWithoutBand
+                        TemplatesType.WithHeadBand -> ui.percent.bodyWithBand
                     }
                 )
             }
@@ -121,7 +120,7 @@ internal fun Template(
         }
         Box(
             Modifier
-                .layoutId(ui.emptySpace.id)
+                .layoutId(ui.body.id)
 //                .background(Color.Transparent)
         ) { body.invoke() }
     }

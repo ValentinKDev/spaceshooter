@@ -6,8 +6,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
-import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.PressureNavigationViewModel
-import com.mobilegame.spaceshooter.logic.uiHandler.Device
+import com.mobilegame.spaceshooter.logic.model.screen.pression.PressureNavigationViewModel
+import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.*
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.*
@@ -27,16 +27,16 @@ fun MenuScreen(navigator: Navigator) {
     val letterSizeDp = 75.dp.toSquare()
     val letterPaddingDp = letterSizeDp.width * 0.15F
     val letterSpacerSizeDp = DpSize(letterPaddingDp, letterSizeDp.height)
-    val verticalPadding = (Device.sizeDp.height subtract letterSizeDp.height) div 2F
+    val verticalPadding = (Device.metrics.sizeDp.height subtract letterSizeDp.height) div 2F
 
     val word = "SPACEWAR"
     ChargingScreen(
         navigator = navigator,
         handler = PressureNavigationViewModel(screenNav = Screens.MainScreen, timerValidation = 900L),
         contentSize = DpSize((letterSizeDp.width time word.length.toFloat()) + (letterPaddingDp time (word.length - 1).toFloat()), letterSizeDp.height),
-        screenSize = Device.sizeDp,
-        startPadding = ((Device.sizeDp.width subtract (letterSizeDp.width time word.length.toFloat())) subtract (letterPaddingDp time (word.length - 1).toFloat())) div 2F,
-        endPadding = ((Device.sizeDp.width subtract (letterSizeDp.width time word.length.toFloat())) subtract ((letterPaddingDp time (word.length - 1).toFloat())))div 2F,
+        screenSize = Device.metrics.sizeDp,
+        startPadding = ((Device.metrics.sizeDp.width subtract (letterSizeDp.width time word.length.toFloat())) subtract (letterPaddingDp time (word.length - 1).toFloat())) div 2F,
+        endPadding = ((Device.metrics.sizeDp.width subtract (letterSizeDp.width time word.length.toFloat())) subtract ((letterPaddingDp time (word.length - 1).toFloat())))div 2F,
         topPadding = verticalPadding,
         bottomPadding = verticalPadding,
     ) {

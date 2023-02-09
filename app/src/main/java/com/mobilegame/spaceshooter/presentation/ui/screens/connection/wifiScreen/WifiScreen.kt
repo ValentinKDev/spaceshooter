@@ -2,6 +2,7 @@ package com.mobilegame.spaceshooter.presentation.ui.screens.wifiScreen
 
 import androidx.compose.runtime.*
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen.WifiScreenViewModel
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
@@ -14,15 +15,17 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 
 @Composable
 fun WifiScreen(navigator: Navigator, vm: WifiScreenViewModel = viewModel()) {
-    LaunchedEffect(true) {
-        eLog("WifiScreen", "WifiScreen start ${vm.deviceName}")
+    val deviceName by remember { vm.deviceName }.collectAsState()
+
+    LaunchedEffect(deviceName) { deviceName?.let { vm.nonNullNameTrigger() }
+        eLog("WifiScreen", "WifiScreen launch ${vm.deviceName.value}")
     }
 
-    val visibleDeviceNameList by remember { vm.connectionInfo.visibleDeviceNameList }.collectAsState()
+    val visibleDeviceNameList by remember { Device.wifi.visibleDevices }.collectAsState()
 
     BackgroundBanner(vm.ui.banner)
     if (visibleDeviceNameList.isEmpty()) {
-        vm.deviceName?.run {
+        deviceName?.run {
             TemplateWithoutBand(
                 navigator = navigator,
                 backNav = Screens.BluetoothScreen.backNav,
@@ -31,8 +34,8 @@ fun WifiScreen(navigator: Navigator, vm: WifiScreenViewModel = viewModel()) {
                 body = { Body(vm) },
             )
         }
-        vm.deviceName ?: run { RegisterDeviceName(navigator, vm.registerVM) }
+        deviceName ?: run { RegisterDeviceName(navigator, vm.registerVM) }
     } else {
-        DevicesMenu(vm, navigator, vm.deviceName)
+        DevicesMenu(vm, navigator, deviceName)
     }
 }

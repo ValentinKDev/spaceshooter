@@ -4,9 +4,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.uiHandler.Icons.BluetoothIcon
 import com.mobilegame.spaceshooter.logic.uiHandler.Icons.BtWifiIconsServiceUI
-import com.mobilegame.spaceshooter.logic.uiHandler.Icons.WifiIcon
 import com.mobilegame.spaceshooter.logic.uiHandler.Icons.WifiIconUI
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
@@ -18,9 +18,9 @@ class MainScreenUI {
     val template = TemplateUI()
     val tutoButton = TutorialButton(template)
     val instruction = InstructionMainScreen()
-    val buttonBluetooth: BluetoothIcon = BluetoothIcon(Device.height * 0.3F)
-    val buttonWifi: WifiIconUI = BtWifiIconsServiceUI.createWifiIconUI(Device.height * 0.3F, StrokeCap.Square, outlined = true) as WifiIconUI
-//    val buttonWifi: WifiIcon = WifiIcon(Device.height * 0.3F, StrokeCap.Square, outlined = true
+    val buttonBluetooth: BluetoothIcon = BluetoothIcon(Device.metrics.height * 0.3F)
+    val buttonWifi: WifiIconUI = BtWifiIconsServiceUI.createWifiIconUI(Device.metrics.height * 0.3F, StrokeCap.Square, outlined = true) as WifiIconUI
+//    val buttonWifi: WifiIcon = WifiIcon(Device.metrics.height * 0.3F, StrokeCap.Square, outlined = true
 
     class InstructionMainScreen {
         val padding = PaddingInstructionsMainScreen()
@@ -36,7 +36,7 @@ class MainScreenUI {
         )
 
         class SizesInstructionsMainScreen( padding: PaddingInstructionsMainScreen) {
-            val boxHeight: Float = (1F - padding.top - padding.bottom) * Device.height
+            val boxHeight: Float = (1F - padding.top - padding.bottom) * Device.metrics.height
             val text: Float = boxHeight * 0.45F
             val textSp: TextUnit = text.toSp()
         }

@@ -4,7 +4,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
-import com.mobilegame.spaceshooter.logic.uiHandler.Device
+import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.wLog
@@ -24,7 +24,7 @@ class BackButtonUI(percent: TemplateUI.TemplatePercents) {
         var start: Float = 0.01F,
     )
     class SizesBackButton(percent: TemplateUI.TemplatePercents) {
-        val boxHeight: Float = percent.header * Device.height
+        val boxHeight: Float = percent.header * Device.metrics.height
         val boxHeightDp: Dp = boxHeight.toDp()
         val canvas: Float = boxHeight * 0.75F
         val canvasDp: Dp = canvas.toDp()

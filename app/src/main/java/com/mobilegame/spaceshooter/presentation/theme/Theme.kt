@@ -2,6 +2,7 @@ package com.mobilegame.spaceshooter.presentation.theme
 
 import android.content.pm.ActivityInfo
 import android.os.Build
+import android.util.Log
 import android.view.Window
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
@@ -18,7 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
-import com.mobilegame.spaceshooter.logic.uiHandler.Device
+import com.mobilegame.spaceshooter.data.device.Device
+import com.mobilegame.spaceshooter.logic.repository.DeviceDataRepo
+import com.mobilegame.spaceshooter.logic.repository.DeviceLayoutRepo
 import com.mobilegame.spaceshooter.presentation.ui.screens.lock.LockScreenOrientation
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.HideScreenBars
 
@@ -59,7 +62,7 @@ fun SpaceShooterTheme(
     val context = LocalContext.current
 
     LaunchedEffect(true) {
-        Device.initDatastore(context)
+        DeviceDataRepo().init(context)
     }
 
     LockScreenOrientation(orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
@@ -82,11 +85,8 @@ fun SpaceShooterTheme(
             .fillMaxSize()
             .background(MyColor.applicationBackground)
             .onGloballyPositioned { layout ->
-                Device.initiated ?: run {
-                    Device.initLayout(
-                        context,
-                        layout
-                    )
+                Device.metrics.initiated ?: run {
+                    DeviceLayoutRepo().init(context, layout)
                 }
             }
     ) {

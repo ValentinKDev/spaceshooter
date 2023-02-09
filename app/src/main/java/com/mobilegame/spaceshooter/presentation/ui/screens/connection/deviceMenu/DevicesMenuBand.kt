@@ -1,23 +1,29 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.connection.deviceMenu
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiClient
+import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiInfoService
+import com.mobilegame.spaceshooter.logic.model.screen.connection.ConnectedDevice
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.DevicesMenuUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
+import java.net.InetAddress
 
 @Composable
 fun DeviceMenuBand(
     ui: DevicesMenuUI.BandDeviceMenu,
     deviceName: String,
-    facingDevices: List<String>,
+    facingDevices: List<ConnectedDevice>,
     facingDeviceIndex: Int,
 ) {
     val constraints = remember {
@@ -113,7 +119,9 @@ fun DeviceMenuBand(
         Text(
             modifier = Modifier.layoutId(ui.ids.connectedDeviceText)
             ,
-            text = facingDevices[facingDeviceIndex],
+//            text = facingDevices[facingDeviceIndex].name,
+            text = facingDevices[facingDeviceIndex].name,
+//            text = facingDevices.values.first(),
             color = MyColor.applicationText
         )
 

@@ -6,6 +6,6 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScre
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 
 @Composable
-fun LaunchDuelGameScreen(navigator: Navigator, vm: LaunchDuelGameViewModel = viewModel()) {
+fun LaunchSpaceWarGameScreen(navigator: Navigator, vm: LaunchDuelGameViewModel = viewModel()) {
     DuelGameScreen(vm = vm.gameVM)
 }

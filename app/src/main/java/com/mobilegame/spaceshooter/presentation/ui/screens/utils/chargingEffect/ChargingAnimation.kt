@@ -12,10 +12,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
+import com.mobilegame.spaceshooter.utils.extensions.alpha
 
 
 @Composable
-fun ChargingAnimation(isPressed: Boolean, timer: Int ) {
+fun ChargingAnimation(isPressed: Boolean, timer: Int, alpha: Float = 1F) {
     val minWeight = remember { 0.001F }
     val maxWeight = remember { 0.999F }
     val heightWeight by animateFloatAsState(
@@ -32,21 +33,7 @@ fun ChargingAnimation(isPressed: Boolean, timer: Int ) {
             Modifier
                 .fillMaxWidth()
                 .weight(heightWeight)
-                .background(MyColor.applicationContrast)
+                .background(MyColor.applicationContrast.alpha(alpha))
         )
     }
-
-//    Column(Modifier.fillMaxSize()) {
-//        Box(
-//            Modifier
-//                .fillMaxWidth()
-//                .weight(maxWeight)
-//        )
-//        Box(
-//            Modifier
-//                .fillMaxWidth()
-//                .weight(minWeight)
-//                .background(MyColor.applicationBackground)
-//        )
-//    }
 }

@@ -44,15 +44,24 @@ fun List<Shoot>.clone(): List<Shoot> {
     }
     return mutableList.toList()
 }
-fun List<Shoot>.add(element: Shoot): List<Shoot> {
-    val mutableList: MutableList<Shoot> = this.clone().toMutableList()
+//fun List<Shoot>.add(element: Shoot): List<Shoot> {
+//    val mutableList: MutableList<Shoot> = this.clone().toMutableList()
+fun <T> List<T>.add(element: T): List<T> {
+    val mutableList: MutableList<T> = this.toMutableList()
     mutableList.add(element)
-    return mutableList.toList()
+    return mutableList
 }
-fun List<Shoot>.remove(index: Int): List<Shoot> {
-    val mutableList: MutableList<Shoot> = this.clone().toMutableList()
+fun <T> List<T>.remove(element: T): List<T> {
+//    val mutableList: MutableList<T> = this.clone().toMutableList()
+    val mutableList: MutableList<T> = this.toMutableList()
+    mutableList.remove(element)
+    return mutableList
+}
+fun <T> List<T>.remove(index: Int): List<T> {
+//    val mutableList: MutableList<T> = this.clone().toMutableList()
+    val mutableList: MutableList<T> = this.toMutableList()
     mutableList.remove(index)
-    return mutableList.toList()
+    return mutableList
 }
 
 fun <T> List<T>.reverseElements(): List<T> {
@@ -62,6 +71,8 @@ fun <T> List<T>.reverseElements(): List<T> {
     }
     return mutableList.toList()
 }
+
+fun <T> List<T>.get(element: T): T? = this.find { it == element }
 //fun MutableList<Offset>.reverseElements(): List<Offset> {
 //    val mutableList = mutableListOf<Offset>()
 //    for (i in this.lastIndex downTo 0) {

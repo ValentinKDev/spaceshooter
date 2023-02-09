@@ -4,11 +4,11 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
-import com.mobilegame.spaceshooter.data.store.DataStoreNameProvider
-import com.mobilegame.spaceshooter.data.store.DataStoreService
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.connection.registerDevice.RegisterDeviceViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.pression.PressureReadyViewModel
+import com.mobilegame.spaceshooter.data.device.Device
+import com.mobilegame.spaceshooter.logic.repository.DeviceWifiRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.WifiScreenUI
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import kotlinx.coroutines.*
@@ -19,51 +19,54 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class WifiScreenViewModel(application: Application): AndroidViewModel(application) {
     val TAG = "WifiScreenVM"
-    val registerVM = RegisterDeviceViewModel(application, Screens.WifiScreen)
     val ui = WifiScreenUI()
-    private val deviceNameDataStore = DataStoreService.DeviceName(application)
-    var connectionInfo = WifiConnectionInfo()
-    private var connectionVM: WifiConnectionViewModel? = null
-    var deviceName: String? = null
+    val pressureVM = PressureReadyViewModel(Screens.SpaceShipMenuScreen)
+    val registerVM = RegisterDeviceViewModel(application, Screens.WifiScreen)
+    val repo = DeviceWifiRepo()
+    private var connectionVM: WifiConnectionViewModel = WifiConnectionViewModel()
+    private val deviceNameDataStore: String? = Device.data.name
+    private val _deviceName = MutableStateFlow(Device.data.name)
+    val deviceName: StateFlow<String?> = _deviceName.asStateFlow()
 
     init {
-        deviceName = getDeviceNameFromDataStore()
-        deviceName?.let {
-            connectionInfo = WifiConnectionInfo()
-            connectionInfo.init(application, it)
-            connectionVM = WifiConnectionViewModel(connectionInfo)
-            refreshButtonClick()
-        } ?: let { Log.e(TAG, "init: ERROR deviceName Null") }
+        repo.initWifi(application)
+        repo.initNetworkSearchAndDiscovery(application)
+//        deviceName.value?.let { nonNullNameTrigger() }
     }
 
-    private fun getDeviceNameFromDataStore(): String? = runBlocking {
-         deviceNameDataStore.getString(DataStoreNameProvider.DeviceName.key)
-    }
-
-    fun refreshButtonClick() {
-        connectionVM?.let {
-            when (connectionInfo.linkState.value) {
-                WifiLinkState.Connected-> {
-                    if (it.isHosting())
-                        it.stopHosting()
-                    else {
-                        it.stopSearching()
-                        connectionInfo.socket?.close()
-                        connectionInfo.socket = null
-                    }
-                    connectionInfo.updateLinkStateTo(WifiLinkState.NotConnected)
-                }
-                WifiLinkState.NotConnected -> {
-                    it.start()
-                }
-                WifiLinkState.Connecting -> {
-                    Log.e(TAG , "ERROR linkState.value == LinkStates.Connecting")
-                }
-            }
+    fun nonNullNameTrigger() {
+        Log.i(TAG, "nonNullNameTrigger: ")
+        viewModelScope.launch(Dispatchers.IO) {
+            connectionVM.hostAndSearch()
+//            connectionVM.start()
+//            connectionVM.host()
+//            connectionVM.searchForServers()
         }
     }
+//    fun startConnecting() { connectionVM.host() }
+    fun newVisibleDeviceTrigger() {
+    Log.i(TAG, "newVisibleDeviceTrigger: ")
+//    connectionVM.searchForServers()
+    }
+
+//    fun refreshButtonClick() { connectionVM.refresh() }
 
     fun back(navigator: Navigator): Job = viewModelScope.launch(Dispatchers.IO) {
             navigator.navig(Screens.MainScreen)
     }
+
+//    fun playerReadyToChooseSpaceShip(): Job = viewModelScope.launch(Dispatchers.IO) {
+//        if (connectionInfo.linkState.value == WifiLinkState.Connected) {
+//            deviceName?.let { _name -> connectionVM?.let { _connectionVM ->
+//                if (_connectionVM.isHosting()) {
+//                    val launchGameEvenMessage = EventMessage(EventMessageType.LaunchGame.name, _name, "")
+//                    SendEvent(connectionInfo, launchGameEvenMessage).toAllClients()
+//                } else {
+//                    val readyToChooseSapceShip = EventMessage(EventMessageType.ReadyToChooseSpaceShip.name, _name, "")
+//                    SendEvent(connectionInfo, readyToChooseSapceShip).toServer()
+//                    Communications
+//                }
+//            }}
+//        }
+//    }
 }

@@ -6,7 +6,7 @@ class TemplateUI() {
     val topDelimiter = DelimiterTemplate(id = "top_delimiter", percent = percent)
     val band = BandTemplate(percent)
     val bottomDelimiter = DelimiterTemplate(id = "bottom_delimiter", percent = percent)
-    val emptySpace = EmptySpace(percent)
+    val body = BodyTemplate(percent)
     val backButton = BackButtonUI(percent)
 
     class TemplatePercents {
@@ -15,7 +15,7 @@ class TemplateUI() {
         val topDelimiter = 0.01F
         val band = header
         val bottomDelimiter = topDelimiter
-        val emptySpaceWithoutBand = 1F - header - topDelimiter
-        val emptySpaceWithBand = 1F - header - topDelimiter - band - bottomDelimiter
+        val bodyWithoutBand = 1F - header - topDelimiter
+        val bodyWithBand = 1F - header - topDelimiter - band - bottomDelimiter
     }
 }

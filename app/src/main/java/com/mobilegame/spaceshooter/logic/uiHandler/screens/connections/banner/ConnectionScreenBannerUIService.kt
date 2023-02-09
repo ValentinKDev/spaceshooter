@@ -1,7 +1,5 @@
 package com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.banner
 
-import androidx.compose.ui.graphics.StrokeCap
-import com.mobilegame.spaceshooter.logic.uiHandler.Device
 import com.mobilegame.spaceshooter.logic.uiHandler.Icons.BtWifiIconsServiceUI
 import com.mobilegame.spaceshooter.logic.uiHandler.Icons.BtWifiType
 

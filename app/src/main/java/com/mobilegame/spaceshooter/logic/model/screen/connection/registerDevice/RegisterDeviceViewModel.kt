@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class RegisterDeviceViewModel(context: Context, val screenNav: Screens): ViewModel() {
     val ui = RegisterDeviceNameUI()
-    val deviceNameDatastore = DataStoreService.DeviceName(context)
+    val deviceNameDatastore = DataStoreService.deviceName(context)
 
     private val _input = MutableStateFlow("")
     val input: StateFlow<String> = _input.asStateFlow()

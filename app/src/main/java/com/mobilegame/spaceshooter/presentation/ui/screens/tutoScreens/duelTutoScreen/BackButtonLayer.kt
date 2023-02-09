@@ -21,6 +21,6 @@ fun BackButtonLayer(vm: TutoScreenViewModel, navigator: Navigator) {
                 ui = vm.ui.template.backButton
             )
         }
-        Box( Modifier.weight(vm.ui.template.percent.emptySpaceWithoutBand))
+        Box( Modifier.weight(vm.ui.template.percent.bodyWithoutBand))
     }
 }

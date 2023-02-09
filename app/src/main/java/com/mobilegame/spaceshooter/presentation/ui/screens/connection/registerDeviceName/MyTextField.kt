@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.connection
+package com.mobilegame.spaceshooter.presentation.ui.screens.connection.registerDeviceName
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -17,46 +17,10 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.connection.registerDevice.RegisterDeviceViewModel
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
-import com.mobilegame.spaceshooter.presentation.ui.screens.connection.elements.Keyboard.MyKeyboard
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
-import com.mobilegame.spaceshooter.presentation.ui.template.TemplateWithoutBand
 import kotlinx.coroutines.delay
-
-@Composable
-fun RegisterDeviceName(navigator: Navigator, vm: RegisterDeviceViewModel = viewModel()) {
-    TemplateWithoutBand(
-        navigator = navigator,
-        backNav = Screens.MainScreen,
-        ui = vm.ui.template,
-        header = {
-            CenterComposable(id = "instruction") {
-                Text(
-                    text = "ENTER YOUR NAME :",
-                    color = MyColor.applicationText,
-                    modifier = Modifier.wrapContentSize(),
-                    style = TextStyle(
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                    )
-                )
-            }
-        },
-    ) {
-        Column() {
-            Box(Modifier.weight(1F)) {
-                MyTextField(vm)
-            }
-            Box(Modifier.weight(1F)) {
-                MyKeyboard(navigator, vm)
-            }
-        }
-    }
-}
 
 @Composable
 fun MyTextField(vm: RegisterDeviceViewModel) {
@@ -137,4 +101,3 @@ fun MyTextField(vm: RegisterDeviceViewModel) {
         }
     }
 }
-

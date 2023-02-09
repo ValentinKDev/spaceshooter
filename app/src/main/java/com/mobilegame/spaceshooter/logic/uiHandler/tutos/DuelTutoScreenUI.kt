@@ -4,7 +4,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
-import com.mobilegame.spaceshooter.logic.uiHandler.Device
+import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.vLog
@@ -29,8 +29,8 @@ class DuelTutoScreenUI() {
         class SizesSmartphoneEmulator(generalLayout: GeneralLayoutTutoScreen, padd: PaddingSmartphoneEmulator) {
             private val strokeHeightPercent: Float = 0.020F
 
-            var height: Float = (generalLayout.smartphoneWeight / generalLayout.allWeightsHeight) * Device.height
-            var width: Float = (1F - (2F * generalLayout.horizontalPadd)) * Device.width
+            var height: Float = (generalLayout.smartphoneWeight / generalLayout.allWeightsHeight) * Device.metrics.height
+            var width: Float = (1F - (2F * generalLayout.horizontalPadd)) * Device.metrics.width
             val paddVertical: Float = padd.screenVertical * height
             val paddHorizontal: Float = padd.screenHorizontal * width
             var screenHeight: Float = (height * (1F - (2F * padd.screenVertical)))
