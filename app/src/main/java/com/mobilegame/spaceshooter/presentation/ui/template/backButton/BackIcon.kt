@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.utils.backButton
+package com.mobilegame.spaceshooter.presentation.ui.template.backButton
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size

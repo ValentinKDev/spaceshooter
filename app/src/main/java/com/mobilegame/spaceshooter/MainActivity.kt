@@ -1,21 +1,13 @@
 package com.mobilegame.spaceshooter
 
-import android.content.BroadcastReceiver
-import android.content.ContentValues.TAG
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
-import android.net.wifi.p2p.WifiP2pDevice
-import android.net.wifi.p2p.WifiP2pManager
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.mobilegame.spaceshooter.presentation.theme.SpaceShooterTheme
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigation
-import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
+import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 
 class MainActivity : ComponentActivity() {

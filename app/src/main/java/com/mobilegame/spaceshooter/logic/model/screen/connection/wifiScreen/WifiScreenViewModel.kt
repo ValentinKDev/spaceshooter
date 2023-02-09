@@ -6,11 +6,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.connection.registerDevice.RegisterDeviceViewModel
-import com.mobilegame.spaceshooter.logic.model.screen.pression.PressureReadyViewModel
 import com.mobilegame.spaceshooter.data.device.Device
+import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
 import com.mobilegame.spaceshooter.logic.repository.DeviceWifiRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.WifiScreenUI
-import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
+import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +20,8 @@ import kotlinx.coroutines.flow.asStateFlow
 class WifiScreenViewModel(application: Application): AndroidViewModel(application) {
     val TAG = "WifiScreenVM"
     val ui = WifiScreenUI()
-    val pressureVM = PressureReadyViewModel(Screens.SpaceShipMenuScreen)
+//    val pressureVM = PressureReadyViewModel(Screens.SpaceShipMenuScreen)
+    val pressureVM = PressureViewModel()
     val registerVM = RegisterDeviceViewModel(application, Screens.WifiScreen)
     val repo = DeviceWifiRepo()
     private var connectionVM: WifiConnectionViewModel = WifiConnectionViewModel()
@@ -50,6 +51,13 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
     }
 
 //    fun refreshButtonClick() { connectionVM.refresh() }
+    fun pressureReadyToChooseSpaceShip(navigator: Navigator) = viewModelScope.launch {
+    Log.e(TAG, "pressureReadyToChooseSpaceShip: ")
+    Log.e(TAG, "pressureReadyToChooseSpaceShip: ")
+    Log.e(TAG, "pressureReadyToChooseSpaceShip: ")
+    Log.e(TAG, "pressureReadyToChooseSpaceShip: ")
+//        Navigator().navig(Screens.SpaceShipMenuScreen)
+    }
 
     fun back(navigator: Navigator): Job = viewModelScope.launch(Dispatchers.IO) {
             navigator.navig(Screens.MainScreen)

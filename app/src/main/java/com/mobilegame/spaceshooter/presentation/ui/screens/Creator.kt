@@ -15,10 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mobilegame.spaceshooter.logic.model.screen.mainScreen.MainScreenViewModel
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.getListCircleOffset
 import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.getListEllipseOffset
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable

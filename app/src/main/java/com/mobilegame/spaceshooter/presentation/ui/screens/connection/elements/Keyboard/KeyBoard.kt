@@ -15,7 +15,7 @@ import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import com.mobilegame.spaceshooter.logic.model.screen.connection.registerDevice.RegisterDeviceViewModel
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
+import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
 
 @Composable

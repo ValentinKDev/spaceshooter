@@ -10,20 +10,21 @@ import androidx.compose.ui.layout.layoutId
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
-import com.mobilegame.spaceshooter.logic.model.screen.pression.PressureNavigationViewModel
+import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
-import com.mobilegame.spaceshooter.presentation.ui.screens.utils.backButton.BackButton
+import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
+import com.mobilegame.spaceshooter.presentation.ui.template.backButton.BackButton
 
 @Composable
 internal fun Template(
     type: TemplatesType,
     navigator: Navigator,
     backNav: Screens,
-    vm: PressureNavigationViewModel = PressureNavigationViewModel(backNav),
     ui: TemplateUI,
+    vm: PressureViewModel = viewModel(),
     header: @Composable () -> Unit,
     headBand: @Composable () -> Unit,
     body: @Composable () -> Unit,
@@ -103,7 +104,13 @@ internal fun Template(
         ) { header.invoke() }
         Box(
             Modifier.layoutId(ui.backButton.id)
-        ) { BackButton(vm, navigator = navigator, ui.backButton) }
+        ) { BackButton(
+            vm = vm,
+            backNav = backNav,
+            navigator = navigator,
+            ui = ui.backButton
+        )
+        }
         Box(
             Modifier
                 .background(MyColor.Platinium)

@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.navigation
+package com.mobilegame.spaceshooter.logic.model.navigation
 
 import com.mobilegame.spaceshooter.logic.model.screen.NavigationDestination
 import com.mobilegame.spaceshooter.utils.extensions.addNavArg

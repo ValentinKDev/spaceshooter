@@ -3,7 +3,7 @@ package com.mobilegame.spaceshooter.presentation.ui.template
 import androidx.compose.runtime.Composable
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
-import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
+import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 
 
 @Composable

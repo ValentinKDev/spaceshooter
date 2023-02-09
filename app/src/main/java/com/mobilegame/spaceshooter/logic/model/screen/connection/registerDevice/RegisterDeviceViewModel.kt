@@ -8,7 +8,7 @@ import com.mobilegame.spaceshooter.data.store.DataStoreNameProvider
 import com.mobilegame.spaceshooter.data.store.DataStoreService
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.RegisterDeviceNameUI
-import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
+import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

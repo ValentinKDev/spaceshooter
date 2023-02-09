@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.mobilegame.spaceshooter.logic.model.screen.connection.registerDevice.RegisterDeviceViewModel
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.RegisterDeviceNameUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
+import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterVertically
 import com.mobilegame.spaceshooter.utils.extensions.getKeyID

@@ -1,15 +1,14 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.menu
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.mobilegame.spaceshooter.logic.model.screen.Screens
-import com.mobilegame.spaceshooter.logic.model.screen.pression.PressureNavigationViewModel
+import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
 import com.mobilegame.spaceshooter.data.device.Device
+import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.*
-import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
+import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.*
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.SpacerWithBackground
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.chargingEffect.chargingScreen.ChargingScreen
@@ -21,7 +20,12 @@ import com.mobilegame.spaceshooter.utils.extensions.toSquare
 
 @Composable
 fun MenuScreen(navigator: Navigator) {
-    LaunchedEffect(true) {
+
+    val pressureVM = remember { PressureViewModel() }
+    val startNavigationJob by remember { pressureVM.full }.collectAsState()
+
+    LaunchedEffect(startNavigationJob) {
+        if (startNavigationJob) navigator.navig(Screens.MainScreen)
         eLog("MenuScreen", "MenuScreen launch")
     }
     val letterSizeDp = 75.dp.toSquare()
@@ -32,7 +36,7 @@ fun MenuScreen(navigator: Navigator) {
     val word = "SPACEWAR"
     ChargingScreen(
         navigator = navigator,
-        handler = PressureNavigationViewModel(screenNav = Screens.MainScreen, timerValidation = 900L),
+        handler = pressureVM,
         contentSize = DpSize((letterSizeDp.width time word.length.toFloat()) + (letterPaddingDp time (word.length - 1).toFloat()), letterSizeDp.height),
         screenSize = Device.metrics.sizeDp,
         startPadding = ((Device.metrics.sizeDp.width subtract (letterSizeDp.width time word.length.toFloat())) subtract (letterPaddingDp time (word.length - 1).toFloat())) div 2F,

@@ -1,24 +1,20 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.connection
 
-import android.util.Log
 import androidx.compose.runtime.*
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen.WifiScreenViewModel
-import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigator
+import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.deviceMenu.DeviceMenuBand
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.deviceMenu.DevicesMenuBody
 import com.mobilegame.spaceshooter.presentation.ui.template.TemplateWithBand
-import kotlin.math.log
 
 @Composable
 fun DevicesMenu(vm: WifiScreenViewModel, navigator: Navigator, deviceName: String?) {
     val facingDevices by remember { Device.wifi.visibleDevices }.collectAsState()
 
-    LaunchedEffect(facingDevices) {
-        Log.i("DeviceMenu", "DevicesMenu: facingDevices list size ${facingDevices.size}")
-//        vm.newVisibleDeviceTrigger()
-    }
+    val startJob by remember { vm.pressureVM.full }.collectAsState()
+    LaunchedEffect(startJob) { if (startJob) vm.pressureReadyToChooseSpaceShip(navigator) }
 
     deviceName?.let { _name ->
         if (facingDevices.isNotEmpty()) {
@@ -40,6 +36,7 @@ fun DevicesMenu(vm: WifiScreenViewModel, navigator: Navigator, deviceName: Strin
                         ui = vm.ui.deviceMenu.body,
                         navigator = navigator,
                         pressureVM = vm.pressureVM,
+                        onPressure = WifiScreenViewModel::pressureReadyToChooseSpaceShip,
                     )
                 }
             )
