@@ -8,6 +8,7 @@ import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.connection.ConnectedDevice
 import com.mobilegame.spaceshooter.utils.extensions.*
+import kotlinx.coroutines.flow.update
 import java.math.BigInteger
 import java.net.InetAddress
 
@@ -24,8 +25,10 @@ class DeviceWifiRepo() {
     fun getNsdManager(): NsdManager = Device.wifi.nsdManager
 //    fun getRegistrationListener(): NsdManager.RegistrationListener = Device.wifi.registrationListener
 //    fun connectedToAllServers(): Boolean = Device.wifi.channels.withServers.size == Device.wifi.channels.withClients.size
-    fun getLinkState(): WifiLinkState = Device.wifi.linkState
-    fun updateLinkStateTo(newState: WifiLinkState) { Device.wifi.linkState = newState
+    fun getLinkState(): WifiLinkState = Device.wifi.linkState.value
+    fun updateLinkStateTo(newState: WifiLinkState) {
+//        Device.wifi.linkState = newState
+        Device.wifi.linkState.update { newState }
         Log.w(TAG, "updateLinkStateTo: ${newState.name}")
     }
     fun addVisibleDevice(ip: InetAddress, name: String) {

@@ -1,5 +1,6 @@
 package com.mobilegame.spaceshooter.utils.extensions
 
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -14,3 +15,5 @@ fun Float.toSp(): TextUnit = (this / Device.metrics.density).sp
 fun Float.toSpRef(): TextUnit = ((this / densityRef) * (densityRef / Device.metrics.density)).sp
 
 fun Float.toRad(): Float = this * PI.toFloat() / 180F
+
+fun Float.toSize(): Size = Size(this, this)

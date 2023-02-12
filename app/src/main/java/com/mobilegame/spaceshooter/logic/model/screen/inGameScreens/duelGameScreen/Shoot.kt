@@ -1,17 +1,14 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen
 
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.Motions
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.ShipOrigin
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.ShipType
-import com.mobilegame.spaceshooter.utils.extensions.*
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 
-class Shoot (
-    val type: ShipType = ShipType.Default,
+class Shoot(
+    val type: ShipType,
     val from: ShipOrigin = ShipOrigin.User,
     val motion: Motions,
     var vector: Size = Size.Zero,

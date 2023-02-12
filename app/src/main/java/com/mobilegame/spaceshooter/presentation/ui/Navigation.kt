@@ -32,10 +32,11 @@ fun Navigation(navigator: Navigator) {
 
     NavHost(
         navController = navController,
-        startDestination = Screens.MainScreen.route,
+//        startDestination = Screens.MainScreen.route,
 //        startDestination = Screens.MenuScreen.route,
 //        startDestination = Screens.WifiScreen.route,
 //        startDestination = Screens.DuelTutoScreen.route,
+        startDestination = Screens.SpaceWarScreen.route,
 //        startDestination = Screens.Creator.route,
 //        startDestination = Screens.Test.route,
     ) {
@@ -46,13 +47,8 @@ fun Navigation(navigator: Navigator) {
         composable(route = Screens.WifiScreen.route) { WifiScreen(navigator) }
         composable(route = Screens.DuelTutoScreen.route) { DuelTutoScreen(navigator) }
         composable(route = Screens.SpaceShipMenuScreen.route) { SpaceShipMenuScreen(navigator) }
-        composable(route = Screens.SpaceWarScreen.route) { LaunchSpaceWarGameScreen(navigator) }
+        composable(route = Screens.SpaceWarScreen.route) { LaunchSpaceWarGameScreen() }
         composable(route = Screens.Creator.route) { Creator() }
 //        composable(route = Screens.Test.route) { Test(navigator) }
     }
 }
-
-//@Composable
-//fun Test(navigator: Navigator, vm: WifiScreenViewModel = viewModel()) {
-//    DevicesMenu(vm = vm, navigator = navigator)
-//}

@@ -7,10 +7,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
-import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUI
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.CircleSpaceShipIconUI
 
 @Composable
-fun DefaultShipShape(ui: SpaceShipIconUI) {
+fun CircleShipShape(ui: CircleSpaceShipIconUI) {
     Canvas(
         Modifier
             .fillMaxSize()

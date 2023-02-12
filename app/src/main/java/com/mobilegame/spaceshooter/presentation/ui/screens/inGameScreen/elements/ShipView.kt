@@ -8,17 +8,13 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleObserver
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.DuelGameViewModel
-import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.DefaultShip
-import com.mobilegame.spaceshooter.utils.analyze.eLog
-import com.mobilegame.spaceshooter.utils.extensions.*
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.SpaceWarGameViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.CircleShipView
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.square.SquareShipView
 
 @Composable
-fun SpaceShipView(vm: DuelGameViewModel) {
+fun SpaceShipView(vm: SpaceWarGameViewModel) {
     val position by remember { vm.shipVM.motionVM.shipPosition }.collectAsState()
     val motion by remember { vm.shipVM.motionVM.motion }.collectAsState()
     val speed by remember { vm.shipVM.motionVM.speedMagnitude }.collectAsState()
@@ -27,12 +23,17 @@ fun SpaceShipView(vm: DuelGameViewModel) {
         targetValue = vm.shipVM.motionVM.getTargetAngle(motion, speed),
         animationSpec = tween(600)
     )
+
     Box(
         Modifier
             .wrapContentSize()
             .offset(position.x, position.y)
             .rotate(angle)
+//            .background(Color.Red.alpha(0.5F))
     ) {
-        DefaultShip( vm.shipVM, vm.ui.spaceShip )
+        when (vm.shipVM.type) {
+            ShipType.Circle -> CircleShipView( vm.shipVM,  vm.ui.sizes.shipViewBox)
+            ShipType.Square -> SquareShipView(vm.shipVM, vm.ui.sizes.shipViewBox)
+        }
     }
 }

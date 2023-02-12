@@ -1,9 +1,7 @@
 package com.mobilegame.spaceshooter.utils.extensions
 
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
-import com.mobilegame.spaceshooter.utils.analyze.vLog
 
 fun <T> List<T>.copy(): List<T> {
     val mutableList = mutableListOf<T>()

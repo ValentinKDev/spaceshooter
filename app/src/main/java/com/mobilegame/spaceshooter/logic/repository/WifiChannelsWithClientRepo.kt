@@ -9,10 +9,7 @@ import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiInfoService
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen.channel.WifiChannel
-import com.mobilegame.spaceshooter.utils.extensions.add
-import com.mobilegame.spaceshooter.utils.extensions.close
-import com.mobilegame.spaceshooter.utils.extensions.getInfo
-import com.mobilegame.spaceshooter.utils.extensions.open
+import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
@@ -76,7 +73,8 @@ class WifiChannelsWithClientRepo() {
     fun stopHosting() {
         Log.e(TAG, "stopHosting")
         // Remove the clients
-        withClientChannels().forEach { Device.wifi.channels.withClients.close(it) }
+//        withClientChannels().forEach { Device.wifi.channels.withClients.close(it) }
+        withClientChannels().closeAll()
         withClientChannels().removeAll(Device.wifi.channels.withClients)
         repo.getNsdManager().unregisterService(registrationListener)
         repo.resetVisibleDevice()

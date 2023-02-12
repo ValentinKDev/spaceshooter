@@ -1,7 +1,7 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen
 
 import androidx.compose.runtime.*
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.DuelGameViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.SpaceWarGameViewModel
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.backGrounds.DefaultSpaceBackGround
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.Elements
@@ -9,7 +9,7 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 
 
 @Composable
-fun DuelGameScreen(navigator: Navigator = Navigator(), vm: DuelGameViewModel) {
+fun SpaceWarGameScreen(navigator: Navigator = Navigator(), vm: SpaceWarGameViewModel) {
     LaunchedEffect(true) {
         eLog("InGameScreen", "Launch Screen")
     }

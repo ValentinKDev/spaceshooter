@@ -16,7 +16,7 @@ class AccelerometerViewModel(
     private val alpha = 0.6f
     var maxZ = 1F
 
-    var averagePosition = XYZ(0F, 0F, 0F)
+    var averagePosition = XYZ(0.01F, 0.01F, 0.01F)
 
     //todo: delete motionVM from Param
     fun initializeSensor() {

@@ -14,5 +14,12 @@ fun List<WifiChannel>.close(channel: WifiChannel) = this.get(channel)?.let { _ch
         it.writer.close()
     }
 }
+fun List<WifiChannel>.closeAll() = this.forEach {
+    it.close()
+    it.info?.let {
+        it.socket.close()
+        it.writer.close()
+    }
+}
 
 fun MutableList<WifiChannel>.add(info: WifiInfoService) = this.add(WifiChannel(info))

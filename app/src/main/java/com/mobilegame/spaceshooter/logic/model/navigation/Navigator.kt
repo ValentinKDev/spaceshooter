@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
+//todo: get rid of Navigator in composable functions and instanciate a new class whenever it's needed
 class Navigator {
     var dest: MutableSharedFlow<String> = MutableSharedFlow()
     var des: SharedFlow<String> = dest.asSharedFlow()

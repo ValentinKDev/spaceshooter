@@ -8,5 +8,5 @@ import com.mobilegame.spaceshooter.logic.uiHandler.tutos.DuelTutoScreenUI
 
 class LaunchDuelGameViewModel(application: Application): AndroidViewModel(application) {
     val ui = DuelTutoScreenUI()
-    val gameVM = DuelGameViewModel(application, Size(Device.metrics.width, Device.metrics.height))
+    val gameVM = SpaceWarGameViewModel(application, Size(Device.metrics.width, Device.metrics.height))
 }

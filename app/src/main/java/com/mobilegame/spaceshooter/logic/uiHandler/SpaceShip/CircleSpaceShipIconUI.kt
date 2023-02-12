@@ -1,10 +1,12 @@
 package com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
+import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.analyze.wLog
 import com.mobilegame.spaceshooter.utils.extensions.toDp
@@ -12,11 +14,13 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-class SpaceShipIconUI(type: SpaceShipType = SpaceShipType.Default, shipBox: Float) {
-    val sizes = SizesSpaceShipIcon(shipBox)
+class CircleSpaceShipIconUI(shipBox: Size) {
+    private val TAG = object{}.javaClass.enclosingClass
+
+    val sizes = SizesSpaceShipIcon(shipBox.height)
     val points = PointsSpaceShipIcon(sizes)
     val colors = ColorsSpaceShipIcon()
-    val ammunition = MunitionsSpaceShipIcon(shipBox)
+    val ammunition = MunitionsSpaceShipIcon(shipBox.height)
 
     data class ColorsSpaceShipIcon(
         var strokes: Color = MyColor.applicationContrast,
@@ -79,9 +83,24 @@ class SpaceShipIconUI(type: SpaceShipType = SpaceShipType.Default, shipBox: Floa
 
     init {
         displayDataUI?.let {
-            wLog("SpaceShipIconUI::init", type.name)
             vLog("SpaceShipIconUI::init", "shipBox $shipBox")
             vLog("SpaceShipIconUI::init", "shipBoxDp ${sizes.shipBoxDp}")
+        }
+    }
+    fun getAmmunitionOffset(n: Int): Offset = when (n) {
+        1 -> ammunition.m5
+        2 -> ammunition.m6
+        3 -> ammunition.m4
+        4 -> ammunition.m7
+        5 -> ammunition.m3
+        6 -> ammunition.m8
+        7 -> ammunition.m2
+        8 -> ammunition.m9
+        9 -> ammunition.m1
+        10 -> ammunition.m10
+        else -> {
+            eLog("SpaceShipVM::getAmmunitionOffset", "ERROR getMunition(ui, --> ${ammunition})")
+            Offset.Zero
         }
     }
 }

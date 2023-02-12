@@ -16,12 +16,12 @@ class DeviceWifi {
     lateinit var inetAddress: InetAddress
     lateinit var nsdManager: NsdManager
     lateinit var wifiManager: WifiManager
-    var linkState: WifiLinkState = WifiLinkState.NotConnected
     var channels = WifiChannels()
     val listeners = WifiListeners()
     val playersNumber: MutableStateFlow<Int> = MutableStateFlow(2)
 //    val visibleDevices: MutableStateFlow<List<WifiInfoService>> = MutableStateFlow(listOf())
 //val visibleDevices: MutableStateFlow<Map<InetAddress, String>> = MutableStateFlow(mapOf())
 //    val visibleDevices: MutableStateFlow<List<Pair<InetAddress, String>>> = MutableStateFlow(listOf())
+    var linkState: MutableStateFlow<WifiLinkState> = MutableStateFlow(WifiLinkState.NotConnected)
     val visibleDevices: MutableStateFlow<List<ConnectedDevice>> = MutableStateFlow(listOf())
 }

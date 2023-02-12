@@ -47,7 +47,8 @@ class WifiConnectionViewModel(): ViewModel() {
     private suspend fun delayUntilConnected() {
         Log.i(TAG, "delayUntilConnected")
         var count = 0
-        while (Device.wifi.linkState == WifiLinkState.Connecting && count < 3) {
+//        while (Device.wifi.linkState == WifiLinkState.Connecting && count < 3) {
+        while (repo.getLinkState() == WifiLinkState.Connecting && count < 3) {
             Log.i(TAG, "delayUntilConnected $count")
             delay(250L)
             count += 1

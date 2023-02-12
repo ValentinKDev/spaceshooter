@@ -1,6 +1,8 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions
 
 import android.content.Context
+import android.util.Log
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
@@ -11,20 +13,20 @@ import com.mobilegame.spaceshooter.data.sensor.GravitySensor
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
 import com.mobilegame.spaceshooter.logic.model.sensor.AccelerometerViewModel
 import com.mobilegame.spaceshooter.logic.model.sensor.XYZ
-import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.DuelGameScreenUI
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.SpaceWarGameScreenUI
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 class MotionsViewModel(
     context: Context,
-    ui: DuelGameScreenUI,
+    ui: SpaceWarGameScreenUI,
 ): ViewModel() {
+    private val TAG = object{}.javaClass.enclosingClass.simpleName
     private val startPosition = ui.position.pCenterDp
     private val displaySizeDp = ui.sizes.displayDpDeltaBox
     private val shipCenterDeltaDp = ui.sizes.shipBoxCenterDp
@@ -39,17 +41,23 @@ class MotionsViewModel(
     private var speedF = 0F
     private var deltaX = 0F
     private var deltaY = 0F
-    private var xyz = XYZ.ZERO
+    private var xyz = accelerometerVM.averagePosition
     private fun upDateXYZ() { xyz = accelerometerVM.averagePosition }
 
     private val _shipPosition = MutableStateFlow(startPosition)
     val shipPosition: StateFlow<DpOffset> = _shipPosition.asStateFlow()
-    fun moveShipTo(newPCenter: DpOffset) { _shipPosition.value = newPCenter inBoundsOf displaySizeDp }
+
+    fun moveShipTo() {
+        val newPCenter = shipPosition.value.calculateNewDpOffset(motion.value)
+        _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
+    }
     fun getShipTopCenter(): DpOffset = DpOffset(x = _shipPosition.value.x + shipCenterDeltaDp, y = _shipPosition.value.y)
 
     private val _motion = MutableStateFlow(Motions.None)
     val motion: StateFlow<Motions> = _motion.asStateFlow()
-    fun changeMotionTo(motion: Motions) { _motion.value = motion }
+    fun changeMotionTo(motion: Motions) {
+        _motion.value = motion
+    }
 
     private val _speedMagnitude = MutableStateFlow(SpeedMagnitude.Slow)
     val speedMagnitude: StateFlow<SpeedMagnitude> = _speedMagnitude.asStateFlow()
@@ -67,8 +75,10 @@ class MotionsViewModel(
         getMotionSpeed()
         updateShootsMotions()
         upDateSpeedMagnitude()
-        val newShipPosition = getUpdatedShipPosition()
-        moveShipTo( newShipPosition )
+//        val newShipPosition = getUpdatedShipPosition()
+//        if(shipPosition.value != DpOffset.Zero) Log.i(TAG, "updateFrame: ${shipPosition.value}")
+        moveShipTo()
+//        if(shipPosition.value != DpOffset.Zero) Log.i(TAG, "updateFrame: ${shipPosition.value}")
     }
 
     private fun getMotionSpeed() {
@@ -118,33 +128,19 @@ class MotionsViewModel(
         }
     }
 
-    private fun getUpdatedShipPosition(): DpOffset {
-        return getUpdatedDpOffsetByMotionsType(
-            oldPlacementDp = shipPosition.value,
-            motion = motion.value,
-            dX = deltaX,
-            dY = deltaY,
-        )
-    }
-
-    private fun getUpdatedDpOffsetByMotionsType(
-        oldPlacementDp: DpOffset,
-        motion: Motions,
-        dX: Float,
-        dY: Float,
-    ): DpOffset {
-        val newX: Dp = when {
-            motion.isRight() -> { (oldPlacementDp.x.value + dX).dp }
-            motion.isLeft() -> { (oldPlacementDp.x.value - dX).dp }
-            else -> oldPlacementDp.x.value.dp
+//    private fun getUpdatedShipPosition(): DpOffset = shipPosition.value.calculateNewDpOffset( motion.value)
+    private fun DpOffset.calculateNewDpOffset( motion: Motions ): DpOffset = DpOffset(
+        x = when {
+            motion.isRight() -> { this.x add deltaX }
+            motion.isLeft() -> { this.x subtract deltaX}
+            else -> this.x.value.dp
+        },
+        y = when {
+            motion.isUp() -> { this.y subtract  deltaY }
+            motion.isDown() -> { this.y add deltaY }
+            else -> this.x.value.dp
         }
-        val newY: Dp = when {
-            motion.isUp() -> { (oldPlacementDp.y.value - dY).dp }
-            motion.isDown() -> { (oldPlacementDp.y.value + dY).dp }
-            else -> oldPlacementDp.x.value.dp
-        }
-        return DpOffset(newX, newY) or oldPlacementDp
-    }
+    )
 
     private val _shootList = MutableStateFlow<List<Shoot>>(emptyList())
     val shootList: StateFlow<List<Shoot>> = _shootList.asStateFlow()

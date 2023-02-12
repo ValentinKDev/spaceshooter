@@ -1,14 +1,14 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.cercle
+package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.circle
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.Fill
-import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUI
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.CircleSpaceShipIconUI
 
 @Composable
-fun DrawMunition(center: Offset, ui: SpaceShipIconUI, type: MunitionsType) {
+fun CircleDrawMunition(center: Offset, ui: CircleSpaceShipIconUI, type: MunitionsType) {
     Canvas(Modifier){
         drawCircle(
             center = center,
@@ -28,5 +28,5 @@ fun DrawMunition(center: Offset, ui: SpaceShipIconUI, type: MunitionsType) {
 }
 
 enum class MunitionsType {
-    Ammunition, Shoot
+    InMagazine, Shoot
 }

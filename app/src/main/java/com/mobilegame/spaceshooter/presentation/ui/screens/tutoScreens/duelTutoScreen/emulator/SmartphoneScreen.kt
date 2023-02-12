@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.mobilegame.spaceshooter.logic.model.screen.tutoScreen.TutoScreenViewModel
-import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.DuelGameScreen
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.SpaceWarGameScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
 
 @Composable
@@ -19,7 +19,7 @@ fun EmulatorScreen(vm: TutoScreenViewModel, id: String) {
                 .size(vm.ui.smartphoneEmulator.sizes.screenInnerDp)
                 .background(Color.Black)
         ) {
-            DuelGameScreen(vm = vm.gameVM)
+            SpaceWarGameScreen(vm = vm.gameVM)
         }
     }
 }
