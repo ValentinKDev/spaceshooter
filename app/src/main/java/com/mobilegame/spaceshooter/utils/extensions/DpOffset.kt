@@ -13,37 +13,6 @@ fun DpOffset.toOffset(): Offset = Offset(
 
 infix fun DpOffset.or(secondOffset: DpOffset): DpOffset = if (this == DpOffset.Unspecified) secondOffset else this
 
-//infix fun DpOffset.inBoundsOf(sizeDp: DpSize): DpOffset {
-//    return when {
-//        this.x < 0.dp -> this xStartVerticalBounds sizeDp
-//        this.x > sizeDp.width -> this xEndVerticalBounds sizeDp
-//        this.y < 0.dp -> this yStartHorizontalBounds sizeDp
-//        this.y > sizeDp.height ->  this yEndHorizontalBounds sizeDp
-//        else -> this
-//    }
-//}
-//
-//infix fun DpOffset.xStartVerticalBounds(sizeDp: DpSize): DpOffset =
-//    this.verticalBounds( x = 0.dp, verticalBounds = 0.dp..sizeDp.height)
-//infix fun DpOffset.xEndVerticalBounds(sizeDp: DpSize): DpOffset =
-//    this.verticalBounds( x = sizeDp.width, verticalBounds = 0.dp..sizeDp.height)
-//infix fun DpOffset.yStartHorizontalBounds(sizeDp: DpSize): DpOffset =
-//    this.horizontalBounds( y = 0.dp, horizontalBounds = 0.dp..sizeDp.width)
-//infix fun DpOffset.yEndHorizontalBounds(sizeDp: DpSize): DpOffset =
-//    this.horizontalBounds( y = sizeDp.height, horizontalBounds = 0.dp..sizeDp.width)
-//
-//fun DpOffset.verticalBounds(x: Dp, verticalBounds: ClosedRange<Dp>): DpOffset = when {
-//    this.y < verticalBounds.start -> DpOffset(x, verticalBounds.start)
-//    this.y > verticalBounds.endInclusive -> DpOffset(x, verticalBounds.endInclusive)
-//    else -> DpOffset(x, this.y)
-//}
-//
-//fun DpOffset.horizontalBounds(y: Dp, horizontalBounds: ClosedRange<Dp>): DpOffset = when {
-//    this.x < horizontalBounds.start -> DpOffset(horizontalBounds.start, y)
-//    this.x > horizontalBounds.endInclusive -> DpOffset(horizontalBounds.endInclusive, y)
-//    else -> DpOffset(this.x, y)
-//}
-
 infix fun DpOffset.inBoundsOf(sizeDp: DpSize): DpOffset {
     val offset = DpOffset(
         x = this.x boundTo 0.dp..sizeDp.width,

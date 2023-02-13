@@ -3,15 +3,11 @@ package com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
 import android.util.Log
-import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
 import com.mobilegame.spaceshooter.data.device.Device
-import com.mobilegame.spaceshooter.logic.repository.DeviceEventRepo
-import com.mobilegame.spaceshooter.logic.repository.DeviceWifiRepo
-import com.mobilegame.spaceshooter.logic.repository.WifiChannelsWithClientRepo
-import com.mobilegame.spaceshooter.logic.repository.WifiChannelsWithServerRepo
-import java.io.IOException
-import java.net.UnknownHostException
-import kotlin.math.log
+import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
+import com.mobilegame.spaceshooter.logic.repository.device.DeviceWifiRepo
+import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithClientRepo
+import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithServerRepo
 
 class WifiListeners() {
     val wifiRepo = DeviceWifiRepo()
@@ -20,7 +16,6 @@ class WifiListeners() {
     val eventRepo = DeviceEventRepo()
 
     fun getResolveListener(): NsdManager.ResolveListener = object : NsdManager.ResolveListener {
-
         val TAG = "resolveListener"
 
         override fun onResolveFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {

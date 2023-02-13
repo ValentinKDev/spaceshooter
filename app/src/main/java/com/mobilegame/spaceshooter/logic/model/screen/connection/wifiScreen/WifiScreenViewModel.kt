@@ -8,7 +8,7 @@ import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.connection.registerDevice.RegisterDeviceViewModel
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
-import com.mobilegame.spaceshooter.logic.repository.DeviceWifiRepo
+import com.mobilegame.spaceshooter.logic.repository.device.DeviceWifiRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.WifiScreenUI
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import kotlinx.coroutines.*

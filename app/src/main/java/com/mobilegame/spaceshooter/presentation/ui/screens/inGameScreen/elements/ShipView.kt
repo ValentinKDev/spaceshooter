@@ -29,7 +29,6 @@ fun SpaceShipView(vm: SpaceWarGameViewModel) {
             .wrapContentSize()
             .offset(position.x, position.y)
             .rotate(angle)
-//            .background(Color.Red.alpha(0.5F))
     ) {
         when (vm.shipVM.type) {
             ShipType.Circle -> CircleShipView( vm.shipVM,  vm.ui.sizes.shipViewBox)

@@ -12,10 +12,7 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements
 fun SquareDrawMunition(topLeft: Offset, ui: SquareSpaceShipIconUI, type: MunitionsType) {
     Canvas(Modifier){
         drawRect(
-//            center = center,
-//            topLeft = Offset.Zero xMinus 50F,
             topLeft = topLeft,
-//            topLeft = Offset(topLeft.x - 50F, topLeft.y),
             size = ui.magazine.ammoSize,
             style = Fill,
             color = ui.colors.outline,

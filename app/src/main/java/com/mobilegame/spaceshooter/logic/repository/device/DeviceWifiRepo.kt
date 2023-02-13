@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.repository
+package com.mobilegame.spaceshooter.logic.repository.device
 
 import android.content.Context
 import android.net.nsd.NsdManager
@@ -23,28 +23,20 @@ class DeviceWifiRepo() {
         Device.wifi.nsdManager = context.getSystemService(Context.NSD_SERVICE) as NsdManager
     }
     fun getNsdManager(): NsdManager = Device.wifi.nsdManager
-//    fun getRegistrationListener(): NsdManager.RegistrationListener = Device.wifi.registrationListener
-//    fun connectedToAllServers(): Boolean = Device.wifi.channels.withServers.size == Device.wifi.channels.withClients.size
     fun getLinkState(): WifiLinkState = Device.wifi.linkState.value
     fun updateLinkStateTo(newState: WifiLinkState) {
-//        Device.wifi.linkState = newState
         Device.wifi.linkState.update { newState }
         Log.w(TAG, "updateLinkStateTo: ${newState.name}")
     }
     fun addVisibleDevice(ip: InetAddress, name: String) {
         Log.w(TAG, "addVisibleDevice: ${name}")
-//        Device.wifi.visibleDevices.update {
-//            it.ad
-//        }
-
         Device.wifi.visibleDevices.addToValue(ConnectedDevice(name, ip))
-//        Device.wifi.visibleDevices.value.
-//        Device.wifi.visibleDevices.value.cloneAdd(key, name)
     }
     fun resetVisibleDevice() { Device.wifi.visibleDevices.value = listOf() }
     fun removeVisibleDevice(ip: InetAddress) = Device.wifi.visibleDevices.value.find { it.ip == ip }?.let {
         Device.wifi.visibleDevices.removeToValue(it)
     }
+
     fun setInetAddress() {
         Device.wifi.wifiManager
         val ip = Device.wifi.wifiManager.connectionInfo.ipAddress

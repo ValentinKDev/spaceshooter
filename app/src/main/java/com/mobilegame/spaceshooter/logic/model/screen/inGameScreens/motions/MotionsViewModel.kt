@@ -4,20 +4,18 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mobilegame.spaceshooter.data.sensor.GravitySensor
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
-import com.mobilegame.spaceshooter.logic.model.sensor.AccelerometerViewModel
-import com.mobilegame.spaceshooter.logic.model.sensor.XYZ
+import com.mobilegame.spaceshooter.data.sensor.XYZ
+import com.mobilegame.spaceshooter.logic.repository.sensor.GravityRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.SpaceWarGameScreenUI
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -31,26 +29,19 @@ class MotionsViewModel(
     private val displaySizeDp = ui.sizes.displayDpDeltaBox
     private val shipCenterDeltaDp = ui.sizes.shipBoxCenterDp
 
-    private val accelerometerVM = AccelerometerViewModel(GravitySensor(context))
+    private val frameInterval = 2L
+    private val gravityRepo = GravityRepo(context, frameInterval)
     //todo : shoot speed uses maxSpeed, might be better to use shootSpeed = 2/3 maxSpeed
-    private val maxSpeed = (0.001F * displaySizeDp.width.value).dp
+    private val maxSpeed = (displaySizeDp.width.value * 0.002F).dp
     private val halfMaxSpeedF = maxSpeed.value / 2F
     private val minSpeed = (maxSpeed.value * 0.07F).dp
-    private val frameInterval = 1L
 
     private var speedF = 0F
-    private var deltaX = 0F
-    private var deltaY = 0F
-    private var xyz = accelerometerVM.averagePosition
-    private fun upDateXYZ() { xyz = accelerometerVM.averagePosition }
+    private var delta = Offset.Zero
 
     private val _shipPosition = MutableStateFlow(startPosition)
     val shipPosition: StateFlow<DpOffset> = _shipPosition.asStateFlow()
 
-    fun moveShipTo() {
-        val newPCenter = shipPosition.value.calculateNewDpOffset(motion.value)
-        _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
-    }
     fun getShipTopCenter(): DpOffset = DpOffset(x = _shipPosition.value.x + shipCenterDeltaDp, y = _shipPosition.value.y)
 
     private val _motion = MutableStateFlow(Motions.None)
@@ -66,78 +57,85 @@ class MotionsViewModel(
         else _speedMagnitude.value = SpeedMagnitude.Slow
     }
 
-    init { startFrameLoop() }
+    init { startEngine() }
 
-    fun updateFrame() {
-        upDateXYZ()
-        val newMotion = getMotion()
-        changeMotionTo( newMotion )
-        getMotionSpeed()
-        updateShootsMotions()
-        upDateSpeedMagnitude()
-//        val newShipPosition = getUpdatedShipPosition()
-//        if(shipPosition.value != DpOffset.Zero) Log.i(TAG, "updateFrame: ${shipPosition.value}")
-        moveShipTo()
-//        if(shipPosition.value != DpOffset.Zero) Log.i(TAG, "updateFrame: ${shipPosition.value}")
+    private fun startEngine() = viewModelScope.launch(Dispatchers.IO) {
+        Log.i(TAG, "startEngine: ")
+        collectDevicePositionAndUpdate()
+        updateShoots()
     }
 
-    private fun getMotionSpeed() {
-        val maxVector = accelerometerVM.maxZ * 0.78F
-        speedF = when(xyz.z.absoluteValue) {
-            in maxVector..accelerometerVM.maxZ -> { ((accelerometerVM.maxZ - xyz.z.absoluteValue) / (accelerometerVM.maxZ - maxVector)) * maxSpeed.value }
-            in accelerometerVM.maxZ..42F -> { minSpeed.value }
+    private suspend fun collectDevicePositionAndUpdate() = gravityRepo.averageXYZ.collect { _xyz ->
+        updateMotion(_xyz)
+        updateSpeed(_xyz)
+        updateDeltaMoves(_xyz)
+        upDateSpeedMagnitude()
+        updateShipPosition()
+    }
+
+    private fun updateMotion(xyz: XYZ) { _motion.update { xyz.toMotion() } }
+    private fun updateSpeed(xyz: XYZ) { xyz.getMotionSpeed(gravityRepo.maxZ) }
+    private fun updateDeltaMoves(xyz: XYZ) { xyz.updateDelaOffset() }
+    fun updateShipPosition() {
+        val newPCenter = shipPosition.value.calculateNewDpOffset()
+        _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
+    }
+    fun updateShoots() {
+        _shootList.update {
+            shootList.value.forEach { it.updateDpOffset() }
+            shootList.value.filter {
+                it.offsetDp isInBoundsOf displaySizeDp
+            }
+        }
+    }
+
+    private fun XYZ.getMotionSpeed(maxZ: Float) {
+//        val maxVector = maxZ * 0.78F
+        val maxVector = maxZ * 0.78F
+        speedF = when(this.z.absoluteValue) {
+            in maxVector..maxZ -> { ((maxZ - this.z.absoluteValue) / (maxZ - maxVector)) * maxSpeed.value }
+            in maxZ..42F -> { minSpeed.value }
             else -> { maxSpeed.value }
         }
         speedF = if (speedF < minSpeed.value) minSpeed.value else speedF
-        deltaX = (xyz.y.absoluteValue / (xyz.x.absoluteValue + xyz.y.absoluteValue)) * speedF
-        deltaY = (xyz.x.absoluteValue / (xyz.x.absoluteValue + xyz.y.absoluteValue)) * speedF
     }
 
-    private var frameLoopState: Boolean = false
-    private  fun startFrameLoop() {
-        viewModelScope.launch(Dispatchers.Main) {
-            frameLoopState = true
-            frameLoop()
-        }
+    private fun XYZ.updateDelaOffset() {
+        delta = Offset(
+            x = (this.y.absoluteValue / (this.x.absoluteValue + this.y.absoluteValue)) * speedF,
+            y = (this.x.absoluteValue / (this.x.absoluteValue + this.y.absoluteValue)) * speedF
+        )
     }
 
-    private suspend fun frameLoop() {
-        while (frameLoopState) {
-            delay(frameInterval)
-            updateFrame()
-        }
-    }
-
-    private fun getMotion(): Motions {
-        return if (xyz.x < 0) {
-            if (xyz.y < 0) {
-                if (xyz.x.absoluteValue > xyz.y.absoluteValue) Motions.UpLeftNorth
+    private fun XYZ.toMotion(): Motions {
+        return if (this.x < 0) {
+            if (this.y < 0) {
+                if (this.x.absoluteValue > this.y.absoluteValue) Motions.UpLeftNorth
                 else Motions.UpLeftSouth
             } else {
-                if (xyz.x.absoluteValue > xyz.y.absoluteValue) Motions.UpRightNorth
+                if (this.x.absoluteValue > this.y.absoluteValue) Motions.UpRightNorth
                 else Motions.UpRightSouth
             }
         } else {
-            if (xyz.y < 0) {
-                if (xyz.x.absoluteValue > xyz.y.absoluteValue) Motions.DownLeftSouth
+            if (this.y < 0) {
+                if (this.x.absoluteValue > this.y.absoluteValue) Motions.DownLeftSouth
                 else Motions.DownLeftNorth
             } else {
-                if (xyz.x.absoluteValue > xyz.y.absoluteValue) Motions.DownRightSouth
+                if (this.x.absoluteValue > this.y.absoluteValue) Motions.DownRightSouth
                 else Motions.DownRightNorth
             }
         }
     }
 
-//    private fun getUpdatedShipPosition(): DpOffset = shipPosition.value.calculateNewDpOffset( motion.value)
-    private fun DpOffset.calculateNewDpOffset( motion: Motions ): DpOffset = DpOffset(
+    private fun DpOffset.calculateNewDpOffset(): DpOffset = DpOffset(
         x = when {
-            motion.isRight() -> { this.x add deltaX }
-            motion.isLeft() -> { this.x subtract deltaX}
+            motion.value.isRight() -> { this.x add delta.x }
+            motion.value.isLeft() -> { this.x subtract delta.x}
             else -> this.x.value.dp
         },
         y = when {
-            motion.isUp() -> { this.y subtract  deltaY }
-            motion.isDown() -> { this.y add deltaY }
+            motion.value.isUp() -> { this.y subtract  delta.y }
+            motion.value.isDown() -> { this.y add delta.y }
             else -> this.x.value.dp
         }
     )
@@ -151,13 +149,13 @@ class MotionsViewModel(
 
     fun getShootVector(): Size {
         val x = when {
-            motion.value.isRight() -> deltaX
-            motion.value.isLeft() -> deltaX * -1F
+            motion.value.isRight() -> delta.x
+            motion.value.isLeft() -> delta.x * -1F
             else -> 0F
         }
         val y = when {
-            motion.value.isUp() -> maxSpeed.value + (deltaY / 2F)
-            motion.value.isDown() -> maxSpeed.value - (deltaY / 2F)
+            motion.value.isUp() -> maxSpeed.value + (delta.y / 2F)
+            motion.value.isDown() -> maxSpeed.value - (delta.y / 2F)
             else -> maxSpeed.value
         }
         return Size(x, y)
@@ -166,7 +164,7 @@ class MotionsViewModel(
     private fun updateShootsListPositions(shootList: List<Shoot>) {
         for (i in shootList.indices) {
             if (shootList[i].offsetDp isInBoundsOf displaySizeDp)
-                shootList[i].upDateDpOffset()
+                shootList[i].updateDpOffset()
         }
     }
 
@@ -207,7 +205,8 @@ class MotionsViewModel(
     }
 
     override fun onCleared() {
-        accelerometerVM.stop()
+        gravityRepo.stop()
         super.onCleared()
     }
+
 }

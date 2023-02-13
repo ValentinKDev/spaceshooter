@@ -5,7 +5,7 @@ import com.mobilegame.spaceshooter.data.connection.dto.EventMessage
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiClient
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiServer
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiInfoService
-import com.mobilegame.spaceshooter.logic.repository.DeviceEventRepo
+import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader

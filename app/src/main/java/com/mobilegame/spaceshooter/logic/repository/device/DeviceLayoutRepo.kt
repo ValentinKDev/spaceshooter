@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.repository
+package com.mobilegame.spaceshooter.logic.repository.device
 
 import android.content.Context
 import androidx.compose.ui.layout.LayoutCoordinates

@@ -4,10 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
-import com.mobilegame.spaceshooter.data.device.Device
-import com.mobilegame.spaceshooter.logic.repository.DeviceWifiRepo
-import com.mobilegame.spaceshooter.logic.repository.WifiChannelsWithClientRepo
-import com.mobilegame.spaceshooter.logic.repository.WifiChannelsWithServerRepo
+import com.mobilegame.spaceshooter.logic.repository.device.DeviceWifiRepo
+import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithClientRepo
+import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithServerRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -27,7 +26,7 @@ class WifiConnectionViewModel(): ViewModel() {
         withServerRepo.stopSearching()
 
         when (repo.getLinkState()) {
-            WifiLinkState.Connected -> withServerRepo.openChannels()
+            WifiLinkState.Connected -> withServerRepo.openChannel()
             WifiLinkState.Connecting -> withClientRepo.startHostingNewClients()
             WifiLinkState.NotConnected -> Log.e(TAG, "hostAndSearch: ${repo.getLinkState().name}", )
             WifiLinkState.NoConnection -> Log.e(TAG, "hostAndSearch: ${repo.getLinkState().name}", )

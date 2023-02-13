@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.repository
+package com.mobilegame.spaceshooter.logic.repository.device
 
 import android.content.Context
 import com.mobilegame.spaceshooter.data.store.DataStoreNameProvider

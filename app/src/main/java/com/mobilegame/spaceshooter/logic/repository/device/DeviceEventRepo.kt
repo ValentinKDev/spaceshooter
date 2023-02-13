@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.repository
+package com.mobilegame.spaceshooter.logic.repository.device
 
 import android.util.Log
 import com.google.gson.Gson
@@ -7,8 +7,9 @@ import com.mobilegame.spaceshooter.data.connection.dto.EventMessageType
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiClient
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.data.connection.wifi.SendEvent
+import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithClientRepo
+import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithServerRepo
 import java.net.InetAddress
-import kotlin.math.log
 
 class DeviceEventRepo() {
     val TAG = "DeviceEventRepo"

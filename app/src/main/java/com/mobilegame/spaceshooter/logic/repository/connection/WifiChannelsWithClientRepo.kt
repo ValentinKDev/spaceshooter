@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.repository
+package com.mobilegame.spaceshooter.logic.repository.connection
 
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
@@ -9,6 +9,7 @@ import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiInfoService
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen.channel.WifiChannel
+import com.mobilegame.spaceshooter.logic.repository.device.DeviceWifiRepo
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -19,7 +20,6 @@ import java.net.InetAddress
 import java.net.ServerSocket
 import java.net.Socket
 import java.net.SocketException
-import kotlin.math.log
 
 class WifiChannelsWithClientRepo() {
     val TAG = "WifiChannelsToClientRepo"

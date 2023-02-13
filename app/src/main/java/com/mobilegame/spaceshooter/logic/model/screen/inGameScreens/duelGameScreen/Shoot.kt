@@ -14,7 +14,7 @@ class Shoot(
     var vector: Size = Size.Zero,
     var offsetDp: DpOffset = DpOffset.Zero,
 ) {
-    fun upDateDpOffset() {
+    fun updateDpOffset() {
         offsetDp = DpOffset(
             x = offsetDp.x + vector.width.dp,
             y = offsetDp.y - vector.height.dp,

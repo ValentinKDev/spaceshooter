@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.repository
+package com.mobilegame.spaceshooter.logic.repository.connection
 
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
@@ -7,8 +7,8 @@ import com.mobilegame.spaceshooter.data.connection.wifi.PreparationState
 import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiServer
 import com.mobilegame.spaceshooter.data.device.Device
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
+import com.mobilegame.spaceshooter.logic.repository.device.DeviceWifiRepo
 import java.io.IOException
 import java.io.PrintWriter
 import java.net.Socket
@@ -17,8 +17,6 @@ import java.net.UnknownHostException
 class WifiChannelsWithServerRepo() {
     val TAG = "WifiChannelsToServerRepo"
     private val repo = DeviceWifiRepo()
-//    private val eventRepo = DeviceEventRepo()
-
     fun getChannel() = Device.wifi.channels.withServer
     fun getListeners() = Device.wifi.channels.listeners
 
@@ -33,7 +31,6 @@ class WifiChannelsWithServerRepo() {
             Log.i(TAG, "onServiceResolved: addServer")
             repo.updateLinkStateTo(WifiLinkState.Connected)
             DeviceEventRepo().sendNameToServer(serviceInfo.host)
-//            eventRepo.sendNameToServer(serviceInfo.host)
         } catch (e: UnknownHostException) {
             Log.e(TAG, "Unknown host. ${e.localizedMessage}")
         } catch (e: IOException) {
@@ -52,7 +49,7 @@ class WifiChannelsWithServerRepo() {
 
     fun stopSearching() { getListeners().stopDiscovery() }
 
-    suspend fun openChannels() {
+    suspend fun openChannel() {
         getChannel().info?.let { getChannel().open() }
     }
 }

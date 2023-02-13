@@ -10,7 +10,6 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.extensions.*
 
 class SquareSpaceShipIconUI(shipViewBox: Size) {
-    private val TAG = object{}.javaClass.enclosingClass.simpleName
     val sizes = SizesSquareShip(shipViewBox)
     val points = PointsSquareShip(sizes)
     val magazine = MagazineShip(sizes)
@@ -27,17 +26,15 @@ class SquareSpaceShipIconUI(shipViewBox: Size) {
         val center: Offset = shipSizes.shipSize.center
         val startCentralBar: Offset = Offset(x = center.x, y = 0F)
         val bottomCentralBar: Offset = Offset(center.x, center.y * 0.70F)
-//        val topLeftShip: Offset = Offset(x = )
     }
 
     class MagazineShip(sizes: SizesSquareShip) {
         private val padding: Float = sizes.shipSize.height * 0.12F
         val ammoSize: Size = ((sizes.shipSize.height - (2F * padding) + sizes.stroke) / 3F).toSize()
         val innerSize: Size = ammoSize * 0.85F
-        private val halfWidth: Float = ammoSize.width / 2F
         val m1: Offset = Offset.Zero - Offset(x = padding + ammoSize.width + (sizes.stroke / 2F), y = sizes.stroke / 2F)
-        val m2: Offset = m1 yPlus  (ammoSize.height + padding)
-        val m3: Offset = m2 yPlus  (ammoSize.height + padding)
+        val m2: Offset = m1 yPlus (ammoSize.height + padding)
+        val m3: Offset = m2 yPlus (ammoSize.height + padding)
         val m4: Offset = Offset(x = sizes.shipSize.width + (sizes.stroke / 2F) + padding ,y = sizes.stroke / -2F)
         val m5: Offset = m4 yPlus (ammoSize.height + padding)
         val m6: Offset = m5 yPlus (ammoSize.height + padding)
@@ -54,13 +51,6 @@ class SquareSpaceShipIconUI(shipViewBox: Size) {
                 Offset.Zero
             }
         }
-
-//        init {
-//            displayDataUI.let {
-//                Log.e(TAG, "$TAG: ${magazine.size} ")
-//                Log.e(TAG, "$TAG: ${magazine.} ")
-//            }
-//        }
     }
     data class ColorsSquareShip(
         val outline: Color = MyColor.applicationContrast,
