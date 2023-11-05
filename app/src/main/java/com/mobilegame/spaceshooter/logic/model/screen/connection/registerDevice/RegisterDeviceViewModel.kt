@@ -9,6 +9,7 @@ import com.mobilegame.spaceshooter.data.store.DataStoreService
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.RegisterDeviceNameUI
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
+import com.mobilegame.spaceshooter.logic.repository.device.DeviceDataRepo
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 class RegisterDeviceViewModel(context: Context, val screenNav: Screens): ViewModel() {
     val ui = RegisterDeviceNameUI()
     val deviceNameDatastore = DataStoreService.deviceName(context)
+    init { eLog("RegisterDeviceViewModel::init", "start VM") }
 
     private val _input = MutableStateFlow("")
     val input: StateFlow<String> = _input.asStateFlow()
@@ -31,11 +33,15 @@ class RegisterDeviceViewModel(context: Context, val screenNav: Screens): ViewMod
     fun spaceAction() {
         if (input.value.isNotEmpty()) addCharToInput(' ')
     }
-    fun registerAction(navigator: Navigator) {
+    fun registerAction(navigator: Navigator, context: Context) {
         eLog("RegisterDeviceVM::registerAction", "registerring name $input")
-
+        //todo : popup message in case of error at the first
         viewModelScope.launch {
             deviceNameDatastore.putString(DataStoreNameProvider.DeviceName.key, input.value.trim())
+            DeviceDataRepo().updateName(context)
+//            val testName = deviceNameDatastore.getString(DataStoreNameProvider.DeviceName.key)
+//            testName?.let { eLog("RegisterDeviceVM::registerAction", testName) } ?: { eLog("RegisterDeviceVM::registerAction", "null") }
+//            Device.data.name?.let { eLog("RegisterDeviceVM::registerAction", it) } ?: { eLog("RegisterDeviceVM::registerAction", "null") }
             navigator.navig(screenNav)
         }
     }

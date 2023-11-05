@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -18,9 +19,12 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.connection.elements.K
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.registerDeviceName.MyTextField
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.CenterComposable
 import com.mobilegame.spaceshooter.presentation.ui.template.TemplateWithoutBand
+import com.mobilegame.spaceshooter.utils.analyze.eLog
 
 @Composable
 fun RegisterDeviceName(navigator: Navigator, vm: RegisterDeviceViewModel = viewModel()) {
+    LaunchedEffect(true) { eLog("RegisterDeviceName", "Composable function launch") }
+
     TemplateWithoutBand(
         navigator = navigator,
         backNav = Screens.MainScreen,

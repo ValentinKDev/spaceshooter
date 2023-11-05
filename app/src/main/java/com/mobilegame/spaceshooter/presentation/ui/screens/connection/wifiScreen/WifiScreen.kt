@@ -17,7 +17,8 @@ fun WifiScreen(navigator: Navigator, vm: WifiScreenViewModel = viewModel()) {
     val deviceName by remember { vm.deviceName }.collectAsState()
     val visibleDeviceNameList by remember { Device.wifi.visibleDevices }.collectAsState()
 
-    LaunchedEffect(deviceName) { deviceName?.let { vm.nonNullNameTrigger() }
+    LaunchedEffect(deviceName) {
+        deviceName?.let { vm.nonNullNameTrigger() }
         eLog("WifiScreen", "WifiScreen launch ${vm.deviceName.value}")
     }
 

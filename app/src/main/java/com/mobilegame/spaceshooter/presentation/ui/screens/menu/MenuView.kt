@@ -24,6 +24,7 @@ fun MenuScreen(navigator: Navigator) {
     val pressureVM = remember { PressureViewModel() }
     val startNavigationJob by remember { pressureVM.full }.collectAsState()
 
+//    LaunchedEffect(true) {
     LaunchedEffect(startNavigationJob) {
         if (startNavigationJob) navigator.navig(Screens.MainScreen)
         eLog("MenuScreen", "MenuScreen launch")

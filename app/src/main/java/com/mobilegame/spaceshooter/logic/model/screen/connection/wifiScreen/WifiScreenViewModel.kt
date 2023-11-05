@@ -10,7 +10,7 @@ import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceWifiRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.WifiScreenUI
-import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
+import com.mobilegame.spaceshooter.utils.analyze.eLog
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,16 +20,17 @@ import kotlinx.coroutines.flow.asStateFlow
 class WifiScreenViewModel(application: Application): AndroidViewModel(application) {
     val TAG = "WifiScreenVM"
     val ui = WifiScreenUI()
-//    val pressureVM = PressureReadyViewModel(Screens.SpaceShipMenuScreen)
     val pressureVM = PressureViewModel()
     val registerVM = RegisterDeviceViewModel(application, Screens.WifiScreen)
     val repo = DeviceWifiRepo()
     private var connectionVM: WifiConnectionViewModel = WifiConnectionViewModel()
-    private val deviceNameDataStore: String? = Device.data.name
+//    private val deviceNameDataStore: String? = Device.data.name
+
     private val _deviceName = MutableStateFlow(Device.data.name)
     val deviceName: StateFlow<String?> = _deviceName.asStateFlow()
 
     init {
+        eLog("WifiScreenVM", "init")
         repo.initWifi(application)
         repo.initNetworkSearchAndDiscovery(application)
 //        deviceName.value?.let { nonNullNameTrigger() }
@@ -45,23 +46,19 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
         }
     }
 //    fun startConnecting() { connectionVM.host() }
-    fun newVisibleDeviceTrigger() {
-    Log.i(TAG, "newVisibleDeviceTrigger: ")
+//    fun newVisibleDeviceTrigger() {
+//    Log.i(TAG, "newVisibleDeviceTrigger: ")
 //    connectionVM.searchForServers()
-    }
+//    }
 
 //    fun refreshButtonClick() { connectionVM.refresh() }
-    fun pressureReadyToChooseSpaceShip(navigator: Navigator) = viewModelScope.launch {
-    Log.e(TAG, "pressureReadyToChooseSpaceShip: ")
-    Log.e(TAG, "pressureReadyToChooseSpaceShip: ")
-    Log.e(TAG, "pressureReadyToChooseSpaceShip: ")
-    Log.e(TAG, "pressureReadyToChooseSpaceShip: ")
-//        Navigator().navig(Screens.SpaceShipMenuScreen)
-    }
+//    fun pressureReadyToChooseSpaceShip(navigator: Navigator) = viewModelScope.launch {
+//    Log.e(TAG, "pressureReadyToChooseSpaceShip: ")
+//    }
 
-    fun back(navigator: Navigator): Job = viewModelScope.launch(Dispatchers.IO) {
-            navigator.navig(Screens.MainScreen)
-    }
+//    fun back(navigator: Navigator): Job = viewModelScope.launch(Dispatchers.IO) {
+//            navigator.navig(Screens.MainScreen)
+//    }
 
 //    fun playerReadyToChooseSpaceShip(): Job = viewModelScope.launch(Dispatchers.IO) {
 //        if (connectionInfo.linkState.value == WifiLinkState.Connected) {

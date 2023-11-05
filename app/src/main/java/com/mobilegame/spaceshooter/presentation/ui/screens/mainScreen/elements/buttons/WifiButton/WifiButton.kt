@@ -12,6 +12,7 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.utils.ChargingButton
 fun WifiButton(vm: MainScreenViewModel, navigator: Navigator) {
     val startNavigation by remember { vm.wifiPressure.full }.collectAsState()
     LaunchedEffect(startNavigation) { if (startNavigation) navigator.navig(Screens.WifiScreen) }
+
     ChargingButton(
         handler = vm.wifiPressure,
         sizeDp = vm.ui.buttonWifi.sizes.squareSizeDp,

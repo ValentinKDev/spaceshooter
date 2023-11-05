@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -35,6 +36,7 @@ fun ActionKey(
 ) {
     val textInput by remember { vm.input }.collectAsState()
     var enable = remember { true }
+    val context = remember {LocalContext}.current
 
     val backgroundColor: Modifier = when (actionKey) {
         ActionKeyType.DELETE -> {
@@ -64,7 +66,7 @@ fun ActionKey(
                 when (actionKey) {
                     ActionKeyType.DELETE -> vm.deleteAction()
                     ActionKeyType.SPACE -> vm.spaceAction()
-                    ActionKeyType.REGISTER -> vm.registerAction(navigator)
+                    ActionKeyType.REGISTER -> vm.registerAction(navigator, context)
                 }
             }
     ) {
