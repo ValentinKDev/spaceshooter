@@ -17,4 +17,3 @@ object Device {
     val wifi: DeviceWifi = DeviceWifi()
     val event = DeviceEvent()
 }
-

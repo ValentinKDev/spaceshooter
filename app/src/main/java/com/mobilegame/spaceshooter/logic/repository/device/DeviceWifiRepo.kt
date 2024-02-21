@@ -7,10 +7,13 @@ import android.util.Log
 import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.connection.ConnectedDevice
+import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.flow.update
 import java.math.BigInteger
+import java.net.Inet4Address
 import java.net.InetAddress
+import java.net.NetworkInterface
 
 
 class DeviceWifiRepo() {
@@ -36,15 +39,32 @@ class DeviceWifiRepo() {
     fun removeVisibleDevice(ip: InetAddress) = Device.wifi.visibleDevices.value.find { it.ip == ip }?.let {
         Device.wifi.visibleDevices.removeToValue(it)
     }
-
+    fun getLocalIPAddress(): InetAddress? {
+        try {
+            val en = NetworkInterface.getNetworkInterfaces()
+            while (en.hasMoreElements()) {
+                val networkInterface = en.nextElement()
+                val enu = networkInterface.inetAddresses
+                while (enu.hasMoreElements()) {
+                    val inetAddress = enu.nextElement()
+                    return inetAddress
+//                    if (!inetAddress.isLoopbackAddress && inetAddress is Inet4Address) {
+//                        return inetAddress.getHostAddress()
+//                    }
+                }
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+        return null
+    }
     fun setInetAddress() {
-        Device.wifi.wifiManager
-        val ip = Device.wifi.wifiManager.connectionInfo.ipAddress
-        val bytes: ByteArray = BigInteger.valueOf(ip.toLong()).toByteArray()
-        bytes.reverse()
-        val address = InetAddress.getByAddress(bytes)
-        Log.i(TAG, "setInetAddressTo: $address")
-        Device.wifi.inetAddress = address
+        Log.i(TAG, "setInetAddress()")
+        val address: InetAddress? = getLocalIPAddress()
+        address?.let {
+            Device.wifi.inetAddress = it
+        } ?: { eLog(TAG, "setInetAddress() ERROR inetAddress") }
+        Log.i(TAG, "setInetAddress() ${Device.wifi.inetAddress}")
     }
 
     fun getLocalIp(): InetAddress = Device.wifi.inetAddress

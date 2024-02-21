@@ -18,13 +18,17 @@ class WifiConnectionViewModel(): ViewModel() {
     private val withServerRepo = WifiChannelsWithServerRepo()
 
     suspend fun hostAndSearch() {
-        Log.i(TAG, "hostAndSearch: ")
+        Log.i(TAG, "hostAndSearch: setInetAddress")
         repo.setInetAddress()
+        Log.i(TAG, "hostAndSearch: searchForServer")
         withServerRepo.searchForServer()
+        Log.i(TAG, "hostAndSearch: updateLinkStateTo")
         repo.updateLinkStateTo(WifiLinkState.Connecting)
         delayUntilConnected()
+        Log.i(TAG, "hostAndSearch: stopSearching")
         withServerRepo.stopSearching()
 
+        Log.i(TAG, "hostAndSearch: getLinkState ${repo.getLinkState()}")
         when (repo.getLinkState()) {
             WifiLinkState.Connected -> withServerRepo.openChannel()
             WifiLinkState.Connecting -> withClientRepo.startHostingNewClients()

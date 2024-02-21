@@ -5,9 +5,9 @@ import android.net.wifi.WifiManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.theme.SpaceShooterTheme
 import com.mobilegame.spaceshooter.presentation.ui.navigation.Navigation
-import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 
 class MainActivity : ComponentActivity() {
