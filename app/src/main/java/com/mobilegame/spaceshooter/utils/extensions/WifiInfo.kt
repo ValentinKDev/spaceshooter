@@ -6,3 +6,4 @@ import java.net.InetAddress
 
 //fun List<WifiInfoService>.get(inetAddress: InetAddress): WifiInfoService? = this.find { it.socket.inetAddress == inetAddress }
 fun List<WifiChannel>.getInfo(inetAddress: InetAddress): WifiInfoService? = this.find { it.info?.socket?.localAddress == inetAddress }?.info
+//fun List<WifiChannel>.getInfo(inetAddress: InetAddress): WifiInfoService? = this.find { it.info?.socket?.localAddress == inetAddress }?.info

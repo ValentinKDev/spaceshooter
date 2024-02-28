@@ -4,21 +4,29 @@ import android.content.Context
 import android.net.nsd.NsdManager
 import android.net.wifi.WifiManager
 import android.util.Log
+import com.mobilegame.spaceshooter.data.connection.wifi.PreparationState
 import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.connection.ConnectedDevice
-import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.extensions.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
-import java.math.BigInteger
-import java.net.Inet4Address
+import java.io.BufferedInputStream
+import java.io.ByteArrayOutputStream
+import java.io.FileInputStream
+import java.io.IOException
 import java.net.InetAddress
 import java.net.NetworkInterface
+import java.util.Collections
+import java.util.Locale
 
 
 class DeviceWifiRepo() {
     val TAG = "DeviceWifiRepo"
 
+//    fun getFlowListVisibleDevice(): MutableStateFlow<List<ConnectedDevice>> = Device.wifi.visibleDevices
     fun initWifi(context: Context) {
         Device.wifi.wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
     }
@@ -27,6 +35,9 @@ class DeviceWifiRepo() {
     }
     fun getNsdManager(): NsdManager = Device.wifi.nsdManager
     fun getLinkState(): WifiLinkState = Device.wifi.linkState.value
+//    fun isDeviceServer(): Boolean = Device.wifi.linkState.value == WifiLinkState.ConnectedAsServer
+    fun isDeviceClient(): Boolean? = if ( Device.wifi.linkState.value == WifiLinkState.ConnectedAsClient ) true else null
+    fun isDeviceServer(): Boolean? = if ( Device.wifi.channels.withServer.info != null ) true else null
     fun updateLinkStateTo(newState: WifiLinkState) {
         Device.wifi.linkState.update { newState }
         Log.w(TAG, "updateLinkStateTo: ${newState.name}")
@@ -34,101 +45,95 @@ class DeviceWifiRepo() {
     fun addVisibleDevice(ip: InetAddress, name: String) {
         Log.w(TAG, "addVisibleDevice: ${name}")
         Device.wifi.visibleDevices.addToValue(ConnectedDevice(name, ip))
+        val tmpList = Device.wifi.listConnectedDevice.toMutableList()
+        tmpList.add(ConnectedDevice(name, ip))
+        Device.wifi.listConnectedDevice = tmpList.toList()
+        Log.e(TAG, "addVisibleDevice: ${Device.wifi.listConnectedDevice}")
     }
+    fun changeVisibleDevicePreparationStateTo(state: PreparationState) {
+        Log.w(TAG, "changeVisibleDevicePreparationStateTo: ${state}")
+        Device.wifi.visibleDevices.value.first().state = state
+        val tmpList = Device.wifi.listConnectedDevice.toMutableList()
+        tmpList.first().state = state
+        Device.wifi.visibleDevices.value = tmpList.toList()
+//        Device.wifi.listConnectedDevice.first().state = state
+    }
+    fun isVisibleDeviceReadyToPlay(): Boolean = Device.wifi.visibleDevices.value.first().state == PreparationState.ReadyToPlay
     fun resetVisibleDevice() { Device.wifi.visibleDevices.value = listOf() }
     fun removeVisibleDevice(ip: InetAddress) = Device.wifi.visibleDevices.value.find { it.ip == ip }?.let {
         Device.wifi.visibleDevices.removeToValue(it)
     }
-    fun getLocalIPAddress(): InetAddress? {
-        try {
-            val en = NetworkInterface.getNetworkInterfaces()
-            while (en.hasMoreElements()) {
-                val networkInterface = en.nextElement()
-                val enu = networkInterface.inetAddresses
-                while (enu.hasMoreElements()) {
-                    val inetAddress = enu.nextElement()
-                    return inetAddress
-//                    if (!inetAddress.isLoopbackAddress && inetAddress is Inet4Address) {
-//                        return inetAddress.getHostAddress()
-//                    }
-                }
-            }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-        }
-        return null
-    }
-    fun setInetAddress() {
-        Log.i(TAG, "setInetAddress()")
-        val address: InetAddress? = getLocalIPAddress()
-        address?.let {
-            Device.wifi.inetAddress = it
-        } ?: { eLog(TAG, "setInetAddress() ERROR inetAddress") }
-        Log.i(TAG, "setInetAddress() ${Device.wifi.inetAddress}")
-    }
+//    fun getLocalIPAddress(): InetAddress? {
+//        try {
+//            val en = NetworkInterface.getNetworkInterfaces()
+//            while (en.hasMoreElements()) {
+//                val networkInterface = en.nextElement()
+//                val enu = networkInterface.inetAddresses
+//                while (enu.hasMoreElements()) {
+//                    val inetAddress = enu.nextElement()
+//                    return inetAddress
+////                    if (!inetAddress.isLoopbackAddress && inetAddress is Inet4Address) {
+////                        return inetAddress.getHostAddress()
+////                    }
+//                }
+//            }
+//        } catch (ex: Exception) {
+//            ex.printStackTrace()
+//        }
+//        return null
+//    }
+//    fun setInetAddress() {
+//        Log.i(TAG, "setInetAddress()")
+//        try {
+//            val en = NetworkInterface.getNetworkInterfaces()
+//            while (en.hasMoreElements()) {
+//                val networkInterface = en.nextElement()
+//                val enu = networkInterface.inetAddresses
+//                while (enu.hasMoreElements()) {
+//                    val inetAddress = enu.nextElement()
+//                    Device.wifi.inetAddress = inetAddress
+//                }
+//            }
+//        } catch (ex: Exception) {
+//            Log.e(TAG, "setInetAddress() ${ex.message}")
+//            ex.printStackTrace()
+//        }
+
+//        Device.wifi.wifiManager
+//        val ip = Device.wifi.wifiManager.connectionInfo.ipAddress
+//        val bytes: ByteArray = BigInteger.valueOf(ip.toLong()).toByteArray()
+//        bytes.reverse()
+//        val address = InetAddress.getByAddress(bytes)
+//        Log.i(TAG, "setInetAddressTo: $address")
+//        Device.wifi.inetAddress = address
+//        Log.i(TAG, "setInetAddress() inet Address ${Device.wifi.inetAddress}")
+//    }
 
     fun getLocalIp(): InetAddress = Device.wifi.inetAddress
 
-//    var context = requireContext().applicationContext
-//    var wm = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
-//    var ip: String = Formatter.formatIpAddress(wm.connectionInfo.ipAddress)
-//    fun updateConnectedClientName(inetAddress: InetAddress?, sender: String) {
-//
-//    }
-
-//    fun newSocket(socket: Socket) = Device.wifi.socket?.let {
-//        Log.e(TAG, "newSocket: ERROR socket already ${Device.wifi.socket}")
-//    } ?: run { Device.wifi.socket = socket }
-//    private fun closeSocket() = Device.wifi.socket?.let {
-//        it.close()
-//        Device.wifi.socket = null
-//    }
-//    fun newWriter() = Device.wifi.socket?.let { Device.wifi.writer = PrintWriter(it.getOutputStream()) }
-//    fun getConnectedClient(name: String): WifiClient? = Device.wifi.connectedClients.find { it.name == name }
-//    fun getConnectedClient(wifiClient: WifiClient): WifiClient? = Device.wifi.connectedClients.find { it == wifiClient }
-//    fun removeAllConnectedClients() {
-//        Device.wifi.connectedClients.forEach { removeConnectedClient(it) }
-//        Device.wifi.connectedClients = listOf()
-//    }
-//    fun removeConnectedClient(wifiClient: WifiClient) {
-//        getConnectedClient(wifiClient)?.let {
-//            disconnectAndRemoveClient(it)
-//        }
-//    }
-//    private fun disconnectAndRemoveClient(client: WifiClient) {
-//        client.socket.close()
-//        client.writer.close()
-//        Device.wifi.connectedClients.remove(client)
-//    }
-//    fun newVisibleDevice(newDeviceName: String) {
-//        Log.e(TAG, "newVisibleDevice: \"$newDeviceName\"")
-//        Device.wifi.visibleClients.addToValue(newDeviceName)
-//    }
-//    fun removeVisibleDevice(deviceName: String) {
-//        Log.e(TAG, "lostVisibleDevice: \"$deviceName\"")
-//        Device.wifi.visibleClients.removeToValue(deviceName)
-//    }
-//    suspend fun openNewChannelToServer() = Device.wifi.socket?.let { _socket ->
-//        val channel = WifiChannelService.createChannelToServer(_socket)
-//        Device.wifi.channelToServer?.close() ?: let { Device.wifi.channelToServer = channel as WifiChannelToServer }
-//        channel.open()
-//    }
-//    fun closeChannelToServer() {
-//        Device.wifi.channelToServer?.close()
-//        resetVisibleDevice()
-//    }
-//    fun closeServerConnection() {
-//        closeChannelToServer()
-//        resetVisibleDevice()
-//        closeSocket()
-//        updateLinkStateTo(WifiLinkState.NotConnected)
-//    }
-//    fun restart() {
-//        Device.wifi.serverSocket?.let { stopHosting() }
-//        updateLinkStateTo(WifiLinkState.NotConnected)
-//    }
-//    suspend fun startHosting() {
-//        Device.wifi.channels.toClientsRepo.startHostingNewClients()
-//    }
-
+    fun setIpAddress() {
+        getIPAddress()?.let { Device.wifi.inetAddress = it }
+    }
+    fun getIPAddress(): InetAddress? {
+        val fTAG = "getIpAddress"
+        try {
+            Log.i(TAG, fTAG)
+            val interfaces: List<NetworkInterface> =
+                Collections.list(NetworkInterface.getNetworkInterfaces())
+            for (intf in interfaces) {
+                val addrs: List<InetAddress> = Collections.list(intf.inetAddresses)
+                for (addr in addrs) {
+                    Log.i(TAG, "$fTAG ${addr.hostAddress}")
+                    if (!addr.isLoopbackAddress && addr.hostAddress?.indexOf(':')!! < 0) {
+                        Log.i(TAG, "$fTAG Device.wifi.inetAddress ${addr}")
+//                        Device.wifi.inetAddress = addr
+                        return addr
+                    }
+                }
+            }
+        } catch (ex: Exception) {
+            Log.e(TAG, "$fTAG ERROR ${ex.message}")
+        }
+        return null
+    }
 }

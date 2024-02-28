@@ -27,12 +27,15 @@ class WifiChannelsWithClientRepo() {
 
     fun getServerSocket(): ServerSocket? = Device.wifi.channels.serverSocket
     fun setServerSocket(serverSocket: ServerSocket?) { Device.wifi.channels.serverSocket = serverSocket }
+//    fun getServerInetAddress(): InetAddress? = Device.wifi.channels.serverInetAddress
+//    fun setServerInetAddress(inetAddress: InetAddress?) { Device.wifi.channels.serverInetAddress = inetAddress }
     fun isHosting(): Boolean = getServerSocket()?.let { true } ?: false
 
     fun getClientsList(): List<WifiInfoService> = Device.wifi.channels.withClients.map { it.info!! }
     fun withClientChannels(): MutableList<WifiChannel> = Device.wifi.channels.withClients
     suspend fun startHostingNewClients() = runBlocking(Dispatchers.IO) {
-        Log.e(TAG, "startHostingNewClients: start")
+        val fTAG = "startHostingNewClients"
+        Log.e(TAG, "$fTAG: start")
         // Create a listen socket
         initializeServerSocket()
         getServerSocket()?.let { _serverSocket ->
@@ -40,33 +43,35 @@ class WifiChannelsWithClientRepo() {
 //            DeviceWifiRepo().updateLinkStateTo(WifiLinkState.ConnectedAsServer)
 
             val hostName = Device.data.name
-            Log.e(TAG, "startHostingNewClients: $hostName ${Device.wifi.inetAddress}")
+            Log.e(TAG, "$fTAG: $hostName ${Device.wifi.inetAddress}")
+//            setServerInetAddress(Device.wifi.inetAddress)
+//            Log.e(TAG, "$fTAG: setServerInetAddress ${Device.wifi.inetAddress}")
 
             //Listen for new Client
-            Log.i(TAG, "startHostingNewClients: loop on isHosting")
+            Log.i(TAG, "$fTAG: loop on isHosting")
             while ( isHosting() ) {
                 try {
                     _serverSocket.accept()?.let {
                         if (it.inetAddress != repo.getLocalIp()) {
-                            Log.w(TAG, "startHostingNewClients: accept new client ${it.inetAddress}")
+                            Log.w(TAG, "$fTAG accept new client ${it.inetAddress}")
                             registerNewClient(it)?.let {
-                                Log.e(TAG, "registerNewClient: accepted client ${it.name} ${it.socket.inetAddress}")
+                                Log.e(TAG, "$fTAG registerNewClient: accepted client ${it.name} ${it.socket.inetAddress}")
                                 // Start reading messages
                                 async {
                                     withClientChannels().add(it)
                                     withClientChannels().open(it)
                                 }
                             } ?: run {
-                                Log.w(TAG, "startHostingNewClients: register fail")
+                                Log.w(TAG, "$fTAG: register fail")
                                 return@run }
-                        } else Log.i(TAG, "startHostingNewClients: found mySelf")
+                        } else Log.i(TAG, "$fTAG: found mySelf")
                     }
                 } catch (e: SocketException) {
-                    Log.w(TAG, "startHostingNewClients: socketExcetpion")
+                    Log.w(TAG, "$fTAG: socketExcetpion")
                     break
                 }
             }
-            Log.e(TAG, "startHostingNewClients: Stop")
+            Log.e(TAG, "$fTAG: Stop")
         }
     }
 
@@ -81,18 +86,20 @@ class WifiChannelsWithClientRepo() {
         // Stop Hosting
         getServerSocket()?.close()
         setServerSocket(null)
+//        setServerInetAddress(null)
         repo.updateLinkStateTo(WifiLinkState.NotConnected)
     }
 
     private fun initializeServerSocket() {
-        Log.i(TAG, "initializeServerSocket: ")
+        val fTAG = "initializeServerSocket"
+        Log.i(TAG, "$fTAG: ")
         var localPort: Int
         // Initialize a server socket on the next available port.
         setServerSocket(ServerSocket(0).also { socket ->
             // Store the chosen port.
             localPort = socket.localPort
         })
-        Log.i(TAG, "initializeServerSocket: server socket localPort : $localPort")
+        Log.i(TAG, "$fTAG : server socket localPort : $localPort")
     }
 
     private fun registerNewClient(socket: Socket): WifiClient? {
@@ -100,6 +107,8 @@ class WifiChannelsWithClientRepo() {
         Log.i(TAG, "registerNewClient: port ${socket.port}")
         Log.i(TAG, "registerNewClient: localport ${socket.localPort}")
         Log.i(TAG, "registerNewClient: localAddress ${socket.localAddress}")
+        Log.e(TAG, "registerNewClient: setinetAddress to ${socket.localAddress}")
+        Device.wifi.inetAddress = socket.localAddress
         Log.i(TAG, "registerNewClient: outputStream ${socket.getOutputStream()}")
         val writer: PrintWriter
         try {

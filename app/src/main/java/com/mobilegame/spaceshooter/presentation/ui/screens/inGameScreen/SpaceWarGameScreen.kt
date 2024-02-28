@@ -11,7 +11,7 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 @Composable
 fun SpaceWarGameScreen(navigator: Navigator = Navigator(), vm: SpaceWarGameViewModel) {
     LaunchedEffect(true) {
-        eLog("InGameScreen", "Launch Screen")
+        eLog("SpaceWarGameScreen", "Launch Screen")
     }
 
     //todo: Use ConstraintSet with Width Ratio to reduce screen size depending on enemy device

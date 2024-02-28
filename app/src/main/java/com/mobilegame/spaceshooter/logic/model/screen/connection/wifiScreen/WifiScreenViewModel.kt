@@ -1,31 +1,28 @@
 package com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.LinkProperties
-import android.os.Build
 import android.util.Log
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.mobilegame.spaceshooter.data.connection.wifi.PreparationState
+import com.mobilegame.spaceshooter.data.connection.wifi.SendEvent
 import com.mobilegame.spaceshooter.logic.model.screen.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.connection.registerDevice.RegisterDeviceViewModel
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
+import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceWifiRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.WifiScreenUI
 import com.mobilegame.spaceshooter.utils.analyze.eLog
-import com.mobilegame.spaceshooter.utils.extensions.getConnectivityManager
+import com.mobilegame.spaceshooter.utils.analyze.iLog
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.net.Inet4Address
-import java.net.NetworkInterface
-import java.util.Formatter
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 
 class WifiScreenViewModel(application: Application): AndroidViewModel(application) {
@@ -35,40 +32,104 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
     val registerVM = RegisterDeviceViewModel(application, Screens.WifiScreen)
     val repo = DeviceWifiRepo()
     private var connectionVM: WifiConnectionViewModel = WifiConnectionViewModel()
-//    private val deviceNameDataStore: String? = Device.data.name
+    var nav: Navigator? = null
 
     private val _deviceName = MutableStateFlow(Device.data.name)
     val deviceName: StateFlow<String?> = _deviceName.asStateFlow()
 
     init {
-        eLog("WifiScreenVM", "init")
+        eLog(TAG, "init")
         repo.initWifi(application)
+//        repo.setIpAddress()
         repo.initNetworkSearchAndDiscovery(application)
 //        deviceName.value?.let { nonNullNameTrigger() }
+//        viewModelScope.launch {
+//            val checkVisibleDevice = flow {
+//                while (test) {
+//                    emit(Device.wifi.visibleDevices.value)
+//                    delay(200)
+//                }
+//            }
+//        }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                Device.wifi.listVisibleDevicesFlow.map { it.firstOrNull() }.collect {visibleDeviceState ->
+//                    eLog(TAG, "collecting  Device.wifi.listVisibleDevicesFlow ${it.firstOrNull()?.state}")
+                    visibleDeviceState?.let {
+//                        pressureVM.full.collect { _full ->
+//                            eLog(TAG, "collecting pressureVM.full $_full")
+//                        }
+                        when (it.state) {
+//                            PreparationState.Waiting -> {
+////                                iLog(TAG, "collecting  Device.wifi.listVisibleDevicesFlow ${it.state}")
+//                            }
+                            PreparationState.ReadyToPlay -> {
+                                if (pressureVM.full.value) {
+                                    eLog(TAG, "START GAME")
+//                                    startGame()
+                                    DeviceEventRepo().sendReadyToPlay()
+                                    startGame()
+                                    this.coroutineContext.job.cancel()
+                                }
+                            }
+                            else -> eLog(TAG, "collecting  Device.wifi.listVisibleDevicesFlow ${it.state}")
+                        }
+                    }
+                }
+            }
+        }
+        viewModelScope.launch {
+            pressureVM.full.collect { _full ->
+                eLog(TAG, "collecting pressureVM.full $_full")
+                if (_full) {
+                    pressureReadyToChooseSpaceShip()
+                }
+                else {
+                    pressureReleaseReadyToChooseSpaceShip()
+                }
+            }
+//            checkVisibleDevice
+//            Device.wifi.visibleDevices.collect {
+//                eLog(TAG, "Device.wifi.visibleDevices.collect $it")
+//            }
+//            repo.getFlowListVisibleDevice().collect {
+//
+//            }
+        }
     }
-
 
     fun nonNullNameTrigger() {
         Log.i(TAG, "nonNullNameTrigger: ")
         viewModelScope.launch(Dispatchers.IO) {
             connectionVM.hostAndSearch()
-
-//            connectionVM.start()
-//            connectionVM.host()
-//            connectionVM.searchForServers()
         }
     }
 //    fun startConnecting() { connectionVM.host() }
-//    fun newVisibleDeviceTrigger() {
-//    Log.i(TAG, "newVisibleDeviceTrigger: ")
-//    connectionVM.searchForServers()
-//    }
 
 //    fun refreshButtonClick() { connectionVM.refresh() }
-    fun pressureReadyToChooseSpaceShip(navigator: Navigator) = viewModelScope.launch {
-//    Log.e(TAG, "pressureReadyToChooseSpaceShip: ")
+    fun pressureReadyToChooseSpaceShip() = viewModelScope.launch {
+        val fTAG = "pressureReadyToChooseSpaceShip"
+        Log.e(TAG, "$fTAG: ")
+//        if (repo.isVisibleDeviceReadyToPlay()) {
+//            Log.e(TAG, "$fTAG: is Visible Device Ready To Play")
+//        } else {
+            DeviceEventRepo().sendReadyToPlay()
+//        }
+    }
+    fun pressureReleaseReadyToChooseSpaceShip()  = viewModelScope.launch {
+        val fTAG = "pressureReleaseReadyToChooseSpaceShip"
+        Log.e(TAG, "$fTAG: ")
+        DeviceEventRepo().sendNotReadyToPlay()
+    }
+    suspend private fun startGame() {
+        DeviceEventRepo().sendDeviceInGame()
+        nav?.navig(Screens.SpaceWarScreen)
     }
 
+    //todo : is this better to store the navigation in the Device Data obj ?
+    fun initNavigation(navigator: Navigator) {
+        nav = navigator
+    }
 //    fun back(navigator: Navigator): Job = viewModelScope.launch(Dispatchers.IO) {
 //            navigator.navig(Screens.MainScreen)
 //    }

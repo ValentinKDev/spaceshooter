@@ -54,10 +54,13 @@ class WifiChannel(
         } else {
             Log.d(TAG, "read: line $line")
             val eventMessage = EventMessage.fromJson(line)
-            if (info is WifiServer)
-                eventRepo.handleEventFromServer(eventMessage)
-            else
-                eventRepo.handleEventFromClient(eventMessage, info as WifiClient)
+            //todo : set here -> if (info is WifiServer)
+            //todo : Device.wifi.linkstate.ConnectedAsServer
+//            if (info is WifiServer)
+//                eventRepo.handleEventFromServer(eventMessage)
+//            else
+//                eventRepo.handleEventFromClient(eventMessage, info as WifiClient)
+            eventRepo.handleEvent(eventMessage)
         }
     }
 

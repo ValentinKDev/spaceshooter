@@ -10,8 +10,11 @@ enum class EventMessageType {
     NotReadyToChooseSpaceShip,
     GoToSpaceShipMenuScreen,
     ReadyToPlay,
+    ReadyNotToPlay,
+    InGame,
     NotReadyToPlay,
     LaunchGame,
     Loose,
-    None
+    None,
+    Test
 }

@@ -5,6 +5,7 @@ import android.net.nsd.NsdServiceInfo
 import android.util.Log
 import com.mobilegame.spaceshooter.data.connection.wifi.PreparationState
 import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
+import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiInfoService
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiServer
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
@@ -28,13 +29,17 @@ class WifiChannelsWithServerRepo() {
             val writer = PrintWriter(socket.getOutputStream())
             val wifiServer = WifiServer("", PreparationState.Waiting, socket, writer)
             getChannel().info = wifiServer
-            Log.i(TAG, "onServiceResolved: addServer")
-            repo.updateLinkStateTo(WifiLinkState.Connected)
-            DeviceEventRepo().sendNameToServer(serviceInfo.host)
+            Log.i(TAG, "addServer: addServer")
+            Log.i(TAG, "addServer: addServer inetAddress ${socket.inetAddress}")
+            Log.i(TAG, "addServer: addServer serviceInfo.host ${serviceInfo.host}")
+            Log.i(TAG, "addServer: addServer Device.wifi.inetAddress ${serviceInfo.host}")
+//            repo.updateLinkStateTo(WifiLinkState.Connected)
+            repo.updateLinkStateTo(WifiLinkState.ConnectedAsClient)
+            DeviceEventRepo().sendNameToServer()
         } catch (e: UnknownHostException) {
-            Log.e(TAG, "Unknown host. ${e.localizedMessage}")
+            Log.e(TAG, "addServer: Unknown host. ${e.localizedMessage}")
         } catch (e: IOException) {
-            Log.e(TAG, "Failed to create writer. ${e.localizedMessage}")
+            Log.e(TAG, "addServer: Failed to create writer. ${e.localizedMessage}")
         }
     }
 

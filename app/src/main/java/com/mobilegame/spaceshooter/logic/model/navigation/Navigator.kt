@@ -18,3 +18,4 @@ class Navigator {
         dest.emit(fullRoute)
     }
 }
+

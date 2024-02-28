@@ -14,7 +14,11 @@ fun DevicesMenu(vm: WifiScreenViewModel, navigator: Navigator, deviceName: Strin
     val facingDevices by remember { Device.wifi.visibleDevices }.collectAsState()
 
     val startJob by remember { vm.pressureVM.full }.collectAsState()
-    LaunchedEffect(startJob) { if (startJob) vm.pressureReadyToChooseSpaceShip(navigator) }
+    LaunchedEffect(startJob) {
+        vm.initNavigation(navigator)
+//        if (startJob) vm.pressureReadyToChooseSpaceShip(navigator)
+//        else vm.pressureReleaseReadyToChooseSpaceShip()
+    }
 
     deviceName?.let { _name ->
         if (facingDevices.isNotEmpty()) {
@@ -36,7 +40,8 @@ fun DevicesMenu(vm: WifiScreenViewModel, navigator: Navigator, deviceName: Strin
                         ui = vm.ui.deviceMenu.body,
                         navigator = navigator,
                         pressureVM = vm.pressureVM,
-                        onPressure = WifiScreenViewModel::pressureReadyToChooseSpaceShip,
+//                        onPressure = WifiScreenViewModel::pressureReadyToChooseSpaceShip,
+//                        onRelease = WifiScreenViewModel::pressureReleaseToChooseSpaceShip
                     )
                 }
             )

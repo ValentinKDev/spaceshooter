@@ -6,5 +6,5 @@ import java.net.InetAddress
 data class ConnectedDevice(
     val name: String,
     val ip: InetAddress,
-    val state: PreparationState = PreparationState.Waiting
+    var state: PreparationState = PreparationState.Waiting
 )

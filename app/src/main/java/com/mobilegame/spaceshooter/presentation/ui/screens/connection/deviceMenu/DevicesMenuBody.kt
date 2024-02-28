@@ -21,11 +21,13 @@ import kotlinx.coroutines.Job
 import kotlin.reflect.KFunction2
 
 @Composable
+
 fun DevicesMenuBody(
     navigator: Navigator,
     ui: DevicesMenuUI.BodyDeviceMenu,
     pressureVM: PressureViewModel,
-    onPressure: KFunction2<WifiScreenViewModel, Navigator, Job>,
+//    onPressure: KFunction2<WifiScreenViewModel, Navigator, Job>,
+//    onRelease: KFunction2<WifiScreenViewModel, Navigator, Job>,
 ) {
     val constraints = remember {
         ConstraintSet {

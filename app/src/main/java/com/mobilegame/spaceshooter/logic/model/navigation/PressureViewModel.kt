@@ -38,6 +38,7 @@ class PressureViewModel() : ViewModel() {
     }
 
     fun handlePressureRelease() {
+        vLog("PressureNavVM" , "handlePressureRelease")
         if (pressureState) {
             setPressureStateTo(false)
             _full.update { false }

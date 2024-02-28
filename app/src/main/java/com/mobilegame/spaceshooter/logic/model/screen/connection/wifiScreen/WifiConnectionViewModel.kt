@@ -19,7 +19,8 @@ class WifiConnectionViewModel(): ViewModel() {
 
     suspend fun hostAndSearch() {
         Log.i(TAG, "hostAndSearch: setInetAddress")
-        repo.setInetAddress()
+//        repo
+        repo.setIpAddress()
         Log.i(TAG, "hostAndSearch: searchForServer")
         withServerRepo.searchForServer()
         Log.i(TAG, "hostAndSearch: updateLinkStateTo")
@@ -30,7 +31,8 @@ class WifiConnectionViewModel(): ViewModel() {
 
         Log.i(TAG, "hostAndSearch: getLinkState ${repo.getLinkState()}")
         when (repo.getLinkState()) {
-            WifiLinkState.Connected -> withServerRepo.openChannel()
+            WifiLinkState.ConnectedAsClient -> withServerRepo.openChannel()
+//            WifiLinkState.Connecting -> withClientRepo.startHostingNewClients()
             WifiLinkState.Connecting -> withClientRepo.startHostingNewClients()
             WifiLinkState.NotConnected -> Log.e(TAG, "hostAndSearch: ${repo.getLinkState().name}", )
             WifiLinkState.NoConnection -> Log.e(TAG, "hostAndSearch: ${repo.getLinkState().name}", )
