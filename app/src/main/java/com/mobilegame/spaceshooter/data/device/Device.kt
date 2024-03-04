@@ -16,4 +16,5 @@ object Device {
     val metrics = DeviceMetrics()
     val wifi: DeviceWifi = DeviceWifi()
     val event = DeviceEvent()
+//    val connectionEvent
 }

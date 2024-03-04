@@ -15,7 +15,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 class CircleSpaceShipIconUI(shipBox: Size) {
-    private val TAG = object{}.javaClass.enclosingClass
+    val cTAG = "CircleSpaceShipIconUI"
 
     val sizes = SizesSpaceShipIcon(shipBox.height)
     val points = PointsSpaceShipIcon(sizes)

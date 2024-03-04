@@ -6,6 +6,10 @@ interface ShipInfo {
     val life: Float
     val speed: Float
     val damage: Float
+    val damageChargeRatio: Float
     val reloadTime: Float
     val magazineSize: Int
+    val shootingTimeInterval: Long
+    val ammoRecoveryTime: Long
+    val chargedProjectileType: ChargedProjectileType
 }

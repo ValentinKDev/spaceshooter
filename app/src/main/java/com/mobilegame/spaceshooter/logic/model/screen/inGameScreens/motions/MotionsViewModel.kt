@@ -14,8 +14,6 @@ import com.mobilegame.spaceshooter.logic.repository.sensor.GravityRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.SpaceWarGameScreenUI
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -24,7 +22,7 @@ class MotionsViewModel(
     context: Context,
     ui: SpaceWarGameScreenUI,
 ): ViewModel() {
-    private val TAG = object{}.javaClass.enclosingClass.simpleName
+    val cTAG = "MotionsViewModel"
     private val startPosition = ui.position.pCenterDp
     private val displaySizeDp = ui.sizes.displayDpDeltaBox
     private val shipCenterDeltaDp = ui.sizes.shipBoxCenterDp
@@ -60,12 +58,13 @@ class MotionsViewModel(
     init { startEngine() }
 
     private fun startEngine() = viewModelScope.launch(Dispatchers.IO) {
-        Log.i(TAG, "startEngine: ")
-        collectDevicePositionAndUpdate()
-        updateShoots()
+        Log.i(cTAG, "startEngine: ")
+        startMotions()
     }
 
-    private suspend fun collectDevicePositionAndUpdate() = gravityRepo.averageXYZ.collect { _xyz ->
+    // Refresh Rate of Updates based on the sensor ship position flow refresh rate
+    private suspend fun startMotions() = gravityRepo.averageXYZ.collect { _xyz ->
+        updateShoots()
         updateMotion(_xyz)
         updateSpeed(_xyz)
         updateDeltaMoves(_xyz)
@@ -81,12 +80,14 @@ class MotionsViewModel(
         _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
     }
     fun updateShoots() {
-        _shootList.update {
-            shootList.value.forEach { it.updateDpOffset() }
-            shootList.value.filter {
-                it.offsetDp isInBoundsOf displaySizeDp
-            }
-        }
+        val newList: List<Shoot> = _shootList.value.map { it.getShootWithUpdatedDpOffset() }.filter { it.offsetDp isInBoundsOf displaySizeDp }
+        _shootList.value = newList
+//        _shootList.update {
+//            shootList.value.forEach { it.updateDpOffset() }
+//            shootList.value.filter {
+//                it.offsetDp isInBoundsOf displaySizeDp
+//            }
+//        }
     }
 
     private fun XYZ.getMotionSpeed(maxZ: Float) {
@@ -148,6 +149,8 @@ class MotionsViewModel(
     }
 
     fun getShootVector(): Size {
+        val fTAG = "getShootVector()"
+//        wLog(cTAG, "$fTAG ship delta $delta")
         val x = when {
             motion.value.isRight() -> delta.x
             motion.value.isLeft() -> delta.x * -1F
@@ -168,11 +171,11 @@ class MotionsViewModel(
         }
     }
 
-    private fun updateShootsMotions() {
-        updateShootsListPositions( shootList.value )
-        val newShootsList = shootList.value.cloneIfInBounds(displaySizeDp)
-        _shootList.value = newShootsList
-    }
+//    private fun updateShootsMotions() {
+//        updateShootsListPositions( shootList.value )
+//        val newShootsList = shootList.value.cloneIfInBounds(displaySizeDp)
+//        _shootList.value = newShootsList
+//    }
 
     fun getTargetAngle(motion: Motions, speed: SpeedMagnitude): Float = when {
         motion.isUp() -> {

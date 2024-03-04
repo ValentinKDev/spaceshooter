@@ -11,37 +11,37 @@ fun <T> List<T>.copy(): List<T> {
     return mutableList.toList()
 }
 
-fun List<Shoot>.cloneIfInBounds(boundaries: DpSize): List<Shoot> {
-    val mutableList: MutableList<Shoot> = mutableListOf()
-    for (shoot in this) {
-        if (shoot.offsetDp isInBoundsOf boundaries)
-            mutableList.add(
-                Shoot(
-                    type = shoot.type,
-                    motion = shoot.motion,
-                    from = shoot.from,
-                    vector = shoot.vector,
-                    offsetDp = shoot.offsetDp
-                )
-            )
-    }
-    return mutableList.toList()
-}
-fun List<Shoot>.clone(): List<Shoot> {
-    val mutableList: MutableList<Shoot> = mutableListOf()
-    for (shoot in this) {
-        mutableList.add(
-            Shoot(
-                type = shoot.type,
-                motion = shoot.motion,
-                from = shoot.from,
-                vector = shoot.vector,
-                offsetDp = shoot.offsetDp
-            )
-        )
-    }
-    return mutableList.toList()
-}
+//fun List<Shoot>.cloneIfInBounds(boundaries: DpSize): List<Shoot> {
+//    val mutableList: MutableList<Shoot> = mutableListOf()
+//    for (shoot in this) {
+//        if (shoot.offsetDp isInBoundsOf boundaries)
+//            mutableList.add(
+//                Shoot(
+//                    type = shoot.type,
+//                    motion = shoot.motion,
+//                    from = shoot.from,
+//                    vector = shoot.vector,
+//                    offsetDp = shoot.offsetDp
+//                )
+//            )
+//    }
+//    return mutableList.toList()
+//}
+//fun List<Shoot>.clone(): List<Shoot> {
+//    val mutableList: MutableList<Shoot> = mutableListOf()
+//    for (shoot in this) {
+//        mutableList.add(
+//            Shoot(
+//                type = shoot.type,
+//                motion = shoot.motion,
+//                from = shoot.from,
+//                vector = shoot.vector,
+//                offsetDp = shoot.offsetDp
+//            )
+//        )
+//    }
+//    return mutableList.toList()
+//}
 //fun List<Shoot>.add(element: Shoot): List<Shoot> {
 //    val mutableList: MutableList<Shoot> = this.clone().toMutableList()
 fun <T> List<T>.add(element: T): List<T> {

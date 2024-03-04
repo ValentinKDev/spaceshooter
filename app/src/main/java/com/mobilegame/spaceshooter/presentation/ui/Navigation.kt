@@ -32,11 +32,11 @@ fun Navigation(navigator: Navigator) {
 
     NavHost(
         navController = navController,
-        startDestination = Screens.MainScreen.route,
+//        startDestination = Screens.MainScreen.route,
 //        startDestination = Screens.MenuScreen.route,
 //        startDestination = Screens.WifiScreen.route,
 //        startDestination = Screens.DuelTutoScreen.route,
-//        startDestination = Screens.SpaceWarScreen.route,
+        startDestination = Screens.SpaceWarScreen.route,
 //        startDestination = Screens.Creator.route,
 //        startDestination = Screens.Test.route,
     ) {
