@@ -9,12 +9,11 @@ import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.extensions.*
 
-class SquareSpaceShipIconUI(shipViewBox: Size) {
+class SquareSpaceShipIconUI(shipViewBox: Size): SpaceShipIconUIInterface {
     val sizes = SizesSquareShip(shipViewBox)
     val points = PointsSquareShip(sizes)
-    val magazine = MagazineShip(sizes)
+    val ammos = Ammos(sizes)
     val colors = ColorsSquareShip()
-
     class SizesSquareShip(shipBox: Size) {
         val shipViewBoxSizeDp: DpSize = shipBox.toDpSize()
         val shipSize: Size = shipBox
@@ -28,16 +27,36 @@ class SquareSpaceShipIconUI(shipViewBox: Size) {
         val bottomCentralBar: Offset = Offset(center.x, center.y * 0.70F)
     }
 
-    class MagazineShip(sizes: SizesSquareShip) {
+    class Ammos(sizes: SizesSquareShip) {
         private val padding: Float = sizes.shipSize.height * 0.12F
         val ammoSize: Size = ((sizes.shipSize.height - (2F * padding) + sizes.stroke) / 3F).toSize()
         val innerSize: Size = ammoSize * 0.85F
-        val m1: Offset = Offset.Zero - Offset(x = padding + ammoSize.width + (sizes.stroke / 2F), y = sizes.stroke / 2F)
-        val m2: Offset = m1 yPlus (ammoSize.height + padding)
-        val m3: Offset = m2 yPlus (ammoSize.height + padding)
-        val m4: Offset = Offset(x = sizes.shipSize.width + (sizes.stroke / 2F) + padding ,y = sizes.stroke / -2F)
-        val m5: Offset = m4 yPlus (ammoSize.height + padding)
-        val m6: Offset = m5 yPlus (ammoSize.height + padding)
+        private val m1: Offset = Offset.Zero - Offset(x = padding + ammoSize.width + (sizes.stroke / 2F), y = sizes.stroke / 2F)
+        private val m2: Offset = m1 yPlus (ammoSize.height + padding)
+        private val m3: Offset = m2 yPlus (ammoSize.height + padding)
+        private val m4: Offset = Offset(x = sizes.shipSize.width + (sizes.stroke / 2F) + padding ,y = sizes.stroke / -2F)
+        private val m5: Offset = m4 yPlus (ammoSize.height + padding)
+        private val m6: Offset = m5 yPlus (ammoSize.height + padding)
+
+        private val projectileSize: Size = innerSize
+        private val ratioCharge: Float = 0.70F
+        val c2: Size = projectileSize * (ratioCharge * 2F)
+        val c3: Size = projectileSize * (ratioCharge * 3F)
+        val c4: Size = projectileSize * (ratioCharge * 4F)
+        val c5: Size = projectileSize * (ratioCharge * 5F)
+        val c6: Size = projectileSize * (ratioCharge * 6F)
+        fun getShootSize(n: Int): Size = when (n) {
+            1 -> projectileSize
+            2 -> c2
+            3 -> c3
+            4 -> c4
+            5 -> c5
+            6 -> c6
+            else -> {
+                eLog("SquareSpaceShipIconUI::getShootSize", "ERROR get( ${n})")
+                Size.Unspecified
+            }
+        }
 
         fun getAmmunitionOffset(n: Int): Offset = when (n) {
             1 -> m3
@@ -47,7 +66,7 @@ class SquareSpaceShipIconUI(shipViewBox: Size) {
             5 -> m1
             6 -> m4
             else -> {
-                eLog("SpaceShipVM::getAmmunitionOffset", "ERROR getMunition(ui, --> ${n})")
+                eLog("SquareSpaceShipIconUI:getAmmunitionOffset", "ERROR getMunition(ui, --> ${n})")
                 Offset.Zero
             }
         }

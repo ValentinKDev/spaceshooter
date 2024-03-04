@@ -9,22 +9,21 @@ import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SquareSpaceShipIcon
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.circle.MunitionsType
 
 @Composable
-fun SquareDrawMunition(topLeft: Offset, ui: SquareSpaceShipIconUI, type: MunitionsType) {
+fun SquareDrawMunition(topLeftOffset: Offset, ui: SquareSpaceShipIconUI, type: MunitionsType, particularBehavior: Int = 1) {
     Canvas(Modifier){
         drawRect(
-            topLeft = topLeft,
-            size = ui.magazine.ammoSize,
+            topLeft = topLeftOffset,
+            size = ui.ammos.ammoSize,
             style = Fill,
             color = ui.colors.outline,
         )
         if (type == MunitionsType.Shoot) {
-            drawRect(
-                topLeft = topLeft,
-                size = ui.magazine.innerSize,
-                style = Fill,
-//                topLeft = ,
-                color = ui.colors.outline,
-            )
+                drawRect(
+                    topLeft = topLeftOffset,
+                    size = ui.ammos.getShootSize(particularBehavior),
+                    style = Fill,
+                    color = ui.colors.outline,
+                )
         }
     }
 }

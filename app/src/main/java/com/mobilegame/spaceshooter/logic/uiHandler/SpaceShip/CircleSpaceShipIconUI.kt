@@ -14,13 +14,13 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-class CircleSpaceShipIconUI(shipBox: Size) {
+class CircleSpaceShipIconUI(shipBox: Size): SpaceShipIconUIInterface {
     val cTAG = "CircleSpaceShipIconUI"
 
     val sizes = SizesSpaceShipIcon(shipBox.height)
     val points = PointsSpaceShipIcon(sizes)
-    val colors = ColorsSpaceShipIcon()
     val ammunition = MunitionsSpaceShipIcon(shipBox.height)
+    val colors = ColorsSpaceShipIcon()
 
     data class ColorsSpaceShipIcon(
         var strokes: Color = MyColor.applicationContrast,

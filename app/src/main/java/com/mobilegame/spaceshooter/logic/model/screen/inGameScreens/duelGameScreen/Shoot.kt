@@ -13,7 +13,7 @@ class Shoot(
     val from: ShipOrigin = ShipOrigin.User,
     val motion: Motions,
     var vector: Size = Size.Zero,
-    val size: Int,
+    val particularBehavior: Int,
     val damage: Float,
     var offsetDp: DpOffset = DpOffset.Zero,
 ) {
@@ -29,7 +29,7 @@ class Shoot(
         from = this.from,
         motion = this.motion,
         vector = this.vector,
-        size = this.size,
+        particularBehavior = this.particularBehavior,
         damage = this.damage,
         offsetDp = DpOffset(
             x = offsetDp.x + vector.width.dp,
@@ -37,12 +37,12 @@ class Shoot(
         )
     )
     companion object {
-        fun newFromUser(ship: ShipType, vm: MotionsViewModel, behavior: Int = 0, damage: Float = 1F): Shoot = Shoot(
+        fun newFromUser(ship: ShipType, vm: MotionsViewModel, behavior: Int = 1, damage: Float = 1F): Shoot = Shoot(
             type = ship,
             from = ShipOrigin.User,
             motion = vm.motion.value,
             vector = vm.getShootVector(),
-            size = behavior,
+            particularBehavior = behavior,
             damage = ship.info.damage,
             offsetDp = vm.getShipTopCenter(),
         )

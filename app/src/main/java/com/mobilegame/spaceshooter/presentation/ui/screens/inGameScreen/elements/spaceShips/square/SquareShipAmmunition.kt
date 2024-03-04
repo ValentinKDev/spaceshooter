@@ -19,5 +19,6 @@ fun SquareShipAmmunition(vm: MunitionsViewModel, ui: SquareSpaceShipIconUI) {
 
 @Composable
 private fun SquareShipAmmunition(ui: SquareSpaceShipIconUI, n: Int, type: MunitionsType) {
-    SquareDrawMunition(topLeft = ui.magazine.getAmmunitionOffset(n), ui = ui, type = type)
+//    SquareDrawMunition(topLeft = ui.ammos.getAmmunitionOffset(n), ui = ui, type = type)
+    SquareDrawMunition(topLeftOffset = ui.ammos.getAmmunitionOffset(n), ui = ui, type = type)
 }
