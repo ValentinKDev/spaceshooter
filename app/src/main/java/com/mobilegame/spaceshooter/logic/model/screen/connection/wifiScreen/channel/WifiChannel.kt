@@ -48,7 +48,7 @@ class WifiChannel(
         }
     }
 
-    private fun handleLine(line: String) {
+    private suspend fun handleLine(line: String) {
         if (line.isBlank() || line.isEmpty()) {
             Log.e(TAG, "read: ERROR line is empty")
         } else {

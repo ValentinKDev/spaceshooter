@@ -37,3 +37,7 @@ infix fun DpOffset.isInBoundsOf(sizeDp: DpSize): Boolean {
     return ret
 }
 
+infix fun DpOffset.isNotInBoundsOf(sizeDp: DpSize): Boolean = !(this isInBoundsOf sizeDp)
+
+infix fun DpOffset.touchTopScreen(sizeDp: DpSize): Boolean = (this.y <= 0.dp)
+

@@ -87,7 +87,7 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
             ChargedProjectileType.Instant -> {
                 iLog(cTAG, "$fTAG behavior int ${ammoCharged}")
                 val newShoot = Shoot.newFromUser(
-                    ship = shipType,
+                    type = shipType,
                     vm = motionVM,
                     behavior = ammoCharged,
                     damage = shipType.info.damage * ammoCharged.toFloat(),

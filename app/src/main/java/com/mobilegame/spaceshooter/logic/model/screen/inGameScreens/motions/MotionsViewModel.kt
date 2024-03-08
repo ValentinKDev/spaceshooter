@@ -8,12 +8,15 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
 import com.mobilegame.spaceshooter.data.sensor.XYZ
+import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
 import com.mobilegame.spaceshooter.logic.repository.sensor.GravityRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.SpaceWarGameScreenUI
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -22,7 +25,9 @@ class MotionsViewModel(
     context: Context,
     ui: SpaceWarGameScreenUI,
 ): ViewModel() {
-    val cTAG = "MotionsViewModel"
+    private val deviceEvent = Device.event
+    val TAG = "MotionsViewModel"
+    private val eventRepo: DeviceEventRepo = DeviceEventRepo()
     private val startPosition = ui.position.pCenterDp
     private val displaySizeDp = ui.sizes.displayDpDeltaBox
     private val shipCenterDeltaDp = ui.sizes.shipBoxCenterDp
@@ -58,8 +63,9 @@ class MotionsViewModel(
     init { startEngine() }
 
     private fun startEngine() = viewModelScope.launch(Dispatchers.IO) {
-        Log.i(cTAG, "startEngine: ")
-        startMotions()
+        Log.i(TAG, "startEngine: ")
+        val ev = async { startListeningToShoots() }
+        val mo = async { startMotions() }
     }
 
     // Refresh Rate of Updates based on the sensor ship position flow refresh rate
@@ -79,15 +85,45 @@ class MotionsViewModel(
         val newPCenter = shipPosition.value.calculateNewDpOffset()
         _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
     }
-    fun updateShoots() {
-        val newList: List<Shoot> = _shootList.value.map { it.getShootWithUpdatedDpOffset() }.filter { it.offsetDp isInBoundsOf displaySizeDp }
-        _shootList.value = newList
-//        _shootList.update {
-//            shootList.value.forEach { it.updateDpOffset() }
-//            shootList.value.filter {
-//                it.offsetDp isInBoundsOf displaySizeDp
+    private suspend fun startListeningToShoots(): Nothing = Device.event.incomingProjectile.collect {
+        Log.e(TAG, "updateEnemiesProjectiles: ENEMIE PROJECTIL INCOOOOOMING", )
+        Log.e(TAG, "updateEnemiesProjectiles shoot ip ${it.shooterIp}")
+        Log.e(TAG, "updateEnemiesProjectiles shoot vector ${it.vector}")
+        Log.e(TAG, "updateEnemiesProjectiles shoot offset ${it.offsetDp}")
+        Log.e(TAG, "updateEnemiesProjectiles shoot ratioX ${it.xRatio}")
+        addShoot(it)
+    }
+    suspend private fun updateShoots() {
+        val newList: List<Shoot> = _shootList.value.map {
+//            if (it.offsetDp touchTopScreen displaySizeDp) {
+//                Log.e(TAG, "updateShoots: INVERSION TOP", )
+//                it.getShootWithUpdatedDpOffset().invertShoot()
+//            } else {
+            it.getShootNextDpOffset()
 //            }
-//        }
+        }.filter {
+            if (it.offsetDp touchTopScreen displaySizeDp) {
+                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
+                Log.e(TAG, "updateUserProjectiles shoot ip ${it.shooterIp}")
+                Log.e(TAG, "updateUserProjectiles shoot vector ${it.vector}")
+                Log.e(TAG, "updateUserProjectiles shoot offset ${it.offsetDp}")
+                val invertedShoot = it.getShootPrecedentDpOffset().prepareShootToSendAway()
+//                invertedShoot.updateXRatio()
+                Log.e(TAG, "updateUserProjectiles inverted vector ${invertedShoot.vector}")
+                Log.e(TAG, "updateUserProjectiles inverted xRatio ${invertedShoot.xRatio}")
+                Log.e(TAG, "updateUserProjectiles inverted xRatio ${invertedShoot.xRatio}")
+                eventRepo.sentProjectile(invertedShoot)
+            }
+            it.offsetDp isInBoundsOf displaySizeDp
+        }
+        _shootList.value = newList
+        updateUserProjectiles()
+//        updateEnemiesProjectiles()
+    }
+    private suspend fun updateEnemiesProjectiles() {
+    }
+
+    fun updateUserProjectiles() {
     }
 
     private fun XYZ.getMotionSpeed(maxZ: Float) {

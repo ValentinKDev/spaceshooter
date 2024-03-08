@@ -1,16 +1,15 @@
 package com.mobilegame.spaceshooter.data.device.structure
 
-import com.mobilegame.spaceshooter.data.connection.dto.EventMessage
-import kotlinx.coroutines.delay
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flow
 
 class DeviceEvent {
-//    val incoming = MutableStateFlow(EventMessage.NONE)
-    var isRunning = false
-    val refreshInterval = 500L
+//    var incomingProjectile = MutableStateFlow(Shoot.UNDEFINED)
+//    val incomingProjectile = SharedFlow<Shoot?>()
+    var incomingProjectile: MutableSharedFlow<Shoot> = MutableSharedFlow()
+//    var isRunning = false
+//    val refreshInterval = 500L
 
 //    val eventsFlow = flow<> {
 //        while (isRunning) {
