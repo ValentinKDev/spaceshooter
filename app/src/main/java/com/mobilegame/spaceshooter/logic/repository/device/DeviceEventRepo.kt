@@ -81,8 +81,6 @@ class DeviceEventRepo() {
 //                        Device.event.incomingProjectile.emit(projectile)
 //
 //                    }
-                    //todo inverser le vecteur
-                    //todo inverser la position
                 }
                 EventMessageType.NewConnectedDevice -> TODO()
             }
@@ -123,12 +121,11 @@ class DeviceEventRepo() {
                     Log.i(TAG, "$fTAG: ${EventMessageType.InGame.name}")
                     wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.InGame)
                 }
-//                EventMessageType.Test -> {
-//                    Log.e(TAG, "$fTAG: ${EventMessageType.InGame.name}")
-//                }
-//                else -> {}
                 EventMessageType.SendProjectile -> {
                     Log.i(TAG, "handleEvent: ${EventMessageType.SendProjectile.name}")
+                    val projectileJson = eventMessage.message
+                    val projectile = Shoot.deserialize(projectileJson, gson)
+                    Device.event.incomingProjectile.emit( projectile.prepareReceivedProjectile() )
                 }
             }
         }

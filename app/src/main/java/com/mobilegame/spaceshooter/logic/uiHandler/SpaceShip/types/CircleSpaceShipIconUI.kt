@@ -1,15 +1,19 @@
-package com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip
+package com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.HitBox
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUIInterface
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.analyze.wLog
 import com.mobilegame.spaceshooter.utils.extensions.toDp
+import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -17,10 +21,11 @@ import kotlin.math.sin
 class CircleSpaceShipIconUI(shipBox: Size): SpaceShipIconUIInterface {
     val cTAG = "CircleSpaceShipIconUI"
 
-    val sizes = SizesSpaceShipIcon(shipBox.height)
+    val sizes = SizesSpaceShipIcon(shipBox)
     val points = PointsSpaceShipIcon(sizes)
     val ammunition = MunitionsSpaceShipIcon(shipBox.height)
     val colors = ColorsSpaceShipIcon()
+    override val hitBox = HitBoxRoundShip(sizes)
 
     data class ColorsSpaceShipIcon(
         var strokes: Color = MyColor.applicationContrast,
@@ -29,16 +34,21 @@ class CircleSpaceShipIconUI(shipBox: Size): SpaceShipIconUIInterface {
         var shoot: Color = MyColor.defaultShip
     )
 
-    class SizesSpaceShipIcon(shipBox: Float) {
-        var shipBoxDp: Dp = shipBox.toDp()
-        var strokeWidth: Float = shipBox * 0.06F
-        var halfWidth: Float = shipBox * 0.5F
-        var epsilon: Float = shipBox * 0.2F
+    class SizesSpaceShipIcon(shipBox: Size) {
+        var shipBox: Size = shipBox
+        var shipBoxDp: DpSize = shipBox.toDpSize()
+        var strokeWidth: Float = shipBox.height * 0.06F
+        var halfWidth: Float = shipBox.height * 0.5F
+        var epsilon: Float = shipBox.height * 0.2F
     }
 
     class PointsSpaceShipIcon(sizes: SizesSpaceShipIcon) {
         var pTopCentralBar: Offset = Offset(sizes.halfWidth, 0F)
         var pBottomCentralBar: Offset = Offset(sizes.halfWidth, sizes.epsilon)
+    }
+    class HitBoxRoundShip(sizes: SizesSpaceShipIcon): HitBox {
+        override val size: Size = sizes.shipBox
+        override val sizeDp: DpSize = sizes.shipBoxDp
     }
 
     class MunitionsSpaceShipIcon(shipBox: Float) {

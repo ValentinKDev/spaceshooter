@@ -5,9 +5,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
-import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.CircleSpaceShipIconUI
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.CircleSpaceShipIconUI
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUIInterface
-import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SquareSpaceShipIconUI
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.SquareSpaceShipIconUI
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.vLog
 import com.mobilegame.spaceshooter.utils.analyze.wLog
@@ -23,7 +23,6 @@ class SpaceWarGameScreenUI(displaySize: Size, shipType: ShipType = ShipType.Squa
         ShipType.Square -> SquareSpaceShipIconUI(shipViewBox = sizes.shipViewBox)
         ShipType.Circle -> CircleSpaceShipIconUI(shipBox = sizes.shipViewBox)
     }
-
     class SizesInGameScreen(displaySize: Size) {
         var displayDp: DpSize = displaySize.toDpSize()
         var shipViewBox: Size = (displaySize.height * 0.13F).toSize()
@@ -35,12 +34,10 @@ class SpaceWarGameScreenUI(displaySize: Size, shipType: ShipType = ShipType.Squa
             height = displayDp.height - shipViewBoxDp.height,
         )
     }
-
     class PositionInGameScreen(displaySize: Size) {
         var pCenter: Offset = Offset(x = displaySize.width / 2F, y = displaySize.height / 2F)
         var pCenterDp: DpOffset =  pCenter.toDpOffset()
     }
-
     init {
         displayDataUI?.let {
             wLog("DuelGameScreenUI::init", "spaceShip")

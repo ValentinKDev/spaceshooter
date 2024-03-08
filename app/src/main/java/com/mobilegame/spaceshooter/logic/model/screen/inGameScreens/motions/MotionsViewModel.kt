@@ -13,7 +13,9 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScre
 import com.mobilegame.spaceshooter.data.sensor.XYZ
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
 import com.mobilegame.spaceshooter.logic.repository.sensor.GravityRepo
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.BoxCoordinates
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.SpaceWarGameScreenUI
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.circle.MunitionsType
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -29,6 +31,7 @@ class MotionsViewModel(
     val TAG = "MotionsViewModel"
     private val eventRepo: DeviceEventRepo = DeviceEventRepo()
     private val startPosition = ui.position.pCenterDp
+    private val startHitBoxCoordinates = BoxCoordinates.with(ui.position.pCenter, ui.spaceShip.hitBox.size)
     private val displaySizeDp = ui.sizes.displayDpDeltaBox
     private val shipCenterDeltaDp = ui.sizes.shipBoxCenterDp
 
@@ -44,7 +47,10 @@ class MotionsViewModel(
 
     private val _shipPosition = MutableStateFlow(startPosition)
     val shipPosition: StateFlow<DpOffset> = _shipPosition.asStateFlow()
+    private val _shipHitBox = MutableStateFlow(startHitBoxCoordinates)
+    val shipHitBox: StateFlow<BoxCoordinates> = _shipHitBox.asStateFlow()
 
+    private val userHitBox = ui.spaceShip.hitBox
     fun getShipTopCenter(): DpOffset = DpOffset(x = _shipPosition.value.x + shipCenterDeltaDp, y = _shipPosition.value.y)
 
     private val _motion = MutableStateFlow(Motions.None)
@@ -76,49 +82,59 @@ class MotionsViewModel(
         updateDeltaMoves(_xyz)
         upDateSpeedMagnitude()
         updateShipPosition()
+        updateShipHitBox()
     }
 
     private fun updateMotion(xyz: XYZ) { _motion.update { xyz.toMotion() } }
     private fun updateSpeed(xyz: XYZ) { xyz.getMotionSpeed(gravityRepo.maxZ) }
     private fun updateDeltaMoves(xyz: XYZ) { xyz.updateDelaOffset() }
-    fun updateShipPosition() {
+    private fun updateShipPosition() {
         val newPCenter = shipPosition.value.calculateNewDpOffset()
         _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
     }
+    private fun updateShipHitBox() { _shipHitBox.update { it.getUpdatedBoxCoordinates(shipPosition.value) } }
     private suspend fun startListeningToShoots(): Nothing = Device.event.incomingProjectile.collect {
         Log.e(TAG, "updateEnemiesProjectiles: ENEMIE PROJECTIL INCOOOOOMING", )
-        Log.e(TAG, "updateEnemiesProjectiles shoot ip ${it.shooterIp}")
-        Log.e(TAG, "updateEnemiesProjectiles shoot vector ${it.vector}")
-        Log.e(TAG, "updateEnemiesProjectiles shoot offset ${it.offsetDp}")
-        Log.e(TAG, "updateEnemiesProjectiles shoot ratioX ${it.xRatio}")
+        Log.i(TAG, "updateEnemiesProjectiles shoot ip ${it.shooterIp}")
+        Log.i(TAG, "updateEnemiesProjectiles shoot vector ${it.vector}")
+        Log.i(TAG, "updateEnemiesProjectiles shoot offset ${it.offsetDp}")
+        Log.i(TAG, "updateEnemiesProjectiles shoot ratioX ${it.xRatio}")
         addShoot(it)
     }
     suspend private fun updateShoots() {
-        val newList: List<Shoot> = _shootList.value.map {
-//            if (it.offsetDp touchTopScreen displaySizeDp) {
-//                Log.e(TAG, "updateShoots: INVERSION TOP", )
-//                it.getShootWithUpdatedDpOffset().invertShoot()
-//            } else {
-            it.getShootNextDpOffset()
-//            }
-        }.filter {
-            if (it.offsetDp touchTopScreen displaySizeDp) {
-                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
-                Log.e(TAG, "updateUserProjectiles shoot ip ${it.shooterIp}")
-                Log.e(TAG, "updateUserProjectiles shoot vector ${it.vector}")
-                Log.e(TAG, "updateUserProjectiles shoot offset ${it.offsetDp}")
-                val invertedShoot = it.getShootPrecedentDpOffset().prepareShootToSendAway()
-//                invertedShoot.updateXRatio()
-                Log.e(TAG, "updateUserProjectiles inverted vector ${invertedShoot.vector}")
-                Log.e(TAG, "updateUserProjectiles inverted xRatio ${invertedShoot.xRatio}")
-                Log.e(TAG, "updateUserProjectiles inverted xRatio ${invertedShoot.xRatio}")
-                eventRepo.sentProjectile(invertedShoot)
+        var newList: List<Shoot> = _shootList.value
+            .map { it.getShootNextDpOffset() }
+            .filter {
+                if (it.offsetDp touchTopScreen displaySizeDp) {
+                    Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
+                    Log.i(TAG, "updateUserProjectiles shoot ip ${it.shooterIp}")
+                    Log.i(TAG, "updateUserProjectiles shoot vector ${it.vector}")
+                    Log.i(TAG, "updateUserProjectiles shoot offset ${it.offsetDp}")
+                    val invertedShoot = it.getShootPrecedentDpOffset().prepareShootToSendAway()
+                    Log.i(TAG, "updateUserProjectiles inverted vector ${invertedShoot.vector}")
+                    Log.i(TAG, "updateUserProjectiles inverted xRatio ${invertedShoot.xRatio}")
+                    Log.i(TAG, "updateUserProjectiles inverted xRatio ${invertedShoot.xRatio}")
+                    eventRepo.sentProjectile(invertedShoot)
+                }
+                it.offsetDp isInBoundsOf displaySizeDp
             }
-            it.offsetDp isInBoundsOf displaySizeDp
-        }
+        val hits: List<Shoot> = newList
+            .filter { projectile -> projectile.from == MunitionsType.EnemiesProjectile }
+            .filter {
+//                    if (it.offsetDp isInsideOf shipHitBox.value) {
+//                        Log.e(TAG, "updateShoots: SPACESHIP GOT A HIT")
+//                    }
+                it.offsetDp isInsideOf shipHitBox.value
+            }
+        newList = newList.filterNot { hits.contains(it) }
+
         _shootList.value = newList
         updateUserProjectiles()
-//        updateEnemiesProjectiles()
+    }
+    private fun <Shoot> List<Shoot>.checkHitBox() {
+//        this.filter { projectile ->
+//            projectile.from
+//        }
     }
     private suspend fun updateEnemiesProjectiles() {
     }

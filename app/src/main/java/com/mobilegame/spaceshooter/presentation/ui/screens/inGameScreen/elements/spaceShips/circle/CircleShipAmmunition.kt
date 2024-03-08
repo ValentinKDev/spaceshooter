@@ -2,7 +2,7 @@ package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.element
 
 import androidx.compose.runtime.*
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.MunitionsViewModel
-import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.CircleSpaceShipIconUI
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.CircleSpaceShipIconUI
 
 @Composable
 fun CircleShipAmmunition(vm: MunitionsViewModel, ui: CircleSpaceShipIconUI) {

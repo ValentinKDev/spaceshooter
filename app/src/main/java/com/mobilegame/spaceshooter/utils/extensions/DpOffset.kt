@@ -5,6 +5,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.BoxCoordinates
 
 fun DpOffset.toOffset(): Offset = Offset(
     x = this.x.DpToPixel(),
@@ -37,7 +38,14 @@ infix fun DpOffset.isInBoundsOf(sizeDp: DpSize): Boolean {
     return ret
 }
 
+
 infix fun DpOffset.isNotInBoundsOf(sizeDp: DpSize): Boolean = !(this isInBoundsOf sizeDp)
 
 infix fun DpOffset.touchTopScreen(sizeDp: DpSize): Boolean = (this.y <= 0.dp)
 
+infix fun DpOffset.isInsideOf(box: BoxCoordinates): Boolean {
+    var ret = true
+    if (this.x !in (box.startWidthDp..box.endWidthDp)) ret = false
+    if (this.y !in (box.topHeightDp..box.bottomHeightDp)) ret = false
+    return ret
+}

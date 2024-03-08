@@ -1,10 +1,12 @@
-package com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip
+package com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.HitBox
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUIInterface
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.extensions.*
@@ -12,8 +14,10 @@ import com.mobilegame.spaceshooter.utils.extensions.*
 class SquareSpaceShipIconUI(shipViewBox: Size): SpaceShipIconUIInterface {
     val sizes = SizesSquareShip(shipViewBox)
     val points = PointsSquareShip(sizes)
-    val ammos = Ammos(sizes)
+    val ammo = Ammos(sizes)
     val colors = ColorsSquareShip()
+    override val hitBox = HitBoxSquareShip(sizes)
+
     class SizesSquareShip(shipBox: Size) {
         val shipViewBoxSizeDp: DpSize = shipBox.toDpSize()
         val shipSize: Size = shipBox
@@ -75,4 +79,11 @@ class SquareSpaceShipIconUI(shipViewBox: Size): SpaceShipIconUIInterface {
         val outline: Color = MyColor.applicationContrast,
         var body: Color = MyColor.applicationBackground,
     )
+
+    class HitBoxSquareShip(sizes: SizesSquareShip) : HitBox {
+//        override val topLeft: DpOffset =
+        override val size: Size = sizes.shipSize
+        override val sizeDp: DpSize = sizes.shipSizeDp
+
+    }
 }

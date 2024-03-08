@@ -6,10 +6,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.SpaceWarGameViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
-import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.CircleSpaceShipIconUI
-import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SquareSpaceShipIconUI
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.CircleSpaceShipIconUI
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.SquareSpaceShipIconUI
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.circle.CircleDrawMunition
-import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.circle.MunitionsType
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.square.SquareDrawMunition
 import com.mobilegame.spaceshooter.utils.extensions.toOffset
 
@@ -25,7 +24,8 @@ fun ShootsView(vm: SpaceWarGameViewModel) {
                 center = it.offsetDp.toOffset(),
 //                ui = vm.ui.spaceShip,
                 ui = vm.ui.spaceShip as CircleSpaceShipIconUI,
-                type = MunitionsType.Shoot
+//                type = MunitionsType.UserProjectile,
+                type = it.from,
             )
             ShipType.Square -> SquareDrawMunition(
 //                shoot = it,
@@ -33,7 +33,8 @@ fun ShootsView(vm: SpaceWarGameViewModel) {
                 topLeftOffset = it.offsetDp.toOffset(),
 //                topLeft = it.offsetDp.toOffset(),
                 ui = vm.ui.spaceShip as SquareSpaceShipIconUI,
-                type = MunitionsType.Shoot,
+//                type = MunitionsType.UserProjectile,
+                type = it.from,
                 particularBehavior = it.particularBehavior
             )
         }
