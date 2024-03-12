@@ -12,6 +12,7 @@ import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
 import com.mobilegame.spaceshooter.data.sensor.XYZ
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
+import com.mobilegame.spaceshooter.logic.repository.device.DeviceWifiRepo
 import com.mobilegame.spaceshooter.logic.repository.sensor.GravityRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.BoxCoordinates
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.SpaceWarGameScreenUI
@@ -49,6 +50,7 @@ class MotionsViewModel(
     val shipPosition: StateFlow<DpOffset> = _shipPosition.asStateFlow()
     private val _shipHitBox = MutableStateFlow(startHitBoxCoordinates)
     val shipHitBox: StateFlow<BoxCoordinates> = _shipHitBox.asStateFlow()
+    val _hitStateFlow = MutableSharedFlow<Shoot>()
 
     private val userHitBox = ui.spaceShip.hitBox
     fun getShipTopCenter(): DpOffset = DpOffset(x = _shipPosition.value.x + shipCenterDeltaDp, y = _shipPosition.value.y)
@@ -88,49 +90,51 @@ class MotionsViewModel(
     private fun updateMotion(xyz: XYZ) { _motion.update { xyz.toMotion() } }
     private fun updateSpeed(xyz: XYZ) { xyz.getMotionSpeed(gravityRepo.maxZ) }
     private fun updateDeltaMoves(xyz: XYZ) { xyz.updateDelaOffset() }
+    val wifiRepo = DeviceWifiRepo()
     private fun updateShipPosition() {
-        val newPCenter = shipPosition.value.calculateNewDpOffset()
-        _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
+        if (wifiRepo.isDeviceHost()) {
+            val newPCenter = shipPosition.value.calculateNewDpOffset()
+            _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
+        }
     }
     private fun updateShipHitBox() { _shipHitBox.update { it.getUpdatedBoxCoordinates(shipPosition.value) } }
     private suspend fun startListeningToShoots(): Nothing = Device.event.incomingProjectile.collect {
         Log.e(TAG, "updateEnemiesProjectiles: ENEMIE PROJECTIL INCOOOOOMING", )
-        Log.i(TAG, "updateEnemiesProjectiles shoot ip ${it.shooterIp}")
-        Log.i(TAG, "updateEnemiesProjectiles shoot vector ${it.vector}")
-        Log.i(TAG, "updateEnemiesProjectiles shoot offset ${it.offsetDp}")
-        Log.i(TAG, "updateEnemiesProjectiles shoot ratioX ${it.xRatio}")
+        Log.i(TAG, "updateEnemiesProjectiles: shoot ip ${it.shooterIp}")
+        Log.i(TAG, "updateEnemiesProjectiles: shoot vector ${it.vector}")
+        Log.i(TAG, "updateEnemiesProjectiles: shoot offset ${it.offsetDp}")
+        Log.i(TAG, "updateEnemiesProjectiles: shoot ratioX ${it.xRatio}")
         addShoot(it)
     }
     suspend private fun updateShoots() {
-        var newList: List<Shoot> = _shootList.value
-            .map { it.getShootNextDpOffset() }
-            .filter {
-                if (it.offsetDp touchTopScreen displaySizeDp) {
-                    Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
-                    Log.i(TAG, "updateUserProjectiles shoot ip ${it.shooterIp}")
-                    Log.i(TAG, "updateUserProjectiles shoot vector ${it.vector}")
-                    Log.i(TAG, "updateUserProjectiles shoot offset ${it.offsetDp}")
-                    val invertedShoot = it.getShootPrecedentDpOffset().prepareShootToSendAway()
-                    Log.i(TAG, "updateUserProjectiles inverted vector ${invertedShoot.vector}")
-                    Log.i(TAG, "updateUserProjectiles inverted xRatio ${invertedShoot.xRatio}")
-                    Log.i(TAG, "updateUserProjectiles inverted xRatio ${invertedShoot.xRatio}")
-                    eventRepo.sentProjectile(invertedShoot)
-                }
-                it.offsetDp isInBoundsOf displaySizeDp
-            }
-        val hits: List<Shoot> = newList
-            .filter { projectile -> projectile.from == MunitionsType.EnemiesProjectile }
-            .filter {
-//                    if (it.offsetDp isInsideOf shipHitBox.value) {
-//                        Log.e(TAG, "updateShoots: SPACESHIP GOT A HIT")
-//                    }
-                it.offsetDp isInsideOf shipHitBox.value
-            }
-        newList = newList.filterNot { hits.contains(it) }
+        var newList: List<Shoot> = _shootList.value.moveAndRemoveShoots()
+        val hits = newList.checkHitBox()
 
+        newList = newList.filterNot { hits.contains(it) }
         _shootList.value = newList
         updateUserProjectiles()
     }
+    private suspend fun List<Shoot>.checkHitBox(): List<Shoot> = this
+        .filter { projectile -> projectile.from == MunitionsType.EnemiesProjectile }
+        .filter { it.offsetDp isInsideOf shipHitBox.value }
+        .map {
+            Log.e(TAG, "checkHitBox: HIT")
+//            _hitStateFlow.update { it = 50F }
+//            _hitStateFlow.emit(ui.shipType.info.damage)
+            _hitStateFlow.emit(it)
+            it
+        }
+    private suspend fun List<Shoot>.moveAndRemoveShoots(): List <Shoot> = this
+        .map { it.getShootNextDpOffset() }
+        .filter {
+            if (it.offsetDp touchTopScreen displaySizeDp) {
+                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
+                val invertedShoot = it.getShootPrecedentDpOffset().prepareShootToSendAway()
+                eventRepo.sendProjectile(invertedShoot)
+            }
+            it.offsetDp isInBoundsOf displaySizeDp
+        }
+
     private fun <Shoot> List<Shoot>.checkHitBox() {
 //        this.filter { projectile ->
 //            projectile.from

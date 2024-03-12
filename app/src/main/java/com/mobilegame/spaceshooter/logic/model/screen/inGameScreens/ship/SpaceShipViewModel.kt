@@ -14,8 +14,9 @@ class SpaceShipViewModel(application: Application, ui: SpaceWarGameScreenUI, val
         context = application,
         ui = ui,
     )
-    val ammoVM = MunitionsViewModel(motionVM, ShipType.Square)
+    val ammoVM = MunitionsViewModel(motionVM, type)
+    val lifeVM = LifeViewModel(motionVM, type)
 
-    private val _life = MutableStateFlow(100)
-    val life: StateFlow<Int> = _life.asStateFlow()
+//    private val _life = MutableStateFlow(100)
+//    val life: StateFlow<Int> = _life.asStateFlow()
 }

@@ -72,7 +72,9 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
                                     this.coroutineContext.job.cancel()
                                 }
                             }
-                            else -> eLog(TAG, "collecting  Device.wifi.listVisibleDevicesFlow ${it.state}")
+                            else -> {
+//                                eLog(TAG, "collecting  Device.wifi.listVisibleDevicesFlow ${it.state}")
+                            }
                         }
                     }
                 }

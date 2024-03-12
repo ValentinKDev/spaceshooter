@@ -36,6 +36,7 @@ class WifiChannelsWithServerRepo() {
 //            repo.updateLinkStateTo(WifiLinkState.Connected)
             repo.updateLinkStateTo(WifiLinkState.ConnectedAsClient)
             DeviceEventRepo().sendNameToServer()
+//            DeviceEventRepo().sendNameToServer(socket.localAddress)
         } catch (e: UnknownHostException) {
             Log.e(TAG, "addServer: Unknown host. ${e.localizedMessage}")
         } catch (e: IOException) {
