@@ -2,8 +2,6 @@ package com.mobilegame.spaceshooter.logic.repository.device
 
 import android.util.Log
 import com.google.gson.Gson
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import com.mobilegame.spaceshooter.data.connection.dto.EventMessage
 import com.mobilegame.spaceshooter.data.connection.dto.EventMessageType
 import com.mobilegame.spaceshooter.data.connection.wifi.PreparationState
@@ -11,12 +9,12 @@ import com.mobilegame.spaceshooter.data.connection.wifi.SendEvent
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiClient
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiInfoService
 import com.mobilegame.spaceshooter.data.device.Device
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.LooseInfo
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
 import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithClientRepo
 import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithServerRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONStringer
 import java.net.InetAddress
 
 
@@ -28,124 +26,125 @@ class DeviceEventRepo() {
     val toClientRepo = WifiChannelsWithClientRepo()
     private val sendEvent = SendEvent()
     suspend fun handleEvent(eventMessage: EventMessage) {
-        val fTAG = "handleEvent"
-        Log.i(TAG, fTAG)
-        wifiRepo.isDeviceClient()?.let {
-            Log.i(TAG, "$fTAG handle event as a Client")
-//            when (EventMessageType.valueOf(eventMessage.type)) {
-            when (eventMessage.type) {
-                EventMessageType.SendDeviceName -> {
-                    Log.i(TAG, "$fTAG: ${EventMessageType.SendDeviceName.name}")
-                    toServerRepo.getChannel().info?.let { _serverInfo ->
-                        _serverInfo.name = eventMessage.sender
-                        wifiRepo.addVisibleDevice(_serverInfo.socket.localAddress, _serverInfo.name)
-                    }
+        wifiRepo.isDeviceClient()?.let { eventMessage.handleAsClient() } ?: let { eventMessage.handleAsServer() }
+    }
+    private suspend fun EventMessage.handleAsClient() {
+        when (this.type) {
+            EventMessageType.SendServerName -> {
+                Log.i(TAG, "handleEvent: ${EventMessageType.SendServerName.name}")
+                toServerRepo.getChannel().info?.let { _serverInfo ->
+                    val inetAddress = gson.fromJson( this.message, InetAddress::class.java )
+                    _serverInfo.name = this.sender
+                    wifiRepo.addVisibleDevice(inetAddress, this.sender)
+                    wifiRepo.addConnectedDevice(inetAddress, this.sender)
+                    Log.e(TAG, "handleAsClient: Visible Device list size ${Device.wifi.visibleDevices.value.size}", )
                 }
-                EventMessageType.ReadyToPlay -> {
-                    Log.i(TAG, "$fTAG: ${EventMessageType.ReadyToPlay.name}")
-                    wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToPlay)
-                    Log.i(TAG, "$fTAG: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
-//                    Log.i(TAG, "$fTAG: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
-//                    Log.i(TAG, "$fTAG: visible devices state ${Device.wifi.visibleDevices.map { it.map { it.state } }}")
-                }
-                EventMessageType.NotReadyToPlay -> {
-                    Log.i(TAG, "$fTAG: ${EventMessageType.NotReadyToPlay.name}")
-                    wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.Waiting)
-                    Log.i(TAG, "$fTAG: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
-//                    Log.i(TAG, "$fTAG: visible devices state ${Device.wifi.visibleDevices.map { it.map { it.state } }}")
-                }
-                EventMessageType.InGame -> {
-                    Log.i(TAG, "$fTAG: ${EventMessageType.InGame.name}")
-                    wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.InGame)
-                }
-                EventMessageType.SendProjectile -> {
-                    Log.i(TAG, "handleEvent: ${EventMessageType.SendProjectile.name}")
-                    Log.i(TAG, "handleEvent: ${eventMessage.message}")
-                    val projectileJson = eventMessage.message
-                    val projectile = Shoot.deserialize(projectileJson, gson)
-//                    val projectile: Shoot = Shoot.receivedFromEnemy(gson.fromJson(projectileJson, Shoot::class.java))
-
-                    Log.i(TAG, "handleEvent: shooter ip ${projectile.shooterIp}")
-                    Log.i(TAG, "handleEvent: shooter from ${projectile.from}")
-                    Log.i(TAG, "handleEvent: shooter type ${projectile.type}")
-                    Log.i(TAG, "handleEvent: shooter offset ${projectile.offsetDp}")
-                    Log.i(TAG, "handleEvent: shooter vector ${projectile.vector}")
-                    Log.i(TAG, "handleEvent: shooter vector ${projectile.vector}")
-
-                    Device.event.incomingProjectile.emit( projectile.prepareReceivedProjectile() )
-//                    Device.event.incomingProjectile.emit( projectile )
-//                    Device.event.incomingProjectile.value = projectile
-//                    val test = async {}
-
-//                    CompletableFuture.runAsync() {
-//                        Device.event.incomingProjectile.emit(projectile)
-//
-//                    }
-                }
-                EventMessageType.NewConnectedDevice -> TODO()
             }
-        } ?: let {
-            Log.i(TAG, "$fTAG handle event as a Server")
-//            when (EventMessageType.valueOf(eventMessage.type)) {
-            when (eventMessage.type) {
-                EventMessageType.NewConnectedDevice -> TODO()
-                EventMessageType.SendDeviceName -> {
-                    Log.i(TAG, "$fTAG: ${EventMessageType.SendDeviceName}")
-                    val inetAddressJson = eventMessage.message
-                    val inetAddress = gson.fromJson(inetAddressJson, InetAddress::class.java)
-                    toClientRepo.updateConnectedClientName(inetAddress, eventMessage.sender)
-                    //todo: write a factor function to redirect any type of messages to other clients
-                    toClientRepo.getConnectedClient(inetAddress)?.let { _client ->
-//                    wifiRepo.
-                        wifiRepo.addVisibleDevice(inetAddress, _client.name)
-                        sendServerNameToClient(_client)
-//                        val newConnectedDeviceEvent = EventMessage(EventMessageType.NewConnectedDevice.name, Device.data.name?:"", inetAddressJson)
-                        val newConnectedDeviceEvent = EventMessage(EventMessageType.NewConnectedDevice, Device.data.name?:"", inetAddressJson)
-                        sendEvent.toAll(toClientRepo.getClientsList(), newConnectedDeviceEvent, exception = _client )
-                    }
+            EventMessageType.SendDeviceName -> {
+                Log.i(TAG, "handleAsClient: ${EventMessageType.SendDeviceName}")
+                Log.i(TAG, "handleAsClient: none")
+            }
+            EventMessageType.ReadyToPlay -> {
+                Log.i(TAG, "handleAsClient: ${EventMessageType.ReadyToPlay.name}")
+                wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToPlay)
+                Log.i(TAG, "handleAsClient: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
+            }
+            EventMessageType.NotReadyToPlay -> {
+                Log.i(TAG, "handleAsClient: ${EventMessageType.NotReadyToPlay.name}")
+                wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.Waiting)
+                Log.i(TAG, "handleAsClient: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
+            }
+            EventMessageType.InGame -> {
+                Log.i(TAG, "handleAsClient: ${EventMessageType.InGame.name}")
+                wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.InGame)
+            }
+            EventMessageType.SendProjectile -> {
+                Log.i(TAG, "handleAsClient: ${EventMessageType.SendProjectile.name}")
+                Log.i(TAG, "handleAsClient: ${this.message}")
+                val projectileJson = this.message
+                val projectile = Shoot.deserialize(projectileJson, gson)
+
+                Log.i(TAG, "handleAsClient: shooter ip ${projectile.shooterIp}")
+                Log.i(TAG, "handleAsClient: shooter from ${projectile.from}")
+                Log.i(TAG, "handleAsClient: shooter type ${projectile.type}")
+                Log.i(TAG, "handleAsClient: shooter offset ${projectile.offsetDp}")
+                Log.i(TAG, "handleAsClient: shooter vector ${projectile.vector}")
+                Log.i(TAG, "handleAsClient: shooter vector ${projectile.vector}")
+
+                Device.event.incomingProjectile.emit( projectile.prepareReceivedProjectile() )
+            }
+            EventMessageType.Dead -> {
+                Log.i(TAG, "handleAsClient: ${EventMessageType.Dead.name}")
+                val looseInfo = gson.fromJson(this.message, LooseInfo::class.java)
+                Log.i(TAG, "handleAsClient: shooterInetAddress ${looseInfo.shooterIp}")
+                Log.i(TAG, "handleAsClient: sender ${this.sender}")
+                Device.event.dead.emit( true )
+            }
+            EventMessageType.NewConnectedDevice -> TODO()
+        }
+    }
+    suspend private fun EventMessage.handleAsServer() {
+        when (this.type) {
+            EventMessageType.NewConnectedDevice -> TODO()
+            EventMessageType.SendDeviceName -> {
+                Log.i(TAG, "handleEventAsServer: ${EventMessageType.SendDeviceName}")
+                val inetAddressJson = this.message
+                val inetAddress = gson.fromJson(inetAddressJson, InetAddress::class.java)
+                toClientRepo.updateConnectedClientName(inetAddress, this.sender)
+                //todo: write a factor function to redirect any type of messages to other clients
+                toClientRepo.getConnectedClient(inetAddress)?.let { _client ->
+                    Log.e(TAG, "handleEventAsServer: ip ${inetAddress}", )
+                    wifiRepo.addVisibleDevice(inetAddress, _client.name)
+
+                    sendServerNameToClient(_client)
+                    val newConnectedDeviceEvent = EventMessage(EventMessageType.NewConnectedDevice, Device.data.name?:"", inetAddressJson)
+                    sendEvent.toAll(toClientRepo.getClientsList(), newConnectedDeviceEvent, exception = _client )
                 }
-                EventMessageType.NotReadyToPlay -> {
-                    Log.i(TAG, "$fTAG: ${EventMessageType.NotReadyToPlay.name}")
-                    wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.Waiting)
-                    Log.i(TAG, "$fTAG: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
-//                    Log.i(TAG, "$fTAG: visible devices state ${Device.wifi.visibleDevices.map { it.map { it.state } }}")
-                }
-                EventMessageType.ReadyToPlay -> {
-                    Log.i(TAG, "$fTAG: ${EventMessageType.ReadyToPlay.name}")
-                    wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToPlay)
-//                    Log.i(TAG, "$fTAG: ${Device.wifi.visibleDevices.value.map { it.state }}")
-//                    Log.i(TAG, "$fTAG: visible devices state ${Device.wifi.visibleDevices.map { it.map { it.state } }}")
-                    Log.i(TAG, "$fTAG: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
-                }
-                EventMessageType.InGame -> {
-                    Log.i(TAG, "$fTAG: ${EventMessageType.InGame.name}")
-                    wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.InGame)
-                }
-                EventMessageType.SendProjectile -> {
-                    Log.i(TAG, "handleEvent: ${EventMessageType.SendProjectile.name}")
-                    val projectileJson = eventMessage.message
-                    val projectile = Shoot.deserialize(projectileJson, gson)
-                    Device.event.incomingProjectile.emit( projectile.prepareReceivedProjectile() )
-                }
+            }
+            EventMessageType.NotReadyToPlay -> {
+                Log.i(TAG, "handleEventAsServer: ${EventMessageType.NotReadyToPlay.name}")
+                wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.Waiting)
+                Log.i(TAG, "handleEventAsServer: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
+            }
+            EventMessageType.ReadyToPlay -> {
+                Log.i(TAG, "handleEventAsServer: ${EventMessageType.ReadyToPlay.name}")
+                wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToPlay)
+                Log.i(TAG, "handleEventAsServer: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
+            }
+            EventMessageType.InGame -> {
+                Log.i(TAG, "handleEventAsServer: ${EventMessageType.InGame.name}")
+                wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.InGame)
+            }
+            EventMessageType.SendProjectile -> {
+                Log.i(TAG, "handleEventAsServer: ${EventMessageType.SendProjectile.name}")
+                val projectileJson = this.message
+                val projectile = Shoot.deserialize(projectileJson, gson)
+                Device.event.incomingProjectile.emit(projectile.prepareReceivedProjectile())
+            }
+            EventMessageType.Dead -> {
+                Log.i(TAG, "handleEventAsServer: ${EventMessageType.Dead.name}")
+                val looseInfo = gson.fromJson(this.message, LooseInfo::class.java)
+                Log.i(TAG, "handleEventAsServer: shooterInetAddress ${looseInfo.shooterIp}")
+                Log.i(TAG, "handleEventAsServer: sender ${this.sender}")
+                Device.event.dead.emit( true )
             }
         }
     }
-    suspend fun sentProjectile(shoot: Shoot) = withContext(Dispatchers.IO) {
-//        val projectileJsonData = gson.toJson(shoot)
-//        val projectileJsonData = JsonObject().getAsJsonObject()
-//        val projectileJsonData = JSONStringer().:
+    suspend fun sendDeadUser(looseInfo: LooseInfo) = withContext(Dispatchers.IO) {
+        Log.i(TAG, "sendDeadUser: ")
+        val looseInfoJson = gson.toJson(looseInfo.shooterIp)
+        genericFunction(EventMessageType.Dead, looseInfoJson)
+    }
+    suspend fun sendProjectile(shoot: Shoot) = withContext(Dispatchers.IO) {
         val projectileGson = shoot.serialize(gson)
         genericFunction(EventMessageType.SendProjectile, projectileGson)
     }
     suspend fun sendNotReadyToPlay() = withContext(Dispatchers.IO) {
-        val fTAG = "sendNotReadyToPlay"
-        Log.i(TAG, "$fTAG: ")
+        Log.i(TAG, "sendNotReadyToPlay: ")
         genericFunction(EventMessageType.NotReadyToPlay)
     }
     suspend fun sendReadyToPlay() = withContext(Dispatchers.IO) {
-        val fTAG = "sendReadyToPlay"
-        Log.i(TAG, "$fTAG: ")
-        Log.i(TAG, "$fTAG: Device.wifi.linkState.value ${Device.wifi.linkState.value}")
+        Log.i(TAG, "sendReadyToPlay: Device.wifi.linkState.value ${Device.wifi.linkState.value}")
         genericFunction(EventMessageType.ReadyToPlay)
     }
     suspend fun sendDeviceInGame() = withContext(Dispatchers.IO) {
@@ -163,7 +162,6 @@ class DeviceEventRepo() {
         Device.data.name?.let { _name ->
             toServerRepo.getChannel().info?.let { _info ->
                 val inetAddressJson = gson.toJson(_info.socket.inetAddress)
-//                val deviceNameMessage = EventMessage(EventMessageType.SendDeviceName.name, _name, inetAddressJson)
                 val deviceNameMessage = EventMessage(EventMessageType.SendDeviceName, _name, inetAddressJson)
                 sendEvent.to(_info, deviceNameMessage)
             }
@@ -174,7 +172,7 @@ class DeviceEventRepo() {
         Device.data.name?.let { _name ->
             val inetAddressJson = gson.toJson( wifiRepo.getLocalIp() )
 //            val deviceNameMessage = EventMessage(EventMessageType.SendDeviceName.name, _name, inetAddressJson)
-            val deviceNameMessage = EventMessage(EventMessageType.SendDeviceName, _name, inetAddressJson)
+            val deviceNameMessage = EventMessage(EventMessageType.SendServerName, _name, inetAddressJson)
             sendEvent.to(client, deviceNameMessage)
         }
     }

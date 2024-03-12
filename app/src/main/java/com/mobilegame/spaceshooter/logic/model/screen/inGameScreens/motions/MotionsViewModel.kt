@@ -25,7 +25,7 @@ import kotlin.math.absoluteValue
 
 class MotionsViewModel(
     context: Context,
-    ui: SpaceWarGameScreenUI,
+    private val ui: SpaceWarGameScreenUI,
 ): ViewModel() {
     private val deviceEvent = Device.event
     val TAG = "MotionsViewModel"
@@ -49,8 +49,12 @@ class MotionsViewModel(
     val shipPosition: StateFlow<DpOffset> = _shipPosition.asStateFlow()
     private val _shipHitBox = MutableStateFlow(startHitBoxCoordinates)
     val shipHitBox: StateFlow<BoxCoordinates> = _shipHitBox.asStateFlow()
+//    val hitFlow: Flow<Float> = flow {  }
 
-    private val userHitBox = ui.spaceShip.hitBox
+//    private val _hitStateFlow = MutableStateFlow(0F)
+//    val hitStateFlow: StateFlow<Float> = _hitStateFlow.asStateFlow()
+    val _hitStateFlow = MutableSharedFlow<Shoot>()
+
     fun getShipTopCenter(): DpOffset = DpOffset(x = _shipPosition.value.x + shipCenterDeltaDp, y = _shipPosition.value.y)
 
     private val _motion = MutableStateFlow(Motions.None)
@@ -89,10 +93,13 @@ class MotionsViewModel(
     private fun updateSpeed(xyz: XYZ) { xyz.getMotionSpeed(gravityRepo.maxZ) }
     private fun updateDeltaMoves(xyz: XYZ) { xyz.updateDelaOffset() }
     private fun updateShipPosition() {
-        val newPCenter = shipPosition.value.calculateNewDpOffset()
-        _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
+        if (Device.wifi.channels.serverSocket != null) {
+            val newPCenter = shipPosition.value.calculateNewDpOffset()
+            _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
+        }
     }
     private fun updateShipHitBox() { _shipHitBox.update { it.getUpdatedBoxCoordinates(shipPosition.value) } }
+//    private suspend fun startListeningToShoots(): Nothing = Device.event.incomingProjectile.collect {
     private suspend fun startListeningToShoots(): Nothing = Device.event.incomingProjectile.collect {
         Log.e(TAG, "updateEnemiesProjectiles: ENEMIE PROJECTIL INCOOOOOMING", )
         Log.i(TAG, "updateEnemiesProjectiles shoot ip ${it.shooterIp}")
@@ -102,45 +109,32 @@ class MotionsViewModel(
         addShoot(it)
     }
     suspend private fun updateShoots() {
-        var newList: List<Shoot> = _shootList.value
-            .map { it.getShootNextDpOffset() }
-            .filter {
-                if (it.offsetDp touchTopScreen displaySizeDp) {
-                    Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
-                    Log.i(TAG, "updateUserProjectiles shoot ip ${it.shooterIp}")
-                    Log.i(TAG, "updateUserProjectiles shoot vector ${it.vector}")
-                    Log.i(TAG, "updateUserProjectiles shoot offset ${it.offsetDp}")
-                    val invertedShoot = it.getShootPrecedentDpOffset().prepareShootToSendAway()
-                    Log.i(TAG, "updateUserProjectiles inverted vector ${invertedShoot.vector}")
-                    Log.i(TAG, "updateUserProjectiles inverted xRatio ${invertedShoot.xRatio}")
-                    Log.i(TAG, "updateUserProjectiles inverted xRatio ${invertedShoot.xRatio}")
-                    eventRepo.sentProjectile(invertedShoot)
-                }
-                it.offsetDp isInBoundsOf displaySizeDp
-            }
-        val hits: List<Shoot> = newList
-            .filter { projectile -> projectile.from == MunitionsType.EnemiesProjectile }
-            .filter {
-//                    if (it.offsetDp isInsideOf shipHitBox.value) {
-//                        Log.e(TAG, "updateShoots: SPACESHIP GOT A HIT")
-//                    }
-                it.offsetDp isInsideOf shipHitBox.value
-            }
+        var newList: List<Shoot> = _shootList.value.moveAndRemoveShoots()
+        val hits = newList.checkHitBox()
+
         newList = newList.filterNot { hits.contains(it) }
-
         _shootList.value = newList
-        updateUserProjectiles()
     }
-    private fun <Shoot> List<Shoot>.checkHitBox() {
-//        this.filter { projectile ->
-//            projectile.from
-//        }
-    }
-    private suspend fun updateEnemiesProjectiles() {
-    }
-
-    fun updateUserProjectiles() {
-    }
+    private suspend fun List<Shoot>.checkHitBox(): List<Shoot> = this
+        .filter { projectile -> projectile.from == MunitionsType.EnemiesProjectile }
+        .filter { it.offsetDp isInsideOf shipHitBox.value }
+        .map {
+            Log.e(TAG, "checkHitBox: HIT")
+//            _hitStateFlow.update { it = 50F }
+//            _hitStateFlow.emit(ui.shipType.info.damage)
+            _hitStateFlow.emit(it)
+            it
+        }
+    private suspend fun List<Shoot>.moveAndRemoveShoots(): List <Shoot> = this
+        .map { it.getShootNextDpOffset() }
+        .filter {
+            if (it.offsetDp touchTopScreen displaySizeDp) {
+                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
+                val invertedShoot = it.getShootPrecedentDpOffset().prepareShootToSendAway()
+                eventRepo.sendProjectile(invertedShoot)
+            }
+            it.offsetDp isInBoundsOf displaySizeDp
+        }
 
     private fun XYZ.getMotionSpeed(maxZ: Float) {
 //        val maxVector = maxZ * 0.78F
@@ -222,12 +216,6 @@ class MotionsViewModel(
                 shootList[i].updateDpOffset()
         }
     }
-
-//    private fun updateShootsMotions() {
-//        updateShootsListPositions( shootList.value )
-//        val newShootsList = shootList.value.cloneIfInBounds(displaySizeDp)
-//        _shootList.value = newShootsList
-//    }
 
     fun getTargetAngle(motion: Motions, speed: SpeedMagnitude): Float = when {
         motion.isUp() -> {

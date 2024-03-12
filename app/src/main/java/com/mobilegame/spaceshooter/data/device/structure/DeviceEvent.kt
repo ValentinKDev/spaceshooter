@@ -7,14 +7,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 class DeviceEvent {
 //    var incomingProjectile = MutableStateFlow(Shoot.UNDEFINED)
 //    val incomingProjectile = SharedFlow<Shoot?>()
-    var incomingProjectile: MutableSharedFlow<Shoot> = MutableSharedFlow()
-//    var isRunning = false
-//    val refreshInterval = 500L
 
-//    val eventsFlow = flow<> {
-//        while (isRunning) {
-////            emit(1)
-//            delay(refreshInterval)
-//        }
-//    }
+    var incomingProjectile: MutableSharedFlow<Shoot> = MutableSharedFlow()
+    var dead: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    var gameOnPause: MutableSharedFlow<Boolean> = MutableSharedFlow()
 }

@@ -8,24 +8,15 @@ import com.mobilegame.spaceshooter.data.connection.wifi.PreparationState
 import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.connection.ConnectedDevice
-import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.extensions.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
-import java.io.BufferedInputStream
-import java.io.ByteArrayOutputStream
-import java.io.FileInputStream
-import java.io.IOException
 import java.net.InetAddress
 import java.net.NetworkInterface
 import java.util.Collections
-import java.util.Locale
 
 
 class DeviceWifiRepo() {
-    val cTAG = "DeviceWifiRepo"
+    val TAG = "DeviceWifiRepo"
 
 //    fun getFlowListVisibleDevice(): MutableStateFlow<List<ConnectedDevice>> = Device.wifi.visibleDevices
     fun initWifi(context: Context) {
@@ -41,19 +32,20 @@ class DeviceWifiRepo() {
     fun isDeviceServer(): Boolean? = if ( Device.wifi.channels.withServer.info != null ) true else null
     fun updateLinkStateTo(newState: WifiLinkState) {
         Device.wifi.linkState.update { newState }
-        Log.w(cTAG, "updateLinkStateTo: ${newState.name}")
+        Log.w(TAG, "updateLinkStateTo: ${newState.name}")
     }
     fun addVisibleDevice(ip: InetAddress, name: String) {
-        val fTAG = "addVisibleDevice"
-        Log.w(cTAG, "$fTAG: ${name}")
+        Log.w(TAG, "addVisibleDevice: name $name $ip", )
         Device.wifi.visibleDevices.addToValue(ConnectedDevice(name, ip))
+    }
+    fun addConnectedDevice(ip: InetAddress, name: String) {
         val tmpList = Device.wifi.listConnectedDevice.toMutableList()
         tmpList.add(ConnectedDevice(name, ip))
         Device.wifi.listConnectedDevice = tmpList.toList()
-        Log.e(cTAG, "$fTAG: ${Device.wifi.listConnectedDevice}")
+        Log.e(TAG, "addVisibleDevice: ${Device.wifi.listConnectedDevice}")
     }
     fun changeVisibleDevicePreparationStateTo(state: PreparationState) {
-        Log.w(cTAG, "changeVisibleDevicePreparationStateTo: ${state}")
+        Log.w(TAG, "changeVisibleDevicePreparationStateTo: ${state}")
         Device.wifi.visibleDevices.value.first().state = state
         val tmpList = Device.wifi.listConnectedDevice.toMutableList()
         tmpList.first().state = state
@@ -119,22 +111,22 @@ class DeviceWifiRepo() {
     fun getIPAddress(): InetAddress? {
         val fTAG = "getIpAddress"
         try {
-            Log.i(cTAG, fTAG)
+            Log.i(TAG, fTAG)
             val interfaces: List<NetworkInterface> =
                 Collections.list(NetworkInterface.getNetworkInterfaces())
             for (intf in interfaces) {
                 val addrs: List<InetAddress> = Collections.list(intf.inetAddresses)
                 for (addr in addrs) {
-                    Log.i(cTAG, "$fTAG ${addr.hostAddress}")
+                    Log.i(TAG, "$fTAG ${addr.hostAddress}")
                     if (!addr.isLoopbackAddress && addr.hostAddress?.indexOf(':')!! < 0) {
-                        Log.i(cTAG, "$fTAG Device.wifi.inetAddress ${addr}")
+                        Log.i(TAG, "$fTAG Device.wifi.inetAddress ${addr}")
 //                        Device.wifi.inetAddress = addr
                         return addr
                     }
                 }
             }
         } catch (ex: Exception) {
-            Log.e(cTAG, "$fTAG ERROR ${ex.message}")
+            Log.e(TAG, "$fTAG ERROR ${ex.message}")
         }
         return null
     }

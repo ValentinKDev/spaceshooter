@@ -14,7 +14,7 @@ import java.net.InetAddress
 data class Shoot(
     val type: ShipType,
     val from: MunitionsType = MunitionsType.UserProjectile,
-    val shooterIp: InetAddress?,
+    val shooterIp: InetAddress,
     var vector: Size = Size.Zero,
     val particularBehavior: Int,
     val damage: Float,
@@ -22,7 +22,7 @@ data class Shoot(
     var yRatio: Float, //from top to bottom
     var offsetDp: DpOffset = DpOffset.Zero,
 ) {
-    val TAG = "Shoot"
+    private val TAG = "Shoot"
     //todo : add some kind of size of behavior number related to the shiptype
     fun updateDpOffset() {
         offsetDp = DpOffset(
@@ -130,16 +130,16 @@ data class Shoot(
             yRatio = Device.metrics.getYRatio(vm.getShipTopCenter().y.value),
             offsetDp = vm.getShipTopCenter(),
         )
-        val UNDEFINED = Shoot(
-            type = ShipType.Square,
-            from = MunitionsType.UserProjectile,
-            shooterIp = null,
-            vector = Size.Unspecified,
-            particularBehavior = 0,
-            damage = Float.NaN,
-            xRatio = Float.NaN,
-            yRatio = Float.NaN,
-            offsetDp = DpOffset.Unspecified
-        )
+//        val UNDEFINED = Shoot(
+//            type = ShipType.Square,
+//            from = MunitionsType.UserProjectile,
+//            shooterIp = null,
+//            vector = Size.Unspecified,
+//            particularBehavior = 0,
+//            damage = Float.NaN,
+//            xRatio = Float.NaN,
+//            yRatio = Float.NaN,
+//            offsetDp = DpOffset.Unspecified
+//        )
     }
 }

@@ -18,7 +18,7 @@ fun SquareShipView(vm: SpaceShipViewModel, shipViewBox: Size) {
             .size(ui.sizes.shipViewBoxSizeDp)
 //            .background(Color.Red)
     ) {
-        SquareShipShape(ui)
+        SquareShipShape(vm.lifeVM, ui)
         SquareShipAmmunition(vm.ammoVM, ui)
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.SpaceWarGameViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
@@ -29,6 +30,8 @@ fun SpaceShipView(vm: SpaceWarGameViewModel) {
             .wrapContentSize()
             .offset(position.x, position.y)
             .rotate(angle)
+
+//            .alpha(0.5F)
     ) {
         when (vm.shipVM.type) {
             ShipType.Circle -> CircleShipView( vm.shipVM,  vm.ui.sizes.shipViewBox)
