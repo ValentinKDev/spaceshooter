@@ -6,7 +6,7 @@ import java.net.InetAddress
 data class ShootSerializable(
     val type: String,
     val from: MunitionsType,
-    val shooterIp: InetAddress?,
+    val shooterIp: InetAddress,
 //    val motion: Motions,
     var vector: String,
     val particularBehavior: Int,

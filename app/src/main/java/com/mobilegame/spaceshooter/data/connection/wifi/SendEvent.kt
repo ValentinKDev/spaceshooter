@@ -22,13 +22,13 @@ class SendEvent() {
     }
 
     fun to(info:WifiInfoService, message: EventMessage) {
-        vLog(TAG, "to ${info.name}")
+//        vLog(TAG, "to ${info.name}")
         send(info.writer, message)
     }
 
 
     private fun send(printWriter: PrintWriter, message: EventMessage) {
-        Log.e(TAG, "send: ${message.toJson()}")
+//        Log.e(TAG, "send: ${message.toJson()}")
         printWriter.print(message.toJson() + EventMessage.MESSAGE_TERMINATOR)
         printWriter.flush()
     }

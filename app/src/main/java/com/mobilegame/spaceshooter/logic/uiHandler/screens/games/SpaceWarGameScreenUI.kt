@@ -1,5 +1,6 @@
 package com.mobilegame.spaceshooter.logic.uiHandler.screens.games
 
+import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.DpOffset
@@ -16,10 +17,15 @@ import com.mobilegame.spaceshooter.utils.extensions.toDpOffset
 import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 import com.mobilegame.spaceshooter.utils.extensions.toSize
 
-class SpaceWarGameScreenUI(displaySize: Size, shipType: ShipType = ShipType.Square) {
+class SpaceWarGameScreenUI(displaySize: Size, val shipType: ShipType) {
+    val TAG = "SpaceWarGameScreenUI"
     val position = PositionInGameScreen(displaySize)
     val sizes = SizesInGameScreen(displaySize)
     var spaceShip: SpaceShipIconUIInterface = when (shipType) {
+        ShipType.Square -> SquareSpaceShipIconUI(shipViewBox = sizes.shipViewBox)
+        ShipType.Circle -> CircleSpaceShipIconUI(shipBox = sizes.shipViewBox)
+    }
+    fun getSpaceShipUI(): Any = when (shipType) {
         ShipType.Square -> SquareSpaceShipIconUI(shipViewBox = sizes.shipViewBox)
         ShipType.Circle -> CircleSpaceShipIconUI(shipBox = sizes.shipViewBox)
     }

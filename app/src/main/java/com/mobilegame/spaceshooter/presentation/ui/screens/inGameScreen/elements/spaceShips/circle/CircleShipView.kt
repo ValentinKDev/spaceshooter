@@ -18,7 +18,8 @@ fun CircleShipView(vm: SpaceShipViewModel, shipBox: Size) {
         Modifier
             .size(ui.sizes.shipBoxDp)
     ) {
-        CircleShipShape(ui)
+        CircleShipShape(vm, ui)
+//        CircleShipShape(vm)
         CircleShipAmmunition(vm.ammoVM, ui)
     }
 }
