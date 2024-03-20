@@ -1,5 +1,7 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types
 
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.ShipStatsIndicator
+
 class SpaceShipRound: ShipInfo {
     override val life: Float = ShipBasicStats.life * 1F
     override val speed: Float = ShipBasicStats.speed * 1F
@@ -11,4 +13,10 @@ class SpaceShipRound: ShipInfo {
     override val shootingTimeInterval: Long = 120L
     override val ammoRecoveryTime: Long = 450L
     override val chargedProjectileType: ChargedProjectileType = ChargedProjectileType.Rafal
+    override val statsIndicator: ShipStatsIndicator = ShipStatsIndicator(
+        lifeIndicator = 4,
+        speedIndicator = 5,
+        damageIndicator = 3,
+        reloadIndicator = 5,
+    )
 }

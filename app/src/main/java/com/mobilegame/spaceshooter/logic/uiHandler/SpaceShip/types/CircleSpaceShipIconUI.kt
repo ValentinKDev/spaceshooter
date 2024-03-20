@@ -18,12 +18,12 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-class CircleSpaceShipIconUI(shipBox: Size): SpaceShipIconUIInterface {
-    val cTAG = "CircleSpaceShipIconUI"
+class CircleSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUIInterface {
+    val TAG = "CircleSpaceShipIconUI"
 
-    val sizes = SizesSpaceShipIcon(shipBox)
+    val sizes = SizesSpaceShipIcon(shipViewBoxSize)
     val points = PointsSpaceShipIcon(sizes)
-    val ammunition = MunitionsSpaceShipIcon(shipBox.height)
+    val ammunition = MunitionsSpaceShipIcon(shipViewBoxSize.height)
     val colors = ColorsSpaceShipIcon()
     override val hitBox = HitBoxRoundShip(sizes)
 
@@ -93,7 +93,6 @@ class CircleSpaceShipIconUI(shipBox: Size): SpaceShipIconUIInterface {
 
     init {
         displayDataUI?.let {
-            vLog("SpaceShipIconUI::init", "shipBox $shipBox")
             vLog("SpaceShipIconUI::init", "shipBoxDp ${sizes.shipBoxDp}")
         }
     }

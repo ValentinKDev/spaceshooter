@@ -1,5 +1,7 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types
 
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.ShipStatsIndicator
+
 interface ShipInfo {
     val name: String
     val life: Float
@@ -11,4 +13,5 @@ interface ShipInfo {
     val shootingTimeInterval: Long
     val ammoRecoveryTime: Long
     val chargedProjectileType: ChargedProjectileType
+    val statsIndicator: ShipStatsIndicator
 }

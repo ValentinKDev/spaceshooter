@@ -1,6 +1,9 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types
 
-class SpaceShipSquare: ShipInfo {
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.ShipStatsIndicator
+
+class SpaceShipSquare(
+) : ShipInfo {
     override val life: Float = ShipBasicStats.life * 1.40F
     override val speed: Float = ShipBasicStats.speed * 1F
     override val damage: Float = ShipBasicStats.damage.toFloat()
@@ -11,4 +14,10 @@ class SpaceShipSquare: ShipInfo {
     override val shootingTimeInterval: Long = 120L
     override val ammoRecoveryTime: Long = 450L
     override val chargedProjectileType: ChargedProjectileType = ChargedProjectileType.Instant
+    override val statsIndicator: ShipStatsIndicator = ShipStatsIndicator(
+        lifeIndicator = 6,
+        speedIndicator = 3,
+        damageIndicator = 4,
+        reloadIndicator = 3,
+    )
 }

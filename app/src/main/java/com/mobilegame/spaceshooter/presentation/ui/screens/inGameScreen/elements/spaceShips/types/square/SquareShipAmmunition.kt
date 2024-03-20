@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.square
+package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.square
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -6,13 +6,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.MunitionsViewModel
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.SquareSpaceShipIconUI
-import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.circle.MunitionsType
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.circle.MunitionsType
 
 @Composable
-fun SquareShipAmmunition(vm: MunitionsViewModel, ui: SquareSpaceShipIconUI) {
-    val munitions by remember { vm.magazineSize }.collectAsState()
+//fun SquareShipAmmunition(vm: MunitionsViewModel, ui: SquareSpaceShipIconUI) {
+fun SquareShipAmmunition(magazine: Int, ui: SquareSpaceShipIconUI) {
+//    val munitions by remember { vm.magazineSize }.collectAsState()
 
-    for (n in 1..munitions) {
+    for (n in 1..magazine) {
         SquareShipAmmunition(ui, n, MunitionsType.InMagazine)
     }
 }

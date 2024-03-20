@@ -2,7 +2,7 @@ package com.mobilegame.spaceshooter.logic.model.screen.mainScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mobilegame.spaceshooter.logic.model.screen.Screens
+import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
 import com.mobilegame.spaceshooter.logic.uiHandler.MainScreenUI
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator

@@ -10,12 +10,17 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 
 @Composable
 fun SpaceWarGameScreen(navigator: Navigator = Navigator(), vm: SpaceWarGameViewModel) {
+    val onPause by remember { vm.shipVM.motionVM.gameOnPause }.collectAsState()
+
     LaunchedEffect(true) {
         eLog("SpaceWarGameScreen", "Launch Screen")
+        vm.initNav(navigator)
     }
 
     //todo: Use ConstraintSet with Width Ratio to reduce screen size depending on enemy device
-    DefaultSpaceBackGround {
-        Elements(vm)
-    }
+//    DefaultSpaceBackGround {
+//        if (onPause) PausePopUp(vm)
+//        else
+            Elements(vm)
+//    }
 }

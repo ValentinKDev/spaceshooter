@@ -11,8 +11,8 @@ import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.extensions.*
 
-class SquareSpaceShipIconUI(shipViewBox: Size): SpaceShipIconUIInterface {
-    val sizes = SizesSquareShip(shipViewBox)
+class SquareSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUIInterface {
+    val sizes = SizesSquareShip(shipViewBoxSize)
     val points = PointsSquareShip(sizes)
     val ammo = Ammos(sizes)
     val colors = ColorsSquareShip()

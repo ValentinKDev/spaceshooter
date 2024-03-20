@@ -21,14 +21,11 @@ class SpaceWarGameScreenUI(displaySize: Size, val shipType: ShipType) {
     val TAG = "SpaceWarGameScreenUI"
     val position = PositionInGameScreen(displaySize)
     val sizes = SizesInGameScreen(displaySize)
-    var spaceShip: SpaceShipIconUIInterface = when (shipType) {
-        ShipType.Square -> SquareSpaceShipIconUI(shipViewBox = sizes.shipViewBox)
-        ShipType.Circle -> CircleSpaceShipIconUI(shipBox = sizes.shipViewBox)
-    }
-    fun getSpaceShipUI(): Any = when (shipType) {
-        ShipType.Square -> SquareSpaceShipIconUI(shipViewBox = sizes.shipViewBox)
-        ShipType.Circle -> CircleSpaceShipIconUI(shipBox = sizes.shipViewBox)
-    }
+    var spaceShip: SpaceShipIconUIInterface = ShipType.getTypeShipUI(shipType, sizes.shipViewBox)
+//        when (shipType) {
+//        ShipType.Square -> SquareSpaceShipIconUI(shipViewBox = sizes.shipViewBox)
+//        ShipType.Circle -> CircleSpaceShipIconUI(shipBox = sizes.shipViewBox)
+//    }
     class SizesInGameScreen(displaySize: Size) {
         var displayDp: DpSize = displaySize.toDpSize()
         var shipViewBox: Size = (displaySize.height * 0.13F).toSize()

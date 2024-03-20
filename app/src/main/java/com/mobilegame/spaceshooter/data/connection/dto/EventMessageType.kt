@@ -1,9 +1,8 @@
 package com.mobilegame.spaceshooter.data.connection.dto
 
-
 enum class EventMessageType {
     SendDeviceName,
-    SendServerName,
+//    SendServerName,
     NewConnectedDevice,
 //    DisconnectDevice,
 //    SendGameData,
@@ -12,8 +11,10 @@ enum class EventMessageType {
 //    GoToSpaceShipMenuScreen,
 //    ReadyNotToPlay,
     InGame,
+    ReadyToChooseShip,
     ReadyToPlay,
     NotReadyToPlay,
+    NotReadyToChooseShip,
     Dead,
 //    LaunchGame,
 //    Loose,

@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.square
+package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.square
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -10,7 +10,8 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.SpaceSh
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.SquareSpaceShipIconUI
 
 @Composable
-fun SquareShipView(vm: SpaceShipViewModel, shipViewBox: Size) {
+//fun SquareShipView(vm: SpaceShipViewModel, shipViewBox: Size) {
+fun SquareShipView(lifeRatio: Float, magazine: Int, shipViewBox: Size) {
     val ui = remember { SquareSpaceShipIconUI(shipViewBox) }
 
     Box(
@@ -18,7 +19,9 @@ fun SquareShipView(vm: SpaceShipViewModel, shipViewBox: Size) {
             .size(ui.sizes.shipViewBoxSizeDp)
 //            .background(Color.Red)
     ) {
-        SquareShipShape(vm.lifeVM, ui)
-        SquareShipAmmunition(vm.ammoVM, ui)
+//        SquareShipShape(vm.lifeVM, ui)
+        SquareShipShape(lifeRatio, ui)
+        SquareShipAmmunition(magazine, ui)
+//        SquareShipAmmunition(vm.ammoVM, ui)
     }
 }

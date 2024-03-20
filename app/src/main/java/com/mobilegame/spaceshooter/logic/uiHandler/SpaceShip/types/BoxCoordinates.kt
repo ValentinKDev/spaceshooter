@@ -63,36 +63,4 @@ data class BoxCoordinates (
             size = size,
         )
     }
-//    var topLeftOffset: Offset = Offset.Unspecified
-//    var topLeftOffsetDp: DpOffset = DpOffset.Unspecified
-//    var topRightOffset: Offset = Offset.Unspecified
-//    var topRightOffsetDp: DpOffset = DpOffset.Unspecified
-//    var bottomLeftOffset: Offset = Offset.Unspecified
-//    var bottomLeftOffsetDp: DpOffset = DpOffset.Unspecified
-//    var bottomRightOffset: Offset = Offset.Unspecified
-//    var bottomRightOffsetDp: DpOffset = DpOffset.Unspecified
-//
-//    private fun updateTopLeft() {
-//        topLeftOffset = Offset( x = centerOffset.x - (size.width / 2F), y = centerOffset.y - (size.height / 2F) )
-//        topLeftOffsetDp = topLeftOffset.toDpOffset()
-//    }
-//    private fun updateTopRight() {
-//        topRightOffset = Offset( x = topLeftOffset.x + size.width, y = topLeftOffset.y)
-//        topRightOffsetDp = topRightOffset.toDpOffset()
-//    }
-//    private fun updateBottomLeft() {
-//        bottomLeftOffset = Offset( x = topLeftOffset.x, y = topRightOffset.y + size.height)
-//        bottomLeftOffsetDp = bottomLeftOffset.toDpOffset()
-//    }
-//    private fun updateBottomRight() {
-//        bottomRightOffset = Offset( x = bottomRightOffset.x + size.width, y = bottomRightOffset.y )
-//        bottomRightOffsetDp = bottomLeftOffset.toDpOffset()
-//    }
-//    fun updateWith(center: Offset) {
-//        centerOffset = center
-//        updateTopLeft()
-//        updateTopRight()
-//        updateBottomLeft()
-//        updateBottomRight()
-//    }
 }

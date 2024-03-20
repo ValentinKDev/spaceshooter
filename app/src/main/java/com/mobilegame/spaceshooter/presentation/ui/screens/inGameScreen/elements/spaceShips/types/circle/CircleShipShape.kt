@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips
+package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.circle
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +13,7 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.SpaceSh
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.CircleSpaceShipIconUI
 
 @Composable
-fun CircleShipShape(vm: SpaceShipViewModel, ui: CircleSpaceShipIconUI) {
+fun CircleShipShape(ui: CircleSpaceShipIconUI) {
 //    val lifeRatio = remember { vm.lifeVM.lifeRatio }.collectAsState()
 //fun CircleShipShape(vm: SpaceShipViewModel) {
     Canvas(

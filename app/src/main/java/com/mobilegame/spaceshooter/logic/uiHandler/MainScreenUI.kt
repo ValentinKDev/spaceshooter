@@ -16,6 +16,7 @@ import com.mobilegame.spaceshooter.utils.extensions.toSp
 
 class MainScreenUI {
     val template = TemplateUI()
+//    val template = TemplateUI(instantNavBack = true)
     val tutoButton = TutorialButton(template)
     val instruction = InstructionMainScreen()
     val buttonBluetooth: BluetoothIcon = BluetoothIcon(Device.metrics.height * 0.3F)
@@ -54,7 +55,6 @@ class MainScreenUI {
         val sizes = SizesTutorialButton(template)
         val colors = ColorsTutorialButton()
         val text = TextTutorialButton()
-
         class SizesTutorialButton(template: TemplateUI) {
             private val iconButtonHeight: Float = template.header.sizes.height * 0.75F
 //            private val iconQuestionMarkHeight: Float = template.header.sizes.height * 0.55F

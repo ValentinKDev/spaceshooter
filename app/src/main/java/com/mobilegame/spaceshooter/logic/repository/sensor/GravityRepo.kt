@@ -8,7 +8,7 @@ import com.mobilegame.spaceshooter.data.sensor.XYZ
 import kotlinx.coroutines.flow.*
 
 class GravityRepo(context: Context, refreshInterval: Long) {
-    private val TAG = object{}.javaClass.enclosingClass.simpleName
+    private val TAG = "GravityRepo"
     private val gravityProducer = GravityDataProducer(GravitySensor(context), refreshInterval)
     private var firstTime = true
     private var position = XYZ.ZERO
@@ -45,5 +45,9 @@ class GravityRepo(context: Context, refreshInterval: Long) {
     fun stop() {
         Log.e(TAG, "stop: gravityDataProducer::stop")
         gravityProducer.stop()
+    }
+    fun start() {
+        Log.e(TAG, "start: ")
+        gravityProducer.start()
     }
 }

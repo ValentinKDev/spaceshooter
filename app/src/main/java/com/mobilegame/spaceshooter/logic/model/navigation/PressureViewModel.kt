@@ -11,10 +11,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+//class PressureViewModel(loadingTime: Long = 500L) : ViewModel() {
 class PressureViewModel() : ViewModel() {
-    val timerValidation: Long = 700L
+    var timerValidation: Long = 500L
     private val _full = MutableStateFlow(false)
     val full: StateFlow<Boolean> = _full.asStateFlow()
+    fun setFullAt(bool: Boolean) { _full.update { bool } }
 
     private var pressureState: Boolean = false
     private var pressureNumber: Int = 0
@@ -33,7 +35,8 @@ class PressureViewModel() : ViewModel() {
         val pressureNumberAtStart = pressureNumber
         delay(timerValidation)
         if (pressureState && pressureNumberAtStart == pressureNumber) {
-            _full.update { true }
+//            _full.update { true }
+            setFullAt(true)
         }
     }
 
@@ -41,7 +44,8 @@ class PressureViewModel() : ViewModel() {
         vLog("PressureNavVM" , "handlePressureRelease")
         if (pressureState) {
             setPressureStateTo(false)
-            _full.update { false }
+            setFullAt(false)
+//            _full.update { false }
         }
     }
 }

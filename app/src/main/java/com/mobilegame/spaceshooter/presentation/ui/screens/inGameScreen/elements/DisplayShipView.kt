@@ -7,22 +7,27 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.SpaceWarGameViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.SpaceShipViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
-import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.CircleShipView
-import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.square.SquareShipView
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.SpaceWarGameScreenUI
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.ShipView
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.circle.CircleShipView
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.square.SquareShipView
 
 @Composable
-fun SpaceShipView(vm: SpaceWarGameViewModel) {
+fun DisplayShipView(vm: SpaceWarGameViewModel) {
     val position by remember { vm.shipVM.motionVM.shipPosition }.collectAsState()
     val motion by remember { vm.shipVM.motionVM.motion }.collectAsState()
     val speed by remember { vm.shipVM.motionVM.speedMagnitude }.collectAsState()
+    val magazine by remember { vm.shipVM.ammoVM.magazineSize }.collectAsState()
+    val lifeRatio by  remember {vm.shipVM.lifeVM.lifeRatio }.collectAsState()
 
     val angle by animateFloatAsState(
         targetValue = vm.shipVM.motionVM.getTargetAngle(motion, speed),
-        animationSpec = tween(600)
+        animationSpec = tween(600),
+        label = ""
     )
 
     Box(
@@ -30,12 +35,14 @@ fun SpaceShipView(vm: SpaceWarGameViewModel) {
             .wrapContentSize()
             .offset(position.x, position.y)
             .rotate(angle)
-
-//            .alpha(0.5F)
     ) {
-        when (vm.shipVM.type) {
-            ShipType.Circle -> CircleShipView( vm.shipVM,  vm.ui.sizes.shipViewBox)
-            ShipType.Square -> SquareShipView(vm.shipVM, vm.ui.sizes.shipViewBox)
-        }
+//        DisplayShip(vm.shipVM, vm.ui)
+//        ShipView(vm.shipType ,lifeRatio, magazine, vm.ui)
+        ShipView(
+            type = vm.shipType,
+            shipViewSizeBox = vm.ui.sizes.shipViewBox,
+            lifeRatio = lifeRatio,
+            magazine = magazine,
+        )
     }
 }

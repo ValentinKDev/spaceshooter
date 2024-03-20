@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.circle
+package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.circle
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable

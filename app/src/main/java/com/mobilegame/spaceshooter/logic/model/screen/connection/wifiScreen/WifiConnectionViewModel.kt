@@ -39,16 +39,6 @@ class WifiConnectionViewModel(): ViewModel() {
         }
     }
 
-    fun host() = viewModelScope.launch(Dispatchers.IO) {
-        Log.i(TAG, "host: ")
-        withClientRepo.startHostingNewClients()
-    }
-
-    fun searchForServers() = viewModelScope.launch(Dispatchers.IO) {
-        Log.i(TAG, "searchForServers: ")
-        withServerRepo.searchForServer()
-    }
-
     private suspend fun delayUntilConnected() {
         Log.i(TAG, "delayUntilConnected")
         var count = 0

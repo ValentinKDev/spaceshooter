@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.square
+package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.square
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
@@ -13,8 +13,8 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.LifeVie
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.SquareSpaceShipIconUI
 
 @Composable
-fun SquareShipShape(lifeVM: LifeViewModel, ui: SquareSpaceShipIconUI) {
-    val lifeRatio by  remember {lifeVM.lifeRatio }.collectAsState()
+fun SquareShipShape(lifeRatio: Float, ui: SquareSpaceShipIconUI) {
+//    val lifeRatio by  remember {lifeVM.lifeRatio }.collectAsState()
 
     Canvas(
         Modifier

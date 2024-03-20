@@ -1,20 +1,33 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen
 
 import android.app.Application
-import android.util.Log
+import android.icu.number.NumberFormatter.DecimalSeparatorDisplay
 import androidx.compose.ui.geometry.Size
 import androidx.lifecycle.AndroidViewModel
+import com.mobilegame.spaceshooter.data.device.Device
+import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.SpaceShipViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.EndGameScreenUI
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.SpaceWarGameScreenUI
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 
-class SpaceWarGameViewModel(application: Application, displaySize: Size): AndroidViewModel(application) {
+class SpaceWarGameViewModel(private val application: Application, private val display: Size): AndroidViewModel(application) {
     val TAG = "SpaceWarGameViewModel"
-    val shipType = ShipType.Square
-    val ui = SpaceWarGameScreenUI(displaySize, shipType)
-    val shipVM = SpaceShipViewModel(application, ui, shipType)
+    private var nav: Navigator? = null
+    var shipType: ShipType = ShipType.Square
+//    var ui = SpaceWarGameScreenUI(display, shipType)
+//    var shipVM = SpaceShipViewModel(application, ui, shipType)
+    lateinit var ui: SpaceWarGameScreenUI
+    lateinit var shipVM: SpaceShipViewModel
+    val endUi = EndGameScreenUI()
 
-    val pauseStateFlow = MutableSharedFlow<Boolean>()
+    fun initNav(navigator: Navigator) {
+        nav = navigator
+    }
+    fun updateShipType(ship: ShipType) {
+        shipType = ship
+        ui = SpaceWarGameScreenUI(display, shipType)
+        shipVM = SpaceShipViewModel(application, ui, shipType)
+    }
+//    val pauseStateFlow = MutableSharedFlow<Boolean>()
 }

@@ -2,23 +2,38 @@ package com.mobilegame.spaceshooter.logic.uiHandler.template
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
+import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.getListEllipseOffset
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.wLog
+import com.mobilegame.spaceshooter.utils.extensions.DpToPixel
+import com.mobilegame.spaceshooter.utils.extensions.degreeToRadianRange
+import com.mobilegame.spaceshooter.utils.extensions.sweepAngle
 import com.mobilegame.spaceshooter.utils.extensions.toDp
 import com.mobilegame.spaceshooter.utils.extensions.toSquare
 
-class BackButtonUI(percent: TemplateUI.TemplatePercents) {
+class BackButtonUI(percent: TemplateUI.TemplatePercents, val instant: Boolean = false) {
     val id = "back_button"
+//    val instant = true
     val padding = PaddingBackButton()
     val colors = ColorsBackButton()
     val points = PointsBackButton()
     val sizes = SizesBackButton(percent)
+    lateinit var path: Path
+    val stroke = Stroke(3.dp.DpToPixel(), cap = StrokeCap.Round)
 
-    init { initPoints() }
+    init {
+        initPoints()
+        initPath()
+    }
+
 
     data class PaddingBackButton (
         var start: Float = 0.01F,
@@ -33,8 +48,10 @@ class BackButtonUI(percent: TemplateUI.TemplatePercents) {
     data class ColorsBackButton (
         val contrast: Color = MyColor.applicationContrast,
         val background: Color = MyColor.applicationBackground,
+//        val background: Color = MyColor.transparent,
     )
     data class PointsBackButton (
+        var center: Offset = Offset.Zero,
         var p1: Offset = Offset.Zero,
         var p1Long: Offset = Offset.Zero,
         var p2: Offset = Offset.Zero,
@@ -46,8 +63,11 @@ class BackButtonUI(percent: TemplateUI.TemplatePercents) {
         var p8: Offset = Offset.Zero,
         var p9: Offset = Offset.Zero,
         var p9Long: Offset = Offset.Zero,
+
+        var listOffsetRound: List<Offset> = listOf()
     )
     fun initPoints() {
+        //init arrowPoints
         val delta = 0.05F * sizes.canvas
         val epsilon = 0.025F * sizes.canvas
         val halfSize = 0.5F * sizes.canvas
@@ -61,6 +81,7 @@ class BackButtonUI(percent: TemplateUI.TemplatePercents) {
         val half1 = halfSize - (0.08F * sizes.canvas)
         val half2 = halfSize + (0.08F * sizes.canvas)
 
+        points.center = Offset(halfSize, halfSize)
         points.p1 = Offset(x = sizes.canvas - epsilon, y = twoFifth)
         points.p1Long = Offset(x = sizes.canvas, y = twoFifth)
         points.p2 = Offset(x = half2, y = twoFifth)
@@ -73,9 +94,36 @@ class BackButtonUI(percent: TemplateUI.TemplatePercents) {
         points.p9 = Offset(x = sizes.canvas - epsilon , y = threeFifth)
         points.p9Long = Offset(x = sizes.canvas, y = threeFifth)
 
-        displayDataUI?.let {
-            wLog("BackButton::initPoints", "points")
+        //init arc points
+        val radius = halfSize
+        val alpha = 1F
+        val beta = 1F
+        val angleRange = (17F sweepAngle 323F).degreeToRadianRange()
+
+        points.listOffsetRound = getListEllipseOffset(
+            center = points.center,
+            radius = radius,
+            alphaX = alpha,
+            betaY = beta,
+            angleRange = angleRange
+        )
+    }
+    private fun initPath() {
+        path = Path().apply {
+            moveTo(points.listOffsetRound.first().x, points.listOffsetRound.first().y)
+            for (index in points.listOffsetRound.indices) {
+                val point = Offset(points.listOffsetRound[index].x, points.listOffsetRound[index].y)
+                lineTo(point.x, point.y)
+            }
+            lineTo(points.p1.x, points.p1.y)
+            lineTo(points.p2.x, points.p2.y)
+            lineTo(points.p3.x, points.p3.y)
+            lineTo(points.p4.x, points.p4.y)
+            lineTo(points.p5.x, points.p5.y)
+            lineTo(points.p6.x, points.p6.y)
+            lineTo(points.p7.x, points.p7.y)
+            lineTo(points.p8.x, points.p8.y)
+            lineTo(points.p9.x, points.p9.y)
         }
     }
-
 }

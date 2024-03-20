@@ -29,7 +29,7 @@ val TAG = "DeviceWifiRepo"
     fun getLinkState(): WifiLinkState = Device.wifi.linkState.value
 //    fun isDeviceServer(): Boolean = Device.wifi.linkState.value == WifiLinkState.ConnectedAsServer
     fun isDeviceClient(): Boolean? = if ( Device.wifi.linkState.value == WifiLinkState.ConnectedAsClient ) true else null
-    fun isDeviceServer(): Boolean? = if ( Device.wifi.channels.withServer.info != null ) true else null
+    fun isDeviceServer(): Boolean = Device.wifi.channels.serverSocket != null
     fun updateLinkStateTo(newState: WifiLinkState) {
         Device.wifi.linkState.update { newState }
         Log.w(TAG, "updateLinkStateTo: ${newState.name}")
@@ -50,7 +50,7 @@ val TAG = "DeviceWifiRepo"
         Device.wifi.visibleDevices.value = tmpList.toList()
 //        Device.wifi.listConnectedDevice.first().state = state
     }
-    fun isVisibleDeviceReadyToPlay(): Boolean = Device.wifi.visibleDevices.value.first().state == PreparationState.ReadyToPlay
+    fun isVisibleDeviceReadyToPlay(): Boolean = Device.wifi.visibleDevices.value.first().state == PreparationState.ReadyToChooseShip
     fun resetVisibleDevice() { Device.wifi.visibleDevices.value = listOf() }
     fun removeVisibleDevice(ip: InetAddress) = Device.wifi.visibleDevices.value.find { it.ip == ip }?.let {
         Device.wifi.visibleDevices.removeToValue(it)
@@ -81,5 +81,5 @@ val TAG = "DeviceWifiRepo"
         }
         return null
     }
-    fun isDeviceHost(): Boolean = Device.wifi.channels.serverSocket != null
+//    fun isDeviceHost(): Boolean = Device.wifi.channels.serverSocket != null
 }

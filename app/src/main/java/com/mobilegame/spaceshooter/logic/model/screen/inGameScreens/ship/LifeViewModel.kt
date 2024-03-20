@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.device.Device
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.LooseInfo
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.MotionsViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
@@ -28,8 +29,8 @@ class LifeViewModel(private val motionVM: MotionsViewModel, type: ShipType): Vie
     private var currentLife: Float = lifeStarter
     private suspend fun lifeUpdate(projectile: Shoot) {
         if (dead == false) {
-            currentLife -= projectile.damage
-//            currentLife -= 150F
+//            currentLife -= projectile.damage
+            currentLife -= 150F
             if (currentLife.toInt() > 0) {
                 _lifeRatio.emit( currentLife / lifeStarter )
             } else {
@@ -52,15 +53,15 @@ class LifeViewModel(private val motionVM: MotionsViewModel, type: ShipType): Vie
             val currentDate: String = sdf.format(Date())
             Log.e(TAG, "endGame: \n\n\n\ndate $currentDate")
 
-//            DeviceEventRepo().sendDeadUser(
-//                LooseInfo(
-//                    shooterIp = projectile.shooterIp,
-//                    shooterName = _shooterDevice.name,
-//                    deadPlayerName = Device.data.name ?: "ERROR NO NAME",
-//                    deadPlayerIp = Device.wifi.inetAddress,
-//                    exactMoment = currentDate
-//                )
-//            )
+            DeviceEventRepo().sendDeadUser(
+                LooseInfo(
+                    shooterIp = projectile.shooterIp,
+                    shooterName = _shooterDevice.name,
+                    deadPlayerName = Device.data.name ?: "ERROR NO NAME",
+                    deadPlayerIp = Device.wifi.inetAddress,
+                    exactMoment = currentDate
+                )
+            )
         } ?: { Log.e(TAG, "endGame: Shooter name not found in visibleDevicesList", )}
     }
     init {
@@ -72,6 +73,10 @@ class LifeViewModel(private val motionVM: MotionsViewModel, type: ShipType): Vie
 
     private suspend fun listenToTheDead() {
         Device.event.dead.collect {
+            Log.i(TAG, "listenToTheDead: dead collected -> $it")
+//            if (it) {
+//                Device.event.gameOnPause.emit(true)
+//            }
         }
     }
     private suspend fun listenToTheHits() {

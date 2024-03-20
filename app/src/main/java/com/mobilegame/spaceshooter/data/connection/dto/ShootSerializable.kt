@@ -1,6 +1,6 @@
 package com.mobilegame.spaceshooter.data.connection.dto
 
-import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.circle.MunitionsType
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.circle.MunitionsType
 import java.net.InetAddress
 
 data class ShootSerializable(

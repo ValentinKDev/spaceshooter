@@ -26,8 +26,6 @@ fun DevicesMenuBody(
     navigator: Navigator,
     ui: DevicesMenuUI.BodyDeviceMenu,
     pressureVM: PressureViewModel,
-//    onPressure: KFunction2<WifiScreenViewModel, Navigator, Job>,
-//    onRelease: KFunction2<WifiScreenViewModel, Navigator, Job>,
 ) {
     val constraints = remember {
         ConstraintSet {

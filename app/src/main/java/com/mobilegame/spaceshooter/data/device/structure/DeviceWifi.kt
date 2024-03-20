@@ -37,7 +37,8 @@ class DeviceWifi {
         while (true) {
 //            iLog("DeviceWifi", "list $listConnectedDevice")
             emit(listConnectedDevice)
-            delay(700L)
+            //todo: find a way to temporarly augement the frequency of this
+            delay(300L)
         }
     }
 }

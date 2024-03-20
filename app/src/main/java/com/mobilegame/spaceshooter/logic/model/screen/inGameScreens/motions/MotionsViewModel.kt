@@ -16,7 +16,7 @@ import com.mobilegame.spaceshooter.logic.repository.device.DeviceWifiRepo
 import com.mobilegame.spaceshooter.logic.repository.sensor.GravityRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.BoxCoordinates
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.SpaceWarGameScreenUI
-import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.circle.MunitionsType
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.circle.MunitionsType
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -52,6 +52,9 @@ class MotionsViewModel(
     val shipHitBox: StateFlow<BoxCoordinates> = _shipHitBox.asStateFlow()
     val _hitStateFlow = MutableSharedFlow<Shoot>()
 
+    private val _gameOnPause = MutableStateFlow(false)
+    val gameOnPause: StateFlow<Boolean> = _gameOnPause.asStateFlow()
+
     private val userHitBox = ui.spaceShip.hitBox
     fun getShipTopCenter(): DpOffset = DpOffset(x = _shipPosition.value.x + shipCenterDeltaDp, y = _shipPosition.value.y)
 
@@ -74,6 +77,18 @@ class MotionsViewModel(
         Log.i(TAG, "startEngine: ")
         val ev = async { startListeningToShoots() }
         val mo = async { startMotions() }
+        val pa = async { listenToPause() }
+    }
+    private suspend fun listenToPause() {
+//        Device.event.gameOnPause.collect { onPause ->
+//            if (onPause) {
+//                gravityRepo.stop()
+////                true
+//            } else {
+//                gravityRepo.start()
+////                false
+//            }
+//        }
     }
 
     // Refresh Rate of Updates based on the sensor ship position flow refresh rate
@@ -92,7 +107,7 @@ class MotionsViewModel(
     private fun updateDeltaMoves(xyz: XYZ) { xyz.updateDelaOffset() }
     val wifiRepo = DeviceWifiRepo()
     private fun updateShipPosition() {
-        if (wifiRepo.isDeviceHost()) {
+        if (wifiRepo.isDeviceServer()) {
             val newPCenter = shipPosition.value.calculateNewDpOffset()
             _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
         }
@@ -267,5 +282,4 @@ class MotionsViewModel(
         gravityRepo.stop()
         super.onCleared()
     }
-
 }

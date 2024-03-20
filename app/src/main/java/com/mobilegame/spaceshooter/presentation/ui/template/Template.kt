@@ -10,8 +10,7 @@ import androidx.compose.ui.layout.layoutId
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mobilegame.spaceshooter.logic.model.screen.Screens
+import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
@@ -23,8 +22,10 @@ internal fun Template(
     type: TemplatesType,
     navigator: Navigator,
     backNav: Screens,
+//    instantBackNav: Boolean?,
     ui: TemplateUI,
-    vm: PressureViewModel = viewModel(),
+//    vm: PressureViewModel = viewModel(),
+    vm: PressureViewModel = PressureViewModel(),
     header: @Composable () -> Unit,
     headBand: @Composable () -> Unit,
     body: @Composable () -> Unit,
@@ -108,7 +109,8 @@ internal fun Template(
             vm = vm,
             backNav = backNav,
             navigator = navigator,
-            ui = ui.backButton
+            ui = ui.backButton,
+//            instant = instantBackNav
         )
         }
         Box(

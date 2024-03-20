@@ -9,14 +9,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class SpaceShipViewModel(application: Application, ui: SpaceWarGameScreenUI, val type: ShipType) : ViewModel() {
+class SpaceShipViewModel(application: Application, ui: SpaceWarGameScreenUI, var type: ShipType) : ViewModel() {
     val motionVM = MotionsViewModel(
         context = application,
         ui = ui,
     )
     val ammoVM = MunitionsViewModel(motionVM, type)
     val lifeVM = LifeViewModel(motionVM, type)
-
-//    private val _life = MutableStateFlow(100)
-//    val life: StateFlow<Int> = _life.asStateFlow()
 }

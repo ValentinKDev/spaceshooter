@@ -14,7 +14,6 @@ import com.mobilegame.spaceshooter.utils.extensions.toDp
 object Device {
     val data = DeviceData()
     val metrics = DeviceMetrics()
-    val wifi: DeviceWifi = DeviceWifi()
+    val wifi = DeviceWifi()
     val event = DeviceEvent()
-//    val connectionEvent
 }

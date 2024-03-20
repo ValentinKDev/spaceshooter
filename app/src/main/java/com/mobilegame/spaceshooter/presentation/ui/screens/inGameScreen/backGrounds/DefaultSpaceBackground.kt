@@ -12,7 +12,7 @@ fun DefaultSpaceBackGround(content: @Composable () -> Unit) {
     Box(
         Modifier
             .fillMaxSize()
-            .background(Color.Black)
+//            .background(Color.Black)
     ) {
         content.invoke()
     }

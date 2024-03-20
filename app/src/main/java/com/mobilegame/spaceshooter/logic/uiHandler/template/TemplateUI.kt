@@ -1,13 +1,13 @@
 package com.mobilegame.spaceshooter.logic.uiHandler.template
 
-class TemplateUI() {
+class TemplateUI(val instantNavBack: Boolean = false) {
     val percent = TemplatePercents()
     val header = HeaderTemplate(percent)
     val topDelimiter = DelimiterTemplate(id = "top_delimiter", percent = percent)
     val band = BandTemplate(percent)
     val bottomDelimiter = DelimiterTemplate(id = "bottom_delimiter", percent = percent)
     val body = BodyTemplate(percent)
-    val backButton = BackButtonUI(percent)
+    val backButton = BackButtonUI(percent, instantNavBack)
 
     class TemplatePercents {
 //        val header = 0.16F
