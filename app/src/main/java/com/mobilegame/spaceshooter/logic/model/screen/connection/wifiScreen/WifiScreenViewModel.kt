@@ -73,9 +73,8 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
     }
     suspend private fun chooseSpaceShip() {
         goToShipMenu = true
-        nav?.let { it.navig(Screens.SpaceWarScreen) }
-//        DeviceEventRepo().sendDeviceInGame()
-//        _chooseShip.emit(true)
+//        nav?.let { it.navig(Screens.SpaceWarScreen) }
+        nav?.let { it.navig(Screens.ShipMenuScreen) }
     }
 
     fun nonNullNameTrigger() {

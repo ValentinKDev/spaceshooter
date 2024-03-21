@@ -1,5 +1,6 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.square
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,6 +20,7 @@ fun SquareDrawMunition(topLeftOffset: Offset, ui: SquareSpaceShipIconUI, type: M
             color = ui.colors.outline,
         )
         if (type == MunitionsType.UserProjectile) {
+//            Log.v("SquareDrawMunition", "SquareDrawMunition: User")
                 drawRect(
                     topLeft = topLeftOffset,
                     size = ui.ammo.getShootSize(particularBehavior),
@@ -26,6 +28,7 @@ fun SquareDrawMunition(topLeftOffset: Offset, ui: SquareSpaceShipIconUI, type: M
                     color = ui.colors.outline,
                 )
         } else if (type == MunitionsType.EnemiesProjectile) {
+//            Log.v("SquareDrawMunition", "SquareDrawMunition: Enemie")
             drawRect(
                 topLeft = topLeftOffset,
                 size = ui.ammo.getShootSize(particularBehavior),

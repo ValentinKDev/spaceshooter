@@ -50,6 +50,9 @@ class MotionsViewModel(
     val shipPosition: StateFlow<DpOffset> = _shipPosition.asStateFlow()
     private val _shipHitBox = MutableStateFlow(startHitBoxCoordinates)
     val shipHitBox: StateFlow<BoxCoordinates> = _shipHitBox.asStateFlow()
+    private val _shootList = MutableStateFlow<List<Shoot>>(emptyList())
+    val shootList: StateFlow<List<Shoot>> = _shootList.asStateFlow()
+//    val shootList
     val _hitStateFlow = MutableSharedFlow<Shoot>()
 
     private val _gameOnPause = MutableStateFlow(false)
@@ -75,20 +78,8 @@ class MotionsViewModel(
 
     private fun startEngine() = viewModelScope.launch(Dispatchers.IO) {
         Log.i(TAG, "startEngine: ")
-        val ev = async { startListeningToShoots() }
+        val ev = async { startListeningToProjectiles() }
         val mo = async { startMotions() }
-        val pa = async { listenToPause() }
-    }
-    private suspend fun listenToPause() {
-//        Device.event.gameOnPause.collect { onPause ->
-//            if (onPause) {
-//                gravityRepo.stop()
-////                true
-//            } else {
-//                gravityRepo.start()
-////                false
-//            }
-//        }
     }
 
     // Refresh Rate of Updates based on the sensor ship position flow refresh rate
@@ -113,12 +104,12 @@ class MotionsViewModel(
         }
     }
     private fun updateShipHitBox() { _shipHitBox.update { it.getUpdatedBoxCoordinates(shipPosition.value) } }
-    private suspend fun startListeningToShoots(): Nothing = Device.event.incomingProjectile.collect {
+    private suspend fun startListeningToProjectiles(): Nothing = Device.event.projectileFlow.collect {
         Log.e(TAG, "updateEnemiesProjectiles: ENEMIE PROJECTIL INCOOOOOMING", )
-        Log.i(TAG, "updateEnemiesProjectiles: shoot ip ${it.shooterIp}")
-        Log.i(TAG, "updateEnemiesProjectiles: shoot vector ${it.vector}")
-        Log.i(TAG, "updateEnemiesProjectiles: shoot offset ${it.offsetDp}")
-        Log.i(TAG, "updateEnemiesProjectiles: shoot ratioX ${it.xRatio}")
+//        Log.i(TAG, "updateEnemiesProjectiles: shoot ip ${it.shooterIp}")
+//        Log.i(TAG, "updateEnemiesProjectiles: shoot vector ${it.vector}")
+//        Log.i(TAG, "updateEnemiesProjectiles: shoot offset ${it.offsetDp}")
+//        Log.i(TAG, "updateEnemiesProjectiles: shoot ratioX ${it.xRatio}")
         addShoot(it)
     }
     suspend private fun updateShoots() {
@@ -126,7 +117,8 @@ class MotionsViewModel(
         val hits = newList.checkHitBox()
 
         newList = newList.filterNot { hits.contains(it) }
-        _shootList.value = newList
+//        _shootList.value = newList
+        _shootList.emit(newList)
         updateUserProjectiles()
     }
     private suspend fun List<Shoot>.checkHitBox(): List<Shoot> = this
@@ -212,11 +204,18 @@ class MotionsViewModel(
         }
     )
 
-    private val _shootList = MutableStateFlow<List<Shoot>>(emptyList())
-    val shootList: StateFlow<List<Shoot>> = _shootList.asStateFlow()
-    fun addShoot(shoot: Shoot) {
+    suspend fun addShoot(shoot: Shoot) {
+        Log.e(TAG, "addShoot: Shoot from ShipType ${shoot.type.name}", )
+//        Log.i(TAG, "addShoot: test == circle ${shoot.type == ShipType.Circle}")
+//        Log.i(TAG, "addShoot: test == square ${shoot.type == ShipType.Square}")
         //todo: simplify extension add
-        _shootList.value = _shootList.value.add(shoot)
+        Log.i(TAG, "addShoot: shootlist size before ${_shootList.value.size}")
+//        _shootList.value = _shootList.value.add(shoot)
+        _shootList.emit(shootList.value.add(shoot))
+        Log.i(TAG, "addShoot: shootlist size after ${_shootList.value.size}")
+        _shootList.value.forEach {
+            Log.i(TAG, "addShoot: list shoot ${it.type.name} ${it.from.name} == FromUser ${it.from == MunitionsType.UserProjectile}")
+        }
     }
 
     fun getShootVector(): Size {

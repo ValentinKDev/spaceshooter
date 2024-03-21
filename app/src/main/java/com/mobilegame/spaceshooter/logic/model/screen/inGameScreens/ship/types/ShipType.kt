@@ -14,6 +14,7 @@ sealed class ShipType(val name: String, val info: ShipInfo) {
         val LIST: List<ShipType> = listOf(Circle, Square)
         fun getFromList(i: Int) = LIST.getOrNull(i) ?: let {Square}
 //        fun getTypeShipType(i: Int): SpaceShipIconUIInterface = get
+        fun getType(name: String): ShipType = LIST.first { it.info.name == name }
         fun getTypeShipUI(i: Int, shipBox: Size): SpaceShipIconUIInterface = when (getFromList(i)) {
             Circle -> CircleSpaceShipIconUI(shipBox)
             Square -> SquareSpaceShipIconUI(shipBox)
@@ -22,6 +23,7 @@ sealed class ShipType(val name: String, val info: ShipInfo) {
             Circle -> CircleSpaceShipIconUI(shipBox)
             Square -> SquareSpaceShipIconUI(shipBox)
         }
+
 //        fun getStats(type: ShipType) = when (type) {
 //            Circle -> type.info as SpaceShipSquare
 //            Square -> type.info as SpaceShipRound

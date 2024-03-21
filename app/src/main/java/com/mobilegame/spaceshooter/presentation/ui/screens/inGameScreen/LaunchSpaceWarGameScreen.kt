@@ -12,13 +12,16 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScre
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.shipMenu.ShipMenuScreen
 
 @Composable
-fun LaunchSpaceWarGameScreen(navigator: Navigator, vm: LaunchDuelGameViewModel = viewModel()) {
-    val pickedShip by remember { vm.shipMenuVM.pickedShip }.collectAsState()
-    LaunchedEffect(key1 = pickedShip) {
-        Log.e("launchEffect", "LaunchSpaceWarGameScreen: pickedShip $pickedShip", )
-        vm.gameVM.updateShipType(vm.shipMenuVM.shipType.value)
-    }
+//fun LaunchSpaceWarGameScreen(navigator: Navigator, shipTypeName: String, vm: LaunchDuelGameViewModel = viewModel()) {
+fun LaunchSpaceWarGameScreen(navigator: Navigator, vm: LaunchDuelGameViewModel) {
+//    val pickedShip by remember { vm.shipMenuVM.pickedShip }.collectAsState()
+//    LaunchedEffect(key1 = pickedShip) {
+//        Log.e("launchEffect", "LaunchSpaceWarGameScreen: pickedShip $pickedShip", )
+//        vm.gameVM.updateShipType(vm.shipMenuVM.shipType.value)
+//    }
 
-    if (pickedShip) SpaceWarGameScreen(vm = vm.gameVM)
-    else ShipMenuScreen(vm, navigator)
+//    if (pickedShip)
+        SpaceWarGameScreen(vm = vm.gameVM)
+//    else
+//        ShipMenuScreen(vm, navigator)
 }

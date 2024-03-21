@@ -80,7 +80,9 @@ class DeviceEventRepo() {
                 Log.i(TAG, "handleEventAsServer: ${EventMessageType.SendProjectile.name}")
                 val projectileJson = eventMessage.message
                 val projectile = Shoot.deserialize(projectileJson, gson)
-                Device.event.incomingProjectile.emit( projectile.prepareReceivedProjectile() )
+                Log.i(TAG, "handleEventAsClient: shoot type ${projectile.type}")
+                Log.i(TAG, "handleEventAsClient: shoot type ${projectile.type.name}")
+                Device.event.projectileFlow.emit( projectile.prepareReceivedProjectile() )
             }
             EventMessageType.Dead -> {
                 Log.i(TAG, "handleEventAsServer: ${EventMessageType.Dead}")
@@ -136,7 +138,8 @@ class DeviceEventRepo() {
                 Log.i(TAG, "handleEventAsClient: ${EventMessageType.SendProjectile.name}")
                 val projectileJson = eventMessage.message
                 val projectile = Shoot.deserialize(projectileJson, gson)
-                Device.event.incomingProjectile.emit( projectile.prepareReceivedProjectile() )
+                Log.i(TAG, "handleEventAsClient: shoot type ${projectile.type}")
+                Device.event.projectileFlow.emit( projectile.prepareReceivedProjectile() )
             }
             EventMessageType.NewConnectedDevice -> TODO()
             EventMessageType.Dead -> TODO()

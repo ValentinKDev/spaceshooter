@@ -1,7 +1,9 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.MotionsViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ChargedProjectileType
@@ -15,7 +17,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shipType: ShipType) : ViewModel() {
-    val cTAG = "MunitionsViewModel"
+    val TAG = "MunitionsViewModel"
+    init { Log.i(TAG, "init: shiptype ${shipType.name}") }
     private val shootingTimeInterval = shipType.info.shootingTimeInterval
     private val ammoRecoveryTime = shipType.info.ammoRecoveryTime
     private val _magazineSize = MutableStateFlow<Int>(shipType.info.magazineSize)
@@ -31,7 +34,7 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
     private fun updateAmmoCharged() {
         val fTAG = "updateAmmoChargedTo()"
         ammoCharged = ammoBeforeCharging - magazineSize.value
-        iLog(cTAG, "$fTAG ammoCharged $ammoCharged")
+        iLog(TAG, "$fTAG ammoCharged $ammoCharged")
     }
     private fun resetAmmoCharged() { ammoCharged = 1 }
     private var recoveringJob: Job = viewModelScope.launch(Dispatchers.IO) {}
@@ -65,7 +68,6 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
     }
 
     fun shoot() {
-        val fTAG = "shoot"
         if (firstShoot) {
                 viewModelScope.launch() {
                     updateAmmoCharged()
@@ -82,17 +84,19 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
     private suspend fun startShooting() {
         val fTAG = "startShooting"
         var ammo = ammoCharged
-        iLog(cTAG, "$fTAG charged projectil ${shipType.info.chargedProjectileType}")
+        iLog(TAG, "$fTAG charged projectil ${shipType.info.chargedProjectileType}")
         when (shipType.info.chargedProjectileType) {
             ChargedProjectileType.Instant -> {
-                iLog(cTAG, "$fTAG behavior int ${ammoCharged}")
+                iLog(TAG, "$fTAG behavior int ${ammoCharged}")
                 val newShoot = Shoot.newFromUser(
                     type = shipType,
                     vm = motionVM,
                     behavior = ammoCharged,
                     damage = shipType.info.damage * ammoCharged.toFloat(),
                 )
-                motionVM.addShoot(newShoot)
+//                motionVM.addShoot(newShoot)
+//                Device.event.producingProjectile.tryEmit(newShoot)
+                Device.event.projectileFlow.emit(newShoot)
                 delay(shootingTimeInterval)
             }
             ChargedProjectileType.Rafal -> {
@@ -102,8 +106,13 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
                 //corresponding to the ammoRecoveryTime
                 while (ammo > 0) {
                     ammo -= 1
-                    val newShoot = Shoot.newFromUser(shipType, motionVM)
-                    motionVM.addShoot(newShoot)
+                    val newShoot = Shoot.newFromUser(
+                        type = shipType,
+                        vm = motionVM,
+                    )
+//                    motionVM.addShoot(newShoot)
+//                    Device.event.producingProjectile.tryEmit(newShoot)
+                    Device.event.projectileFlow.emit(newShoot)
                     delay(shootingTimeInterval)
                 }
             }

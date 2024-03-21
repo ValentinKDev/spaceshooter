@@ -44,9 +44,9 @@ class SpaceWarGameScreenUI(displaySize: Size, val shipType: ShipType) {
     init {
         displayDataUI?.let {
             wLog("DuelGameScreenUI::init", "spaceShip")
-            vLog("DuelGameScreenUI::init", "shipBox ${sizes.shipViewBox}")
-            vLog("DuelGameScreenUI::init", "displaySize $displaySize")
-            vLog("DuelGameScreenUI::init", "pCenter ${position.pCenter}")
+//            vLog("DuelGameScreenUI::init", "shipBox ${sizes.shipViewBox}")
+//            vLog("DuelGameScreenUI::init", "displaySize $displaySize")
+//            vLog("DuelGameScreenUI::init", "pCenter ${position.pCenter}")
         }
 
     }

@@ -1,5 +1,6 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.shipMenu
 
+import ShipMenuViewModel
 import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -36,16 +37,19 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.ChargingButton
 
 @Composable
-fun ShipMenuBody( vm: LaunchDuelGameViewModel) {
+//fun ShipMenuBody( vm: LaunchDuelGameViewModel) {
+fun ShipMenuBody( vm: ShipMenuViewModel) {
     //todo : add animation that swipe the ship then arrows are hit
     //todo : add swipe instead of taping the arrow
-    val ui = remember {vm.shipMenuVM.shipMenuUI.body }
+//    val ui = remember {vm.shipMenuVM.shipMenuUI.body }
+    val ui = remember {vm.shipMenuUI.body }
     val list = remember { ShipType.LIST }
-//    val shipType = remember { vm.shipMenuVM.shipType }.collectAsState()
-    val shipListIndex = remember { vm.shipMenuVM.shipListIndex }.collectAsState()
+//    val shipListIndex = remember { vm.shipMenuVM.shipListIndex }.collectAsState()
+    val shipListIndex = remember { vm.shipListIndex }.collectAsState()
 
     ChargingButton(
-        handler = vm.shipMenuVM.pressureVM,
+//        handler = vm.shipMenuVM.pressureVM,
+        handler = vm.pressureVM,
         sizeDp = ui.sizes.sizeWithBand,
         alphaAnimation = 0.2F,
     ) {
@@ -100,13 +104,14 @@ fun ShipMenuBody( vm: LaunchDuelGameViewModel) {
                 modifier = Modifier
                     .layoutId(ui.ids.shipPresentation)
             ){
-//                ShipView(type = shipType.value, shipViewSizeBox = vm.shipMenuVM.shipUI.shipViewBoxSize)
-                ShipView(type = ShipType.getFromList(shipListIndex.value), shipViewSizeBox = vm.shipMenuVM.shipUI.shipViewBoxSize)
+//                ShipView(type = ShipType.getFromList(shipListIndex.value), shipViewSizeBox = vm.shipMenuVM.shipUI.shipViewBoxSize)
+                ShipView(type = ShipType.getFromList(shipListIndex.value), shipViewSizeBox = vm.shipUI.shipViewBoxSize)
             }
             Box (
                 modifier = Modifier
                     .layoutId(ui.ids.leftArrow)
-                    .clickable { vm.shipMenuVM.handleLeftArrowClick() }
+//                    .clickable { vm.shipMenuVM.handleLeftArrowClick() }
+                    .clickable { vm.handleLeftArrowClick() }
                     .size(50.dp)
 //                    .background(Color.Red)
             ){
@@ -122,7 +127,8 @@ fun ShipMenuBody( vm: LaunchDuelGameViewModel) {
             Box (
                 modifier = Modifier
                     .layoutId(ui.ids.rightArrow)
-                    .clickable { vm.shipMenuVM.handleRightArrowClick() }
+//                    .clickable { vm.shipMenuVM.handleRightArrowClick() }
+                    .clickable { vm.handleRightArrowClick() }
                     .size(50.dp)
 //                    .background(Color.Red)
             ){

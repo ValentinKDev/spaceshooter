@@ -1,12 +1,12 @@
-package com.mobilegame.spaceshooter.logic.model.screen.connection.spaceShipMenu
-
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.connection.wifi.PreparationState
 import com.mobilegame.spaceshooter.data.device.Device
+import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
+import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUIInterface
@@ -32,6 +32,7 @@ class ShipMenuViewModel(): ViewModel() {
 //    val shipVM = SpaceShipViewModel(application, ui, shipType)
 //    private val _deviceName = MutableStateFlow(Device.data.name)
 //    val deviceName: StateFlow<String?> = _deviceName.asStateFlow()
+    var nav: Navigator? = null
     private val _pickedShip = MutableStateFlow(false)
     val pickedShip: StateFlow<Boolean> = _pickedShip.asStateFlow()
     private val shipListSize = ShipType.LIST.size
@@ -106,6 +107,7 @@ class ShipMenuViewModel(): ViewModel() {
         Log.e(TAG, "spaceShipPicked: true \n\n\n\n\n true", )
 //        =_pickedShip.emit(true)
         _pickedShip.value = true
+        nav?.navig(destination = Screens.SpaceWarScreen, argumentStr = shipType.value.info.name) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
     }
     fun pressureReadyToPlay() = viewModelScope.launch {
         Log.i(TAG, "pressureReadyToPlay: ", )
@@ -118,5 +120,8 @@ class ShipMenuViewModel(): ViewModel() {
 //        DeviceEventRepo().sendNotReadyToPlay()
         DeviceEventRepo().sendNotReadyToPlay()
 //        DeviceEventRepo().sendNotReadyToChooseShip()
+    }
+    fun initNav(navigator: Navigator) {
+        nav = navigator
     }
 }

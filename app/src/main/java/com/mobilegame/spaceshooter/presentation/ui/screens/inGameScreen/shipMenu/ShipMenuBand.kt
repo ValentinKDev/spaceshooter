@@ -1,5 +1,6 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.shipMenu
 
+import ShipMenuViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
-import com.mobilegame.spaceshooter.logic.model.screen.connection.spaceShipMenu.ShipMenuViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.ShipStatsIndicator
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
