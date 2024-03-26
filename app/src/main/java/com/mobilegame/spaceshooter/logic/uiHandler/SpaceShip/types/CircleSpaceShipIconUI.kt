@@ -1,18 +1,14 @@
 package com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types
 
+import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.HitBox
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUIInterface
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.eLog
-import com.mobilegame.spaceshooter.utils.analyze.vLog
-import com.mobilegame.spaceshooter.utils.analyze.wLog
-import com.mobilegame.spaceshooter.utils.extensions.toDp
 import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 import kotlin.math.PI
 import kotlin.math.cos
@@ -23,7 +19,7 @@ class CircleSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
 
     val sizes = SizesSpaceShipIcon(shipViewBoxSize)
     val points = PointsSpaceShipIcon(sizes)
-    val ammunition = MunitionsSpaceShipIcon(shipViewBoxSize.height)
+    val ammunition = MunitionsRoundSpaceShipIcon(shipViewBoxSize.height)
     val colors = ColorsSpaceShipIcon()
     override val hitBox = HitBoxRoundShip(sizes)
 
@@ -51,7 +47,8 @@ class CircleSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
         override val sizeDp: DpSize = sizes.shipBoxDp
     }
 
-    class MunitionsSpaceShipIcon(shipBox: Float) {
+    class MunitionsRoundSpaceShipIcon(shipBox: Float) {
+        val TAG = "MunitionsRoundSpaceShipIcon"
         val width = shipBox
         val radius: Float = width * 0.1F
         val innerRadius: Float = radius * 0.8F
@@ -84,18 +81,11 @@ class CircleSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
             }
         }
         init {
-            displayDataUI?.let {
-                wLog("MunitionsSpaceShipIcon::init", "init munition")
-                vLog("MunitionsSpaceShipIcon::init", "radius $radius")
-            }
+            Log.i(TAG, "init: ")
         }
     }
 
-    init {
-        displayDataUI?.let {
-            vLog("SpaceShipIconUI::init", "shipBoxDp ${sizes.shipBoxDp}")
-        }
-    }
+    init { Log.i(TAG, "init: ") }
     fun getAmmunitionOffset(n: Int): Offset = when (n) {
         1 -> ammunition.m5
         2 -> ammunition.m6

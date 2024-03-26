@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 //todo: get rid of Navigator in composable functions and instanciate a new class whenever it's needed
 class Navigator {
     val TAG = "Navigator"
-    var dest: MutableSharedFlow<String> = MutableSharedFlow()
+    private var dest: MutableSharedFlow<String> = MutableSharedFlow()
     var des: SharedFlow<String> = dest.asSharedFlow()
 
     suspend fun navig(destination: NavigationDestination, argumentStr: String = "") {

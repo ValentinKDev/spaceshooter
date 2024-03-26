@@ -19,33 +19,24 @@ import com.mobilegame.spaceshooter.utils.extensions.toOffset
 @Composable
 fun ShootsView(vm: SpaceWarGameViewModel) {
     val shoots by remember { vm.shipVM.motionVM.shootList }.collectAsState()
-//    val shoots by remember { vm.shipVM.motionVM.projectileListFlow }.collectAsState(initial = listOf())
+    val listShipUI = remember { vm.ui.listShipUI }
 
     LaunchedEffect(key1 = "") {
         Log.e("ShootsView", "ShootsView: \n\n\n\n\n\n\n\n shoot list size ${shoots.size} ", )
-        shoots.forEach { Log.i("ShootsView", "ShootsView: shoots list ${it.type.name} ${it.from.name} == FromUser ${it.from == MunitionsType.UserProjectile}") }
+        shoots.forEach { Log.i("ShootsView", "ShootsView: shoots list ${it.type.id} ${it.from.name} == FromUser ${it.from == MunitionsType.UserProjectile}") }
 
     }
 //todo separate function to select the projectil/ammo in magazin regard to the ship type
     shoots.forEach{ projectile ->
-//        when (vm.shipVM.type) {
         when (projectile.type) {
             ShipType.Circle -> CircleDrawMunition(
                 center = projectile.offsetDp.toOffset(),
-//                ui = vm.ui.spaceShip,
-//                ui = vm.ui.spaceShip as CircleSpaceShipIconUI,
-                ui = ShipType.getTypeShipUI(projectile.type, vm.ui.sizes.shipViewBox) as CircleSpaceShipIconUI,
-//                type = MunitionsType.UserProjectile,
+                ui = listShipUI[0] as CircleSpaceShipIconUI,
                 type = projectile.from,
             )
             ShipType.Square -> SquareDrawMunition(
-//                shoot = projectile,
-//                offset = projectile.getShootWithUpdatedDpOffset().offsetDp,
                 topLeftOffset = projectile.offsetDp.toOffset(),
-//                topLeft = projectile.offsetDp.toOffset(),
-//                ui = vm.ui.spaceShip as SquareSpaceShipIconUI,
-                ui = ShipType.getTypeShipUI(projectile.type, vm.ui.sizes.shipViewBox) as SquareSpaceShipIconUI,
-//                type = MunitionsType.UserProjectile,
+                ui = listShipUI[1] as SquareSpaceShipIconUI,
                 type = projectile.from,
                 particularBehavior = projectile.particularBehavior
             )

@@ -1,8 +1,10 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types
 
+import android.util.Log
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.ShipStatsIndicator
 
 class SpaceShipRound: ShipInfo {
+    val TAG = "SpaceShipRound"
     override val life: Float = ShipBasicStats.life * 1F
     override val speed: Float = ShipBasicStats.speed * 1F
     override val damage: Float = ShipBasicStats.damage.toFloat()
@@ -19,4 +21,5 @@ class SpaceShipRound: ShipInfo {
         damageIndicator = 3,
         reloadIndicator = 5,
     )
+    init { Log.i(TAG, "init : ") }
 }

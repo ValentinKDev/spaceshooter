@@ -43,7 +43,7 @@ fun ShipMenuBody( vm: ShipMenuViewModel) {
     //todo : add swipe instead of taping the arrow
 //    val ui = remember {vm.shipMenuVM.shipMenuUI.body }
     val ui = remember {vm.shipMenuUI.body }
-    val list = remember { ShipType.LIST }
+    val list = remember { ShipType.getList() }
 //    val shipListIndex = remember { vm.shipMenuVM.shipListIndex }.collectAsState()
     val shipListIndex = remember { vm.shipListIndex }.collectAsState()
 

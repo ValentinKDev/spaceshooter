@@ -6,6 +6,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mobilegame.spaceshooter.data.device.Device
+import java.net.InetAddress
 import kotlin.math.PI
 
 const val densityRef = 3.0F

@@ -3,18 +3,20 @@ package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types
 import androidx.compose.ui.geometry.Size
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUIInterface
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.CircleSpaceShipIconUI
-import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.ShipStatsIndicator
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.SquareSpaceShipIconUI
 
-sealed class ShipType(val name: String, val info: ShipInfo) {
+sealed class ShipType(val id: String, val info: ShipInfo) {
     object Circle: ShipType("CIRCLE", SpaceShipRound() as ShipInfo)
     object Square: ShipType("SQUARE", SpaceShipSquare() as ShipInfo)
 
     companion object {
-        val LIST: List<ShipType> = listOf(Circle, Square)
-        fun getFromList(i: Int) = LIST.getOrNull(i) ?: let {Square}
-//        fun getTypeShipType(i: Int): SpaceShipIconUIInterface = get
-        fun getType(name: String): ShipType = LIST.first { it.info.name == name }
+        fun getList(): List<ShipType> = listOf(Circle, Square)
+        fun getUiList(sizeShipBox: Size): List<SpaceShipIconUIInterface> {
+            val list = getList()
+            return list.map { getTypeShipUI(type = it, shipBox = sizeShipBox) }
+        }
+        fun getFromList(i: Int) = getList().getOrNull(i) ?: let {Square}
+        fun getType(name: String): ShipType = getList().first { it.info.name == name }
         fun getTypeShipUI(i: Int, shipBox: Size): SpaceShipIconUIInterface = when (getFromList(i)) {
             Circle -> CircleSpaceShipIconUI(shipBox)
             Square -> SquareSpaceShipIconUI(shipBox)
@@ -23,10 +25,5 @@ sealed class ShipType(val name: String, val info: ShipInfo) {
             Circle -> CircleSpaceShipIconUI(shipBox)
             Square -> SquareSpaceShipIconUI(shipBox)
         }
-
-//        fun getStats(type: ShipType) = when (type) {
-//            Circle -> type.info as SpaceShipSquare
-//            Square -> type.info as SpaceShipRound
-//        }
     }
 }

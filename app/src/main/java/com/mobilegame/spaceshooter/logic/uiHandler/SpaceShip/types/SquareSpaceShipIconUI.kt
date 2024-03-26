@@ -1,5 +1,7 @@
 package com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types
 
+
+import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
@@ -12,9 +14,10 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 import com.mobilegame.spaceshooter.utils.extensions.*
 
 class SquareSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUIInterface {
+    val TAG = "SquareSpaceShipIconUI"
     val sizes = SizesSquareShip(shipViewBoxSize)
     val points = PointsSquareShip(sizes)
-    val ammo = Ammos(sizes)
+    val ammo = MunitionsSquareSpaceShip(sizes)
     val colors = ColorsSquareShip()
     override val hitBox = HitBoxSquareShip(sizes)
 
@@ -31,7 +34,8 @@ class SquareSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
         val bottomCentralBar: Offset = Offset(center.x, center.y * 0.70F)
     }
 
-    class Ammos(sizes: SizesSquareShip) {
+    class MunitionsSquareSpaceShip(sizes: SizesSquareShip) {
+        val TAG = "MunitionsSquareSpaceShip"
         private val padding: Float = sizes.shipSize.height * 0.12F
         val ammoSize: Size = ((sizes.shipSize.height - (2F * padding) + sizes.stroke) / 3F).toSize()
         val innerSize: Size = ammoSize * 0.85F
@@ -74,6 +78,7 @@ class SquareSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
                 Offset.Zero
             }
         }
+        init { Log.i(TAG, "init:") }
     }
     data class ColorsSquareShip(
         val outline: Color = MyColor.applicationContrast,
@@ -86,4 +91,5 @@ class SquareSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
         override val sizeDp: DpSize = sizes.shipSizeDp
 
     }
+    init { Log.i(TAG, "init: ") }
 }

@@ -11,6 +11,7 @@ import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiInfoService
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.LooseInfo
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithClientRepo
 import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithServerRepo
 import kotlinx.coroutines.Dispatchers
@@ -25,12 +26,15 @@ class DeviceEventRepo() {
     val toServerRepo = WifiChannelsWithServerRepo()
     val toClientRepo = WifiChannelsWithClientRepo()
     private val sendEvent = SendEvent()
+    //todo : handle even trough listening to a shared flow event
+    //todo : handle the when (type) by eventype and then by servers or client
     suspend fun handleEvent(eventMessage: EventMessage) {
         Log.i(TAG, "handleEvent: ")
         wifiRepo.isDeviceClient()?.let {
             handleEventAsClient(eventMessage)
         } ?: handleEventAsServer(eventMessage)
     }
+
     private suspend fun handleEventAsServer(eventMessage: EventMessage) {
         when (eventMessage.type) {
             EventMessageType.NewConnectedDevice -> TODO()
@@ -54,23 +58,29 @@ class DeviceEventRepo() {
             EventMessageType.NotReadyToChooseShip -> {
                 Log.i(TAG, "handleEventAsServer: ${EventMessageType.NotReadyToChooseShip.name}")
                 wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.Waiting)
-                Log.i(TAG, "handleEventAsServer: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
+                Log.i(TAG, "handleEventAsServer: visible devices state ${Device.wifi.visibleDevices.value.map { it.state.name }}")
             }
             EventMessageType.NotReadyToPlay -> {
                 Log.i(TAG, "handleEventAsServer: ${EventMessageType.NotReadyToPlay}")
                 wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToChooseShip)
 //                wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.Waiting)
-                Log.i(TAG, "handleEventAsServer: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
+                Log.i(TAG, "handleEventAsServer: visible devices state ${Device.wifi.visibleDevices.value.map { it.state.name }}")
             }
             EventMessageType.ReadyToPlay -> {
                 Log.i(TAG, "handleEventAsServer: ${EventMessageType.ReadyToPlay}")
-                wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToPlay)
-                Log.i(TAG, "handleEventAsServer: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
+                val shipTypeName = eventMessage.message
+                val shipType = ShipType.getType(shipTypeName)
+                wifiRepo.changeVisibleDevicePreparationStateTo(state = PreparationState.ReadyToPlay, shipType = shipType)
+//                Device.event.eventTypeFlow.emit(EventMessageType.ReadyToPlay)
+                Log.i(TAG, "handleEventAsServer: visible devices state ${Device.wifi.visibleDevices.value.map { Pair(it.shipType?.info?.name, it.state.name) }}")
+//                wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToPlay)
+//                Device.event.eventTypeFlow.emit(EventMessageType.ReadyToPlay)
+//                Log.i(TAG, "handleEventAsServer: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
             }
             EventMessageType.ReadyToChooseShip -> {
                 Log.i(TAG, "handleEventAsServer: ${EventMessageType.ReadyToChooseShip.name}")
                 wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToChooseShip)
-                Log.i(TAG, "handleEventAsServer: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
+                Log.i(TAG, "handleEventAsServer: visible devices state ${Device.wifi.visibleDevices.value.map { it.state.name }}")
             }
             EventMessageType.InGame -> {
                 Log.i(TAG, "handleEventAsServer: ${EventMessageType.InGame.name}")
@@ -81,7 +91,7 @@ class DeviceEventRepo() {
                 val projectileJson = eventMessage.message
                 val projectile = Shoot.deserialize(projectileJson, gson)
                 Log.i(TAG, "handleEventAsClient: shoot type ${projectile.type}")
-                Log.i(TAG, "handleEventAsClient: shoot type ${projectile.type.name}")
+                Log.i(TAG, "handleEventAsClient: shoot type ${projectile.type.id}")
                 Device.event.projectileFlow.emit( projectile.prepareReceivedProjectile() )
             }
             EventMessageType.Dead -> {
@@ -112,23 +122,27 @@ class DeviceEventRepo() {
             EventMessageType.ReadyToChooseShip -> {
                 Log.i(TAG, "handleEventAsClient: ${EventMessageType.ReadyToChooseShip.name}")
                 wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToChooseShip)
-                Log.i(TAG, "handleEventAsClient: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
+                Log.i(TAG, "handleEventAsClient: visible devices state ${Device.wifi.visibleDevices.value.map { it.state.name }}")
             }
             EventMessageType.ReadyToPlay -> {
                 Log.i(TAG, "handleEventAsClient: ${EventMessageType.ReadyToPlay}")
-                wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToPlay)
-                Log.i(TAG, "handleEventAsClient: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
+//                wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToPlay, shipType = getthetype by the name of the ship in the strmessage)
+                val shipTypeName = eventMessage.message
+                val shipType = ShipType.getType(shipTypeName)
+                wifiRepo.changeVisibleDevicePreparationStateTo(state = PreparationState.ReadyToPlay, shipType = shipType)
+//                Device.event.eventTypeFlow.emit(EventMessageType.ReadyToPlay)
+                Log.i(TAG, "handleEventAsClient: visible devices state ${Device.wifi.visibleDevices.value.map { Pair(it.shipType?.info?.name, it.state.name) }}")
             }
             EventMessageType.NotReadyToChooseShip -> {
                 Log.i(TAG, "handleEventAsClient: ${EventMessageType.NotReadyToChooseShip.name}")
                 wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.Waiting)
-                Log.i(TAG, "handleEventAsClient: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
+                Log.i(TAG, "handleEventAsClient: visible devices state ${Device.wifi.visibleDevices.value.map { it.state.name }}")
             }
             EventMessageType.NotReadyToPlay -> {
                 Log.i(TAG, "handleEventAsClient: ${EventMessageType.NotReadyToPlay}")
                 wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToChooseShip)
 //                wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.Waiting)
-                Log.i(TAG, "handleEventAsClient: visible devices state ${Device.wifi.visibleDevices.value.map { it.state }}")
+                Log.i(TAG, "handleEventAsClient: visible devices state ${Device.wifi.visibleDevices.value.map { it.state.name }}")
             }
             EventMessageType.InGame -> {
                 Log.i(TAG, "handleEventAsClient: ${EventMessageType.InGame.name}")
@@ -153,9 +167,11 @@ class DeviceEventRepo() {
         val projectileGson = shoot.serialize(gson)
         genericFunction(EventMessageType.SendProjectile, projectileGson)
     }
-    suspend fun sendReadyToPlay() = withContext(Dispatchers.IO) {
+//    suspend fun sendReadyToPlay() = withContext(Dispatchers.IO) {
+    suspend fun sendReadyToPlay(withShip: String) = withContext(Dispatchers.IO) {
         Log.i(TAG, "sendReadyToPlay: ")
-        genericFunction(EventMessageType.ReadyToPlay)
+//        genericFunction(EventMessageType.ReadyToPlay)
+        genericFunction(type = EventMessageType.ReadyToPlay, strMessage = withShip)
     }
     suspend fun sendNotReadyToPlay() = withContext(Dispatchers.IO) {
         Log.i(TAG, "sendNotReadyToPlay: ")

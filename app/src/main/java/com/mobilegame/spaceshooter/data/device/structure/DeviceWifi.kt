@@ -18,7 +18,8 @@ import java.net.InetAddress
 class DeviceWifi {
     val networkSearchDiscoveryName = "SpaceShooterByWIFI"
     val type = "_SpaceShooterApp._tcp"
-    lateinit var inetAddress: InetAddress
+//    lateinit var inetAddress: InetAddress
+    var inetAddress: InetAddress = InetAddress.getByName("0.0.0.0")
     lateinit var nsdManager: NsdManager
     lateinit var wifiManager: WifiManager
     var channels = WifiChannels()

@@ -25,6 +25,7 @@ class WifiListeners() {
 
         override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
             Log.i(TAG, "onServiceResolved: Resolve Succeeded. $serviceInfo")
+//            Log.e(TAG, "onServiceResolved: \n\n\n\n\n ${serviceInfo.host}", )
             if (serviceInfo.host == wifiRepo.getLocalIp()) {
                 Log.e(TAG, "onServiceResolved: find my self -> stop discovery")
                 stopDiscovery()
@@ -50,8 +51,7 @@ class WifiListeners() {
             // A service was found! Do something with it.
 //            if (service.serviceName.contains(Device.wifi.networkSearchDiscoveryName)
 //                || toServerRepo.contains(service.host)
-            if (service.serviceName.equals(Device.wifi.networkSearchDiscoveryName)
-            ) {
+            if (service.serviceName.equals(Device.wifi.networkSearchDiscoveryName) ) {
                 wifiRepo.getNsdManager().resolveService(service, getResolveListener())
 //                repo.get
 //                Device.wifi.nsdManager.resolveService(service, getResolveListener())

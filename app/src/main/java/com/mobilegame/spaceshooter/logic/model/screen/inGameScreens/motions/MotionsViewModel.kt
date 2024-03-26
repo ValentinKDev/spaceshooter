@@ -32,7 +32,7 @@ class MotionsViewModel(
     val TAG = "MotionsViewModel"
     private val eventRepo: DeviceEventRepo = DeviceEventRepo()
     private val startPosition = ui.position.pCenterDp
-    private val startHitBoxCoordinates = BoxCoordinates.with(ui.position.pCenter, ui.spaceShip.hitBox.size)
+    private val startHitBoxCoordinates = BoxCoordinates.with(ui.position.pCenter, ui.userSpaceShip.hitBox.size)
     private val displaySizeDp = ui.sizes.displayDpDeltaBox
     private val shipCenterDeltaDp = ui.sizes.shipBoxCenterDp
 
@@ -58,7 +58,7 @@ class MotionsViewModel(
     private val _gameOnPause = MutableStateFlow(false)
     val gameOnPause: StateFlow<Boolean> = _gameOnPause.asStateFlow()
 
-    private val userHitBox = ui.spaceShip.hitBox
+    private val userHitBox = ui.userSpaceShip.hitBox
     fun getShipTopCenter(): DpOffset = DpOffset(x = _shipPosition.value.x + shipCenterDeltaDp, y = _shipPosition.value.y)
 
     private val _motion = MutableStateFlow(Motions.None)
@@ -98,20 +98,13 @@ class MotionsViewModel(
     private fun updateDeltaMoves(xyz: XYZ) { xyz.updateDelaOffset() }
     val wifiRepo = DeviceWifiRepo()
     private fun updateShipPosition() {
-        if (wifiRepo.isDeviceServer()) {
+//        if (wifiRepo.isDeviceServer()) {
             val newPCenter = shipPosition.value.calculateNewDpOffset()
             _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
-        }
+//        }
     }
     private fun updateShipHitBox() { _shipHitBox.update { it.getUpdatedBoxCoordinates(shipPosition.value) } }
-    private suspend fun startListeningToProjectiles(): Nothing = Device.event.projectileFlow.collect {
-        Log.e(TAG, "updateEnemiesProjectiles: ENEMIE PROJECTIL INCOOOOOMING", )
-//        Log.i(TAG, "updateEnemiesProjectiles: shoot ip ${it.shooterIp}")
-//        Log.i(TAG, "updateEnemiesProjectiles: shoot vector ${it.vector}")
-//        Log.i(TAG, "updateEnemiesProjectiles: shoot offset ${it.offsetDp}")
-//        Log.i(TAG, "updateEnemiesProjectiles: shoot ratioX ${it.xRatio}")
-        addShoot(it)
-    }
+    private suspend fun startListeningToProjectiles(): Nothing = Device.event.projectileFlow.collect { addShoot(it) }
     suspend private fun updateShoots() {
         var newList: List<Shoot> = _shootList.value.moveAndRemoveShoots()
         val hits = newList.checkHitBox()
@@ -137,7 +130,7 @@ class MotionsViewModel(
             if (it.offsetDp touchTopScreen displaySizeDp) {
                 Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
                 val invertedShoot = it.getShootPrecedentDpOffset().prepareShootToSendAway()
-                eventRepo.sendProjectile(invertedShoot)
+//                eventRepo.sendProjectile(invertedShoot)
             }
             it.offsetDp isInBoundsOf displaySizeDp
         }
@@ -205,22 +198,20 @@ class MotionsViewModel(
     )
 
     suspend fun addShoot(shoot: Shoot) {
-        Log.e(TAG, "addShoot: Shoot from ShipType ${shoot.type.name}", )
+//        Log.e(TAG, "addShoot: Shoot from ShipType ${shoot.type.name}", )
 //        Log.i(TAG, "addShoot: test == circle ${shoot.type == ShipType.Circle}")
 //        Log.i(TAG, "addShoot: test == square ${shoot.type == ShipType.Square}")
         //todo: simplify extension add
-        Log.i(TAG, "addShoot: shootlist size before ${_shootList.value.size}")
+//        Log.i(TAG, "addShoot: shootlist size before ${_shootList.value.size}")
 //        _shootList.value = _shootList.value.add(shoot)
         _shootList.emit(shootList.value.add(shoot))
-        Log.i(TAG, "addShoot: shootlist size after ${_shootList.value.size}")
-        _shootList.value.forEach {
-            Log.i(TAG, "addShoot: list shoot ${it.type.name} ${it.from.name} == FromUser ${it.from == MunitionsType.UserProjectile}")
-        }
+//        Log.i(TAG, "addShoot: shootlist size after ${_shootList.value.size}")
+//        _shootList.value.forEach {
+//            Log.i(TAG, "addShoot: list shoot ${it.type.name} ${it.from.name} == FromUser ${it.from == MunitionsType.UserProjectile}")
+//        }
     }
 
     fun getShootVector(): Size {
-        val fTAG = "getShootVector()"
-//        wLog(cTAG, "$fTAG ship delta $delta")
         val x = when {
             motion.value.isRight() -> delta.x
             motion.value.isLeft() -> delta.x * -1F
@@ -240,13 +231,6 @@ class MotionsViewModel(
                 shootList[i].updateDpOffset()
         }
     }
-
-//    private fun updateShootsMotions() {
-//        updateShootsListPositions( shootList.value )
-//        val newShootsList = shootList.value.cloneIfInBounds(displaySizeDp)
-//        _shootList.value = newShootsList
-//    }
-
     fun getTargetAngle(motion: Motions, speed: SpeedMagnitude): Float = when {
         motion.isUp() -> {
             when {

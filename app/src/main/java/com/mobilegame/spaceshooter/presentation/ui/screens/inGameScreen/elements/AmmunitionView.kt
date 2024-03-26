@@ -18,8 +18,10 @@ fun AmmunitionView(vm: MunitionsViewModel) {
     val isPressed by interactionSource.collectIsPressedAsState()
 
     LaunchedEffect(isPressed) {
+//        vm.updatePressureStateTo(isPressed)
         when (isPressed) {
             true -> { vm.chargingShoot() }
+//            true -> { vm.chargingProjectile() }
             false -> { vm.shoot() }
         }
     }
@@ -27,7 +29,8 @@ fun AmmunitionView(vm: MunitionsViewModel) {
     val clickable = Modifier.clickable (
         interactionSource = interactionSource,
         indication = null,
-        onClick = {}
+//        onClick = {vm.hasBeenPressedOnce = true},
+        onClick = {},
     )
 
     Box(

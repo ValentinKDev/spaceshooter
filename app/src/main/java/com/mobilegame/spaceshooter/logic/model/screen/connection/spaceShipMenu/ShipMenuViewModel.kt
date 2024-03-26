@@ -12,6 +12,7 @@ import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUIInterface
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.ShipMenuUI
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
+import com.mobilegame.spaceshooter.presentation.ui.navigation.StrArgumentNav
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -35,7 +36,8 @@ class ShipMenuViewModel(): ViewModel() {
     var nav: Navigator? = null
     private val _pickedShip = MutableStateFlow(false)
     val pickedShip: StateFlow<Boolean> = _pickedShip.asStateFlow()
-    private val shipListSize = ShipType.LIST.size
+//    private val shipListSize = ShipType.LIST.size
+    private val shipListSize = ShipType.getList().size
     private val _shipListIndex = MutableStateFlow(0)
     val shipListIndex: StateFlow<Int> = _shipListIndex.asStateFlow()
     private val _shipType = MutableStateFlow(ShipType.getFromList(shipListIndex.value))
@@ -58,14 +60,14 @@ class ShipMenuViewModel(): ViewModel() {
         decrementListIndex()
         updateShipType()
         updateShipUI()
-        Log.i(TAG, "handleLeftArrowClick: listIndex ${shipListIndex.value} type ${shipType.value.name}")
+        Log.i(TAG, "handleLeftArrowClick: listIndex ${shipListIndex.value} type ${shipType.value.id}")
     }
     fun handleRightArrowClick() = viewModelScope.launch {
         Log.i(TAG, "handleRightArrowClick: ")
         incrementListIndex()
         updateShipType()
         updateShipUI()
-        Log.i(TAG, "handleRightArrowClick: listIndex ${shipListIndex.value} type ${shipType.value.name}")
+        Log.i(TAG, "handleRightArrowClick: listIndex ${shipListIndex.value} type ${shipType.value.id}")
     }
 
     init {
@@ -105,14 +107,21 @@ class ShipMenuViewModel(): ViewModel() {
     }
     private suspend fun spaceShipPicked() {
         Log.e(TAG, "spaceShipPicked: true \n\n\n\n\n true", )
-//        =_pickedShip.emit(true)
         _pickedShip.value = true
-        nav?.navig(destination = Screens.SpaceWarScreen, argumentStr = shipType.value.info.name) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
+//        nav?.navig(destination = Screens.SpaceWarScreen, argumentStr = shipType.value.info.name) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
+        Device.wifi.visibleDevices.value.first().shipType?.info?.name?.let {
+            val argStr = StrArgumentNav.serializeToInGameArg(
+                userShipTypeName = shipType.value.info.name,
+                enemiesShipTypeName = it
+            )
+            nav?.navig(destination = Screens.SpaceWarScreen, argumentStr = argStr) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
+        }
     }
+
     fun pressureReadyToPlay() = viewModelScope.launch {
         Log.i(TAG, "pressureReadyToPlay: ", )
 //        DeviceEventRepo().sendReadyToPlay()
-        DeviceEventRepo().sendReadyToPlay()
+        DeviceEventRepo().sendReadyToPlay(shipType.value.info.name)
 //        DeviceEventRepo().sendReadyToChooseShip()
     }
     fun pressureReleaseToPlay()  = viewModelScope.launch {

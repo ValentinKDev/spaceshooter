@@ -13,7 +13,7 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.shipMenu
 
 @Composable
 //fun LaunchSpaceWarGameScreen(navigator: Navigator, shipTypeName: String, vm: LaunchDuelGameViewModel = viewModel()) {
-fun LaunchSpaceWarGameScreen(navigator: Navigator, vm: LaunchDuelGameViewModel) {
+fun LaunchSpaceWarGameScreen(vm: LaunchDuelGameViewModel) {
 //    val pickedShip by remember { vm.shipMenuVM.pickedShip }.collectAsState()
 //    LaunchedEffect(key1 = pickedShip) {
 //        Log.e("launchEffect", "LaunchSpaceWarGameScreen: pickedShip $pickedShip", )

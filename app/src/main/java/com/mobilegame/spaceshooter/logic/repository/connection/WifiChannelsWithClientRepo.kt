@@ -8,6 +8,7 @@ import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiClient
 import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiInfoService
 import com.mobilegame.spaceshooter.data.device.Device
+import com.mobilegame.spaceshooter.data.device.structure.DeviceWifi
 import com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen.channel.WifiChannel
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceWifiRepo
 import com.mobilegame.spaceshooter.utils.extensions.*

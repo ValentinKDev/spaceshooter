@@ -9,12 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.SpaceWarGameViewModel
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.SpaceShipViewModel
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
-import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.SpaceWarGameScreenUI
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.ShipView
-import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.circle.CircleShipView
-import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.square.SquareShipView
 
 @Composable
 fun DisplayShipView(vm: SpaceWarGameViewModel) {
@@ -22,6 +17,7 @@ fun DisplayShipView(vm: SpaceWarGameViewModel) {
     val motion by remember { vm.shipVM.motionVM.motion }.collectAsState()
     val speed by remember { vm.shipVM.motionVM.speedMagnitude }.collectAsState()
     val magazine by remember { vm.shipVM.ammoVM.magazineSize }.collectAsState()
+//    val magazine by remember { vm.shipVM.ammoVM.currentMagazineSize }.collectAsState()
     val lifeRatio by  remember {vm.shipVM.lifeVM.lifeRatio }.collectAsState()
 
     val angle by animateFloatAsState(
@@ -39,7 +35,7 @@ fun DisplayShipView(vm: SpaceWarGameViewModel) {
 //        DisplayShip(vm.shipVM, vm.ui)
 //        ShipView(vm.shipType ,lifeRatio, magazine, vm.ui)
         ShipView(
-            type = vm.shipType,
+            type = vm.userShipType,
             shipViewSizeBox = vm.ui.sizes.shipViewBox,
             lifeRatio = lifeRatio,
             magazine = magazine,

@@ -1,6 +1,5 @@
 package com.mobilegame.spaceshooter.presentation.ui.navigation
 
-import android.app.Application
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -10,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.LaunchDuelGameViewModel
@@ -40,13 +40,13 @@ fun Navigation(navigator: Navigator) {
 
     NavHost(
         navController = navController,
-        startDestination = Screens.MainScreen.route,
+//        startDestination = Screens.MainScreen.route,
 //        startDestination = Screens.MenuScreen.route,
 //        startDestination = Screens.WifiScreen.route,
 //        startDestination = Screens.DuelTutoScreen.route,
 //        startDestination = Screens.SpaceWarScreen.route,
 //        startDestination = Screens.Creator.route,
-//        startDestination = Screens.Test.route,
+        startDestination = Screens.Test.route,
     ) {
         composable(route = Screens.MenuScreen.route) { MenuScreen(navigator) }
         composable(route = Screens.MainScreen.route) { MainScreen(navigator) }
@@ -56,17 +56,30 @@ fun Navigation(navigator: Navigator) {
         composable(route = Screens.DuelTutoScreen.route) { DuelTutoScreen(navigator) }
 //        composable(route = Screens.SpaceWarScreen.route) { LaunchSpaceWarGameScreen(navigator) }
         composable(
-            route = Screens.SpaceWarScreen.route .plus("/{${"ShipTypeName"}}"),
-            arguments = listOf (navArgument("ShipTypeName") {type = NavType.StringType})
+            route = Screens.SpaceWarScreen.route .plus("/{${"ArgStrShipTypes"}}"),
+            arguments = listOf (navArgument("ArgStrShipTypes") {type = NavType.StringType})
         ) {entry ->
             Log.v("Navigation", "to Screens.SpaceWarScreen.route")
-            entry.arguments?.getString("ShipTypeName")?.let { arg ->
+            entry.arguments?.getString("ArgStrShipTypes")?.let { arg ->
                 Log.v("Navigation", "arg $arg")
-//                LaunchSpaceWarGameScreen(navigator, arg)
-                LaunchSpaceWarGameScreen(navigator, LaunchDuelGameViewModel(shipType = ShipType.getType(arg), context))
+                val listOfTypes: List<ShipType> = StrArgumentNav.deserializeToInGameArg(arg)
+                LaunchSpaceWarGameScreen(
+                    LaunchDuelGameViewModel(
+                        userShipType = listOfTypes[0],
+                        enemiesShipType = listOfTypes[1],
+                        context = context)
+                )
             }
         }
         composable(route = Screens.Creator.route) { Creator(navigator) }
-//        composable(route = Screens.Test.route) { Test(navigator) }
+        composable(route = Screens.Test.route) {
+            LaunchSpaceWarGameScreen(
+                LaunchDuelGameViewModel(
+                    userShipType = ShipType.Circle,
+                    enemiesShipType = ShipType.Square,
+//                    enemiesShipType = ShipType.Circle,
+                    context = context)
+            )
+        }
     }
 }

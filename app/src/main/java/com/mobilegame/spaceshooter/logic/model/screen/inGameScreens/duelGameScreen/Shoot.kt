@@ -14,7 +14,7 @@ import java.net.InetAddress
 data class Shoot(
     val type: ShipType,
     val from: MunitionsType = MunitionsType.UserProjectile,
-    val shooterIp: InetAddress,
+    val shooterIp: InetAddress = InetAddress.getByName("0.0.0.0"),
     var vector: Size = Size.Zero,
     val particularBehavior: Int,
     val damage: Float,
@@ -60,7 +60,7 @@ data class Shoot(
     )
     fun serialize(gson: Gson): String {
         val preSerializedShoot = ShootSerializable (
-            type = this.type.name,
+            type = this.type.id,
             from = this.from,
             shooterIp = this.shooterIp,
             vector = gson.toJson(this.vector),
@@ -101,8 +101,8 @@ data class Shoot(
         fun deserialize(shootJson: String, gson: Gson = Gson()): Shoot {
             val preSerializedShoot = gson.fromJson(shootJson, ShootSerializable::class.java)
             val type: ShipType = when (preSerializedShoot.type) {
-                ShipType.Circle.name -> ShipType.Circle
-                ShipType.Square.name -> ShipType.Square
+                ShipType.Circle.id -> ShipType.Circle
+                ShipType.Square.id -> ShipType.Square
                 else -> ShipType.Square
             }
             val vector = gson.fromJson(preSerializedShoot.vector, Size::class.java)

@@ -16,7 +16,7 @@ import java.util.Collections
 
 
 class DeviceWifiRepo() {
-val TAG = "DeviceWifiRepo"
+    val TAG = "DeviceWifiRepo"
 
     fun initWifi(context: Context) {
 //        setIpAddress()
@@ -27,7 +27,7 @@ val TAG = "DeviceWifiRepo"
     }
     fun getNsdManager(): NsdManager = Device.wifi.nsdManager
     fun getLinkState(): WifiLinkState = Device.wifi.linkState.value
-//    fun isDeviceServer(): Boolean = Device.wifi.linkState.value == WifiLinkState.ConnectedAsServer
+    //    fun isDeviceServer(): Boolean = Device.wifi.linkState.value == WifiLinkState.ConnectedAsServer
     fun isDeviceClient(): Boolean? = if ( Device.wifi.linkState.value == WifiLinkState.ConnectedAsClient ) true else null
     fun isDeviceServer(): Boolean = Device.wifi.channels.serverSocket != null
     fun updateLinkStateTo(newState: WifiLinkState) {
