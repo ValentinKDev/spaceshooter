@@ -16,8 +16,8 @@ fun DisplayShipView(vm: SpaceWarGameViewModel) {
     val position by remember { vm.shipVM.motionVM.shipPosition }.collectAsState()
     val motion by remember { vm.shipVM.motionVM.motion }.collectAsState()
     val speed by remember { vm.shipVM.motionVM.speedMagnitude }.collectAsState()
-    val magazine by remember { vm.shipVM.ammoVM.magazineSize }.collectAsState()
-//    val magazine by remember { vm.shipVM.ammoVM.currentMagazineSize }.collectAsState()
+//    val magazine by remember { vm.shipVM.ammoVM.magazineSize }.collectAsState()
+    val magazine by remember { vm.shipVM.ammoVM.currentMagazineSize }.collectAsState()
     val lifeRatio by  remember {vm.shipVM.lifeVM.lifeRatio }.collectAsState()
 
     val angle by animateFloatAsState(

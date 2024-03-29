@@ -8,6 +8,7 @@ import com.mobilegame.spaceshooter.data.connection.wifi.PreparationState
 import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.connection.ConnectedDevice
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.flow.update
 import java.net.InetAddress
@@ -19,7 +20,6 @@ class DeviceWifiRepo() {
     val TAG = "DeviceWifiRepo"
 
     fun initWifi(context: Context) {
-//        setIpAddress()
         Device.wifi.wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
     }
     fun initNetworkSearchAndDiscovery(context: Context) {
@@ -42,11 +42,12 @@ class DeviceWifiRepo() {
         Device.wifi.listConnectedDevice = tmpList.toList()
         Log.e(TAG, "addVisibleDevice: ${Device.wifi.listConnectedDevice}")
     }
-    fun changeVisibleDevicePreparationStateTo(state: PreparationState) {
+    fun changeVisibleDevicePreparationStateTo(state: PreparationState, shipType: ShipType = ShipType.DEFAULT) {
         Log.w(TAG, "changeVisibleDevicePreparationStateTo: ${state}")
         Device.wifi.visibleDevices.value.first().state = state
         val tmpList = Device.wifi.listConnectedDevice.toMutableList()
         tmpList.first().state = state
+        tmpList.first().shipType = shipType
         Device.wifi.visibleDevices.value = tmpList.toList()
 //        Device.wifi.listConnectedDevice.first().state = state
     }

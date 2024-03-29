@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.uiHandler.screens.menu
+package com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.letters
 
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.DpSize

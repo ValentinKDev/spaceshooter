@@ -9,7 +9,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.LaunchDuelGameViewModel
@@ -19,7 +18,8 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.connection.bluetoothS
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.LaunchSpaceWarGameScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.shipMenu.ShipMenuScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.mainScreen.MainScreen
-import com.mobilegame.spaceshooter.presentation.ui.screens.menu.MenuScreen
+import com.mobilegame.spaceshooter.presentation.ui.screens.menuScreen.MenuScreen
+import com.mobilegame.spaceshooter.presentation.ui.screens.stats.StatsScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.tutoScreens.duelTutoScreen.DuelTutoScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.wifiScreen.WifiScreen
 import com.mobilegame.spaceshooter.utils.analyze.verbalLog
@@ -42,6 +42,7 @@ fun Navigation(navigator: Navigator) {
         navController = navController,
 //        startDestination = Screens.MainScreen.route,
 //        startDestination = Screens.MenuScreen.route,
+//        startDestination = Screens.StatsScreen.route,
 //        startDestination = Screens.WifiScreen.route,
 //        startDestination = Screens.DuelTutoScreen.route,
 //        startDestination = Screens.SpaceWarScreen.route,
@@ -54,20 +55,24 @@ fun Navigation(navigator: Navigator) {
         composable(route = Screens.ShipMenuScreen.route) { ShipMenuScreen(navigator) }
         composable(route = Screens.WifiScreen.route) { WifiScreen(navigator) }
         composable(route = Screens.DuelTutoScreen.route) { DuelTutoScreen(navigator) }
+        composable(route = Screens.StatsScreen.route) { StatsScreen(navigator) }
 //        composable(route = Screens.SpaceWarScreen.route) { LaunchSpaceWarGameScreen(navigator) }
         composable(
             route = Screens.SpaceWarScreen.route .plus("/{${"ArgStrShipTypes"}}"),
             arguments = listOf (navArgument("ArgStrShipTypes") {type = NavType.StringType})
         ) {entry ->
             Log.v("Navigation", "to Screens.SpaceWarScreen.route")
+            //todo : just pass the usershiptype as arg
             entry.arguments?.getString("ArgStrShipTypes")?.let { arg ->
                 Log.v("Navigation", "arg $arg")
                 val listOfTypes: List<ShipType> = StrArgumentNav.deserializeToInGameArg(arg)
+                //todo : just pass the usershiptype as a param
                 LaunchSpaceWarGameScreen(
                     LaunchDuelGameViewModel(
                         userShipType = listOfTypes[0],
                         enemiesShipType = listOfTypes[1],
-                        context = context)
+                        context = context
+                    )
                 )
             }
         }
@@ -75,7 +80,8 @@ fun Navigation(navigator: Navigator) {
         composable(route = Screens.Test.route) {
             LaunchSpaceWarGameScreen(
                 LaunchDuelGameViewModel(
-                    userShipType = ShipType.Circle,
+//                    userShipType = ShipType.Circle,
+                    userShipType = ShipType.Square,
                     enemiesShipType = ShipType.Square,
 //                    enemiesShipType = ShipType.Circle,
                     context = context)

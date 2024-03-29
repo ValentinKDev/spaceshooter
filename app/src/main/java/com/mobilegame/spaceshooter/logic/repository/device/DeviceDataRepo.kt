@@ -1,7 +1,7 @@
 package com.mobilegame.spaceshooter.logic.repository.device
 
 import android.content.Context
-import com.mobilegame.spaceshooter.data.store.DataStoreNameProvider
+import com.mobilegame.spaceshooter.data.store.DataStoreInfoProvider
 import com.mobilegame.spaceshooter.data.store.DataStoreService
 import com.mobilegame.spaceshooter.data.device.Device
 
@@ -14,6 +14,6 @@ class DeviceDataRepo {
     }
 
     suspend fun updateName(context: Context) {
-        Device.data.name = DataStoreService.deviceName(context).getString(DataStoreNameProvider.DeviceName.key)
+        Device.data.name = DataStoreService.deviceName(context).getString(DataStoreInfoProvider.DeviceName.key)
     }
 }

@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters
+package com.mobilegame.spaceshooter.presentation.ui.screens.menuScreen.letters
 
 import androidx.compose.ui.geometry.Offset
 import kotlin.math.cos
@@ -13,8 +13,11 @@ fun getListEllipseOffset(
 ): List<Offset> {
     var angle = angleRange.start
     val list = mutableListOf<Offset>()
+//    var currentAngle = Float.NaN
     while (angle <= angleRange.endInclusive) {
+//        currentAngle = if (angle < 0F) 360F + angle else angle
         list += getEllipseOffsetAt(center, radius, angle, alphaX, betaY)
+//        list += getEllipseOffsetAt(center, radius, currentAngle, alphaX, betaY)
         angle += 0.01F
     }
     return list

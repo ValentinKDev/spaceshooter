@@ -2,6 +2,7 @@ package com.mobilegame.spaceshooter.data.store
 
 import android.content.Context
 import com.mobilegame.spaceshooter.utils.extensions.deviceNameDataStore
+import com.mobilegame.spaceshooter.utils.extensions.deviceStatsDataStore
 
 interface DataStoreService {
     suspend fun getBoolean(key: DataStoreKey): Boolean?
@@ -23,6 +24,9 @@ interface DataStoreService {
     companion object {
         fun deviceName(context: Context): DataStoreService {
             return DataStoreImplementation(context.deviceNameDataStore)
+        }
+        fun deviceStats(context: Context): DataStoreService {
+            return DataStoreImplementation(context.deviceStatsDataStore)
         }
     }
 }

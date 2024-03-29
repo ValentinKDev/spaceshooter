@@ -10,9 +10,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.getListEllipseOffset
-import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
-import com.mobilegame.spaceshooter.utils.analyze.wLog
+import com.mobilegame.spaceshooter.presentation.ui.screens.menuScreen.letters.getListEllipseOffset
 import com.mobilegame.spaceshooter.utils.extensions.DpToPixel
 import com.mobilegame.spaceshooter.utils.extensions.degreeToRadianRange
 import com.mobilegame.spaceshooter.utils.extensions.sweepAngle

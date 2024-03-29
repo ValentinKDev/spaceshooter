@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mobilegame.spaceshooter.data.store.DataStoreNameProvider
+import com.mobilegame.spaceshooter.data.store.DataStoreInfoProvider
 import com.mobilegame.spaceshooter.data.store.DataStoreService
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.RegisterDeviceNameUI
@@ -37,7 +37,7 @@ class RegisterDeviceViewModel(context: Context, val screenNav: Screens): ViewMod
         eLog("RegisterDeviceVM::registerAction", "registerring name $input")
         //todo : popup message in case of error at the first
         viewModelScope.launch {
-            deviceNameDatastore.putString(DataStoreNameProvider.DeviceName.key, input.value.trim())
+            deviceNameDatastore.putString(DataStoreInfoProvider.DeviceName.key, input.value.trim())
             DeviceDataRepo().updateName(context)
 //            val testName = deviceNameDatastore.getString(DataStoreNameProvider.DeviceName.key)
 //            testName?.let { eLog("RegisterDeviceVM::registerAction", testName) } ?: { eLog("RegisterDeviceVM::registerAction", "null") }

@@ -10,6 +10,7 @@ sealed class Screens(override val route: String, val key: Int, val backNav: Scre
     object  SpaceWarScreen: Screens("space_war_screen", 5, MainScreen)
     object  DuelTutoScreen: Screens("duel_tuto_screen", 6, MainScreen)
     object  Creator: Screens("creator_screen", 7, MainScreen)
+    object  StatsScreen: Screens("stats_screen", 8, MenuScreen)
 
     object  None: Screens("none_screen", -1, None)
     object  Test: Screens("test_screen", -42, None)

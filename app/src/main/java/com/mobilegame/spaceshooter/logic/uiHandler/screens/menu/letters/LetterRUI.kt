@@ -1,9 +1,9 @@
-package com.mobilegame.spaceshooter.logic.uiHandler.screens.menu
+package com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.letters
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.DpSize
-import com.mobilegame.spaceshooter.presentation.ui.screens.menu.letters.getListEllipseOffset
+import com.mobilegame.spaceshooter.presentation.ui.screens.menuScreen.letters.getListEllipseOffset
 import com.mobilegame.spaceshooter.utils.extensions.DpToPixel
 import com.mobilegame.spaceshooter.utils.extensions.degreeToRadianRange
 import com.mobilegame.spaceshooter.utils.extensions.sweepAngle
