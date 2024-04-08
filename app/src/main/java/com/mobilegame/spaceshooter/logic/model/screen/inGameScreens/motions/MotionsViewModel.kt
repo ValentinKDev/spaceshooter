@@ -104,7 +104,10 @@ class MotionsViewModel(
 //        }
     }
     private fun updateShipHitBox() { _shipHitBox.update { it.getUpdatedBoxCoordinates(shipPosition.value) } }
-    private suspend fun startListeningToProjectiles(): Nothing = Device.event.projectileFlow.collect { addShoot(it) }
+    private suspend fun startListeningToProjectiles(): Nothing = Device.event.projectileFlow.collect {
+        Log.i(TAG, "startListeningToProjectiles: ")
+        addShoot(it)
+    }
     suspend private fun updateShoots() {
         var newList: List<Shoot> = _shootList.value.moveAndRemoveShoots()
         val hits = newList.checkHitBox()

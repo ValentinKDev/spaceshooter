@@ -1,6 +1,9 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Indication
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
@@ -10,20 +13,35 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.MunitionsViewModel
 
 @Composable
 fun AmmunitionView(vm: MunitionsViewModel) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
+//    val test by interactionSource.co
 
-    LaunchedEffect(isPressed) {
-        vm.updatePressureStateTo(isPressed)
+//    LaunchedEffect(isPressed) {
+//        vm.updatePressureStateTo(isPressed)
 //        when (isPressed) {
-////            true -> { vm.chargingShoot() }
-//            true -> { vm.chargingProjectile() }
-////            false -> { vm.shoot() }
+//            true -> {
+//                vm.chargingProjectile()
+//            }
+//            false -> {
+//                vm.shootProjectile()
+//            }
 //        }
+//    }
+    LaunchedEffect(isPressed) {
+        when (isPressed) {
+            true -> {
+                vm.chargingShoot()
+            }
+            false -> {
+                vm.shoot()
+            }
+        }
     }
 
     val clickable = Modifier.clickable (
@@ -37,5 +55,10 @@ fun AmmunitionView(vm: MunitionsViewModel) {
         Modifier
             .fillMaxSize()
             .then(clickable)
+//            .combinedClickable(
+//                onClick = { vm.chargingProjectile() },
+//                onLongClick = { vm.shootProjectile() },
+//                onLongClickLabel = "",
+//            )
     )
 }
