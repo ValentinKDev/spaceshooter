@@ -17,180 +17,6 @@ import kotlinx.coroutines.flow.asStateFlow
 class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shipType: ShipType) : ViewModel() {
     val TAG = "MunitionsViewModel"
 
-//    private val shootingTimeInterval = 500L
-//    private val ammoRecoveryTime = shipType.info.ammoRecoveryTime
-//    private val chargingTimeInterval = 400L
-//    private val magazineMaxSize = shipType.info.magazineSize
-//    private val _currentMagazineSize = MutableStateFlow(magazineMaxSize)
-//    val currentMagazineSize: StateFlow<Int> = _currentMagazineSize.asStateFlow()
-//    private var chargeStartFrom = currentMagazineSize.value
-//    private var chargeStopAt = 0
-//    private var isCharged = false
-//    private var canShoot: Boolean? = null
-//    private val _charging = MutableStateFlow(false)
-//    private fun updateChargingTo(bool: Boolean) {_charging.value = bool}
-//    private val _recovering = MutableStateFlow(false)
-//    private fun updateRecoveringTo(bool: Boolean) {_recovering.value = bool}
-//    private val _magazineFlow: MutableSharedFlow<Int> = MutableSharedFlow()
-//    private var ammoJob: Job = viewModelScope.launch(Dispatchers.IO) {}
-//    private val _isPressedFlow = MutableStateFlow(false)
-//    val isPressedFlow: StateFlow<Boolean> = _isPressedFlow.asStateFlow()
-//    var isPressed: Boolean = false
-//    var hasBeenPressedOnce = false
-//
-//    init {
-//        Log.i(TAG, "init: ")
-//        viewModelScope.launch(Dispatchers.Main) {
-////            val pr = async { collectPressureFlow() }
-//            val ma = async { collectMagazineFlow() }
-//            val re = async { collectRecoveringFlow() }
-////            val ch = async { collectChargingFlow() }
-//        }
-//    }
-//    private suspend fun collectPressureFlow(): Nothing = isPressedFlow.collect {
-//        Log.i(TAG, "collectPressureFlow: $it")
-//        isPressed = it
-//        when (it) {
-//            true -> { chargingProjectile() }
-//            false -> { shootProjectile() }
-//        }
-//    }
-//    private suspend fun collectMagazineFlow(): Nothing = _magazineFlow.collect {
-//        updateCurrentMagazineSize(it)
-//    }
-//    private suspend fun collectRecoveringFlow(): Nothing = _recovering.collect {
-//        if (it) {
-////            ammoJob.cancel()
-//            ammoJob = magazineAmmoRecovery()
-//        }
-//        else ammoJob.cancel()
-//    }
-//    private suspend fun collectChargingFlow(): Nothing = _charging.collect {
-//        if (it) {
-//            ammoJob.cancel()
-//            ammoJob = consumeAmmo()
-//        }
-////        else ammoJob.cancel()
-//    }
-//
-//    private fun updateCurrentMagazineSize(withValue: Int) {
-//        _currentMagazineSize.value = currentMagazineSize.value + withValue
-//    }
-//    private suspend fun incrementMagazineSize() {
-//        if (currentMagazineSize.value < magazineMaxSize) _magazineFlow.emit(1)
-////        if (currentMagazineSize.value < magazineMaxSize) currentMagazineSize.value
-//    }
-//    private suspend fun decrementMagazineSize() {
-//        if (currentMagazineSize.value > 0) _magazineFlow.emit(-1)
-//    }
-//    private suspend fun magazineAmmoRecovery() = viewModelScope.launch {
-//        while (currentMagazineSize.value < magazineMaxSize) {
-//            incrementMagazineSize()
-//            delay(ammoRecoveryTime)
-////            Log.i(TAG, "magazineAmmoRecovery: currentMagazineSize ${currentMagazineSize.value}")
-//        }
-//    }
-//    fun updatePressureStateTo(bool: Boolean) = viewModelScope.launch { _isPressedFlow.emit(bool) }
-//
-////    private suspend fun consumeAmmo() {
-//    private suspend fun consumeAmmo() = viewModelScope.launch {
-////    = withContext(Dispatchers.Main) {
-//        while (currentMagazineSize.value in 0 .. magazineMaxSize) {
-////            Log.i(TAG, "consumeAmmo: magsize ${currentMagazineSize.value}")
-//            decrementMagazineSize()
-//            delay(chargingTimeInterval)
-//            if (!isPressedFlow.value) break
-////            if (!isPressed) break
-//        }
-//    }
-//
-//    fun chargingProjectile() {
-//        updateRecoveringTo(false)
-//        Log.i(TAG, "chargingProjectile: ")
-////        updateChargingTo(true)
-//        isCharged = true
-//            //stop recovering ammo
-//            // save the current magazine size to calculate after the size of the charge
-//            // start to decrement ammos
-//        chargeStartFrom = currentMagazineSize.value
-////        consumeAmmo()
-////        chargeStopAt = currentMagazineSize.value
-//            // start to decrement the magazine charge with charging time interval
-////            recoveringJob = viewModelScope.launch { magazineAmmoRecovery() }
-////        viewModelScope.launch { val re = async { magazineAmmoRecovery() } }
-////            magazineAmmoRecovery()
-//        canShoot = true
-//        Log.i(TAG, "chargingProjectile: end charge")
-//    }
-//
-////    suspend fun shootProjectile() {
-//    fun shootProjectile() = viewModelScope.launch {
-//        // get the chargeStopAt if charged shoot
-//
-//        chargeStopAt = currentMagazineSize.value
-////    val chargeSize = if (isCharged) chargeStartFrom - chargeStopAt else 1
-//        val chargeSize = chargeStartFrom - chargeStopAt
-//        Log.i(TAG, "shootProjectile: chargeSize $chargeSize")
-//        // fire projectile
-//        releaseProjectile(if (chargeSize > 0) chargeSize else 1)
-////        canShoot = false
-//        delay(shootingTimeInterval)
-//        canShoot = true
-//        isCharged = false
-////        canShoot = true
-//        // set the charge size at 0 / reset ammo charged
-////        chargeStopAt = currentMagazineSize.value
-////        chargeStartFrom = currentMagazineSize.value
-////        chargeStopAt = 0
-////        chargeStartFrom = 0
-//        // set ischarge to false
-//        updateRecoveringTo(true)
-//    }
-////    suspend fun releaseProjectile(chargeSize: Int) {
-//    suspend fun releaseProjectile(chargeSize: Int) = viewModelScope.launch {
-//        Log.i(TAG, "shootProjectile: chargeSize $chargeSize")
-//        when (shipType.info.chargedProjectileType) {
-//            ChargedProjectileType.Instant -> {
-//                updateMagazineFlowAndBlockShoot(
-//                    Shoot.newFromUser(
-//                        type = shipType,
-//                        vm = motionVM,
-//                        behavior = chargeSize,
-//                        damage = shipType.info.damage * chargeSize.toFloat(),
-//                    )
-//                )
-//            }
-//            ChargedProjectileType.Rafal -> {
-//                //todo : add additionnal projectiles following a rule copied on the original app
-//                //todo : issue about fast single press to boost the dps
-//                //solution could be to unable the shot after a period of time after the add shoot
-//                //corresponding to the ammoRecoveryTime
-//                var ammo = chargeSize
-//                while (ammo > 0) {
-//                    updateMagazineFlowAndBlockShoot(
-//                        Shoot.newFromUser(
-//                            type = shipType,
-//                            vm = motionVM,
-//                        )
-//                    )
-//                    ammo -= 1
-//                }
-//            }
-//        }
-//    }
-//
-//    private suspend fun updateMagazineFlowAndBlockShoot(newShoot: Shoot) {
-//        Log.i(TAG, "updateMagazineFlowAndBlockShoot: canshoot $canShoot")
-//        canShoot?.let {
-//            if (it) {
-//                Device.event.projectileFlow.emit(newShoot)
-//                canShoot = false
-//            }
-//        } ?: let { canShoot = true }
-//    }
-
-
-
     private val magazineFlow: MutableSharedFlow<Int> = MutableSharedFlow()
     private val shootingTimeInterval = shipType.info.shootingTimeInterval
     private val ammoRecoveryTime = shipType.info.ammoRecoveryTime
@@ -202,30 +28,44 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
     val magazineSize: StateFlow<Int> = _magazineSize.asStateFlow()
     private var recoveringJob: Job = viewModelScope.launch(Dispatchers.IO) {}
     private var actionJob: Job = viewModelScope.launch(Dispatchers.IO) {}
+//    private val shipState = MutableStateFlow(State.FirstShootNotDone)
+    private val shipState = MutableStateFlow(State.AbleToShoot)
+    private fun updateShipStateTo(state: State) {shipState.value = state}
 
-    init {
-        Log.i(TAG, "init: ")
-//        viewModelScope.launch { val af = async { ammoListener() } }
+    private enum class State {
+        FirstShootNotDone,
+        ChargingProjectile,
+        ShootingProjectile,
+        //        Shoot,
+        UnableToShoot,
+        AbleToShoot,
+        RecoveringAmmunition,
+//        OutOfAmmunition,
+        MagazineFull,
+        MagazineEmpty,
     }
-//    private suspend fun ammoListener(): Nothing = magazineFlow.collect{
-//        if (it > 0) incrementAmmo()
-//        else if (it < 0) decrementAmmo()
-//        else Log.e(TAG, "ammoListener: ERROR collect 0", )
-//    }
+
+    private var screenIsPressed = false
+    private var firstShootDone = false
+    private var ammoBeforeCharging = _magazineSize.value
+    private var ammoCharged = 0
+    private var isShootingTimeIntervalOver = false
     private fun incrementAmmo() { if (_magazineSize.value < shipType.info.magazineSize) _magazineSize.value += 1 }
     private fun decrementAmmo() { if (_magazineSize.value >= 0) { _magazineSize.value -= 1 } }
-    private fun magazineIsNotEmpty(): Boolean = magazineSize.value > 0
-    private var ammoBeforeCharging = _magazineSize.value
-    private suspend fun updateMagazineFlowAndBlockShoot(newShoot: Shoot) {
-//        if (canShoot)
-        Device.event.projectileFlow.emit(newShoot)
-        canShoot = false
+    private fun magazineIsNotEmpty(): Boolean = magazineSize.value >= 0
+    private fun shipCanShoot(): Boolean {
+//        return if (shipState.value == State.AbleToShoot
+//            || shipState.value == State.ChargingProjectile
+//            || shipState.value == State.MagazineFull
+//            || shipState.value == State.RecoveringAmmunition) true
+//        else { Log.e(TAG, "shipCanShoot: false", ) ; false }
+        return if (shipState.value != State.MagazineEmpty && shipState.value != State.UnableToShoot) true
+//        return if (magazineIsNotEmpty() && shipState.value != State.UnableToShoot) true
+        else { Log.e(TAG, "shipCanShoot: false", ) ; false }
     }
+    private fun isStateFirstShootNotDone(): Boolean = shipState.value == State.FirstShootNotDone
     private fun updateAmmoBeforeCharging() {ammoBeforeCharging = _magazineSize.value}
-    private var ammoCharged = 0
-//    private fun noAmmoIsCharged(): Boolean = ammoCharged > 0
     private fun updateAmmoCharged() {
-        Log.i(TAG, "updateAmmoCharged: ammoBeforeCharging $ammoBeforeCharging - magazineSize ${magazineSize.value}")
         val diff = ammoBeforeCharging - magazineSize.value
         when (diff) {
             0 -> {
@@ -233,16 +73,81 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
                 decrementAmmo()
             }
             in 1..magazineMaxSize -> { ammoCharged = diff }
-            else -> { ammoCharged = 1; Log.e( TAG, "updateAmmoCharged: ERROR ammoBeforeCharging $ammoBeforeCharging - magazineSize ${magazineSize.value}", ) }
+            magazineMaxSize + 1 -> { ammoCharged = magazineMaxSize}
+            else -> { ammoCharged = 1; Log.e( TAG, "updateAmmoCharged: ERROR ammoBeforeCharging $ammoBeforeCharging - magazineSize ${magazineSize.value} = $diff", ) }
         }
-//        ammoCharged = diff
     }
-//    private fun resetAmmoCharged() {
-//        Log.i(TAG, "resetAmmoCharged: ")
-//        ammoCharged = 1
-//    }
+    init {
+        Log.i(TAG, "init: ")
+        shipLogic()
+    }
+
+    private fun shipLogic() = viewModelScope.launch(Dispatchers.Main) {
+        var action: Deferred<Unit>? = null
+        shipState.collect {
+            Log.v(TAG, "collect state: ${shipState.value}")
+            action?.cancel()
+            when (it) {
+                State.FirstShootNotDone -> {}
+                State.ChargingProjectile -> {
+                    updateAmmoBeforeCharging()
+                    action = async {
+                        ammoConsumption()
+                    }
+                }
+                State.ShootingProjectile -> {
+                    action?.cancel()
+                    updateAmmoCharged()
+                    //todo : this protection to avoid shooting while empty mag does reset the time for ammo recovery, find an other way
+                    if (ammoCharged > 1 || (ammoCharged == 1 && magazineIsNotEmpty())) createProjectile()
+                    updateShipStateTo(State.UnableToShoot)
+                }
+                State.UnableToShoot -> {
+                    isShootingTimeIntervalOver = false
+                    delay(shootingTimeInterval)
+                    isShootingTimeIntervalOver = true
+                    updateShipStateTo(State.RecoveringAmmunition)
+                }
+                State.AbleToShoot -> { }
+                State.RecoveringAmmunition -> {
+                    action = async {
+                    delay(ammoRecoveryTimeMinusShootingTimeInterval)
+                    incrementAmmo()
+                    while (_magazineSize.value < shipType.info.magazineSize) {
+                        delay(ammoRecoveryTime)
+                        incrementAmmo()
+                    }
+                    if (magazineSize.value == magazineMaxSize) updateShipStateTo(State.MagazineFull)
+                    }
+                }
+                State.MagazineFull -> { updateShipStateTo(State.AbleToShoot) }
+                State.MagazineEmpty -> { startAmmoRecovering() }
+            }
+        }
+    }
+
+    fun screenIsNotPressed() {
+        screenIsPressed = false
+        if (shipCanShoot()) {
+            updateShipStateTo(State.ShootingProjectile)
+        } else if (isStateFirstShootNotDone()) {
+            updateShipStateTo(State.AbleToShoot)
+        }
+    }
+
+    fun screenIsPressed() {
+        screenIsPressed = true
+        if (shipCanShoot()) {
+            updateShipStateTo(State.ChargingProjectile)
+        }
+    }
+
+    private suspend fun updateMagazineFlowAndBlockShoot(newShoot: Shoot) {
+        Device.event.projectileFlow.emit(newShoot)
+        canShoot = false
+    }
+
     private fun startAmmoRecovering() {
-//        if (recoveringJob.isCompleted && _magazineSize.value < shipType.info.magazineSize) {
         if ( _magazineSize.value <= shipType.info.magazineSize) {
             recoveringJob = viewModelScope.launch(Dispatchers.IO) { recoverAmmo() }
         }
@@ -255,59 +160,39 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
         while (_magazineSize.value < shipType.info.magazineSize) {
             delay(ammoRecoveryTime)
             incrementAmmo()
-//            magazineFlow.emit(1)
-//            canShoot = true
         }
     }
     suspend fun ammoConsumption() {
         while (screenIsPressed) {
-//            magazineFlow.emit(-1)
             decrementAmmo()
             delay(ammoRecoveryTime)
         }
     }
-    private var screenIsPressed = false
-//    private var isCharged = false
-    private var firstShootDone = false
-//    suspend fun chargingShoot() {
-    suspend fun chargingShoot() = viewModelScope.launch(Dispatchers.IO) {
-//        if (canShoot) {
-        if (canShoot && magazineIsNotEmpty()) {
-//            if (_magazineSize.value > 0) {
-//            if (_magazineSize.value > 0) {
-                firstShootDone = true
-                updateAmmoBeforeCharging()
-                recoveringJob.cancel()
-                screenIsPressed = true
-//                isCharged = true
-//            viewModelScope.launch(Dispatchers.IO) { ammoConsumption() }
-                 ammoConsumption()
-//            }
-        }
-    }
 
-    suspend fun shoot() = viewModelScope.launch(Dispatchers.IO) {
+//    suspend fun chargingShoot() {
+//        if (canShoot && magazineIsNotEmpty()) {
+//            actionJob.cancel()
+//            recoveringJob.cancel()
+//            actionJob = viewModelScope.launch(Dispatchers.IO) {
+//                firstShootDone = true
+//                updateAmmoBeforeCharging()
+//                screenIsPressed = true
+//                ammoConsumption()
+//            }
+//        }
+//    }
 //    suspend fun shoot() {
-//        actionJob = viewModelScope.launch(Dispatchers.IO) {
-//    fun shoot() {
-//        if (canShoot && firstShootDone && noAmmoIsCharged()) {
-        if (canShoot && firstShootDone) {
-            recoveringJob.cancel()
-//            if (firstShoot) {
-//            if (firstShootDone) {
-//                viewModelScope.launch() {
-//            if (noAmmoIsCharged()) decrementAmmo()
-            updateAmmoCharged()
-            screenIsPressed = false
-//                    if (_magazineSize.value != 0)
-            createProjectile()
-//                    else eLog("MunitionsVM::shoot", "${enoughAmmo()}")
-//                    eLog("MunitionsVM::shoot", "ammo ${_magazineSize.value}")
-            startAmmoRecovering()
-        }
-//        isCharged = false
-    }
-//}
+//        if (canShoot && magazineIsNotEmpty() && firstShootDone) {
+//            actionJob.cancel()
+//            recoveringJob.cancel()
+//            actionJob = viewModelScope.launch(Dispatchers.IO) {
+//                updateAmmoCharged()
+//                screenIsPressed = false
+//                createProjectile()
+//                startAmmoRecovering()
+//            }
+//        }
+//    }
 
     private suspend fun createProjectile() {
         var ammo = ammoCharged
@@ -319,10 +204,9 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
                     behavior = ammoCharged,
                     damage = shipType.info.damage * ammoCharged.toFloat(),
                 )
-//                motionVM.addShoot(newShoot)
-//                Device.event.producingProjectile.tryEmit(newShoot)
                 Log.i(TAG, "createProjectile: ammocharged $ammoCharged")
-                updateMagazineFlowAndBlockShoot(newShoot)
+//                updateMagazineFlowAndBlockShoot(newShoot)
+                Device.event.projectileFlow.emit(newShoot)
                 delay(shootingTimeInterval)
             }
             ChargedProjectileType.Rafal -> {
@@ -336,15 +220,140 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
                         type = shipType,
                         vm = motionVM,
                     )
-//                    motionVM.addShoot(newShoot)
-//                    Device.event.producingProjectile.tryEmit(newShoot)
                     updateMagazineFlowAndBlockShoot(newShoot)
                     delay(shootingTimeInterval)
                 }
             }
         }
-//        delay(ammoRecoveryTimeMinusShootingTimeInterval)
-        //todo : ammocharged reset necessary ?
-//        resetAmmoCharged()
     }
+
+//    private val magazineFlow: MutableSharedFlow<Int> = MutableSharedFlow()
+//    private val shootingTimeInterval = shipType.info.shootingTimeInterval
+//    private val ammoRecoveryTime = shipType.info.ammoRecoveryTime
+//    private val ammoRecoveryTimeMinusShootingTimeInterval = ammoRecoveryTime - shootingTimeInterval
+//    private val magazineMaxSize = shipType.info.magazineSize
+//    private val magazine = magazineMaxSize
+//    private var canShoot = true
+//    private val _magazineSize = MutableStateFlow<Int>(shipType.info.magazineSize)
+//    val magazineSize: StateFlow<Int> = _magazineSize.asStateFlow()
+//    private var recoveringJob: Job = viewModelScope.launch(Dispatchers.IO) {}
+//    private var actionJob: Job = viewModelScope.launch(Dispatchers.IO) {}
+//    private val shipState = MutableStateFlow(State.FirstShootNotDone)
+
+//    init {
+//        Log.i(TAG, "init: ")
+//        viewModelScope.launch(Dispatchers.IO) {
+//            magazineSize.collect {
+//                if (it <= 0) {
+//                    Log.e(TAG, "magazine is empty: ")
+//                }
+//            }
+//        }
+//    }
+//
+//    private fun incrementAmmo() { if (_magazineSize.value < shipType.info.magazineSize) _magazineSize.value += 1 }
+//    private fun decrementAmmo() { if (_magazineSize.value >= 0) { _magazineSize.value -= 1 } }
+//    private fun magazineIsNotEmpty(): Boolean = magazineSize.value >= 0
+//    private var ammoBeforeCharging = _magazineSize.value
+//    private suspend fun updateMagazineFlowAndBlockShoot(newShoot: Shoot) {
+//        Device.event.projectileFlow.emit(newShoot)
+//        canShoot = false
+//    }
+//    private fun updateAmmoBeforeCharging() {ammoBeforeCharging = _magazineSize.value}
+//    private var ammoCharged = 0
+//    private fun updateAmmoCharged() {
+//        Log.i(TAG, "updateAmmoCharged: ammoBeforeCharging $ammoBeforeCharging - magazineSize ${magazineSize.value}")
+//        val diff = ammoBeforeCharging - magazineSize.value
+//        when (diff) {
+//            0 -> {
+//                ammoCharged = 1
+//                decrementAmmo()
+//            }
+//            in 1..magazineMaxSize -> { ammoCharged = diff }
+//            else -> { ammoCharged = 1; Log.e( TAG, "updateAmmoCharged: ERROR ammoBeforeCharging $ammoBeforeCharging - magazineSize ${magazineSize.value}", ) }
+//        }
+//    }
+//    private fun startAmmoRecovering() {
+//        if ( _magazineSize.value <= shipType.info.magazineSize) {
+//            recoveringJob = viewModelScope.launch(Dispatchers.IO) { recoverAmmo() }
+//        }
+//    }
+//    suspend fun recoverAmmo() {
+//        delay(shootingTimeInterval)
+//        canShoot = true
+//        delay(ammoRecoveryTimeMinusShootingTimeInterval)
+//        incrementAmmo()
+//        while (_magazineSize.value < shipType.info.magazineSize) {
+//            delay(ammoRecoveryTime)
+//            incrementAmmo()
+//        }
+//    }
+//    suspend fun ammoConsumption() {
+//        while (screenIsPressed) {
+//            decrementAmmo()
+//            delay(ammoRecoveryTime)
+//        }
+//    }
+//    private var screenIsPressed = false
+//    private var firstShootDone = false
+//
+//    suspend fun chargingShoot() {
+//        if (canShoot && magazineIsNotEmpty()) {
+//            actionJob.cancel()
+//            recoveringJob.cancel()
+//            actionJob = viewModelScope.launch(Dispatchers.IO) {
+//                firstShootDone = true
+//                updateAmmoBeforeCharging()
+//                screenIsPressed = true
+//                ammoConsumption()
+//            }
+//        }
+//    }
+//
+//    suspend fun shoot() {
+//        Log.e(TAG, "shoot: canshoot $canShoot")
+//        if (canShoot && magazineIsNotEmpty() && firstShootDone) {
+//            actionJob.cancel()
+//            recoveringJob.cancel()
+//            actionJob = viewModelScope.launch(Dispatchers.IO) {
+//                recoveringJob.cancel()
+//                updateAmmoCharged()
+//                screenIsPressed = false
+//                createProjectile()
+//                startAmmoRecovering()
+//            }
+//        }
+//    }
+//
+//    private suspend fun createProjectile() {
+//        var ammo = ammoCharged
+//        when (shipType.info.chargedProjectileType) {
+//            ChargedProjectileType.Instant -> {
+//                val newShoot = Shoot.newFromUser(
+//                    type = shipType,
+//                    vm = motionVM,
+//                    behavior = ammoCharged,
+//                    damage = shipType.info.damage * ammoCharged.toFloat(),
+//                )
+//                Log.i(TAG, "createProjectile: ammocharged $ammoCharged")
+//                updateMagazineFlowAndBlockShoot(newShoot)
+//                delay(shootingTimeInterval)
+//            }
+//            ChargedProjectileType.Rafal -> {
+//                //todo : add additionnal projectiles following a rule copied on the original app
+//                //todo : issue about fast single press to boost the dps
+//                //solution could be to unable the shot after a period of time after the add shoot
+//                //corresponding to the ammoRecoveryTime
+//                while (ammo > 0) {
+//                    ammo -= 1
+//                    val newShoot = Shoot.newFromUser(
+//                        type = shipType,
+//                        vm = motionVM,
+//                    )
+//                    updateMagazineFlowAndBlockShoot(newShoot)
+//                    delay(shootingTimeInterval)
+//                }
+//            }
+//        }
+//    }
 }

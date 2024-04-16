@@ -8,7 +8,6 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.S
 private val ListType = object : TypeToken<List<String>>() {}.type
 
 class StrArgumentNav() {
-
     companion object {
         fun serializeToInGameArg(userShipTypeName: String, enemiesShipTypeName: String): String {
             val gson = Gson()

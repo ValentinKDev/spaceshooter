@@ -20,34 +20,17 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.Munitio
 fun AmmunitionView(vm: MunitionsViewModel) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-//    val test by interactionSource.co
 
-//    LaunchedEffect(isPressed) {
-//        vm.updatePressureStateTo(isPressed)
-//        when (isPressed) {
-//            true -> {
-//                vm.chargingProjectile()
-//            }
-//            false -> {
-//                vm.shootProjectile()
-//            }
-//        }
-//    }
     LaunchedEffect(isPressed) {
         when (isPressed) {
-            true -> {
-                vm.chargingShoot()
-            }
-            false -> {
-                vm.shoot()
-            }
+            true -> { vm.screenIsPressed() }
+            false -> { vm.screenIsNotPressed() }
         }
     }
 
     val clickable = Modifier.clickable (
         interactionSource = interactionSource,
         indication = null,
-//        onClick = {vm.hasBeenPressedOnce = true},
         onClick = {},
     )
 
@@ -55,10 +38,5 @@ fun AmmunitionView(vm: MunitionsViewModel) {
         Modifier
             .fillMaxSize()
             .then(clickable)
-//            .combinedClickable(
-//                onClick = { vm.chargingProjectile() },
-//                onLongClick = { vm.shootProjectile() },
-//                onLongClickLabel = "",
-//            )
     )
 }

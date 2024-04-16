@@ -131,7 +131,7 @@ class MotionsViewModel(
         .map { it.getShootNextDpOffset() }
         .filter {
             if (it.offsetDp touchTopScreen displaySizeDp) {
-                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
+//                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
                 val invertedShoot = it.getShootPrecedentDpOffset().prepareShootToSendAway()
 //                eventRepo.sendProjectile(invertedShoot)
             }
