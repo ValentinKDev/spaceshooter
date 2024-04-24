@@ -21,14 +21,14 @@ fun TryAgainScreen(gameStats: TryAgainStats, nav: Navigator, vm: ShipMenuViewMod
     LaunchedEffect(key1 = "") {
 //        vm.initNav(nav)
 //        vm.initStats(stats)
-        vm.navigateToGame(nav)
+        if (navigate) vm.navigateToGame(nav)
     }
 
     TemplateWithBand(
         navigator = nav,
 //        navigator = tryAgainVM.navigator,
 //        navigator = tryAgainVM.navigator,
-        backNav = Screens.WifiScreen.backNav,
+        backNav = Screens.WifiScreen.backNav ?: Screens.None,
         ui = vm.templateUI,
         header = {},
         band = { ShipMenuBand(vm, gameStats) },

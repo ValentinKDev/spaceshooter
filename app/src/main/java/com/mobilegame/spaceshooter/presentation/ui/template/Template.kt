@@ -10,6 +10,7 @@ import androidx.compose.ui.layout.layoutId
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import com.mobilegame.spaceshooter.logic.model.navigation.NavigationDestination
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
@@ -21,6 +22,7 @@ import com.mobilegame.spaceshooter.presentation.ui.template.backButton.BackButto
 internal fun Template(
     type: TemplatesType,
     navigator: Navigator,
+//    backNav: NavigationDestination,
     backNav: Screens,
 //    instantBackNav: Boolean?,
     ui: TemplateUI,
@@ -105,13 +107,14 @@ internal fun Template(
         ) { header.invoke() }
         Box(
             Modifier.layoutId(ui.backButton.id)
-        ) { BackButton(
-            vm = vm,
-            backNav = backNav,
-            navigator = navigator,
-            ui = ui.backButton,
+        ) {
+            BackButton(
+                vm = vm,
+                backNav = backNav,
+                navigator = navigator,
+                ui = ui.backButton,
 //            instant = instantBackNav
-        )
+            )
         }
         Box(
             Modifier

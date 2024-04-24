@@ -6,6 +6,7 @@ import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.data.device.structure.DeviceData
 import com.mobilegame.spaceshooter.data.device.structure.DeviceEvent
 import com.mobilegame.spaceshooter.data.device.structure.DeviceMetrics
+import com.mobilegame.spaceshooter.data.device.structure.DeviceNavigation
 import com.mobilegame.spaceshooter.data.device.structure.DeviceWifi
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.wLog
@@ -16,4 +17,5 @@ object Device {
     val metrics = DeviceMetrics()
     val wifi = DeviceWifi()
     val event = DeviceEvent()
+    val navigation = DeviceNavigation()
 }

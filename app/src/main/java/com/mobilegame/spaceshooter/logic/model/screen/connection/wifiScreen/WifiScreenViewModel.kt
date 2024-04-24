@@ -44,19 +44,21 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
         repo.initNetworkSearchAndDiscovery(application)
 
         viewModelScope.launch { withContext(Dispatchers.IO) {
-            Device.wifi.listVisibleDevicesFlow.map { it.firstOrNull() }.collect {visibleDeviceState ->
+            Device.wifi.listVisibleDevicesFlow.map {
+                Log.i(TAG, "list collected $it")
+                it.firstOrNull() }.collect { visibleDeviceState ->
                 visibleDeviceState?.let {
                     when (it.state) {
                         PreparationState.ReadyToChooseShip -> {
 //                        PreparationState.ReadyToPlay -> {
 //                        PreparationState.ReadyToPlay -> {
                             if (pressureVM.full.value) {
-                                eLog(TAG, "SPACE SHIP MENU")
+//                                eLog(TAG, "SPACE SHIP MENU")
 //                                DeviceEventRepo().sendReadyToChooseShip()
 //                                DeviceEventRepo().sendReadyToPlay()
 //                                chooseSpaceShip()
                                 _navigate.value = true
-//                                this.coroutineContext.job.cancel()
+                                this.coroutineContext.job.cancel()
                             }
                         }
                         else -> {
@@ -108,6 +110,7 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
 //        nav = navigator
     }
     init {
-        Log.e(TAG, "ini: \n\n\n\n\n\n test", )
+        Log.i(TAG, "init: ")
+//        Log.e(TAG, "ini: \n\n\n\n\n\n test", )
     }
 }

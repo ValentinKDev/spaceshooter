@@ -49,10 +49,9 @@ fun Navigation(navigator: Navigator) {
     val navController = rememberNavController()
     val context = LocalContext.current
 
-    LaunchedEffect(true) {
+//    LaunchedEffect(true) {
+    LaunchedEffect("navigation") {
         Log.e("Navigation", "Start")
-//        navigator.des.onEach {
-//        navigator.des.onEach {
         navigator.des.onEach {
             navController.navigate(it)
         }.launchIn(this)
@@ -69,8 +68,12 @@ fun Navigation(navigator: Navigator) {
 //        startDestination = Screens.Creator.route,
 //        startDestination = Screens.Test.route,
     ) {
-        composable(route = Screens.MenuScreen.route) { MenuScreen(navigator) }
-        composable(route = Screens.MainScreen.route) { MainScreen(navigator) }
+        composable(route = Screens.MenuScreen.route) {
+            Log.v("Navigation", "to Screens.MenuScreen.route")
+            MenuScreen(navigator) }
+        composable(route = Screens.MainScreen.route) {
+            Log.v("Navigation", "to Screens.MainScreen.route")
+            MainScreen(navigator) }
         composable(route = Screens.BluetoothScreen.route) { BluetoothScreen(navigator) }
         composable(route = Screens.ShipMenuScreen.route) {
             Log.v("Navigation", "to Screens.ShipMenuScreen.route")
@@ -94,24 +97,27 @@ fun Navigation(navigator: Navigator) {
             }
         }
         composable(
-            route = Screens.SpaceWarScreen.route .plus("/{${StrArgumentNav.ARG_KEY_IN_GAME}}"),
-            arguments = listOf (navArgument(StrArgumentNav.ARG_KEY_IN_GAME) {type = NavType.StringType})
-        ) {entry ->
+            route = SpaceWarScreen.route
+//            route = Screens.SpaceWarScreen.route .plus("/{${StrArgumentNav.ARG_KEY_IN_GAME}}"),
+//            arguments = listOf (navArgument(StrArgumentNav.ARG_KEY_IN_GAME) {type = NavType.StringType})
+        ) {
+//            entry ->
             Log.v("Navigation", "to Screens.SpaceWarScreen.route")
-            entry.arguments?.getString(StrArgumentNav.ARG_KEY_IN_GAME)?.let { arg ->
-                Log.v("Navigation", "arg $arg")
-                val infoList: Pair<ShipType, TryAgainStats> = StrArgumentNav.deserializeArgToInGame(arg)
+//            entry.arguments?.getString(StrArgumentNav.ARG_KEY_IN_GAME)?.let { arg ->
+//                Log.v("Navigation", "arg $arg")
+//                val infoList: Pair<ShipType, TryAgainStats> = StrArgumentNav.deserializeArgToInGame(arg)
                 LaunchSpaceWarGameScreen(
-                    LaunchDuelGameViewModel(
-                        userShipType = infoList.first,
-                        tryAgainStats = infoList.second,
-                        context = context,
-                    ),
+//                    LaunchDuelGameViewModel(
+//                        userShipType = infoList.first,
+//                        tryAgainStats = infoList.second,
+//                        context = context,
+//                    ),
                     navigator
                 )
-            }
+//            }
         }
         composable(route = Screens.Creator.route) { Creator(navigator) }
+        composable(route = Screens.None.route) { Creator(navigator) }
         composable(route = Screens.Test.route) {
             val stats = TryAgainStats(
                 wins = 2,

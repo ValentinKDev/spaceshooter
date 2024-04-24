@@ -82,15 +82,15 @@ class BluetoothIconUI(
         sizes.iconSmallStroke = squareSize * ratios.iconSmallStrokeHeightPercent
         sizes.iconBigStroke = squareSize * ratios.iconBigStrokeHeightPercent
 
-        displayDataUI?.let {
-            wLog("BluetoothIconAdapter::init", "start")
-            vLog("BluetoothIconAdapter::init", "squareHeight ${sizes.squareHeight}")
-            vLog("BluetoothIconAdapter::init", "squareHeightDp ${sizes.squareHeightDp}")
-            vLog("BluetoothIconAdapter::init", "squareStrokeDp ${sizes.squareStrokeDp}")
-            vLog("BluetoothIconAdapter::init", "canvasHeight ${sizes.canvas}")
-            vLog("BluetoothIconAdapter::init", "canvasHeightDp ${sizes.canvasDp}")
-            vLog("BluetoothIconAdapter::init", "iconSmallStrokeDp ${sizes.iconSmallStroke}")
-            vLog("BluetoothIconAdapter::init", "iconBigStrokeDp ${sizes.iconBigStroke}")
-        }
+//        displayDataUI?.let {
+//            wLog("BluetoothIconAdapter::init", "start")
+//            vLog("BluetoothIconAdapter::init", "squareHeight ${sizes.squareHeight}")
+//            vLog("BluetoothIconAdapter::init", "squareHeightDp ${sizes.squareHeightDp}")
+//            vLog("BluetoothIconAdapter::init", "squareStrokeDp ${sizes.squareStrokeDp}")
+//            vLog("BluetoothIconAdapter::init", "canvasHeight ${sizes.canvas}")
+//            vLog("BluetoothIconAdapter::init", "canvasHeightDp ${sizes.canvasDp}")
+//            vLog("BluetoothIconAdapter::init", "iconSmallStrokeDp ${sizes.iconSmallStroke}")
+//            vLog("BluetoothIconAdapter::init", "iconBigStrokeDp ${sizes.iconBigStroke}")
+//        }
     }
 }

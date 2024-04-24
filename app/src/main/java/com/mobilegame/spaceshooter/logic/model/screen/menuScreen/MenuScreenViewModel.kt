@@ -43,8 +43,10 @@ class MenuScreenViewModel(): ViewModel() {
         )
     }
     suspend fun navigateToMainMenu(nav: Navigator) {
-        nav.navig(Screens.MainScreen)
-        onCleared()
+        Log.i(TAG, "navigateToMainMenu: navigate ${navigate.value}")
+//        nav.navig(Screens.MenuScreen.forwardNav)
+        Screens.MenuScreen.forwardNav?.let { nav.navig( it ) }
+//        onCleared()
     }
 
     init {

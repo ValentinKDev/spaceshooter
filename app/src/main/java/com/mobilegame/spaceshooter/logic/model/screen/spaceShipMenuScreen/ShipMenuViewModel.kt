@@ -37,6 +37,7 @@ class ShipMenuViewModel(): ViewModel() {
 
 
     init {
+        Log.e(TAG, "init vm")
         viewModelScope.launch {
             val ltr = async {
                 //todo: refactor this
@@ -86,11 +87,16 @@ class ShipMenuViewModel(): ViewModel() {
         }
     }
     suspend fun navigateToGame(navigator: Navigator) {
+        Log.i(TAG, "navigateToGame: navigate ${navigate.value}")
         val argStr = StrArgumentNav.serializeArgToInGame(
             userShipTypeName = shipPicking.shipType.value.info.name,
             tryAgainStats = TryAgainStats.EMPTY_TRY_AGAIN_STATS,
         )
-        navigator.navig(destination = Screens.SpaceWarScreen, argumentStr = argStr) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
+        Device.navigation.argStr = argStr
+        Log.i(TAG, "navigateToGame: argStr ${Device.navigation.argStr}")
+//        navigator.navig(destination = Screens.SpaceWarScreen, argumentStr = argStr) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
+//        navigator.navig(toScreen = Screens.SpaceWarScreen, argumentStr = argStr) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
+        navigator.navig(toScreen = Screens.SpaceWarScreen) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
     }
 
     fun pressureReadyToPlay() = viewModelScope.launch {

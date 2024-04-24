@@ -23,6 +23,7 @@ class SpaceWarGameViewModel(
     display: Size,
     context: Context,
     val tryAgainStats: TryAgainStats = TryAgainStats.EMPTY_TRY_AGAIN_STATS,
+//): ViewModel() {
 ): ViewModel() {
     val TAG = "SpaceWarGameViewModel"
 
@@ -33,7 +34,7 @@ class SpaceWarGameViewModel(
     private var nav: Navigator? = null
 
     init {
-//        Log.i(TAG, "init: ")
+        Log.e(TAG, "init vm")
 //        viewModelScope.launch(Dispatchers.Main) { listenToGameResult() }
     }
     fun initNav(navigator: Navigator) {
@@ -52,8 +53,10 @@ class SpaceWarGameViewModel(
 fun navigateToTryAgain(navigator: Navigator, gameResult: GameResult) = viewModelScope.launch {
     tryAgainStats.updateWith(gameResult, userShipType.info.name)
     //todo send the death to the enemie
-    navigator.navig(destination = Screens.TryAgainScreen, argumentStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats))
+//    navigator.navig(destination = Screens.TryAgainScreen, argumentStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats))
+//    navigator.navig(destination = Screens.TryAgainScreen, argumentStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats))
     Device.event.gameResult.emit(GameResult.OnGoing)
+    navigator.navig(toScreen = Screens.TryAgainScreen, argumentStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats))
     onCleared()
 }
 

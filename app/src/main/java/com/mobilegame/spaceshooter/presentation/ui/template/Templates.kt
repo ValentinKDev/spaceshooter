@@ -1,6 +1,7 @@
 package com.mobilegame.spaceshooter.presentation.ui.template
 
 import androidx.compose.runtime.Composable
+import com.mobilegame.spaceshooter.logic.model.navigation.NavigationDestination
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
@@ -9,6 +10,7 @@ import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 @Composable
 fun TemplateWithoutBand(
     navigator: Navigator,
+//    backNav: NavigationDestination,
     backNav: Screens,
     ui: TemplateUI,
 //    instantBackNav: Boolean? = null,
@@ -30,6 +32,7 @@ fun TemplateWithoutBand(
 @Composable
 fun TemplateWithBand(
     navigator: Navigator,
+//    backNav: NavigationDestination,
     backNav: Screens,
 //    instantBackNav: Boolean? = null,
     ui: TemplateUI,

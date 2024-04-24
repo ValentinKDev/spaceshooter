@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.Fill
+import com.mobilegame.spaceshooter.logic.model.navigation.NavigationDestination
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
 import com.mobilegame.spaceshooter.logic.uiHandler.template.BackButtonUI
@@ -19,6 +20,7 @@ fun BackButton(
     vm: PressureViewModel,
     navigator: Navigator,
     ui: BackButtonUI,
+//    backNav: NavigationDestination,
     backNav: Screens,
 ) {
     val startBackJob by remember { vm.full }.collectAsState()

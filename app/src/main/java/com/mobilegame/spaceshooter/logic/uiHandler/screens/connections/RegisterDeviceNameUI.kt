@@ -64,17 +64,17 @@ class RegisterDeviceNameUI {
             private val widthActionKey: Float = ((1F - (2 * startEndPaddingRatio) - (2 * betweenActionKeyPaddingRatio)) * Device.metrics.width) / (3F)
             val widthActionKeyDp: Dp = widthActionKey.toDp()
 
-            init {
-                displayDataUI?.let {
-                    wLog("RegisterDeviceNameUI::KeyKeyboard", "Key")
-                    vLog("RegisterDeviceNameUI::KeyKeyboard", "startEndPadd $startEndPadding")
-                    vLog("RegisterDeviceNameUI::KeyKeyboard", "startEndPaddDp $startEndPaddingDp")
-                    vLog("RegisterDeviceNameUI::KeyKeyboard", "betweeenKeyPadd $betweenKeyPadding")
-                    vLog("RegisterDeviceNameUI::KeyKeyboard", "betweeenKeyPaddDp $betweenKeyPadding")
-                    vLog("RegisterDeviceNameUI::KeyKeyboard", "widthActionKey $widthActionKey")
-                    vLog("RegisterDeviceNameUI::KeyKeyboard", "widthActionKeyDp $widthActionKeyDp")
-                }
-            }
+//            init {
+//                displayDataUI?.let {
+//                    wLog("RegisterDeviceNameUI::KeyKeyboard", "Key")
+//                    vLog("RegisterDeviceNameUI::KeyKeyboard", "startEndPadd $startEndPadding")
+//                    vLog("RegisterDeviceNameUI::KeyKeyboard", "startEndPaddDp $startEndPaddingDp")
+//                    vLog("RegisterDeviceNameUI::KeyKeyboard", "betweeenKeyPadd $betweenKeyPadding")
+//                    vLog("RegisterDeviceNameUI::KeyKeyboard", "betweeenKeyPaddDp $betweenKeyPadding")
+//                    vLog("RegisterDeviceNameUI::KeyKeyboard", "widthActionKey $widthActionKey")
+//                    vLog("RegisterDeviceNameUI::KeyKeyboard", "widthActionKeyDp $widthActionKeyDp")
+//                }
+//            }
         }
     }
 }

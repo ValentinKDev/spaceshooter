@@ -24,8 +24,8 @@ class MenuScreenUI() {
     val screenSize = Device.metrics.sizeDp
     val topPadding = verticalPadding
     val bottomPadding = verticalPadding
-    init {
-        Log.e(TAG, "init: $letterSizeDp")
+//    init {
+//        Log.e(TAG, "init: $letterSizeDp")
 //        Log.e(TAG, "init: $newLetterSizeDp")
-    }
+//    }
 }
