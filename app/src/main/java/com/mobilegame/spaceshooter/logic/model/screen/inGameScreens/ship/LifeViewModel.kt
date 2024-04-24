@@ -4,10 +4,13 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.device.Device
+import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.GameResult
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.LooseInfo
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.MotionsViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
+import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -16,17 +19,22 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.Instant
 import java.util.Date
-import java.util.Timer
 
-class LifeViewModel(private val motionVM: MotionsViewModel, type: ShipType): ViewModel() {
+class LifeViewModel(
+    private val motionVM: MotionsViewModel,
+    type: ShipType,
+//    private val tryAgainStats: TryAgainStats
+): ViewModel() {
     val TAG = "LifeViewModel"
     var dead: Boolean = false
     val lifeStarter: Float = type.info.life
     private val _lifeRatio = MutableStateFlow(1F)
     val lifeRatio: StateFlow<Float> = _lifeRatio.asStateFlow()
     private var currentLife: Float = lifeStarter
+    private var nav: Navigator? = null
+
+
     private suspend fun lifeUpdate(projectile: Shoot) {
         if (dead == false) {
 //            currentLife -= projectile.damage
@@ -63,25 +71,23 @@ class LifeViewModel(private val motionVM: MotionsViewModel, type: ShipType): Vie
                 )
             )
         } ?: { Log.e(TAG, "endGame: Shooter name not found in visibleDevicesList", )}
+        Device.event.gameResult.emit(GameResult.DEFEAT)
     }
     init {
         viewModelScope.launch(Dispatchers.IO) {
             val hitsJob = async { listenToTheHits() }
-            val deadJob = async { listenToTheDead() }
+//            val gameResult = async { listenToGameResult() }
         }
     }
 
-    private suspend fun listenToTheDead() {
-        Device.event.dead.collect {
-            Log.i(TAG, "listenToTheDead: dead collected -> $it")
-//            if (it) {
-//                Device.event.gameOnPause.emit(true)
-//            }
-        }
-    }
     private suspend fun listenToTheHits() {
         motionVM._hitStateFlow.collect {
+            Log.i(TAG, "listenToTheHits: collect hit")
             lifeUpdate(it)
         }
+    }
+
+    fun initNav(navigator: Navigator) {
+        nav = navigator
     }
 }

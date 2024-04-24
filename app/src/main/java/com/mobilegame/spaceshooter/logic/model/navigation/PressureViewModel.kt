@@ -1,5 +1,6 @@
 package com.mobilegame.spaceshooter.logic.model.navigation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.utils.analyze.vLog
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 
 //class PressureViewModel(loadingTime: Long = 500L) : ViewModel() {
 class PressureViewModel() : ViewModel() {
+    private val TAG = "PressureViewModel"
     var timerValidation: Long = 500L
     private val _full = MutableStateFlow(false)
     val full: StateFlow<Boolean> = _full.asStateFlow()
@@ -47,5 +49,10 @@ class PressureViewModel() : ViewModel() {
             setFullAt(false)
 //            _full.update { false }
         }
+    }
+
+    override fun onCleared() {
+        Log.i(TAG, "onCleared: ")
+        super.onCleared()
     }
 }

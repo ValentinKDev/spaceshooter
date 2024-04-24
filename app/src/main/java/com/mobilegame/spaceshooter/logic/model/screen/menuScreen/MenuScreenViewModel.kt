@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens
-import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.MenuScreenUI
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.startMenu.MenuScreenUI
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,15 +17,17 @@ class MenuScreenViewModel(): ViewModel() {
     private val TAG = "MenuScreenViewModel"
     val ui = MenuScreenUI()
     val pressureVM = PressureViewModel()
-    lateinit var nav: Navigator
+//    lateinit var nav: Navigator
 //    private val menuSize: Int = MenuScreens.values().size
     private val menuArray: Array<MenuScreens> = MenuScreens.values()
     private val _currentMenu = MutableStateFlow(MenuScreens.Spacewars)
     val currentMenu: StateFlow<MenuScreens> = _currentMenu.asStateFlow()
     fun updateCurrentMenuTo(menu: MenuScreens) { _currentMenu.value = menu }
+    private val _navigate = MutableStateFlow(false)
+    val navigate: StateFlow<Boolean> = _navigate.asStateFlow()
 
 
-    fun initNav(navigator: Navigator) { nav = navigator}
+//    fun initNav(navigator: Navigator) { nav = navigator}
     fun onLeftClick() {
         val i = menuArray.indexOf(currentMenu.value)
         updateCurrentMenuTo(
@@ -40,6 +42,10 @@ class MenuScreenViewModel(): ViewModel() {
             else MenuScreens.values()[i + 1]
         )
     }
+    suspend fun navigateToMainMenu(nav: Navigator) {
+        nav.navig(Screens.MainScreen)
+        onCleared()
+    }
 
     init {
         Log.i(TAG, "init: ")
@@ -47,9 +53,15 @@ class MenuScreenViewModel(): ViewModel() {
             val lp = async {
                 pressureVM.full.collect {
                     Log.i(TAG, "collect full: $it")
-                    if (it) nav.navig(Screens.MainScreen)
+//                    if (it) nav.navig(Screens.MainScreen)
+                    if (it) _navigate.value = true
                 }
             }
         }
+    }
+
+    override fun onCleared() {
+        Log.i(TAG, "onCleared: ")
+        super.onCleared()
     }
 }

@@ -21,11 +21,10 @@ fun ShootsView(vm: SpaceWarGameViewModel) {
     val shoots by remember { vm.shipVM.motionVM.shootList }.collectAsState()
     val listShipUI = remember { vm.ui.listShipUI }
 
-    LaunchedEffect(key1 = "") {
-        Log.e("ShootsView", "ShootsView: \n\n\n\n\n\n\n\n shoot list size ${shoots.size} ", )
-        shoots.forEach { Log.i("ShootsView", "ShootsView: shoots list ${it.type.id} ${it.from.name} == FromUser ${it.from == MunitionsType.UserProjectile}") }
-
-    }
+//    LaunchedEffect(key1 = "") {
+//        Log.e("ShootsView", "ShootsView: \n\n\n\n\n\n\n\n shoot list size ${shoots.size} ", )
+//        shoots.forEach { Log.i("ShootsView", "ShootsView: shoots list ${it.type.id} ${it.from.name} == FromUser ${it.from == MunitionsType.UserProjectile}") }
+//    }
 //todo separate function to select the projectil/ammo in magazin regard to the ship type
     shoots.forEach{ projectile ->
         when (projectile.type) {

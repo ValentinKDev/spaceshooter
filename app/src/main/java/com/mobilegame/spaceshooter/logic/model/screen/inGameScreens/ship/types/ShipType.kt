@@ -10,7 +10,7 @@ sealed class ShipType(val id: String, val info: ShipInfo) {
     object Square: ShipType("SQUARE", SpaceShipSquare() as ShipInfo)
 
     companion object {
-        val DEFAULT = Square
+        val DEFAULT = Circle
         fun getList(): List<ShipType> = listOf(Circle, Square)
         fun getUiList(sizeShipBox: Size): List<SpaceShipIconUIInterface> {
             val list = getList()

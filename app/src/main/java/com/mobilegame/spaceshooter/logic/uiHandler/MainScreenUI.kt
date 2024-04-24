@@ -46,7 +46,8 @@ class MainScreenUI {
             val initialColor: Color = MyColor.applicationContrast.alpha(0.2F),
         )
         data class TextInstructionMainScreen (
-            val message: String = "Hold the pressure",
+            val principalMessage: String = "Hold the pressure",
+            val warningMessage: String = "Bluetooth is not yet available",
         )
     }
 

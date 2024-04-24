@@ -6,6 +6,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
+import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUIInterface
 import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.analyze.wLog
@@ -14,13 +15,12 @@ import com.mobilegame.spaceshooter.utils.extensions.toDpOffset
 import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 import com.mobilegame.spaceshooter.utils.extensions.toSize
 
-class SpaceWarGameScreenUI(displaySize: Size, shipType: ShipType, enemiesShipType: ShipType) {
+class SpaceWarGameScreenUI(displaySize: Size, shipType: ShipType) {
     val TAG = "SpaceWarGameScreenUI"
     val position = PositionInGameScreen(displaySize)
     val sizes = SizesInGameScreen(displaySize)
 //    private val list = ShipType.LIST
     val userSpaceShip: SpaceShipIconUIInterface = ShipType.getTypeShipUI(shipType, sizes.shipViewBox)
-    val enemiesSpaceShip: MutableList<Pair<ShipType ,SpaceShipIconUIInterface>> = mutableListOf(Pair(enemiesShipType, ShipType.getTypeShipUI(enemiesShipType, sizes.shipViewBox)))
     val listShipUI: List<SpaceShipIconUIInterface> = ShipType.getUiList(sizes.shipViewBox)
 
     class SizesInGameScreen(displaySize: Size) {
@@ -38,8 +38,8 @@ class SpaceWarGameScreenUI(displaySize: Size, shipType: ShipType, enemiesShipTyp
         var pCenter: Offset = Offset(x = displaySize.width / 2F, y = displaySize.height / 2F)
         var pCenterDp: DpOffset =  pCenter.toDpOffset()
     }
-    init {
-        Log.i(TAG, "init: ")
-        Log.i(TAG, "sizeShipBox: ${sizes.shipViewBox}")
-    }
+//    init {
+//        Log.i(TAG, "init: ")
+//        Log.i(TAG, "sizeShipBox: ${sizes.shipViewBox}")
+//    }
 }

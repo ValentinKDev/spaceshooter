@@ -7,10 +7,10 @@ import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
+import com.mobilegame.spaceshooter.logic.model.screen.spaceShipMenuScreen.ShipPicking
+import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
-import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUIInterface
-import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.ShipMenuUI
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.shipMenuScreen.ShipMenuUI
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.presentation.ui.navigation.StrArgumentNav
 import com.mobilegame.spaceshooter.utils.analyze.eLog
@@ -25,54 +25,21 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ShipMenuViewModel(): ViewModel() {
-    val TAG = "ShipMenuViewModel"
+    private val TAG = "ShipMenuViewModel"
     val templateUI = TemplateUI(instantNavBack = true)
     val shipMenuUI = ShipMenuUI()
     val pressureVM = PressureViewModel()
+    val shipPicking = ShipPicking(shipMenuUI.body.sizes.shipViewBox)
 
-//    val shipVM = SpaceShipViewModel(application, ui, shipType)
-//    private val _deviceName = MutableStateFlow(Device.data.name)
-//    val deviceName: StateFlow<String?> = _deviceName.asStateFlow()
-    var nav: Navigator? = null
-    private val _pickedShip = MutableStateFlow(false)
-    val pickedShip: StateFlow<Boolean> = _pickedShip.asStateFlow()
-//    private val shipListSize = ShipType.LIST.size
-    private val shipListSize = ShipType.getList().size
-    private val _shipListIndex = MutableStateFlow(0)
-    val shipListIndex: StateFlow<Int> = _shipListIndex.asStateFlow()
-    private val _shipType = MutableStateFlow(ShipType.getFromList(shipListIndex.value))
-    val shipType: StateFlow<ShipType> = _shipType.asStateFlow()
-    var shipUI: SpaceShipIconUIInterface = getCurrentShipUI()
-    private suspend fun updateShipUI() { shipUI = getCurrentShipUI() }
-    private fun getCurrentShipUI(): SpaceShipIconUIInterface = ShipType.getTypeShipUI(shipListIndex.value, shipMenuUI.body.sizes.shipViewBox)
-    private suspend fun updateShipType() { _shipType.emit(ShipType.getFromList(shipListIndex.value)) }
+    //    var nav: Navigator? = null
+    private val _navigate = MutableStateFlow(false)
+    val navigate: StateFlow<Boolean> = _navigate.asStateFlow()
 
-    private fun decrementListIndex() {
-        if (_shipListIndex.value == 0) _shipListIndex.value = shipListSize - 1
-        else _shipListIndex.value = shipListIndex.value - 1
-    }
-    private fun incrementListIndex() {
-        if (_shipListIndex.value == shipListSize - 1) _shipListIndex.value = 0
-        else _shipListIndex.value = shipListIndex.value + 1
-    }
-    fun handleLeftArrowClick() = viewModelScope.launch {
-        Log.i(TAG, "handleLeftArrowClick: ")
-        decrementListIndex()
-        updateShipType()
-        updateShipUI()
-        Log.i(TAG, "handleLeftArrowClick: listIndex ${shipListIndex.value} type ${shipType.value.id}")
-    }
-    fun handleRightArrowClick() = viewModelScope.launch {
-        Log.i(TAG, "handleRightArrowClick: ")
-        incrementListIndex()
-        updateShipType()
-        updateShipUI()
-        Log.i(TAG, "handleRightArrowClick: listIndex ${shipListIndex.value} type ${shipType.value.id}")
-    }
 
     init {
         viewModelScope.launch {
             val ltr = async {
+                //todo: refactor this
                 withContext(Dispatchers.IO) {
                     Device.wifi.listVisibleDevicesFlow.map { it.firstOrNull() }.collect {visibleDeviceState ->
                         visibleDeviceState?.let {
@@ -86,6 +53,7 @@ class ShipMenuViewModel(): ViewModel() {
 //                                        val ev = async { DeviceEventRepo().sendReadyToPlay() }
                                         spaceShipPicked()
                                         this.coroutineContext.job.cancel()
+                                        onCleared()
                                     }
                                 }
                                 else -> {
@@ -106,31 +74,43 @@ class ShipMenuViewModel(): ViewModel() {
         }
     }
     private suspend fun spaceShipPicked() {
-        Log.e(TAG, "spaceShipPicked: true \n\n\n\n\n true", )
-        _pickedShip.value = true
-//        nav?.navig(destination = Screens.SpaceWarScreen, argumentStr = shipType.value.info.name) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
+//        Log.e(TAG, "spaceShipPicked: true \n\n\n\n\n true", )
+//        _pickedShip.value = true
         Device.wifi.visibleDevices.value.first().shipType?.info?.name?.let {
-            val argStr = StrArgumentNav.serializeToInGameArg(
-                userShipTypeName = shipType.value.info.name,
-                enemiesShipTypeName = it
+            val argStr = StrArgumentNav.serializeArgToInGame(
+                userShipTypeName = shipPicking.shipType.value.info.name,
+                tryAgainStats = TryAgainStats.EMPTY_TRY_AGAIN_STATS,
             )
-            nav?.navig(destination = Screens.SpaceWarScreen, argumentStr = argStr) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
+            _navigate.value = true
+//            nav?.navig(destination = Screens.SpaceWarScreen, argumentStr = argStr) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
         }
+    }
+    suspend fun navigateToGame(navigator: Navigator) {
+        val argStr = StrArgumentNav.serializeArgToInGame(
+            userShipTypeName = shipPicking.shipType.value.info.name,
+            tryAgainStats = TryAgainStats.EMPTY_TRY_AGAIN_STATS,
+        )
+        navigator.navig(destination = Screens.SpaceWarScreen, argumentStr = argStr) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
     }
 
     fun pressureReadyToPlay() = viewModelScope.launch {
         Log.i(TAG, "pressureReadyToPlay: ", )
-//        DeviceEventRepo().sendReadyToPlay()
-        DeviceEventRepo().sendReadyToPlay(shipType.value.info.name)
-//        DeviceEventRepo().sendReadyToChooseShip()
+        DeviceEventRepo().sendReadyToPlay(shipPicking.shipType.value.info.name)
     }
     fun pressureReleaseToPlay()  = viewModelScope.launch {
         Log.i(TAG, "pressureReleaseToPlay: ")
-//        DeviceEventRepo().sendNotReadyToPlay()
         DeviceEventRepo().sendNotReadyToPlay()
-//        DeviceEventRepo().sendNotReadyToChooseShip()
     }
-    fun initNav(navigator: Navigator) {
-        nav = navigator
+
+//    fun initNav(navigator: Navigator) {
+//        nav = navigator
+//    }
+
+    fun handleLeftArrowClick() = viewModelScope.launch { shipPicking.handleLeftArrowClick() }
+    fun handleRightArrowClick() = viewModelScope.launch { shipPicking.handleRightArrowClick() }
+
+    override fun onCleared() {
+        Log.w(TAG, "onCleared: ")
+        super.onCleared()
     }
 }

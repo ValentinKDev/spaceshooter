@@ -87,7 +87,8 @@ fun SpaceShooterTheme(
     if (metricsInitiated == null ) {
         Box( Modifier.fillMaxSize().onGloballyPositioned { layout ->
             vm.initMetrics(context, layout)
-            vm.initBackgroundData()
+//            vm.ui.init(context)
+            vm.initBackgroundData(context)
         } )
     } else {
         BackgroundGrid(vm.ui)

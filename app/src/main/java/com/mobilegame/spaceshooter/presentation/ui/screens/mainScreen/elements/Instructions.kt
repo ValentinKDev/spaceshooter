@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -18,6 +20,8 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.utils.PaddingComposab
 
 @Composable
 internal fun Instructions(vm: MainScreenViewModel) {
+
+    val warning by remember { vm.warning }.collectAsState()
     val infiniteTransition = rememberInfiniteTransition()
     val animateColor by infiniteTransition.animateColor(
         initialValue = vm.ui.instruction.color.initialColor,
@@ -42,7 +46,8 @@ internal fun Instructions(vm: MainScreenViewModel) {
             AlignComposableToBottom {
                 CenterComposableHorizontally {
                     Text(
-                        text = vm.ui.instruction.text.message,
+                        text = if (warning) vm.ui.instruction.text.warningMessage
+                        else vm.ui.instruction.text.principalMessage ,
                         color = animateColor,
                         style = TextStyle(
                             fontSize = vm.ui.instruction.sizes.textSp,

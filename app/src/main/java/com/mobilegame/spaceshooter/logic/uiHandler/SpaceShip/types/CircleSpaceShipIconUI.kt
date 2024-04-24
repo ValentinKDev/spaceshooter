@@ -80,12 +80,12 @@ class CircleSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
                 Axe.Y -> (sin(PI * newAngle).toFloat() * (distance) * -1F ) + center
             }
         }
-        init {
-            Log.i(TAG, "init: ")
-        }
+//        init {
+//            Log.i(TAG, "init: ")
+//        }
     }
 
-    init { Log.i(TAG, "init: ") }
+//    init { Log.i(TAG, "init: ") }
     fun getAmmunitionOffset(n: Int): Offset = when (n) {
         1 -> ammunition.m5
         2 -> ammunition.m6

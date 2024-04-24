@@ -119,6 +119,7 @@ data class Shoot(
                 offsetDp = offsetDp
             )
         }
+//        fun newFromUser(type: ShipType, vm: MotionsViewModel, behavior: Int = 1, damage: Float = 1F): Shoot = Shoot(
         fun newFromUser(type: ShipType, vm: MotionsViewModel, behavior: Int = 1, damage: Float = 1F): Shoot = Shoot(
             type = type,
             from = MunitionsType.UserProjectile,
@@ -130,16 +131,16 @@ data class Shoot(
             yRatio = Device.metrics.getYRatio(vm.getShipTopCenter().y.value),
             offsetDp = vm.getShipTopCenter(),
         )
-//        val UNDEFINED = Shoot(
-//            type = ShipType.Square,
-//            from = MunitionsType.UserProjectile,
+        val UNDEFINED = Shoot(
+            type = ShipType.Square,
+            from = MunitionsType.UserProjectile,
 //            shooterIp = null,
-//            vector = Size.Unspecified,
-//            particularBehavior = 0,
-//            damage = Float.NaN,
-//            xRatio = Float.NaN,
-//            yRatio = Float.NaN,
-//            offsetDp = DpOffset.Unspecified
-//        )
+            vector = Size.Unspecified,
+            particularBehavior = 0,
+            damage = Float.NaN,
+            xRatio = Float.NaN,
+            yRatio = Float.NaN,
+            offsetDp = DpOffset.Unspecified
+        )
     }
 }

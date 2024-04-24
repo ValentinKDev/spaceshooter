@@ -28,7 +28,9 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
     val registerVM = RegisterDeviceViewModel(application, Screens.WifiScreen)
     val repo = DeviceWifiRepo()
     private var connectionVM: WifiConnectionViewModel = WifiConnectionViewModel()
-    var nav: Navigator? = null
+//    var nav: Navigator? = null
+    private val _navigate = MutableStateFlow(false)
+    val navigate: StateFlow<Boolean> = _navigate.asStateFlow()
 
     private val _deviceName = MutableStateFlow(Device.data.name)
     val deviceName: StateFlow<String?> = _deviceName.asStateFlow()
@@ -52,8 +54,9 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
                                 eLog(TAG, "SPACE SHIP MENU")
 //                                DeviceEventRepo().sendReadyToChooseShip()
 //                                DeviceEventRepo().sendReadyToPlay()
-                                chooseSpaceShip()
-                                this.coroutineContext.job.cancel()
+//                                chooseSpaceShip()
+                                _navigate.value = true
+//                                this.coroutineContext.job.cancel()
                             }
                         }
                         else -> {
@@ -71,10 +74,12 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
             }
         }
     }
-    suspend private fun chooseSpaceShip() {
+    private fun chooseSpaceShip() {
         goToShipMenu = true
 //        nav?.let { it.navig(Screens.SpaceWarScreen) }
-        nav?.let { it.navig(Screens.ShipMenuScreen) }
+    }
+    suspend fun navigateToShipMenuScreen(navigator: Navigator) {
+        navigator.navig(Screens.ShipMenuScreen)
     }
 
     fun nonNullNameTrigger() {
@@ -100,6 +105,9 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
 
     //todo : is this better to store the navigation in the Device Data obj ?
     fun initNavigation(navigator: Navigator) {
-        nav = navigator
+//        nav = navigator
+    }
+    init {
+        Log.e(TAG, "ini: \n\n\n\n\n\n test", )
     }
 }

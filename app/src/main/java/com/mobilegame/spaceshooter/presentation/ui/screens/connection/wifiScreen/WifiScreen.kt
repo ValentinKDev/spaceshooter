@@ -1,19 +1,12 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.wifiScreen
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen.WifiScreenViewModel
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
-import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.DevicesMenu
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.RegisterDeviceName
-import com.mobilegame.spaceshooter.presentation.ui.screens.connection.elements.background.BackgroundBanner
-import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.shipMenu.ShipMenuScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.wifiScreen.WifiConnectingScreen
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 

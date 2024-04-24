@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.MenuScreenUI
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.startMenu.MenuScreenUI
 
 @Composable
 fun DrawU(menuUI: MenuScreenUI) {

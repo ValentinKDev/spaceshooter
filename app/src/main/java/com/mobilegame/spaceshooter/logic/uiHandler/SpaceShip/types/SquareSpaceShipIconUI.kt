@@ -78,7 +78,7 @@ class SquareSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
                 Offset.Zero
             }
         }
-        init { Log.i(TAG, "init:") }
+//        init { Log.i(TAG, "init:") }
     }
     data class ColorsSquareShip(
         val outline: Color = MyColor.applicationContrast,
@@ -91,5 +91,5 @@ class SquareSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
         override val sizeDp: DpSize = sizes.shipSizeDp
 
     }
-    init { Log.i(TAG, "init: ") }
+//    init { Log.i(TAG, "init: ") }
 }

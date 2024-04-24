@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -18,9 +19,11 @@ import com.mobilegame.spaceshooter.presentation.ui.template.TemplateWithoutBand
 
 @Composable
 fun WifiConnectingScreen(vm: WifiScreenViewModel, navigator: Navigator) {
-    val linkState by remember { Device.wifi.linkState }.collectAsState()
 
-    Box (Modifier.fillMaxSize().background(MyColor.applicationBackground)) {
+    Box (
+        Modifier
+            .fillMaxSize()
+            .background(MyColor.applicationBackground)) {
         BackgroundBanner(vm.ui.banner)
         TemplateWithoutBand(
             navigator = navigator,

@@ -7,13 +7,12 @@ class ShipStatsIndicator (
     val reloadIndicator: Int,
 ) {
     val map: Map<String, Int> = mapOf(
-        Pair(ShipStatsIndicator.LIST[0], lifeIndicator),
-        Pair(ShipStatsIndicator.LIST[1], speedIndicator),
-        Pair(ShipStatsIndicator.LIST[2], damageIndicator),
-        Pair(ShipStatsIndicator.LIST[3], reloadIndicator),
+        Pair(LIST[0], lifeIndicator),
+        Pair(LIST[1], speedIndicator),
+        Pair(LIST[2], damageIndicator),
+        Pair(LIST[3], reloadIndicator),
     )
     companion object {
         val LIST = listOf("HEALTH", "SPEED", "DAMAGE", "RELOAD")
-        const val MAX_STATS = 6
     }
 }

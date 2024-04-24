@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
-import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.MenuScreenUI
-import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.letters.LetterPUI
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.startMenu.MenuScreenUI
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.startMenu.letters.LetterPUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 
 @Composable

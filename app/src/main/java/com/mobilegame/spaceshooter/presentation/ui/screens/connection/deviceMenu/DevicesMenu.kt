@@ -20,10 +20,14 @@ import com.mobilegame.spaceshooter.presentation.ui.template.TemplateWithBand
 fun DevicesMenu(vm: WifiScreenViewModel, navigator: Navigator, deviceName: String?) {
     val facingDevices by remember { Device.wifi.visibleDevices }.collectAsState()
 
-    LaunchedEffect("key") {
-        Log.i("Screen", "DevicesMenu: launch")
-        vm.initNavigation(navigator)
+    val navigate by remember { vm.navigate }.collectAsState()
+    LaunchedEffect(navigate) {
+        if (navigate) vm.navigateToShipMenuScreen(navigator)
     }
+//    LaunchedEffect("key") {
+//        Log.i("Screen", "DevicesMenu: launch")
+//        vm.initNavigation(navigator)
+//    }
 
     Box (Modifier.fillMaxSize().background(MyColor.applicationBackground)) {
         BackgroundBanner(vm.ui.banner)

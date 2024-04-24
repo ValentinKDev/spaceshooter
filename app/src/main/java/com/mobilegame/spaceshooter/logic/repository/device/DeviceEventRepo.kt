@@ -9,6 +9,7 @@ import com.mobilegame.spaceshooter.data.connection.wifi.SendEvent
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiClient
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiInfoService
 import com.mobilegame.spaceshooter.data.device.Device
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.GameResult
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.LooseInfo
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
@@ -105,6 +106,7 @@ class DeviceEventRepo() {
                         genericEventMessage(type = EventMessageType.Dead, strMessage = looseInfoJson)?.let {eventMessage ->
                             sendEvent.toAll(toClientRepo.getClientsList(), eventMessage, exception = _client )
                         }
+                        Device.event.gameResult.emit(GameResult.VICTORY)
                     }
                 }
             }

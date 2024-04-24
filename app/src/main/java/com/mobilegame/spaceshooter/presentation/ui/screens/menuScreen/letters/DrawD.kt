@@ -12,8 +12,8 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
-import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.MenuScreenUI
-import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.letters.LetterDUI
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.startMenu.MenuScreenUI
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.startMenu.letters.LetterDUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 
 @Composable

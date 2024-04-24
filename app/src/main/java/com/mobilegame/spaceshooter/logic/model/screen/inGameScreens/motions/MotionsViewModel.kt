@@ -74,7 +74,9 @@ class MotionsViewModel(
         else _speedMagnitude.value = SpeedMagnitude.Slow
     }
 
-    init { startEngine() }
+    init {
+        startEngine()
+    }
 
     private fun startEngine() = viewModelScope.launch(Dispatchers.IO) {
         Log.i(TAG, "startEngine: ")
@@ -98,15 +100,15 @@ class MotionsViewModel(
     private fun updateDeltaMoves(xyz: XYZ) { xyz.updateDelaOffset() }
     val wifiRepo = DeviceWifiRepo()
     private fun updateShipPosition() {
-//        if (wifiRepo.isDeviceServer()) {
+        if (wifiRepo.isDeviceServer()) {
             val newPCenter = shipPosition.value.calculateNewDpOffset()
             _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
-//        }
+        }
     }
     private fun updateShipHitBox() { _shipHitBox.update { it.getUpdatedBoxCoordinates(shipPosition.value) } }
     private suspend fun startListeningToProjectiles(): Nothing = Device.event.projectileFlow.collect {
-        Log.i(TAG, "startListeningToProjectiles: ")
-        addShoot(it)
+        Log.i(TAG, "startListeningToProjectiles: damage ${it.damage}")
+        if (it != Shoot.UNDEFINED) addShoot(it)
     }
     suspend private fun updateShoots() {
         var newList: List<Shoot> = _shootList.value.moveAndRemoveShoots()
@@ -131,9 +133,9 @@ class MotionsViewModel(
         .map { it.getShootNextDpOffset() }
         .filter {
             if (it.offsetDp touchTopScreen displaySizeDp) {
-//                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
+                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
                 val invertedShoot = it.getShootPrecedentDpOffset().prepareShootToSendAway()
-//                eventRepo.sendProjectile(invertedShoot)
+                eventRepo.sendProjectile(invertedShoot)
             }
             it.offsetDp isInBoundsOf displaySizeDp
         }
@@ -201,6 +203,7 @@ class MotionsViewModel(
     )
 
     suspend fun addShoot(shoot: Shoot) {
+        Log.i(TAG, "addShoot: ")
 //        Log.e(TAG, "addShoot: Shoot from ShipType ${shoot.type.name}", )
 //        Log.i(TAG, "addShoot: test == circle ${shoot.type == ShipType.Circle}")
 //        Log.i(TAG, "addShoot: test == square ${shoot.type == ShipType.Square}")

@@ -10,7 +10,7 @@ import com.mobilegame.spaceshooter.logic.uiHandler.tutos.DuelTutoScreenUI
 class TutoScreenViewModel(application: Application): AndroidViewModel(application) {
     val ui = DuelTutoScreenUI()
 //    val gameVM = SpaceWarGameViewModel(application, ui.smartphoneEmulator.sizes.screenInner)
-    val gameVM = SpaceWarGameViewModel(ShipType.Square, ShipType.Square,ui.smartphoneEmulator.sizes.screenInner, application)
+    val gameVM = SpaceWarGameViewModel(ShipType.Square,ui.smartphoneEmulator.sizes.screenInner, application)
 
     val backButtonPressureNavigationVM = PressureViewModel()
 }

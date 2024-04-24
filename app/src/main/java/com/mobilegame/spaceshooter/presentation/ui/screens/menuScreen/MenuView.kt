@@ -27,10 +27,13 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 @Composable
 fun MenuScreen(navigator: Navigator, vm: MenuScreenViewModel = viewModel()) {
     val currentMenu by remember { vm.currentMenu }.collectAsState()
+    val navigate by remember { vm.navigate }.collectAsState()
 
-    LaunchedEffect("") {
+//    LaunchedEffect("") {
+    LaunchedEffect(navigate) {
         eLog("MenuScreen", "MenuScreen launch")
-        vm.initNav(navigator)
+//        vm.initNav(navigator)
+        if (navigate) vm.navigateToMainMenu(navigator)
     }
 
     Box(

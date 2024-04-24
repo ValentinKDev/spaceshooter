@@ -1,5 +1,6 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements
 
+import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
@@ -16,8 +17,6 @@ fun DisplayShipView(vm: SpaceWarGameViewModel) {
     val position by remember { vm.shipVM.motionVM.shipPosition }.collectAsState()
     val motion by remember { vm.shipVM.motionVM.motion }.collectAsState()
     val speed by remember { vm.shipVM.motionVM.speedMagnitude }.collectAsState()
-    val magazine by remember { vm.shipVM.ammoVM.magazineSize }.collectAsState()
-//    val magazine by remember { vm.shipVM.ammoVM.currentMagazineSize }.collectAsState()
     val lifeRatio by  remember {vm.shipVM.lifeVM.lifeRatio }.collectAsState()
 
     val angle by animateFloatAsState(
@@ -32,13 +31,11 @@ fun DisplayShipView(vm: SpaceWarGameViewModel) {
             .offset(position.x, position.y)
             .rotate(angle)
     ) {
-//        DisplayShip(vm.shipVM, vm.ui)
-//        ShipView(vm.shipType ,lifeRatio, magazine, vm.ui)
         ShipView(
             type = vm.userShipType,
             shipViewSizeBox = vm.ui.sizes.shipViewBox,
+            magazine = vm.shipVM.ammoVM.magazineSize,
             lifeRatio = lifeRatio,
-            magazine = magazine,
         )
     }
 }

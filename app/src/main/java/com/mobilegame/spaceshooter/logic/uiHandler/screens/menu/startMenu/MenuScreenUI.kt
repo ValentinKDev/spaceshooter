@@ -1,4 +1,4 @@
-package com.mobilegame.spaceshooter.logic.uiHandler.screens.menu
+package com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.startMenu
 
 import android.util.Log
 import androidx.compose.ui.unit.Dp

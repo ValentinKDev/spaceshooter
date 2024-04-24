@@ -1,18 +1,4 @@
-package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.shipMenu
-
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.layoutId
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.ConstraintSet
-import androidx.constraintlayout.compose.Dimension
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
-import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.ShipMenuUI
-import com.mobilegame.spaceshooter.presentation.theme.MyColor
+package com.mobilegame.spaceshooter.presentation.ui.screens.shipMenuScreen
 
 
 //@Composable
