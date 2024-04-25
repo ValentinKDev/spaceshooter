@@ -29,7 +29,7 @@ fun RegisterDeviceName(navigator: Navigator, vm: RegisterDeviceViewModel = viewM
 
     Box (Modifier.fillMaxSize().background(MyColor.applicationBackground)) {
         TemplateWithoutBand(
-            navigator = navigator,
+//            navigator = navigator,
             backNav = Screens.MainScreen,
             ui = vm.ui.template,
             header = {

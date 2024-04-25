@@ -13,14 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
+import com.mobilegame.spaceshooter.logic.model.navigation.PressureHandler
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.chargingEffect.ChargingAnimation
 
 @Composable
 fun ChargingScreen(
-    handler: PressureViewModel,
+    handler: PressureHandler,
     navigator: Navigator,
     contentSize: DpSize,
     screenSize: DpSize,

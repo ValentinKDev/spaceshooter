@@ -12,14 +12,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
-import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
+import com.mobilegame.spaceshooter.logic.model.navigation.PressureHandler
 
 @Composable
 fun ChargingButtonInstant(
     sizeDp: DpSize,
     contentUncharged: @Composable () -> Unit,
     contentCharged: @Composable () -> Unit,
-    handler: PressureViewModel,
+    handler: PressureHandler,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()

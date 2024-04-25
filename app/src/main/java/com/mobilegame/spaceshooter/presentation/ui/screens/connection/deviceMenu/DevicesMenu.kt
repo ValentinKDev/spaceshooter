@@ -1,6 +1,5 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.connection
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,7 +35,8 @@ fun DevicesMenu(vm: WifiScreenViewModel, navigator: Navigator, deviceName: Strin
 
                 TemplateWithBand(
                     navigator = navigator,
-                    backNav = Screens.BluetoothScreen.backNav ?: Screens.None,
+//                    backNav = Screens.BluetoothScreen.backNav ?: Screens.None,
+                    backNav = vm.backNavScreen,
                     ui = vm.ui.template,
                     header = {},
                     band = {
@@ -51,7 +51,7 @@ fun DevicesMenu(vm: WifiScreenViewModel, navigator: Navigator, deviceName: Strin
                         DevicesMenuBody(
                             ui = vm.ui.deviceMenu.body,
                             navigator = navigator,
-                            pressureVM = vm.pressureVM,
+                            pressureVM = vm.pressureHandler,
 //                        onPressure = WifiScreenViewModel::pressureReadyToChooseSpaceShip,
 //                        onRelease = WifiScreenViewModel::pressureReleaseToChooseSpaceShip
                         )

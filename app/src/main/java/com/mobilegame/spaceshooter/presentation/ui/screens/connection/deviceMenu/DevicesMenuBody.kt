@@ -11,21 +11,18 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
-import com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen.WifiScreenViewModel
-import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
+import com.mobilegame.spaceshooter.logic.model.navigation.PressureHandler
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.DevicesMenuUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.ChargingButton
-import kotlinx.coroutines.Job
-import kotlin.reflect.KFunction2
 
 @Composable
 
 fun DevicesMenuBody(
     navigator: Navigator,
     ui: DevicesMenuUI.BodyDeviceMenu,
-    pressureVM: PressureViewModel,
+    pressureVM: PressureHandler,
 ) {
     val constraints = remember {
         ConstraintSet {

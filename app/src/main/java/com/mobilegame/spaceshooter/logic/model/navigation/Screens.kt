@@ -5,7 +5,7 @@ sealed class Screens(val route: String, val key: Int, val backNav: Screens?, val
     object  MenuScreen: Screens(
         route = "menu_screen",
         key = 0,
-        backNav = None,
+        backNav = MenuScreen,
         forwardNav = MainScreen
     )
     object  MainScreen: Screens(
@@ -32,11 +32,13 @@ sealed class Screens(val route: String, val key: Int, val backNav: Screens?, val
     object  DuelTutoScreen: Screens("duel_tuto_screen", 7, MainScreen, None)
     object  Creator: Screens("creator_screen", 8, MainScreen, None)
     object  StatsScreen: Screens("stats_screen", 9, MenuScreen, MenuScreen)
+    object  AboutScreen: Screens("about_screen", 10, MenuScreen, MenuScreen)
 
     object  None: Screens("none_screen", -1, None, None)
     object  Test: Screens("test_screen", -42, None, None)
 
     companion object {
+//        val MENU_SELECTION = listOf(MainScreen, StatsScreen, )
         fun find(routeToIdentify: String): Screens {
             return Screens::class.sealedSubclasses
                 .firstOrNull { _it ->

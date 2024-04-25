@@ -27,6 +27,7 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.S
 import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
 import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainViewModel
 import com.mobilegame.spaceshooter.presentation.ui.screens.Creator
+import com.mobilegame.spaceshooter.presentation.ui.screens.aboutUsScreen.AboutUsScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.bluetoothScreen.BluetoothScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.LaunchSpaceWarGameScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.shipMenuScreen.ShipMenuScreen
@@ -47,12 +48,12 @@ import kotlinx.coroutines.flow.onSubscription
 @Composable
 fun Navigation(navigator: Navigator) {
     val navController = rememberNavController()
-    val context = LocalContext.current
 
 //    LaunchedEffect(true) {
     LaunchedEffect("navigation") {
         Log.e("Navigation", "Start")
         navigator.des.onEach {
+            Log.e("Navigation", "Navigation: Previous ${navController.previousBackStackEntry?.destination?.route}")
             navController.navigate(it)
         }.launchIn(this)
     }
@@ -60,11 +61,12 @@ fun Navigation(navigator: Navigator) {
     NavHost(
         navController = navController,
 //        startDestination = Screens.MainScreen.route,
-        startDestination = Screens.MenuScreen.route,
+//        startDestination = Screens.MenuScreen.route,
 //        startDestination = Screens.StatsScreen.route,
 //        startDestination = Screens.WifiScreen.route,
 //        startDestination = Screens.DuelTutoScreen.route,
 //        startDestination = Screens.SpaceWarScreen.route,
+        startDestination = AboutScreen.route,
 //        startDestination = Screens.Creator.route,
 //        startDestination = Screens.Test.route,
     ) {
@@ -84,17 +86,21 @@ fun Navigation(navigator: Navigator) {
             WifiScreen(navigator) }
         composable(route = Screens.DuelTutoScreen.route) { DuelTutoScreen(navigator) }
         composable(route = Screens.StatsScreen.route) {
-            StatsScreen(navigator) }
+            StatsScreen() }
+        composable(route = AboutScreen.route) {
+            AboutUsScreen() }
         composable(
-            route = Screens.TryAgainScreen.route.plus("/{${StrArgumentNav.ARG_KEY_TRY_AGAIN}}"),
-            arguments = listOf( navArgument(StrArgumentNav.ARG_KEY_TRY_AGAIN) {type = NavType.StringType})
-        ) { entry ->
-            Log.v("Navigation", "to Screens.TryAgain.route")
-            entry.arguments?.getString(StrArgumentNav.ARG_KEY_TRY_AGAIN)?.let { arg ->
-                val stats = StrArgumentNav.deserializeArgToTryAgain(arg)
-                TryAgainScreen( stats, navigator )
+            route = Screens.TryAgainScreen.route
+//            route = Screens.TryAgainScreen.route.plus("/{${StrArgumentNav.ARG_KEY_TRY_AGAIN}}"),
+//            arguments = listOf( navArgument(StrArgumentNav.ARG_KEY_TRY_AGAIN) {type = NavType.StringType})
+        ) {
+//            entry ->
+//            Log.v("Navigation", "to Screens.TryAgain.route")
+//            entry.arguments?.getString(StrArgumentNav.ARG_KEY_TRY_AGAIN)?.let { arg ->
+//                val stats = StrArgumentNav.deserializeArgToTryAgain(arg)
+                TryAgainScreen( navigator )
 //                TryAgainScreen( stats, navigator, ShipMenuViewModel())
-            }
+//            }
         }
         composable(
             route = SpaceWarScreen.route
@@ -128,7 +134,8 @@ fun Navigation(navigator: Navigator) {
                 lastShipName = ShipType.Square.info.name
             )
 //            TryAgainScreen( stats, navigator)
-            TryAgainScreen( stats, navigator, ShipMenuViewModel())
+//            TryAgainScreen( stats, navigator, ShipMenuViewModel())
+            TryAgainScreen( navigator)
 //            LaunchSpaceWarGameScreen(
 //                LaunchDuelGameViewModel(
 ////                    userShipType = ShipType.Circle,

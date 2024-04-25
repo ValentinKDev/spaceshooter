@@ -7,7 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
-import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
+import com.mobilegame.spaceshooter.logic.model.navigation.PressureHandler
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 
@@ -21,7 +21,7 @@ fun Creator(navigator: Navigator ,vm: CreatorViewModel = viewModel()) {
 }
 
 class CreatorViewModel(application: Application): AndroidViewModel(application) {
-    val vmPressure = PressureViewModel()
+//    val vmPressure = PressureHandler()
     val templateUI = TemplateUI()
 }
 //interface Shape {

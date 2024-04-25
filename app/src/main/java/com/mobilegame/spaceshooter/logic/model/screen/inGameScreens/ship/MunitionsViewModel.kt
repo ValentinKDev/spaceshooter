@@ -84,7 +84,7 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
     private fun shipLogic() = viewModelScope.launch(Dispatchers.Main) {
         var action: Deferred<Unit>? = null
         shipState.collect {
-            Log.v(TAG, "collect state: ${shipState.value}")
+//            Log.v(TAG, "collect state: ${shipState.value}")
             action?.cancel()
             when (it) {
                 State.FirstShootNotDone -> {}
@@ -173,7 +173,7 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
         }
     }
     private suspend fun createProjectile() {
-        Log.i(TAG, "createProjectile: start")
+//        Log.i(TAG, "createProjectile: start")
         var ammo = ammoCharged
         when (shipType.info.chargedProjectileType) {
             ChargedProjectileType.Instant -> {
@@ -207,6 +207,6 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
                 }
             }
         }
-        Log.i(TAG, "createProjectile: finish")
+//        Log.i(TAG, "createProjectile: finish")
     }
 }

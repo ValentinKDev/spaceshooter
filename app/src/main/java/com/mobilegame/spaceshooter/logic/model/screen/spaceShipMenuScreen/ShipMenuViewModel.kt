@@ -5,8 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.connection.wifi.PreparationState
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
-import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
+import com.mobilegame.spaceshooter.logic.model.navigation.PressureHandler
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.logic.model.screen.spaceShipMenuScreen.ShipPicking
 import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
@@ -26,10 +27,12 @@ import kotlinx.coroutines.withContext
 
 class ShipMenuViewModel(): ViewModel() {
     private val TAG = "ShipMenuViewModel"
+    val gameStats: TryAgainStats = StrArgumentNav.deserializeArgToShipMenu(Device.navigation.argStr)
     val templateUI = TemplateUI(instantNavBack = true)
     val shipMenuUI = ShipMenuUI()
-    val pressureVM = PressureViewModel()
-    val shipPicking = ShipPicking(shipMenuUI.body.sizes.shipViewBox)
+    val pressureHandler = PressureHandler(null)
+//    val shipPicking = ShipPicking(shipMenuUI.body.sizes.shipViewBox)
+    val shipPicking = ShipPicking(shipViewBox = shipMenuUI.body.sizes.shipViewBox, shipSelected = ShipType.getType(gameStats.lastShipName))
 
     //    var nav: Navigator? = null
     private val _navigate = MutableStateFlow(false)
@@ -48,13 +51,12 @@ class ShipMenuViewModel(): ViewModel() {
                                 PreparationState.ReadyToPlay -> {
 //                                PreparationState.ReadyToChooseShip -> {
                                     Log.e(TAG, "front device is ReadyToPlay")
-                                    if (pressureVM.full.value) {
+                                    if (pressureHandler.full.value) {
                                         Log.i(TAG, "ready to play and full is true: ")
-//                                        val ev = async { DeviceEventRepo().sendReadyToChooseShip() }
-//                                        val ev = async { DeviceEventRepo().sendReadyToPlay() }
-                                        spaceShipPicked()
+                                        readyToNavigate()
+//                                        Device.wifi.listConnectedDevice.first().state = PreparationState.InGame
                                         this.coroutineContext.job.cancel()
-                                        onCleared()
+//                                        onCleared()
                                     }
                                 }
                                 else -> {
@@ -66,7 +68,7 @@ class ShipMenuViewModel(): ViewModel() {
                 }
             }
             val emr = async {
-                pressureVM.full.collect { _full ->
+                pressureHandler.full.collect { _full ->
                     eLog(TAG, "collecting pressureVM.full $_full")
                     if (_full) { pressureReadyToPlay() }
                     else { pressureReleaseToPlay() }
@@ -74,7 +76,8 @@ class ShipMenuViewModel(): ViewModel() {
             }
         }
     }
-    private suspend fun spaceShipPicked() {
+    private suspend fun readyToNavigate() {
+        Log.v(TAG, "readyToNavigate: ")
 //        Log.e(TAG, "spaceShipPicked: true \n\n\n\n\n true", )
 //        _pickedShip.value = true
         Device.wifi.visibleDevices.value.first().shipType?.info?.name?.let {
@@ -88,15 +91,18 @@ class ShipMenuViewModel(): ViewModel() {
     }
     suspend fun navigateToGame(navigator: Navigator) {
         Log.i(TAG, "navigateToGame: navigate ${navigate.value}")
+        Log.i(TAG, "navigateToGame: arg ${Device.navigation.argStr}")
         val argStr = StrArgumentNav.serializeArgToInGame(
             userShipTypeName = shipPicking.shipType.value.info.name,
-            tryAgainStats = TryAgainStats.EMPTY_TRY_AGAIN_STATS,
+            tryAgainStats = gameStats,
+//            tryAgainStats = TryAgainStats.EMPTY_TRY_AGAIN_STATS
         )
         Device.navigation.argStr = argStr
         Log.i(TAG, "navigateToGame: argStr ${Device.navigation.argStr}")
 //        navigator.navig(destination = Screens.SpaceWarScreen, argumentStr = argStr) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
 //        navigator.navig(toScreen = Screens.SpaceWarScreen, argumentStr = argStr) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
         navigator.navig(toScreen = Screens.SpaceWarScreen) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
+        onCleared()
     }
 
     fun pressureReadyToPlay() = viewModelScope.launch {

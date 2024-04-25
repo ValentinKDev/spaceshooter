@@ -1,21 +1,18 @@
 package com.mobilegame.spaceshooter.logic.model.navigation
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.utils.analyze.vLog
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
-//class PressureViewModel(loadingTime: Long = 500L) : ViewModel() {
-class PressureViewModel() : ViewModel() {
+//class PressureViewModel() : ViewModel() {
+class PressureHandler(private val triggerNavTo: Screens?, private val arg: String = "") {
     private val TAG = "PressureViewModel"
-    var timerValidation: Long = 500L
+    var timerValidation: Long = 400L
     private val _full = MutableStateFlow(false)
     val full: StateFlow<Boolean> = _full.asStateFlow()
     fun setFullAt(bool: Boolean) { _full.update { bool } }
@@ -26,19 +23,23 @@ class PressureViewModel() : ViewModel() {
     fun setPressureStateTo(state: Boolean) { pressureState = state }
     fun incrementPressureNumber() { pressureNumber += 1 }
 
-    fun handlePressureStart() {
+//    fun handlePressureStart() {
+    suspend fun handlePressureStart() {
         vLog("PressureNavVM" , "handlePressureStart")
         setPressureStateTo(true)
         incrementPressureNumber()
-        viewModelScope.launch(Dispatchers.IO) { timer() }
+//        viewModelScope.launch(Dispatchers.IO) { timer() }
+        timer()
     }
 
     private suspend fun timer() {
         val pressureNumberAtStart = pressureNumber
         delay(timerValidation)
         if (pressureState && pressureNumberAtStart == pressureNumber) {
+            Log.w(TAG, "timer: pression is full")
 //            _full.update { true }
             setFullAt(true)
+            triggerNavTo?.let { screen -> Device.navigation.nav.navig(screen, arg) }
         }
     }
 
@@ -51,8 +52,13 @@ class PressureViewModel() : ViewModel() {
         }
     }
 
-    override fun onCleared() {
-        Log.i(TAG, "onCleared: ")
-        super.onCleared()
+    suspend fun navigateTo(screen: Screens, arg: String = "") {
+        Device.navigation.nav.navig(screen, arg)
     }
+
+//    fun clearVM() { onCleared() }
+//    override fun onCleared() {
+//        Log.i(TAG, "onCleared: ")
+//        super.onCleared()
+//    }
 }

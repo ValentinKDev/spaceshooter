@@ -16,25 +16,29 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class SpaceShooterMetricsViewModel(): ViewModel() {
+    private val TAG = "SpaceShooterMetricsViewModel"
 
     private val _initiated = MutableStateFlow<Boolean?>(null)
     val initiated: StateFlow<Boolean?> = _initiated.asStateFlow()
     val ui = BackgroundUI()
     fun initBackgroundData(context: Context) { ui.init(context) }
     fun initMetrics(context: Context, layout: LayoutCoordinates) = viewModelScope.launch {
-        _initiated.emit(true)
-        Device.metrics.width = layout.size.width.toFloat()
-        Device.metrics.height = layout.size.height.toFloat()
+        if (layout.size.width < layout.size.height) {
+            Log.e( TAG, "initMetrics: ERROR WIDTH < HEIGHT", )
+            Device.metrics.width = layout.size.height.toFloat()
+            Device.metrics.height = layout.size.width.toFloat()
+        } else {
+            Device.metrics.width = layout.size.width.toFloat()
+            Device.metrics.height = layout.size.height.toFloat()
+        }
         Device.metrics.size = Size(Device.metrics.width, Device.metrics.height)
         Device.metrics.density = context.resources.displayMetrics.density
-//        Device.metrics.sizeDp = DpSize(Device.metrics.width.toDp(), Device.metrics.height.toDp())
         Device.metrics.sizeDp = Device.metrics.size.toDpSize()
+        _initiated.emit(true)
 
-        displayDataUI.let {
-            Log.w("SpaceShooterMetricsVM", "initMetrics width = ${Device.metrics.width}")
-            Log.w("SpaceShooterMetricsVM", "initMetrics height = ${Device.metrics.height}")
-            Log.w("SpaceShooterMetricsVM", "initMetrics density = ${Device.metrics.density}")
-            Log.w("SpaceShooterMetricsVM", "initMetrics sizeDP = ${Device.metrics.sizeDp}")
-        }
+        Log.w("SpaceShooterMetricsVM", "initMetrics width = ${Device.metrics.width}")
+        Log.w("SpaceShooterMetricsVM", "initMetrics height = ${Device.metrics.height}")
+        Log.w("SpaceShooterMetricsVM", "initMetrics density = ${Device.metrics.density}")
+        Log.w("SpaceShooterMetricsVM", "initMetrics sizeDP = ${Device.metrics.sizeDp}")
     }
 }

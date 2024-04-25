@@ -9,20 +9,17 @@ import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 
 @Composable
 fun TemplateWithoutBand(
-    navigator: Navigator,
-//    backNav: NavigationDestination,
+//    navigator: Navigator,
     backNav: Screens,
     ui: TemplateUI,
-//    instantBackNav: Boolean? = null,
     header: @Composable () -> Unit,
     body: @Composable () -> Unit,
 ) {
     Template(
         type = TemplatesType.WithoutHeadBand,
-        navigator = navigator,
+//        navigator = navigator,
         backNav = backNav,
         ui = ui,
-//        instantBackNav = instantBackNav,
         header = { header.invoke() },
         headBand = { },
         body = { body.invoke()},
@@ -32,9 +29,7 @@ fun TemplateWithoutBand(
 @Composable
 fun TemplateWithBand(
     navigator: Navigator,
-//    backNav: NavigationDestination,
     backNav: Screens,
-//    instantBackNav: Boolean? = null,
     ui: TemplateUI,
     header: @Composable () -> Unit,
     band: @Composable () -> Unit,
@@ -42,9 +37,8 @@ fun TemplateWithBand(
 ) {
     Template(
         type = TemplatesType.WithHeadBand,
-        navigator = navigator,
+//        navigator = navigator,
         backNav = backNav,
-//        instantBackNav = instantBackNav,
         ui = ui,
         header = { header.invoke() },
         headBand = { band.invoke() },

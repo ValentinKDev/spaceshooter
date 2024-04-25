@@ -9,10 +9,12 @@ import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.connection.registerDevice.RegisterDeviceViewModel
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
-import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
+import com.mobilegame.spaceshooter.logic.model.navigation.PressureHandler
+import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceWifiRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.WifiScreenUI
+import com.mobilegame.spaceshooter.presentation.ui.navigation.StrArgumentNav
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,11 +26,11 @@ import kotlinx.coroutines.flow.map
 class WifiScreenViewModel(application: Application): AndroidViewModel(application) {
     val TAG = "WifiScreenVM"
     val ui = WifiScreenUI()
-    val pressureVM = PressureViewModel()
+    val pressureHandler = PressureHandler(null)
     val registerVM = RegisterDeviceViewModel(application, Screens.WifiScreen)
     val repo = DeviceWifiRepo()
     private var connectionVM: WifiConnectionViewModel = WifiConnectionViewModel()
-//    var nav: Navigator? = null
+    val backNavScreen: Screens = Screens.MenuScreen
     private val _navigate = MutableStateFlow(false)
     val navigate: StateFlow<Boolean> = _navigate.asStateFlow()
 
@@ -52,7 +54,7 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
                         PreparationState.ReadyToChooseShip -> {
 //                        PreparationState.ReadyToPlay -> {
 //                        PreparationState.ReadyToPlay -> {
-                            if (pressureVM.full.value) {
+                            if (pressureHandler.full.value) {
 //                                eLog(TAG, "SPACE SHIP MENU")
 //                                DeviceEventRepo().sendReadyToChooseShip()
 //                                DeviceEventRepo().sendReadyToPlay()
@@ -69,7 +71,7 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
             }
         } }
         viewModelScope.launch {
-            pressureVM.full.collect { _full ->
+            pressureHandler.full.collect { _full ->
                 eLog(TAG, "collecting pressureVM.full $_full")
                 if (_full) { pressureReadyToChooseSpaceShip() }
                 else { pressureReleaseReadyToChooseSpaceShip() }
@@ -81,6 +83,7 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
 //        nav?.let { it.navig(Screens.SpaceWarScreen) }
     }
     suspend fun navigateToShipMenuScreen(navigator: Navigator) {
+        Device.navigation.argStr = StrArgumentNav.serializeArgToShipMenu(TryAgainStats.EMPTY_TRY_AGAIN_STATS)
         navigator.navig(Screens.ShipMenuScreen)
     }
 

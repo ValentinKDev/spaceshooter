@@ -11,7 +11,7 @@ private val ListStringType = object : TypeToken<List<String>>() {}.type
 
 class StrArgumentNav() {
     companion object {
-        val ARG_KEY_IN_GAME = "nav_arg_to_in_game"
+//        val ARG_KEY_IN_GAME = "nav_arg_to_in_game"
         fun serializeArgToInGame(userShipTypeName: String, tryAgainStats: TryAgainStats): String {
             val gson = Gson()
             val strStats = tryAgainStats.serialize()
@@ -31,17 +31,9 @@ class StrArgumentNav() {
             return Pair(userShipType, stats)
         }
         val ARG_KEY_TRY_AGAIN = "nav_arg_to_try_again"
-        fun serializeArgToTryAgain(arg: TryAgainStats): String {
-//            val gson = Gson()
-//            return gson.toJson(arg)
-            return arg.serialize()
-        }
-        fun deserializeArgToTryAgain(argStr: String): TryAgainStats {
-//            val gson = Gson()
-//            val listInt = gson.fromJson<List<Int>>(argStr, ListIntType)
-//            return TryAgainStats(listInt[0], listInt[1], listInt[2])
-//            return gson.fromJson(argStr, TryAgainStats::class.java)
-            return TryAgainStats.deserialize(argStr)
-        }
+        fun serializeArgToTryAgain(arg: TryAgainStats): String = arg.serialize()
+        fun deserializeArgToTryAgain(argStr: String): TryAgainStats = TryAgainStats.deserialize(argStr)
+        fun serializeArgToShipMenu(arg: TryAgainStats): String = arg.serialize()
+        fun deserializeArgToShipMenu(argStr: String): TryAgainStats = TryAgainStats.deserialize(argStr)
     }
 }

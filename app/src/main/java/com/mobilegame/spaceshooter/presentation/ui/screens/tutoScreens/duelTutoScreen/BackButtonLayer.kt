@@ -18,9 +18,9 @@ fun BackButtonLayer(vm: TutoScreenViewModel, navigator: Navigator) {
         Box( Modifier.weight(vm.ui.template.percent.header) ) {
             BackButton(
                 vm = vm.backButtonPressureNavigationVM,
-                navigator = navigator,
+//                navigator = navigator,
                 ui = vm.ui.template.backButton,
-                backNav = Screens.DuelTutoScreen.backNav ?: Screens.None,
+//                backNav = Screens.DuelTutoScreen.backNav ?: Screens.None,
 //                instant = null,
             )
         }

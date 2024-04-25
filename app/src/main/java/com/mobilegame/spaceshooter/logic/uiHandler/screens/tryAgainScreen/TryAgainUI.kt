@@ -7,9 +7,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.TextUnit
 import com.mobilegame.spaceshooter.data.device.Device
-import com.mobilegame.spaceshooter.logic.model.navigation.PressureViewModel
-import com.mobilegame.spaceshooter.logic.model.screen.spaceShipMenuScreen.ShipPicking
-import com.mobilegame.spaceshooter.logic.uiHandler.screens.shipMenuScreen.ShipMenuUI
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.presentation.ui.screens.shipMenuScreen.StatsIndication
 import com.mobilegame.spaceshooter.utils.extensions.toDp

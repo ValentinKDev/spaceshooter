@@ -44,7 +44,7 @@ fun ShipMenuBody( vm: ShipMenuViewModel) {
 
     ChargingButton(
 //        handler = vm.shipMenuVM.pressureVM,
-        handler = vm.pressureVM,
+        handler = vm.pressureHandler,
         sizeDp = ui.sizes.sizeWithBand,
         alphaAnimation = 0.2F,
     ) {

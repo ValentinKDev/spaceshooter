@@ -16,9 +16,10 @@ import com.mobilegame.spaceshooter.presentation.ui.template.TemplateWithBand
 
 @Composable
 //fun TryAgainScreen(nav: Navigator, stats: TryAgainStats, vm: TryAgainViewModel = viewModel()) {
-fun TryAgainScreen(gameStats: TryAgainStats, nav: Navigator, vm: ShipMenuViewModel = viewModel() ) {
+//fun TryAgainScreen(gameStats: TryAgainStats, nav: Navigator, vm: ShipMenuViewModel = viewModel() ) {
+fun TryAgainScreen(nav: Navigator, vm: ShipMenuViewModel = viewModel() ) {
     val navigate by remember { vm.navigate }.collectAsState()
-    LaunchedEffect(key1 = "") {
+    LaunchedEffect(key1 = navigate) {
 //        vm.initNav(nav)
 //        vm.initStats(stats)
         if (navigate) vm.navigateToGame(nav)
@@ -31,7 +32,7 @@ fun TryAgainScreen(gameStats: TryAgainStats, nav: Navigator, vm: ShipMenuViewMod
         backNav = Screens.WifiScreen.backNav ?: Screens.None,
         ui = vm.templateUI,
         header = {},
-        band = { ShipMenuBand(vm, gameStats) },
+        band = { ShipMenuBand(vm, vm.gameStats) },
         body = { ShipMenuBody(vm) }
 //        band = { TryAgainBand(vm) },
 //        body = { TryAgainBody(vm) }

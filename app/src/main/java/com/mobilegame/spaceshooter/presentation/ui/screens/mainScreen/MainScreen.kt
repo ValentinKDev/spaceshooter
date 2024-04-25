@@ -18,15 +18,13 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 fun MainScreen(navigator: Navigator, vm: MainScreenViewModel = viewModel()) {
     LaunchedEffect(true) {
         eLog("MainScreen", "MainScreen start")
-//        eLog("MainScreen", "MainScreen backNav ${Screens.MainScreen.backNav}")
     }
 
     Box(
         Modifier.fillMaxSize().background(MyColor.applicationBackground)
     ) {
         TemplateWithoutBand(
-            navigator = navigator,
-            backNav = Screens.MainScreen.backNav ?: Screens.None,
+            backNav = vm.backNavScreen,
             ui = vm.ui.template,
             header = { MainScreenHeader(navigator, vm) },
         ) {

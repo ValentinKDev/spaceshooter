@@ -31,8 +31,6 @@ fun WifiScreen(navigator: Navigator, vm: WifiScreenViewModel = viewModel()) {
         deviceName?.run { WifiConnectingScreen(vm, navigator) }
         deviceName ?: run { RegisterDeviceName(navigator, vm.registerVM) }
     } else {
-//        if (chooseShip) ShipMenuScreen(vm, navigator)
-//        else
-            DevicesMenu(vm, navigator, deviceName)
+        DevicesMenu(vm, navigator, deviceName)
     }
 }

@@ -28,6 +28,7 @@ import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.extensions.addNavArg
 
 @Composable
+//fun ShipMenuBand(vm: ShipMenuViewModel, gameStats: TryAgainStats? = null) {
 fun ShipMenuBand(vm: ShipMenuViewModel, gameStats: TryAgainStats? = null) {
     val ui = remember {vm.shipMenuUI.band}
     val shipType = remember { vm.shipPicking.shipType }.collectAsState()

@@ -81,7 +81,6 @@ fun SpaceShooterTheme(
         else -> LightColorScheme
     }
 
-
     HideScreenBars(window)
 
     if (metricsInitiated == null ) {

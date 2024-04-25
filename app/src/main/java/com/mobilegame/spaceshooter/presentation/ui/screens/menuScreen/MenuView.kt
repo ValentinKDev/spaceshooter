@@ -26,13 +26,12 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 
 @Composable
 fun MenuScreen(navigator: Navigator, vm: MenuScreenViewModel = viewModel()) {
-    val currentMenu by remember { vm.currentMenu }.collectAsState()
-    val navigate by remember { vm.navigate }.collectAsState()
+    val currentMenu by remember { vm.currentSelection }.collectAsState()
+    val navigate by remember { vm.pressureHandler.full }.collectAsState()
 
     LaunchedEffect(navigate) {
         eLog("MenuScreen", "MenuScreen launch")
-//        vm.initNav(navigator)
-        if (navigate) vm.navigateToMainMenu(navigator)
+        if (navigate) vm.pressureHandler.navigateTo(currentMenu.screen)
     }
 
     Box(
@@ -41,16 +40,16 @@ fun MenuScreen(navigator: Navigator, vm: MenuScreenViewModel = viewModel()) {
     ) {
         ChargingScreen(
             navigator = navigator,
-            handler = vm.pressureVM,
-            contentSize = vm.ui.getContentSize(currentMenu.text),
+            handler = vm.pressureHandler,
+            contentSize = vm.ui.getContentSize(currentMenu.titleText),
             screenSize = vm.ui.screenSize,
-            startPadding = vm.ui.getStartPadding(currentMenu.text),
-            endPadding = vm.ui.getEndPadding(currentMenu.text),
+            startPadding = vm.ui.getStartPadding(currentMenu.titleText),
+            endPadding = vm.ui.getEndPadding(currentMenu.titleText),
             topPadding = vm.ui.topPadding,
             bottomPadding = vm.ui.bottomPadding,
         ) {
             Row( modifier = Modifier .align(Alignment.Center) ) {
-                for (char in currentMenu.text) {
+                for (char in currentMenu.titleText) {
                     when (char) {
                         'A' -> { DrawA( vm.ui ) }
                         'B' -> { DrawB( vm.ui ) }
@@ -64,11 +63,7 @@ fun MenuScreen(navigator: Navigator, vm: MenuScreenViewModel = viewModel()) {
                         'T' -> { DrawT( vm.ui ) }
                         'U' -> { DrawU( vm.ui ) }
                         'W' -> { DrawW( vm.ui ) }
-                        else -> {
-                            Box(Modifier.size(vm.ui.letterSizeDp).background(MyColor.applicationBackground))
-//                            SpacerWithBackground(size = vm.ui.letterSpacerSizeDp)
-//                            SpacerWithBackground(size = vm.ui.letterSpacerSizeDp)
-                        }
+                        else -> { Box(Modifier.size(vm.ui.letterSizeDp).background(MyColor.applicationBackground)) }
                     }
                     SpacerWithBackground(size = vm.ui.letterSpacerSizeDp)
                 }
