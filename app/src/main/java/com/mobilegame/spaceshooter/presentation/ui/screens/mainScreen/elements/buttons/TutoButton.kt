@@ -24,9 +24,7 @@ fun TutoButton(vm: MainScreenViewModel, navigator: Navigator) {
     val clickable = Modifier.clickable (
         interactionSource = interactionSource,
         indication = null,
-        onClick = {
-            vm.handleTutoButtonClick(navigator)
-        }
+        onClick = { vm.handleTutoButtonClick() }
     )
 
     Box(

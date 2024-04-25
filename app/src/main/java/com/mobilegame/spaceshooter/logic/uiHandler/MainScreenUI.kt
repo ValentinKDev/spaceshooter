@@ -47,7 +47,8 @@ class MainScreenUI {
         )
         data class TextInstructionMainScreen (
             val principalMessage: String = "Hold the pressure",
-            val warningMessage: String = "Bluetooth is not yet available",
+            val warningBluetooth: String = "Bluetooth is not yet available",
+            val warningTuto: String = "Tutorial is not yet available",
         )
     }
 

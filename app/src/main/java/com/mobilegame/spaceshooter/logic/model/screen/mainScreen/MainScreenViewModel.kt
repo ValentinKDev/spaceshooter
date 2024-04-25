@@ -21,16 +21,25 @@ class MainScreenViewModel(): ViewModel() {
     val wifiPressure = PressureHandler(Screens.WifiScreen)
     val backNavScreen = Screens.MenuScreen
 
-    private val _warning = MutableStateFlow(false)
-    val warning: StateFlow<Boolean> = _warning.asStateFlow()
-    private fun updateWarningTo(bool: Boolean) { _warning.value = bool }
+    private val _warning = MutableStateFlow(0)
+    val warning: StateFlow<Int> = _warning.asStateFlow()
+    private fun updateWarningTo(n: Int) { _warning.value = n }
 
     fun handleBluetoothButton() = viewModelScope.launch(Dispatchers.IO) {
-        updateWarningTo(true)
+        updateWarningTo(1)
         delay(3500)
-        updateWarningTo(false)
+        updateWarningTo(0)
     }
-    fun handleTutoButtonClick(navigator: Navigator) = viewModelScope.launch(Dispatchers.IO) {
-            navigator.navig(Screens.DuelTutoScreen)
+    fun handleTutoButtonClick() = viewModelScope.launch(Dispatchers.IO) {
+        updateWarningTo(2)
+        delay(3500)
+        updateWarningTo(0)
+//            navigator.navig(Screens.DuelTutoScreen)
+    }
+
+    fun getInstruction(): String = when (warning.value) {
+        1 -> ui.instruction.text.warningBluetooth
+        2 -> ui.instruction.text.warningTuto
+        else -> ui.instruction.text.principalMessage
     }
 }

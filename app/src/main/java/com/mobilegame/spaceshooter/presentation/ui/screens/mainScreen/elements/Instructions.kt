@@ -21,7 +21,6 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.utils.PaddingComposab
 @Composable
 internal fun Instructions(vm: MainScreenViewModel) {
 
-    val warning by remember { vm.warning }.collectAsState()
     val infiniteTransition = rememberInfiniteTransition()
     val animateColor by infiniteTransition.animateColor(
         initialValue = vm.ui.instruction.color.initialColor,
@@ -46,8 +45,7 @@ internal fun Instructions(vm: MainScreenViewModel) {
             AlignComposableToBottom {
                 CenterComposableHorizontally {
                     Text(
-                        text = if (warning) vm.ui.instruction.text.warningMessage
-                        else vm.ui.instruction.text.principalMessage ,
+                        text = vm.getInstruction(),
                         color = animateColor,
                         style = TextStyle(
                             fontSize = vm.ui.instruction.sizes.textSp,
