@@ -12,6 +12,7 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.Moti
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
+import com.mobilegame.spaceshooter.logic.repository.gameStats.MyDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,8 +58,7 @@ class LifeViewModel(
         Log.i(TAG, "endGame: ${Device.wifi.listConnectedDevice.find { it.ip == projectile.shooterIp }?.ip}")
         Log.i(TAG, "endGame: ${Device.wifi.listConnectedDevice.find { it.ip == projectile.shooterIp }?.name}")
         Device.wifi.visibleDevices.value.find { it.ip == projectile.shooterIp }?.let {_shooterDevice ->
-            val sdf = SimpleDateFormat("dd/MM/yyyy;hh:mm:ss")
-            val currentDate: String = sdf.format(Date())
+            val currentDate: String = MyDate.currentStr()
             Log.e(TAG, "endGame: \n\n\n\ndate $currentDate")
 
             DeviceEventRepo().sendDeadUser(

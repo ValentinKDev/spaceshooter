@@ -1,16 +1,15 @@
 package com.mobilegame.spaceshooter.presentation.ui.navigation
 
+import android.util.Log
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
-import com.mobilegame.spaceshooter.logic.uiHandler.screens.tryAgainScreen.TryAgainUI
+import com.mobilegame.spaceshooter.utils.TypeListString
 
-private val ListIntType = object : TypeToken<List<Int>>() {}.type
-private val ListStringType = object : TypeToken<List<String>>() {}.type
 
 class StrArgumentNav() {
     companion object {
+        private val TAG = "StrArgumentNav"
 //        val ARG_KEY_IN_GAME = "nav_arg_to_in_game"
         fun serializeArgToInGame(userShipTypeName: String, tryAgainStats: TryAgainStats): String {
             val gson = Gson()
@@ -20,7 +19,9 @@ class StrArgumentNav() {
         }
         fun deserializeArgToInGame(argStr: String): Pair<ShipType, TryAgainStats> {
             val gson = Gson()
-            val listStr: List<String> = gson.fromJson(argStr, ListStringType)
+            Log.v(TAG, "deserializeArgToInGame: argStr : $argStr")
+            val listStr: List<String> = gson.fromJson(argStr, TypeListString)
+            Log.v(TAG, "deserializeArgToInGame: listStr : $listStr")
             val userShipTypeName = listStr[0]
             val userShipType = ShipType.getType(userShipTypeName)
             val strStats = listStr[1]

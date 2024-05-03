@@ -13,6 +13,7 @@ import com.mobilegame.spaceshooter.logic.model.navigation.PressureHandler
 import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceWifiRepo
+import com.mobilegame.spaceshooter.logic.repository.gameStats.GameStatsRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.WifiScreenUI
 import com.mobilegame.spaceshooter.presentation.ui.navigation.StrArgumentNav
 import com.mobilegame.spaceshooter.utils.analyze.eLog
@@ -26,6 +27,7 @@ import kotlinx.coroutines.flow.map
 class WifiScreenViewModel(application: Application): AndroidViewModel(application) {
     val TAG = "WifiScreenVM"
     val ui = WifiScreenUI()
+    val historyStatsRepo = GameStatsRepo(getApplication())
     val pressureHandler = PressureHandler(null)
     val registerVM = RegisterDeviceViewModel(application, Screens.WifiScreen)
     val repo = DeviceWifiRepo()
@@ -34,6 +36,12 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
     private val _navigate = MutableStateFlow(false)
     val navigate: StateFlow<Boolean> = _navigate.asStateFlow()
 
+//    private val _opponentHistory = MutableStateFlow(TryAgainStats.EMPTY_TRY_AGAIN_STATS)
+//    val opponentHistory: StateFlow<TryAgainStats> = _opponentHistory.asStateFlow()
+//    private var allOpponentHistories: List<TryAgainStats> = emptyList()
+    private val _allOpponentHistories = MutableStateFlow<List<TryAgainStats>>(emptyList())
+    val allOpponentHistories: StateFlow<List<TryAgainStats>> = _allOpponentHistories.asStateFlow()
+//    fun getOpponentHistory(name: String) = allOpponentHistories.find { it.enemiesName == name } ?: TryAgainStats.EMPTY_TRY_AGAIN_STATS
     private val _deviceName = MutableStateFlow(Device.data.name)
     val deviceName: StateFlow<String?> = _deviceName.asStateFlow()
 //    private val _goToShipMenu = MutableStateFlow(false)
@@ -46,8 +54,11 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
         repo.initNetworkSearchAndDiscovery(application)
 
         viewModelScope.launch { withContext(Dispatchers.IO) {
+            _allOpponentHistories.value = historyStatsRepo.getAllTheHistoryAgainstOpponent()
             Device.wifi.listVisibleDevicesFlow.map {
-                Log.i(TAG, "list collected $it")
+                //todo: Log.i(TAG, "list collected $it")
+                //todo: just to check for open flows
+//                Log.i(TAG, "list collected $it")
                 it.firstOrNull() }.collect { visibleDeviceState ->
                 visibleDeviceState?.let {
                     when (it.state) {
@@ -83,8 +94,9 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
 //        nav?.let { it.navig(Screens.SpaceWarScreen) }
     }
     suspend fun navigateToShipMenuScreen(navigator: Navigator) {
-        Device.navigation.argStr = StrArgumentNav.serializeArgToShipMenu(TryAgainStats.EMPTY_TRY_AGAIN_STATS)
-        navigator.navig(Screens.ShipMenuScreen)
+//        Device.navigation.argStr = StrArgumentNav.serializeArgToShipMenu(TryAgainStats.EMPTY_TRY_AGAIN_STATS)
+        navigator.navig(Screens.ShipMenuScreen, StrArgumentNav.serializeArgToShipMenu(TryAgainStats.EMPTY_TRY_AGAIN_STATS))
+        Log.e(TAG, "navigateToShipMenuScreen: Device.nav.arg ${Device.navigation.argStr}")
     }
 
     fun nonNullNameTrigger() {
@@ -109,9 +121,6 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
     }
 
     //todo : is this better to store the navigation in the Device Data obj ?
-    fun initNavigation(navigator: Navigator) {
-//        nav = navigator
-    }
     init {
         Log.i(TAG, "init: ")
 //        Log.e(TAG, "ini: \n\n\n\n\n\n test", )

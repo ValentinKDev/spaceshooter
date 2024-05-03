@@ -1,6 +1,7 @@
 package com.mobilegame.spaceshooter.data.store
 
 import android.content.Context
+import androidx.datastore.preferences.preferencesDataStore
 import com.mobilegame.spaceshooter.utils.extensions.deviceNameDataStore
 import com.mobilegame.spaceshooter.utils.extensions.deviceStatsDataStore
 
@@ -28,5 +29,6 @@ interface DataStoreService {
         fun deviceStats(context: Context): DataStoreService {
             return DataStoreImplementation(context.deviceStatsDataStore)
         }
+//        fun dataStore(context: Context): DataStoreService = DataStoreImplementation(preferencesDataStore("test"))
     }
 }

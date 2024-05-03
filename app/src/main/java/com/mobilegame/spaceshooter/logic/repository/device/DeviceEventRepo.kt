@@ -15,6 +15,7 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScre
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithClientRepo
 import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithServerRepo
+import com.mobilegame.spaceshooter.logic.repository.gameStats.GameStatsRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.InetAddress
@@ -29,6 +30,13 @@ class DeviceEventRepo() {
     private val sendEvent = SendEvent()
     //todo : handle even trough listening to a shared flow event
     //todo : handle the when (type) by eventype and then by servers or client
+//    suspend fun handleGameResult(gameResult: GameResult) {
+//        when (gameResult) {
+//            GameResult.VICTORY -> TODO()
+//            GameResult.OnGoing -> TODO()
+//        }
+//    }
+
     suspend fun handleEvent(eventMessage: EventMessage) {
         Log.i(TAG, "handleEvent: ")
         wifiRepo.isDeviceClient()?.let {

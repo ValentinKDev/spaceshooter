@@ -16,14 +16,10 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScre
 fun LaunchSpaceWarGameScreen(navigator: Navigator, vm: LaunchDuelGameViewModel = viewModel()) {
     val gameResult by remember { Device.event.gameResult }.collectAsState()
 
-//    LaunchedEffect(key1 = gameResult) {
-//        vm.initWithArg()
-//    }
     LaunchedEffect(key1 = gameResult) {
         if (gameResult == GameResult.DEFEAT || gameResult == GameResult.VICTORY) {
             vm.gameVM.navigateToTryAgain(navigator, gameResult)
-//            vm.navigateToTryAgain(navigator, gameResult)
         }
     }
-        SpaceWarGameScreen(vm = vm.gameVM)
+    SpaceWarGameScreen(vm = vm.gameVM)
 }

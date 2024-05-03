@@ -9,6 +9,7 @@ import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen.WifiScreenViewModel
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
+import com.mobilegame.spaceshooter.logic.repository.gameStats.GameStatsRepo
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.deviceMenu.DeviceMenuBand
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.deviceMenu.DevicesMenuBody
@@ -23,16 +24,11 @@ fun DevicesMenu(vm: WifiScreenViewModel, navigator: Navigator, deviceName: Strin
     LaunchedEffect(navigate) {
         if (navigate) vm.navigateToShipMenuScreen(navigator)
     }
-//    LaunchedEffect("key") {
-//        Log.i("Screen", "DevicesMenu: launch")
-//        vm.initNavigation(navigator)
-//    }
 
     Box (Modifier.fillMaxSize().background(MyColor.applicationBackground)) {
         BackgroundBanner(vm.ui.banner)
         deviceName?.let { _name ->
             if (facingDevices.isNotEmpty()) {
-
                 TemplateWithBand(
                     navigator = navigator,
 //                    backNav = Screens.BluetoothScreen.backNav ?: Screens.None,
@@ -41,6 +37,7 @@ fun DevicesMenu(vm: WifiScreenViewModel, navigator: Navigator, deviceName: Strin
                     header = {},
                     band = {
                         DeviceMenuBand(
+                            vm,
                             vm.ui.deviceMenu.band,
                             _name,
                             facingDevices,

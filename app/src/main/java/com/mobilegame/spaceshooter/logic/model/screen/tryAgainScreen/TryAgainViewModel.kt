@@ -3,7 +3,6 @@ package com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
-import com.mobilegame.spaceshooter.logic.model.navigation.PressureHandler
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.logic.model.screen.spaceShipMenuScreen.ShipPicking
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.tryAgainScreen.TryAgainUI
@@ -18,7 +17,7 @@ class TryAgainViewModel(val stats: TryAgainStats, val navigator: Navigator): Vie
 
     val templateUI = TemplateUI(instantNavBack = true)
     val tryAgainUI = TryAgainUI()
-    val shipPicking = ShipPicking(tryAgainUI.body.sizes.shipViewBox, ShipType.getType(stats.lastShipName))
+    val shipPicking = ShipPicking(tryAgainUI.body.sizes.shipViewBox, ShipType.getType(stats.shipName))
     private val _stats = MutableStateFlow(TryAgainStats.EMPTY_TRY_AGAIN_STATS)
 //    val stats: StateFlow<TryAgainStats> = _stats.asStateFlow()
 //    var stats = TryAgainStats.EMPTY_TRY_AGAIN_STATS

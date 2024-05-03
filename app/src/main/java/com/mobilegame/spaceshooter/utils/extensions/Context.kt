@@ -15,7 +15,7 @@ fun Context.findActivity(): Activity? = when (this) {
     else -> null
 }
 
-val Context.deviceNameDataStore: DataStore<Preferences> by preferencesDataStore(name = DataStoreInfoProvider.DeviceName.pref)
-val Context.deviceStatsDataStore: DataStore<Preferences> by preferencesDataStore(name = DataStoreInfoProvider.DeviceStats.pref)
+val Context.deviceNameDataStore: DataStore<Preferences> by preferencesDataStore(name = DataStoreInfoProvider.DeviceName.name)
+val Context.deviceStatsDataStore: DataStore<Preferences> by preferencesDataStore(name = DataStoreInfoProvider.DeviceStats.name)
 
-fun Context.getConnectivityManager() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+//fun Context.getConnectivityManager() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

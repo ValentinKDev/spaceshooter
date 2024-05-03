@@ -28,11 +28,12 @@ import kotlinx.coroutines.withContext
 class ShipMenuViewModel(): ViewModel() {
     private val TAG = "ShipMenuViewModel"
     val gameStats: TryAgainStats = StrArgumentNav.deserializeArgToShipMenu(Device.navigation.argStr)
+//    val gameStats: TryAgainStats = TryAgainStats.EMPTY_TRY_AGAIN_STATS
     val templateUI = TemplateUI(instantNavBack = true)
     val shipMenuUI = ShipMenuUI()
     val pressureHandler = PressureHandler(null)
 //    val shipPicking = ShipPicking(shipMenuUI.body.sizes.shipViewBox)
-    val shipPicking = ShipPicking(shipViewBox = shipMenuUI.body.sizes.shipViewBox, shipSelected = ShipType.getType(gameStats.lastShipName))
+    val shipPicking = ShipPicking(shipViewBox = shipMenuUI.body.sizes.shipViewBox, shipSelected = ShipType.getType(gameStats.shipName))
 
     //    var nav: Navigator? = null
     private val _navigate = MutableStateFlow(false)
@@ -95,13 +96,8 @@ class ShipMenuViewModel(): ViewModel() {
         val argStr = StrArgumentNav.serializeArgToInGame(
             userShipTypeName = shipPicking.shipType.value.info.name,
             tryAgainStats = gameStats,
-//            tryAgainStats = TryAgainStats.EMPTY_TRY_AGAIN_STATS
         )
-        Device.navigation.argStr = argStr
-        Log.i(TAG, "navigateToGame: argStr ${Device.navigation.argStr}")
-//        navigator.navig(destination = Screens.SpaceWarScreen, argumentStr = argStr) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
-//        navigator.navig(toScreen = Screens.SpaceWarScreen, argumentStr = argStr) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
-        navigator.navig(toScreen = Screens.SpaceWarScreen) ?: Log.e(TAG, "spaceShipPicked: ERROR nav is null", )
+        navigator.navig(toScreen = Screens.SpaceWarScreen, argumentStr = argStr)
         onCleared()
     }
 

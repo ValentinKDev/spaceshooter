@@ -12,9 +12,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 class Navigator {
     val TAG = "Navigator"
 
-    private var _backNav: MutableSharedFlow<Int> = MutableSharedFlow()
-    var backNav: SharedFlow<Int> = _backNav.asSharedFlow()
-
     private var dest: MutableSharedFlow<String> = MutableSharedFlow()
     var des: SharedFlow<String> = dest.asSharedFlow()
 

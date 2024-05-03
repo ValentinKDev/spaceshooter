@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
@@ -15,17 +17,30 @@ import androidx.constraintlayout.compose.Dimension
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiClient
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiInfoService
 import com.mobilegame.spaceshooter.logic.model.screen.connection.ConnectedDevice
+import com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen.WifiScreenViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.connections.DevicesMenuUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import java.net.InetAddress
 
 @Composable
 fun DeviceMenuBand(
+    vm: WifiScreenViewModel,
     ui: DevicesMenuUI.BandDeviceMenu,
     deviceName: String,
     facingDevices: List<ConnectedDevice>,
     facingDeviceIndex: Int,
 ) {
+    val historiesList by remember { vm.allOpponentHistories }.collectAsState()
+    val history = remember { historiesList.find { it.enemiesName == facingDevices[facingDeviceIndex].name } ?: TryAgainStats.EMPTY_TRY_AGAIN_STATS }
+
+    LaunchedEffect(historiesList) {
+        Log.e("DeviceMenuBand", "DeviceMenuBand: historiesList $historiesList")
+    }
+    LaunchedEffect(history) {
+        Log.e("DeviceMenuBand", "DeviceMenuBand: history $history")
+    }
+
     val constraints = remember {
         ConstraintSet {
             val myNameText = createRefFor(ui.ids.myNameText)
@@ -119,9 +134,7 @@ fun DeviceMenuBand(
         Text(
             modifier = Modifier.layoutId(ui.ids.connectedDeviceText)
             ,
-//            text = facingDevices[facingDeviceIndex].name,
             text = facingDevices[facingDeviceIndex].name,
-//            text = facingDevices.values.first(),
             color = MyColor.applicationText
         )
 
@@ -148,19 +161,20 @@ fun DeviceMenuBand(
         Text(
             modifier = Modifier.layoutId(ui.ids.winNumber)
             ,
-            text = "0",
+//            text = "0",
+            text = history.wins.toString(),
             color = MyColor.applicationText
         )
         Text(
             modifier = Modifier.layoutId(ui.ids.losesNumber)
             ,
-            text = "0",
+            text = history.losses.toString(),
             color = MyColor.applicationText
         )
         Text(
             modifier = Modifier.layoutId(ui.ids.streakNumber)
             ,
-            text = "0",
+            text = history.streak.toString(),
             color = MyColor.applicationText
         )
     }

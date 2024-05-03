@@ -12,6 +12,7 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.GameResult
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.SpaceShipViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
+import com.mobilegame.spaceshooter.logic.repository.gameStats.GameStatsRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.EndGameScreenUI
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.SpaceWarGameScreenUI
 import com.mobilegame.spaceshooter.presentation.ui.navigation.StrArgumentNav
@@ -31,6 +32,7 @@ class SpaceWarGameViewModel(
     val endUi = EndGameScreenUI()
 //    var shipVM = SpaceShipViewModel(context, ui, userShipType, tryAgainStats)
     var shipVM = SpaceShipViewModel(context, ui, userShipType)
+    private val statsRepo = GameStatsRepo(context)
     private var nav: Navigator? = null
 
     init {
@@ -51,16 +53,15 @@ class SpaceWarGameViewModel(
 //    }
 
     fun navigateToTryAgain(navigator: Navigator, gameResult: GameResult) = viewModelScope.launch {
-//        Log.v(TAG, "navigateToTryAgain: ${tryAgainStats.wins}, ${tryAgainStats.losses}, ${tryAgainStats.streak}")
-        tryAgainStats.updateWith(gameResult, userShipType.info.name)
-//        Log.v(TAG, "navigateToTryAgain: ${tryAgainStats.wins}, ${tryAgainStats.losses}, ${tryAgainStats.streak}")
+        Log.v(TAG, "navigateToTryAgain: facingDevice name 0 : ${Device.wifi.visibleDevices.value[0].name}")
+        Log.v(TAG, "navigateToTryAgain: facingDevice name : ${Device.wifi.visibleDevices.value.map { it.name }}")
+        tryAgainStats.updateWith(gameResult, userShipType.info.name, Device.wifi.visibleDevices.value[0].name)
+        statsRepo.addGameResult(gameStats = tryAgainStats)
         //todo send the death to the enemie
-//    navigator.navig(destination = Screens.TryAgainScreen, argumentStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats))
-//    navigator.navig(destination = Screens.TryAgainScreen, argumentStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats))
         Device.event.gameResult.emit(GameResult.OnGoing)
-        Device.navigation.argStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats)
-//        navigator.navig(toScreen = Screens.TryAgainScreen, argumentStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats))
-        navigator.navig(toScreen = Screens.TryAgainScreen)
+        val argStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats)
+//        Device.navigation.argStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats)
+        navigator.navig(toScreen = Screens.TryAgainScreen, argumentStr = argStr)
         onCleared()
     }
 

@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,7 +24,6 @@ import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.utils.extensions.addNavArg
 
 @Composable
 //fun ShipMenuBand(vm: ShipMenuViewModel, gameStats: TryAgainStats? = null) {
@@ -77,7 +75,7 @@ fun ShipMenuBand(vm: ShipMenuViewModel, gameStats: TryAgainStats? = null) {
             .background(MyColor.applicationBackground)) {
         Text(
             modifier = Modifier.layoutId(ui.ids.shipName),
-            text = gameStats?.lastGame?.name ?: shipType.value.info.name,
+            text = gameStats?.gameResult?.name ?: shipType.value.info.name,
             color = MyColor.applicationText,
             style = ui.sizes.shipNameTextStyle,
         )

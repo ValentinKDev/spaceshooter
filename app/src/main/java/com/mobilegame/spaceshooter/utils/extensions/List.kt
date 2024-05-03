@@ -71,6 +71,23 @@ fun <T> List<T>.reverseElements(): List<T> {
 }
 
 fun <T> List<T>.get(element: T): T? = this.find { it == element }
+
+fun <T> List<T>.indexOfFirstOrNullOf(element: T): Int? {
+    val index = this.indexOfFirst { it == element }
+    return if (index > -1) index else null
+}
+fun <T> List<T>.indexOrNullOf(element: T): Int? {
+    val index = this.indexOf(element)
+    return if (index > -1) index else null
+}
+fun <T> List<T>.getOrNull(index: Int): T? {
+    val size = this.size
+    return when {
+        index in 0 until size -> this[index]
+        else -> null
+    }
+}
+
 //fun MutableList<Offset>.reverseElements(): List<Offset> {
 //    val mutableList = mutableListOf<Offset>()
 //    for (i in this.lastIndex downTo 0) {

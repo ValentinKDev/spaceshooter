@@ -28,7 +28,7 @@ class MotionsViewModel(
     context: Context,
     ui: SpaceWarGameScreenUI,
 ): ViewModel() {
-    private val deviceEvent = Device.event
+//    private val deviceEvent = Device.event
     val TAG = "MotionsViewModel"
     private val eventRepo: DeviceEventRepo = DeviceEventRepo()
     private val startPosition = ui.position.pCenterDp

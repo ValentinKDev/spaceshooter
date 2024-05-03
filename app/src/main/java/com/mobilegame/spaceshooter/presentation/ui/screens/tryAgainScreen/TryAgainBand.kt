@@ -11,18 +11,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.style.TextAlign
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.GameResult
 import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainViewModel
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 
@@ -71,7 +68,7 @@ fun TryAgainBand(vm: TryAgainViewModel) {
         Text(
             modifier = Modifier.layoutId(ui.ids.shipName),
 //            text = if (stats.lastGame == GameResult.OnGoing) "" else stats.lastGame.name,
-            text = vm.stats.lastGame.name,
+            text = vm.stats.gameResult.name,
             color = MyColor.applicationText,
             style = ui.sizes.shipNameTextStyle,
         )
