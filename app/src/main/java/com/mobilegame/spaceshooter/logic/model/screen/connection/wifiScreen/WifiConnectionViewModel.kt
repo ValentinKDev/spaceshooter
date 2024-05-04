@@ -74,4 +74,9 @@ class WifiConnectionViewModel(): ViewModel() {
 //            Log.i("nsdManager", "stopSearching: discoveryListener not registered")
 //        }
 //    }
+    fun clear() {onCleared()}
+    override fun onCleared() {
+        Log.i(TAG, "onCleared: ")
+        super.onCleared()
+    }
 }

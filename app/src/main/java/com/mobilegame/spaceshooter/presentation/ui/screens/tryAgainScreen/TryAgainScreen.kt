@@ -26,7 +26,7 @@ fun TryAgainScreen(nav: Navigator, vm: ShipMenuViewModel = viewModel() ) {
     }
 
     TemplateWithBand(
-        navigator = nav,
+//        navigator = nav,
 //        navigator = tryAgainVM.navigator,
 //        navigator = tryAgainVM.navigator,
         backNav = Screens.WifiScreen.backNav ?: Screens.None,

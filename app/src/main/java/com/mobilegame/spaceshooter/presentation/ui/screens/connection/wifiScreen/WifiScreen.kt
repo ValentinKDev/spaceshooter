@@ -14,11 +14,16 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 @Composable
 fun WifiScreen(navigator: Navigator, vm: WifiScreenViewModel = viewModel()) {
     val deviceName by remember { vm.deviceName }.collectAsState()
+//    val backNavigation by remember { vm.backPressureHandler.full }.collectAsState()
 //    val deviceName by remember { vm.registerVM. }.collectAsState()
     //todo : remove de Device object acccess ??
     val visibleDeviceNameList by remember { Device.wifi.visibleDevices }.collectAsState()
 //    val chooseShip by remember { vm.chooseShip }.collectAsState()
 
+//    LaunchedEffect(backNavigation) {
+//        eLog("WifiScreen", "backNav full")
+//        if (backNavigation) vm.backNavigation()
+//    }
     LaunchedEffect(deviceName) {
         deviceName?.let { vm.nonNullNameTrigger() }
         eLog("WifiScreen", "launch device name : ${vm.deviceName.value}")

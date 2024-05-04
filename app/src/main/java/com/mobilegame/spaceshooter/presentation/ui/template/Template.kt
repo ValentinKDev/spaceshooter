@@ -10,22 +10,18 @@ import androidx.compose.ui.layout.layoutId
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
-import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.model.navigation.PressureHandler
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.presentation.ui.template.backButton.BackButton
 
 @Composable
 internal fun Template(
     type: TemplatesType,
-//    navigator: Navigator,
-    backNav: Screens,
+//    backNav: Screens,
     ui: TemplateUI,
-//    screen: Screens,
-//    vm: PressureViewModel = viewModel(),
-    backPressure: PressureHandler = PressureHandler(backNav),
+//    backPressure: PressureHandler = PressureHandler(backNav),
+    backPressureHandler: PressureHandler,
     header: @Composable () -> Unit,
     headBand: @Composable () -> Unit,
     body: @Composable () -> Unit,
@@ -106,7 +102,7 @@ internal fun Template(
             Modifier.layoutId(ui.backButton.id)
         ) {
             BackButton(
-                vm = backPressure,
+                handler = backPressureHandler,
 //                backNav = backNav,
 //                navigator = navigator,
                 ui = ui.backButton,

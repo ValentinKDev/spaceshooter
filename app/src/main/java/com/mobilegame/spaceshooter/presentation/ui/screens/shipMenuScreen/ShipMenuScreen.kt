@@ -24,7 +24,7 @@ fun ShipMenuScreen(nav: Navigator, vm: ShipMenuViewModel = viewModel() ) {
         if (navigate) vm.navigateToGame(nav)
     }
     TemplateWithBand(
-        navigator = nav,
+//        navigator = nav,
         backNav = Screens.WifiScreen.backNav ?: Screens.None,
         ui = vm.templateUI,
         header = {},

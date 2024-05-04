@@ -28,7 +28,8 @@ fun WifiConnectingScreen(vm: WifiScreenViewModel, navigator: Navigator) {
         TemplateWithoutBand(
 //            navigator = navigator,
 //            backNav = Screens.WifiScreen.backNav ?: Screens.None,
-            backNav = vm.backNavScreen,
+//            backNav = vm.backNavScreen,
+            backPressureHandler = vm.backPressureHandler,
             ui = vm.ui.template,
             header = {},
             body = { WifiConnectingBody(vm) },

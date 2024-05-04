@@ -41,7 +41,7 @@ fun Navigation(navigator: Navigator) {
 
     NavHost(
         navController = navController,
-//        startDestination = Screens.MainScreen.route,
+        startDestination = Screens.MainScreen.route,
 //        startDestination = Screens.MenuScreen.route,
 //        startDestination = Screens.StatsScreen.route,
 //        startDestination = Screens.WifiScreen.route,
@@ -50,7 +50,7 @@ fun Navigation(navigator: Navigator) {
 //        startDestination = AboutScreen.route,
 //        startDestination = Screens.Creator.route,
 //        startDestination = Screens.Test.route,
-        startDestination = StatsScreen.route,
+//        startDestination = StatsScreen.route,
     ) {
         composable(route = Screens.MenuScreen.route) {
             Log.v("Navigation", "to Screens.MenuScreen.route")

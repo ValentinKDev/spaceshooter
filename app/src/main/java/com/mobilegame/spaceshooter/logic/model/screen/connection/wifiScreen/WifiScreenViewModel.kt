@@ -32,20 +32,15 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
     val registerVM = RegisterDeviceViewModel(application, Screens.WifiScreen)
     val repo = DeviceWifiRepo()
     private var connectionVM: WifiConnectionViewModel = WifiConnectionViewModel()
-    val backNavScreen: Screens = Screens.MenuScreen
+    private val backNavScreen: Screens = Screens.MainScreen
+    val backPressureHandler = PressureHandler(null)
     private val _navigate = MutableStateFlow(false)
     val navigate: StateFlow<Boolean> = _navigate.asStateFlow()
 
-//    private val _opponentHistory = MutableStateFlow(TryAgainStats.EMPTY_TRY_AGAIN_STATS)
-//    val opponentHistory: StateFlow<TryAgainStats> = _opponentHistory.asStateFlow()
-//    private var allOpponentHistories: List<TryAgainStats> = emptyList()
     private val _allOpponentHistories = MutableStateFlow<List<TryAgainStats>>(emptyList())
     val allOpponentHistories: StateFlow<List<TryAgainStats>> = _allOpponentHistories.asStateFlow()
-//    fun getOpponentHistory(name: String) = allOpponentHistories.find { it.enemiesName == name } ?: TryAgainStats.EMPTY_TRY_AGAIN_STATS
     private val _deviceName = MutableStateFlow(Device.data.name)
     val deviceName: StateFlow<String?> = _deviceName.asStateFlow()
-//    private val _goToShipMenu = MutableStateFlow(false)
-//    val goToShipMenu: StateFlow<Boolean> = _goToShipMenu.asStateFlow()
     private var goToShipMenu: Boolean = false
 
     init {
@@ -66,10 +61,6 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
 //                        PreparationState.ReadyToPlay -> {
 //                        PreparationState.ReadyToPlay -> {
                             if (pressureHandler.full.value) {
-//                                eLog(TAG, "SPACE SHIP MENU")
-//                                DeviceEventRepo().sendReadyToChooseShip()
-//                                DeviceEventRepo().sendReadyToPlay()
-//                                chooseSpaceShip()
                                 _navigate.value = true
                                 this.coroutineContext.job.cancel()
                             }
@@ -88,13 +79,15 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
                 else { pressureReleaseReadyToChooseSpaceShip() }
             }
         }
-    }
-    private fun chooseSpaceShip() {
-        goToShipMenu = true
-//        nav?.let { it.navig(Screens.SpaceWarScreen) }
+
+        viewModelScope.launch {
+            backPressureHandler.full.collect { _full ->
+                eLog(TAG, "collecting pressureVM.full $_full")
+                if (_full) { backNavigation() }
+            }
+        }
     }
     suspend fun navigateToShipMenuScreen(navigator: Navigator) {
-//        Device.navigation.argStr = StrArgumentNav.serializeArgToShipMenu(TryAgainStats.EMPTY_TRY_AGAIN_STATS)
         navigator.navig(Screens.ShipMenuScreen, StrArgumentNav.serializeArgToShipMenu(TryAgainStats.EMPTY_TRY_AGAIN_STATS))
         Log.e(TAG, "navigateToShipMenuScreen: Device.nav.arg ${Device.navigation.argStr}")
     }
@@ -106,23 +99,22 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
         }
     }
     fun pressureReadyToChooseSpaceShip() = viewModelScope.launch {
-//        if (!goToShipMenu) {
         Log.e(TAG, "pressureReadyToChooseSpaceShip: ")
-//            DeviceEventRepo().sendReadyToPlay()
         DeviceEventRepo().sendReadyToChooseShip()
-//        }
     }
     fun pressureReleaseReadyToChooseSpaceShip()  = viewModelScope.launch {
-//        if (!goToShipMenu) {
-            Log.e(TAG, "pressureReleaseReadyToChooseSpaceShip: ",)
-//            DeviceEventRepo().sendNotReadyToPlay()
-            DeviceEventRepo().sendNotReadyToChooseShip()
-//        }
+        Log.e(TAG, "pressureReleaseReadyToChooseSpaceShip: ",)
+        DeviceEventRepo().sendNotReadyToChooseShip()
+    }
+
+    fun backNavigation() = viewModelScope.launch {
+        Device.navigation.nav.navig(backNavScreen)
+//        connectionVM.clear()
+//        onCleared()
     }
 
     //todo : is this better to store the navigation in the Device Data obj ?
     init {
         Log.i(TAG, "init: ")
-//        Log.e(TAG, "ini: \n\n\n\n\n\n test", )
     }
 }
