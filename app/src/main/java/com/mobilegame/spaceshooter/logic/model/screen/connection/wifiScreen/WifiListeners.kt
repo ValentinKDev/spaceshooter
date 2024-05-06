@@ -3,11 +3,13 @@ package com.mobilegame.spaceshooter.logic.model.screen.connection.wifiScreen
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
 import android.util.Log
+import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceWifiRepo
 import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithClientRepo
 import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithServerRepo
+import com.mobilegame.spaceshooter.utils.extensions.containsNot
 
 class WifiListeners() {
     val wifiRepo = DeviceWifiRepo()
@@ -20,20 +22,30 @@ class WifiListeners() {
 
         override fun onResolveFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
             // Called when the resolve fails. Use the error code to debug.
-            Log.e(TAG, "Resolve failed: $errorCode")
+            Log.e(TAG, "ERROR Resolve failed: $errorCode for ${serviceInfo.serviceName}")
         }
 
         override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
-            Log.i(TAG, "onServiceResolved: Resolve Succeeded. $serviceInfo")
-//            Log.e(TAG, "onServiceResolved: \n\n\n\n\n ${serviceInfo.host}", )
-            if (serviceInfo.host == wifiRepo.getLocalIp()) {
-                Log.e(TAG, "onServiceResolved: find my self -> stop discovery")
-                stopDiscovery()
+            Log.i(TAG, "onServiceResolved: ${serviceInfo.serviceName.contains(Device.wifi.networkSearchDiscoveryName)}")
+//            if ( serviceInfo.serviceName.equals(Device.wifi.networkSearchDiscoveryName)
+            if ( serviceInfo.serviceName.contains(Device.wifi.networkSearchDiscoveryName)) {
+//                && serviceInfo.host != wifiRepo.getLocalIp()) {
+//                && serviceInfo.serviceName.containsNot(Device.data.name!!)) {
+                Log.d( TAG, "Service found: ${serviceInfo.serviceName} ${serviceInfo.port} ${serviceInfo.host} ${serviceInfo.serviceType} ${serviceInfo.attributes}" )
+                toServerRepo.addServer(serviceInfo)
+                DeviceEventRepo().sendNameToServer()
+//                wifiRepo.setLinkState(WifiLinkState.RegisteredAsServerAndClient)
             }
-            toServerRepo.addServer(serviceInfo)
         }
     }
 
+    fun stopDiscovery() {
+        Log.e("Listeners", "stopDiscovery: ")
+//        wifiRepo.getNsdManager().stopServiceDiscovery(discoveryListener)
+        wifiRepo.getClientNsdManager().stopServiceDiscovery(discoveryListener)
+//        wifiRepo.getNsdManager().unregisterService(discoveryListener)
+//        wifiRepo.getNsdManager()
+    }
 //    var discoveryListener = getADiscoveryListener()
 //    fun getADiscoveryListener(): NsdManager.DiscoveryListener = object : NsdManager.DiscoveryListener {
     val discoveryListener: NsdManager.DiscoveryListener = object : NsdManager.DiscoveryListener {
@@ -46,15 +58,15 @@ class WifiListeners() {
         }
 
         override fun onServiceFound(service: NsdServiceInfo) {
-            Log.d(TAG, "Service found ${service.serviceName}")
+            Log.d(TAG, "Service found: ${service.serviceName} ${service.port} ${service.host} ${service.serviceType} ${service.attributes}")
+//            Log.d(TAG, "Service found ${service.serviceName}")
+//            Log.d(TAG, "Service found ${service.attributes}")
 
             // A service was found! Do something with it.
-//            if (service.serviceName.contains(Device.wifi.networkSearchDiscoveryName)
-//                || toServerRepo.contains(service.host)
-            if (service.serviceName.equals(Device.wifi.networkSearchDiscoveryName) ) {
-                wifiRepo.getNsdManager().resolveService(service, getResolveListener())
-//                repo.get
-//                Device.wifi.nsdManager.resolveService(service, getResolveListener())
+//            if (service.serviceName.equals(Device.wifi.networkSearchDiscoveryName) ) {
+//            wifiRepo.getNsdManager().resolveService(service, getResolveListener())
+            if ( service.serviceName.containsNot(Device.data.name!!)) {
+                wifiRepo.getClientNsdManager().resolveService(service, getResolveListener())
             }
         }
 
@@ -79,8 +91,4 @@ class WifiListeners() {
         }
     }
 
-    fun stopDiscovery() {
-        Log.e("Listeners", "stopDiscovery: ")
-        wifiRepo.getNsdManager().stopServiceDiscovery(discoveryListener)
-    }
 }

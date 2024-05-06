@@ -90,7 +90,7 @@ fun SpaceShooterTheme(
             vm.initBackgroundData(context)
         } )
     } else {
-        BackgroundGrid(vm.ui)
+//        BackgroundGrid(vm.ui)
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,

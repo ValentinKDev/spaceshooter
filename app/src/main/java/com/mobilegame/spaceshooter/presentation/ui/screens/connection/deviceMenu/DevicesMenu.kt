@@ -30,9 +30,7 @@ fun DevicesMenu(vm: WifiScreenViewModel, navigator: Navigator, deviceName: Strin
         deviceName?.let { _name ->
             if (facingDevices.isNotEmpty()) {
                 TemplateWithBand(
-//                    navigator = navigator,
-//                    backNav = Screens.BluetoothScreen.backNav ?: Screens.None,
-//                    backNav = vm.backNavScreen,
+                    backPressureHandler = vm.backPressureHandler,
                     ui = vm.ui.template,
                     header = {},
                     band = {
@@ -49,8 +47,6 @@ fun DevicesMenu(vm: WifiScreenViewModel, navigator: Navigator, deviceName: Strin
                             ui = vm.ui.deviceMenu.body,
                             navigator = navigator,
                             pressureVM = vm.pressureHandler,
-//                        onPressure = WifiScreenViewModel::pressureReadyToChooseSpaceShip,
-//                        onRelease = WifiScreenViewModel::pressureReleaseToChooseSpaceShip
                         )
                     }
                 )

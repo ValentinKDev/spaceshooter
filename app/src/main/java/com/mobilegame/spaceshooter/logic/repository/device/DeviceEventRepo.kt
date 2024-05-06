@@ -6,6 +6,7 @@ import com.mobilegame.spaceshooter.data.connection.dto.EventMessage
 import com.mobilegame.spaceshooter.data.connection.dto.EventMessageType
 import com.mobilegame.spaceshooter.data.connection.wifi.PreparationState
 import com.mobilegame.spaceshooter.data.connection.wifi.SendEvent
+import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiClient
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiInfoService
 import com.mobilegame.spaceshooter.data.device.Device
@@ -38,10 +39,58 @@ class DeviceEventRepo() {
 //    }
 
     suspend fun handleEvent(eventMessage: EventMessage) {
-        Log.i(TAG, "handleEvent: ")
-        wifiRepo.isDeviceClient()?.let {
-            handleEventAsClient(eventMessage)
-        } ?: handleEventAsServer(eventMessage)
+        Log.i(TAG, "handleEvent: ${eventMessage.type}")
+        when (eventMessage.type) {
+            EventMessageType.SendDeviceName -> {
+                val inetAddressJson = eventMessage.message
+                val inetAddress = gson.fromJson(inetAddressJson, InetAddress::class.java)
+                toClientRepo.updateConnectedClientName(inetAddress, eventMessage.senderName)
+                val clientChannel = Device.wifi.channels.withClients.find { it.info?.socket?.inetAddress == inetAddress }
+                clientChannel?.info.let { _client ->
+                    _client?.let {
+                        wifiRepo.addVisibleDevice(inetAddress, eventMessage.senderName)
+//                        sendServerNameToClient(it as WifiClient)
+                        val newConnectedDeviceEvent = EventMessage(EventMessageType.NewConnectedDevice, eventMessage.senderName, inetAddressJson)
+                        sendEvent.toAll(toClientRepo.getClientsList(), newConnectedDeviceEvent, exception = _client )
+                    }
+                }
+                if (wifiRepo.noClientsRegisteredAt(inetAddress)) wifiRepo.updateLinkStateTo( WifiLinkState.RegisteredAsServer)
+//                if (Device.wifi.visibleDevices.value.isEmpty()) wifiRepo.updateLinkStateTo( WifiLinkState.RegisteredAsServer)
+                else wifiRepo.updateLinkStateTo(WifiLinkState.RegisteredAsServerAndClient)
+                //todo: write a factor function to redirect any type of messages to other clients
+            }
+            EventMessageType.ReadyToChooseShip -> {
+                wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToChooseShip)
+            }
+            EventMessageType.NewConnectedDevice -> {}
+            EventMessageType.InGame -> {}
+            EventMessageType.ReadyToPlay -> {
+                val shipTypeName = eventMessage.message
+                val shipType = ShipType.getType(shipTypeName)
+                wifiRepo.changeVisibleDevicePreparationStateTo(state = PreparationState.ReadyToPlay, shipType = shipType)
+            }
+            EventMessageType.NotReadyToPlay -> { wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToChooseShip) }
+            EventMessageType.NotReadyToChooseShip -> { wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.Waiting) }
+            EventMessageType.SendProjectile -> {
+                val projectileJson = eventMessage.message
+                val projectile = Shoot.deserialize(projectileJson, gson)
+                Device.event.projectileFlow.emit( projectile.prepareReceivedProjectile() )
+            }
+            EventMessageType.Dead -> {
+                val looseInfoJson: String = eventMessage.message
+                val looseInfo: LooseInfo = LooseInfo.fromJson(looseInfoJson)
+
+                val clientChannel = Device.wifi.channels.withClients.find { it.info?.socket?.inetAddress == looseInfo.deadPlayerIp }
+                clientChannel?.info.let { _client ->
+                    _client?.let {
+                        genericEventMessage(type = EventMessageType.Dead, strMessage = looseInfoJson)?.let {eventMessage ->
+                            sendEvent.toAll(toClientRepo.getClientsList(), eventMessage, exception = _client )
+                        }
+                        Device.event.gameResult.emit(GameResult.VICTORY)
+                    }
+                }
+            }
+        }
     }
 
     private suspend fun handleEventAsServer(eventMessage: EventMessage) {
@@ -57,7 +106,7 @@ class DeviceEventRepo() {
                 clientChannel?.info.let { _client ->
                     _client?.let {
                         wifiRepo.addVisibleDevice(inetAddress, eventMessage.senderName)
-                        sendServerNameToClient(it as WifiClient)
+//                        sendServerNameToClient(it as WifiClient)
                         val newConnectedDeviceEvent = EventMessage(EventMessageType.NewConnectedDevice, eventMessage.senderName, inetAddressJson)
                         sendEvent.toAll(toClientRepo.getClientsList(), newConnectedDeviceEvent, exception = _client )
                     }
@@ -214,6 +263,7 @@ class DeviceEventRepo() {
             }
         }
     }
+
     private fun sendServerNameToClient(client: WifiClient) {
         Log.i(TAG, "sendServerNameToClient: ")
         Device.data.name?.let { _name ->
@@ -228,15 +278,18 @@ class DeviceEventRepo() {
         type: EventMessageType,
         strMessage: String = "generic",
     ) {
+        Log.d(TAG, "genericFunction: client ${wifiRepo.isDeviceClient()} / server ${wifiRepo.isDeviceServer()}")
         genericEventMessage(type, strMessage)?.let { eventMessage ->
-            wifiRepo.isDeviceClient()?.let { Log.i(TAG, "to server")
+//            wifiRepo.isDeviceClient()?.let { Log.i(TAG, "to server")
                 toServerRepo.getChannel().info?.let { _info ->
                     sendEvent.to(_info, eventMessage)
                 }
-            } ?: let { Log.i(TAG, "to client")
-                val infoList: List<WifiInfoService> = toClientRepo.withClientChannels().map { it.info!! }
-                sendEvent.toAll(infoList, eventMessage)
-            }
+//            } ?: let { Log.i(TAG, "to client")
+//                val infoList: List<WifiInfoService> = toClientRepo.withClientChannels().map { it.info!! }
+//                Log.d(TAG, "genericFunction: client channels list size ${infoList.size}")
+//            Log.d(TAG, "genericFunction: client channels list  ${infoList.map { it.socket.inetAddress }}")
+//                sendEvent.toAll(infoList, eventMessage)
+//            }
         }
     }
     private fun genericEventMessage(

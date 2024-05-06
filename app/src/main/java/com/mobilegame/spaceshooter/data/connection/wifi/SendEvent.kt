@@ -14,6 +14,7 @@ class SendEvent() {
 
     fun toAll(infoList: List<WifiInfoService>, message: EventMessage, exception: WifiInfoService? = null) {
         infoList.forEach { _info ->
+            Log.i(TAG, "toAll: name ${_info.name}")
             exception?.let { _exception ->
                 if (_exception != _info)
                     to(_info, message)

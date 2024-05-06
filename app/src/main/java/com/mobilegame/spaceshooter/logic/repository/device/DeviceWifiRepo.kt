@@ -23,10 +23,22 @@ class DeviceWifiRepo() {
         Device.wifi.wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
     }
     fun initNetworkSearchAndDiscovery(context: Context) {
-        Device.wifi.nsdManager = context.getSystemService(Context.NSD_SERVICE) as NsdManager
+//        Device.wifi.nsdManager = context.getSystemService(Context.NSD_SERVICE) as NsdManager
+        Device.wifi.serverNsdManager = context.getSystemService(Context.NSD_SERVICE) as NsdManager
+        Device.wifi.clientNsdManager = context.getSystemService(Context.NSD_SERVICE) as NsdManager
     }
-    fun getNsdManager(): NsdManager = Device.wifi.nsdManager
+//    fun getNsdManager(): NsdManager = Device.wifi.nsdManager
+    fun getServerNsdManager(): NsdManager = Device.wifi.serverNsdManager
+    fun getClientNsdManager(): NsdManager = Device.wifi.clientNsdManager
     fun getLinkState(): WifiLinkState = Device.wifi.linkState.value
+    fun setLinkState(state : WifiLinkState) { Device.wifi.linkState.value = state }
+    fun noClientsRegisteredAt(address: InetAddress): Boolean = Device.wifi.channels.withClients.find {
+        it.info?.socket?.inetAddress == address }?.let {
+        true
+    } ?: let {
+        Log.e(TAG, "noClientsRegisteredAt: ERROR no client for ${address.hostAddress}")
+        false
+    }
     //    fun isDeviceServer(): Boolean = Device.wifi.linkState.value == WifiLinkState.ConnectedAsServer
     fun isDeviceClient(): Boolean? = if ( Device.wifi.linkState.value == WifiLinkState.ConnectedAsClient ) true else null
     fun isDeviceServer(): Boolean = Device.wifi.channels.serverSocket != null

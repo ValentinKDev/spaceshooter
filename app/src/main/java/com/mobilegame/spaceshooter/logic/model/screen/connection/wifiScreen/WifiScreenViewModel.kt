@@ -31,7 +31,7 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
     val pressureHandler = PressureHandler(null)
     val registerVM = RegisterDeviceViewModel(application, Screens.WifiScreen)
     val repo = DeviceWifiRepo()
-    private var connectionVM: WifiConnectionViewModel = WifiConnectionViewModel()
+    private var connectionVM: WifiConnection = WifiConnection()
     private val backNavScreen: Screens = Screens.MainScreen
     val backPressureHandler = PressureHandler(null)
     private val _navigate = MutableStateFlow(false)
@@ -41,7 +41,6 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
     val allOpponentHistories: StateFlow<List<TryAgainStats>> = _allOpponentHistories.asStateFlow()
     private val _deviceName = MutableStateFlow(Device.data.name)
     val deviceName: StateFlow<String?> = _deviceName.asStateFlow()
-    private var goToShipMenu: Boolean = false
 
     init {
         eLog(TAG, "init")
@@ -83,7 +82,10 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
         viewModelScope.launch {
             backPressureHandler.full.collect { _full ->
                 eLog(TAG, "collecting pressureVM.full $_full")
-                if (_full) { backNavigation() }
+                if (_full) {
+                    backNavigation()
+                    onCleared()
+                }
             }
         }
     }
