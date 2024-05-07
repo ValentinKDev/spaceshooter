@@ -46,9 +46,13 @@ class WifiListeners() {
 //        wifiRepo.getNsdManager().unregisterService(discoveryListener)
 //        wifiRepo.getNsdManager()
     }
-//    var discoveryListener = getADiscoveryListener()
-//    fun getADiscoveryListener(): NsdManager.DiscoveryListener = object : NsdManager.DiscoveryListener {
-    val discoveryListener: NsdManager.DiscoveryListener = object : NsdManager.DiscoveryListener {
+    var discoveryListener = getADiscoveryListener()
+        get() {
+            field = getADiscoveryListener()
+            return field
+        }
+    private fun getADiscoveryListener(): NsdManager.DiscoveryListener = object : NsdManager.DiscoveryListener {
+//    val discoveryListener: NsdManager.DiscoveryListener = object : NsdManager.DiscoveryListener {
 
         val TAG = "discoveryListener"
 

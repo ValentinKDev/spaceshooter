@@ -67,7 +67,11 @@ class WifiChannelsWithServerRepo() {
 
     fun searchForServer()  {
         Log.i(TAG, "searchAllServers: ")
+//        getListeners().discoveryListener.onStartDiscoveryFailed()
+//        repo.getClientNsdManager().stopServiceDiscovery(getListeners().discoveryListener)
+        Log.i(TAG, "searchAllServers: ${repo.getServerNsdManager()}")
 //        repo.getNsdManager().discoverServices(
+//        getListeners().discoveryListener = getListeners().getADiscoveryListener()
         repo.getClientNsdManager().discoverServices(
             Device.wifi.type,
             NsdManager.PROTOCOL_DNS_SD,

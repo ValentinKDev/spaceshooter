@@ -31,6 +31,8 @@ class DeviceEventRepo() {
     private val sendEvent = SendEvent()
     //todo : handle even trough listening to a shared flow event
     //todo : handle the when (type) by eventype and then by servers or client
+    //todo : if devices send message to the server why keep open the client channel ?
+
 //    suspend fun handleGameResult(gameResult: GameResult) {
 //        when (gameResult) {
 //            GameResult.VICTORY -> TODO()
