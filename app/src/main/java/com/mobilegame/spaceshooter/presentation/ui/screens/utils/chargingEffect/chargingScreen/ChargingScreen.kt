@@ -21,7 +21,7 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.utils.chargingEffect.
 @Composable
 fun ChargingScreen(
     handler: PressureHandler,
-    navigator: Navigator,
+//    navigator: Navigator,
     contentSize: DpSize,
     screenSize: DpSize,
     startPadding: Dp = 0.dp,

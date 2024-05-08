@@ -6,6 +6,8 @@ import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.logic.model.navigation.PressureHandler
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.startMenu.MenuScreenUI
+import com.mobilegame.spaceshooter.logic.uiHandler.template.AnimationSlideHandler
+import com.mobilegame.spaceshooter.logic.uiHandler.template.LateralDirection
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,31 +15,38 @@ import kotlinx.coroutines.flow.asStateFlow
 class MenuScreenViewModel(): ViewModel() {
     private val TAG = "MenuScreenViewModel"
     val ui = MenuScreenUI()
-//    val pressureHandler = PressureHandler(Screens.MainScreen)
     val pressureHandler = PressureHandler(null)
-//    lateinit var nav: Navigator
-//    private val menuSize: Int = MenuScreens.values().size
     private val menuArray: Array<MenuScreens> = MenuScreens.values()
     private val _currentSelection = MutableStateFlow(MenuScreens.Spacewars)
     val currentSelection: StateFlow<MenuScreens> = _currentSelection.asStateFlow()
     fun updateCurrentSelectionTo(menu: MenuScreens) { _currentSelection.value = menu }
     private val _navigate = MutableStateFlow(false)
     val navigate: StateFlow<Boolean> = _navigate.asStateFlow()
+    val animationSlide = AnimationSlideHandler()
 
-//    fun initNav(navigator: Navigator) { nav = navigator}
-    fun onLeftClick() {
-        val i = menuArray.indexOf(currentSelection.value)
-        updateCurrentSelectionTo(
-            if (i == 0) MenuScreens.values()[menuArray.size - 1]
-            else MenuScreens.values()[i - 1]
-        )
+
+    fun onLeftClick() { handleDirection(LateralDirection.Left) }
+    fun onRightClick() { handleDirection(LateralDirection.Right) }
+
+    private fun handleDirection(newDirection: LateralDirection) {
+        animationSlide.upDateDirection(newDirection)
+        handleListSelection(newDirection)
+        animationSlide.updateVisibility()
     }
 
-    fun onRightClick() {
-        val i = menuArray.indexOf(currentSelection.value)
+    private fun handleListSelection(direction: LateralDirection) {
+        val indexSelection = menuArray.indexOf(currentSelection.value)
         updateCurrentSelectionTo(
-            if (i == menuArray.size - 1) MenuScreens.values()[0]
-            else MenuScreens.values()[i + 1]
+            when (direction) {
+                LateralDirection.Left -> {
+                    if (indexSelection == 0) MenuScreens.values()[menuArray.size - 1]
+                    else MenuScreens.values()[indexSelection - 1]
+                }
+                LateralDirection.Right -> {
+                    if (indexSelection == menuArray.size - 1) MenuScreens.values()[0]
+                    else MenuScreens.values()[indexSelection + 1]
+                }
+            }
         )
     }
 

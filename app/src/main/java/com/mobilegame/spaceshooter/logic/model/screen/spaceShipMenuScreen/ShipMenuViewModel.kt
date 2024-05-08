@@ -12,6 +12,8 @@ import com.mobilegame.spaceshooter.logic.model.screen.spaceShipMenuScreen.ShipPi
 import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.shipMenuScreen.ShipMenuUI
+import com.mobilegame.spaceshooter.logic.uiHandler.template.AnimationSlideHandler
+import com.mobilegame.spaceshooter.logic.uiHandler.template.LateralDirection
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.presentation.ui.navigation.StrArgumentNav
 import com.mobilegame.spaceshooter.utils.analyze.eLog
@@ -34,6 +36,7 @@ class ShipMenuViewModel(): ViewModel() {
     val pressureHandler = PressureHandler(null)
 //    val shipPicking = ShipPicking(shipMenuUI.body.sizes.shipViewBox)
     val shipPicking = ShipPicking(shipViewBox = shipMenuUI.body.sizes.shipViewBox, shipSelected = ShipType.getType(gameStats.shipName))
+    val animationSlide = AnimationSlideHandler()
 
     //    var nav: Navigator? = null
     private val _navigate = MutableStateFlow(false)
@@ -114,8 +117,13 @@ class ShipMenuViewModel(): ViewModel() {
 //        nav = navigator
 //    }
 
-    fun handleLeftArrowClick() = viewModelScope.launch { shipPicking.handleLeftArrowClick() }
-    fun handleRightArrowClick() = viewModelScope.launch { shipPicking.handleRightArrowClick() }
+    fun handleLeftArrowClick() { handleArrowClick(LateralDirection.Left) }
+    fun handleRightArrowClick() { handleArrowClick(LateralDirection.Right) }
+    private fun handleArrowClick(direction: LateralDirection) = viewModelScope.launch {
+        animationSlide.upDateDirection(direction)
+        shipPicking.handleArrowClick(animationSlide.direction)
+        animationSlide.updateVisibility()
+    }
 
     override fun onCleared() {
         Log.w(TAG, "onCleared: ")

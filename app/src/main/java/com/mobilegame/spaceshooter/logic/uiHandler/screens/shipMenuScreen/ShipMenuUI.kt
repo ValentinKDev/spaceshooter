@@ -7,6 +7,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.TextUnit
+import androidx.constraintlayout.compose.ConstraintSet
+import androidx.constraintlayout.compose.Dimension
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.background.BackgroundUI
@@ -89,5 +91,47 @@ class ShipMenuUI {
             val shipNumberListIndicator: String = "ship_number_indicator",
             val shipPresentation: String = "ship_presentation",
         )
+
+        val constraint = ConstraintSet {
+                val leftArrow = createRefFor(ids.leftArrow)
+                val rightArrow = createRefFor(ids.rightArrow)
+                val shipListIndicator = createRefFor(ids.shipNumberListIndicator)
+                val spaceShipPresentation = createRefFor(ids.shipPresentation)
+
+                constrain(leftArrow) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                    bottom.linkTo(parent.bottom)
+                    height = Dimension.wrapContent
+                    width = Dimension.wrapContent
+                    centerVerticallyTo(parent)
+                }
+                constrain(rightArrow) {
+                    top.linkTo(parent.top)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
+                    height = Dimension.wrapContent
+                    width = Dimension.wrapContent
+                    centerVerticallyTo(parent)
+                }
+                constrain(spaceShipPresentation) {
+                    top.linkTo(parent.top)
+                    start.linkTo(leftArrow.end)
+                    end.linkTo(rightArrow.start)
+//                    bottom.linkTo(shipListIndicator.top)
+                    bottom.linkTo(parent.bottom)
+                    height = Dimension.wrapContent
+                    width = Dimension.wrapContent
+                    centerHorizontallyTo(parent)
+                }
+                constrain(shipListIndicator) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
+                    height = Dimension.wrapContent
+                    width = Dimension.wrapContent
+                    centerHorizontallyTo(parent)
+                }
+            }
     }
 }

@@ -18,57 +18,32 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.logic.model.screen.menuScreen.MenuScreenViewModel
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.startMenu.MenuScreenUI
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.screens.menuScreen.letters.*
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.SpacerWithBackground
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.chargingEffect.chargingScreen.ChargingScreen
+import com.mobilegame.spaceshooter.presentation.ui.template.AnimateSlide
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 
 @Composable
 fun MenuScreen(navigator: Navigator, vm: MenuScreenViewModel = viewModel()) {
-    val currentMenu by remember { vm.currentSelection }.collectAsState()
-    val navigate by remember { vm.pressureHandler.full }.collectAsState()
-
-    LaunchedEffect(navigate) {
-        eLog("MenuScreen", "MenuScreen launch")
-        if (navigate) vm.pressureHandler.navigateTo(currentMenu.screen)
-    }
-
+    val visibility by remember { vm.animationSlide.visibleAnimation }.collectAsState()
     Box(
-        Modifier
+        modifier = Modifier
             .fillMaxSize()
+            .background(MyColor.applicationBackground)
     ) {
-        ChargingScreen(
-            navigator = navigator,
-            handler = vm.pressureHandler,
-            contentSize = vm.ui.getContentSize(currentMenu.titleText),
-            screenSize = vm.ui.screenSize,
-            startPadding = vm.ui.getStartPadding(currentMenu.titleText),
-            endPadding = vm.ui.getEndPadding(currentMenu.titleText),
-            topPadding = vm.ui.topPadding,
-            bottomPadding = vm.ui.bottomPadding,
-        ) {
-            Row( modifier = Modifier .align(Alignment.Center) ) {
-                for (char in currentMenu.titleText) {
-                    when (char) {
-                        'A' -> { DrawA( vm.ui ) }
-                        'B' -> { DrawB( vm.ui ) }
-                        'C' -> { DrawC( vm.ui ) }
-                        'D' -> { DrawD( vm.ui ) }
-                        'E' -> { DrawE( vm.ui ) }
-                        'O' -> { DrawO( vm.ui ) }
-                        'P' -> { DrawP( vm.ui ) }
-                        'R' -> { DrawR( vm.ui ) }
-                        'S' -> { DrawS( vm.ui ) }
-                        'T' -> { DrawT( vm.ui ) }
-                        'U' -> { DrawU( vm.ui ) }
-                        'W' -> { DrawW( vm.ui ) }
-                        else -> { Box(Modifier.size(vm.ui.letterSizeDp).background(MyColor.applicationBackground)) }
-                    }
-                    SpacerWithBackground(size = vm.ui.letterSpacerSizeDp)
-                }
-            }
-        }
+        AnimateSlide(
+            handler = vm.animationSlide,
+            visibility = visibility,
+            view = { MenuView(vm = vm)}
+        )
+        AnimateSlide(
+            handler = vm.animationSlide,
+            visibility = !visibility,
+            view = { MenuView(vm = vm)}
+        )
         Icon(
             imageVector = Icons.Filled.KeyboardArrowLeft,
             contentDescription = "KeyboardArrowLeft",
@@ -91,5 +66,65 @@ fun MenuScreen(navigator: Navigator, vm: MenuScreenViewModel = viewModel()) {
             ,
             tint = MyColor.applicationContrast
         )
+    }
+//    MenuView(vm)
+}
+
+@Composable
+private fun MenuView(vm: MenuScreenViewModel) {
+    val currentMenu by remember { vm.currentSelection }.collectAsState()
+    val navigate by remember { vm.pressureHandler.full }.collectAsState()
+
+    LaunchedEffect(navigate) {
+        eLog("MenuScreen", "MenuScreen launch")
+        if (navigate) vm.pressureHandler.navigateTo(currentMenu.screen)
+    }
+
+    Box(
+        Modifier
+            .fillMaxSize()
+    ) {
+        ChargingScreen(
+            handler = vm.pressureHandler,
+            contentSize = vm.ui.getContentSize(currentMenu.titleText),
+            screenSize = vm.ui.screenSize,
+            startPadding = vm.ui.getStartPadding(currentMenu.titleText),
+            endPadding = vm.ui.getEndPadding(currentMenu.titleText),
+            topPadding = vm.ui.topPadding,
+            bottomPadding = vm.ui.bottomPadding,
+        ) {
+            Row(modifier = Modifier.align(Alignment.Center)) {
+                DrawTitle(titleText = currentMenu.titleText, vm.ui)
+            }
+        }
+    }
+}
+
+
+@Composable
+private fun DrawTitle(titleText: String, ui: MenuScreenUI) {
+    for (char in titleText) {
+        when (char) {
+            'A' -> { DrawA(ui) }
+            'B' -> { DrawB(ui) }
+            'C' -> { DrawC(ui) }
+            'D' -> { DrawD(ui) }
+            'E' -> { DrawE(ui) }
+            'O' -> { DrawO(ui) }
+            'P' -> { DrawP(ui) }
+            'R' -> { DrawR(ui) }
+            'S' -> { DrawS(ui) }
+            'T' -> { DrawT(ui) }
+            'U' -> { DrawU(ui) }
+            'W' -> { DrawW(ui) }
+            else -> {
+                Box(
+                    Modifier
+                        .size(ui.letterSizeDp)
+                        .background(MyColor.applicationBackground)
+                )
+            }
+        }
+        SpacerWithBackground(size = ui.letterSpacerSizeDp)
     }
 }
