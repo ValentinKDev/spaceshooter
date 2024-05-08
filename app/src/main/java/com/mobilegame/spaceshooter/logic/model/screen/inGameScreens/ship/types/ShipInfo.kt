@@ -1,6 +1,7 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types
 
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.ShipStatsIndicator
+import androidx.compose.ui.graphics.Color
 
 interface ShipInfo {
     val name: String
@@ -14,4 +15,5 @@ interface ShipInfo {
     val ammoRecoveryTime: Long
     val chargedProjectileType: ChargedProjectileType
     val statsIndicator: ShipStatsIndicator
+    val color: Color
 }

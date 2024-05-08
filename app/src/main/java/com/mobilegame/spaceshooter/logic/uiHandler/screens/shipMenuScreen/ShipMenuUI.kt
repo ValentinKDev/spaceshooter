@@ -1,5 +1,6 @@
 package com.mobilegame.spaceshooter.logic.uiHandler.screens.shipMenuScreen
 
+import android.util.Log
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -7,6 +8,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.TextUnit
 import com.mobilegame.spaceshooter.data.device.Device
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.background.BackgroundUI
 import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.presentation.ui.screens.shipMenuScreen.StatsIndication
 import com.mobilegame.spaceshooter.utils.extensions.toDp
@@ -15,9 +18,14 @@ import com.mobilegame.spaceshooter.utils.extensions.toSize
 import com.mobilegame.spaceshooter.utils.extensions.toSp
 
 class ShipMenuUI {
+    private val TAG = "ShipMenuUI"
     val template = TemplateUI(instantNavBack = true)
     val band = BandShipMenu(template.band.height)
     val body = BodyShipMenu(template.body.sizeWithBand)
+    val backgroundsList = ShipType.getList().map { type -> BackgroundUI(type) }
+//    init {
+//        Log.e(TAG, "init:\n\n\n\n\n\n ${backgroundsList.map { it.shipType }}", )
+//    }
 //    val gameUI = SpaceWarGameScreenUI(displaySize = Device.metrics.size, val shipType: ShipType) {
 
     class BandShipMenu(bandHeight: Float) {

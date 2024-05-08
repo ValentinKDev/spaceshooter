@@ -8,8 +8,8 @@ import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.BoxCoordinates
 
 fun DpOffset.toOffset(): Offset = Offset(
-    x = this.x.DpToPixel(),
-    y = this.y.DpToPixel()
+    x = this.x.dpToPixel(),
+    y = this.y.dpToPixel()
 )
 
 infix fun DpOffset.or(secondOffset: DpOffset): DpOffset = if (this == DpOffset.Unspecified) secondOffset else this

@@ -1,6 +1,7 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.tryAgainScreen
 
 import ShipMenuViewModel
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -10,6 +11,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.backGrounds.AnimatedBackGroundStatic
 import com.mobilegame.spaceshooter.presentation.ui.screens.shipMenuScreen.ShipMenuBand
 import com.mobilegame.spaceshooter.presentation.ui.screens.shipMenuScreen.ShipMenuBody
 import com.mobilegame.spaceshooter.presentation.ui.template.TemplateWithBand
@@ -24,6 +26,9 @@ fun TryAgainScreen(nav: Navigator, vm: ShipMenuViewModel = viewModel() ) {
 //        vm.initStats(stats)
         if (navigate) vm.navigateToGame(nav)
     }
+
+    val shipListIndex = remember { vm.shipPicking.shipListIndex }.collectAsState()
+    AnimatedBackGroundStatic(ui = vm.shipMenuUI.backgroundsList[shipListIndex.value])
 
     TemplateWithBand(
 //        navigator = nav,

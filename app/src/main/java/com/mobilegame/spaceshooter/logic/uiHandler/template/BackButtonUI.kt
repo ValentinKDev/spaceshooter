@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.presentation.ui.screens.menuScreen.letters.getListEllipseOffset
-import com.mobilegame.spaceshooter.utils.extensions.DpToPixel
+import com.mobilegame.spaceshooter.utils.extensions.dpToPixel
 import com.mobilegame.spaceshooter.utils.extensions.degreeToRadianRange
 import com.mobilegame.spaceshooter.utils.extensions.sweepAngle
 import com.mobilegame.spaceshooter.utils.extensions.toDp
@@ -25,7 +25,7 @@ class BackButtonUI(percent: TemplateUI.TemplatePercents, val instant: Boolean = 
     val points = PointsBackButton()
     val sizes = SizesBackButton(percent)
     lateinit var path: Path
-    val stroke = Stroke(3.dp.DpToPixel(), cap = StrokeCap.Round)
+    val stroke = Stroke(3.dp.dpToPixel(), cap = StrokeCap.Round)
 
     init {
         initPoints()

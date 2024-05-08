@@ -4,12 +4,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.presentation.ui.screens.menuScreen.letters.getListEllipseOffset
-import com.mobilegame.spaceshooter.utils.extensions.DpToPixel
+import com.mobilegame.spaceshooter.utils.extensions.dpToPixel
 import com.mobilegame.spaceshooter.utils.extensions.degreeToRadianRange
 import com.mobilegame.spaceshooter.utils.extensions.sweepAngle
 
 class LetterRUI(val canvasSizeDp: DpSize) {
-    private val canvasSizePx: Float = canvasSizeDp.width.DpToPixel()
+    private val canvasSizePx: Float = canvasSizeDp.width.dpToPixel()
     val strokeWidth = canvasSizePx / 80F
     private val xMin = strokeWidth
     private val xMax = canvasSizePx - strokeWidth

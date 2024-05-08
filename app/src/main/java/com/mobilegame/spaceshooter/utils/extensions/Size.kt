@@ -10,6 +10,8 @@ fun Size.toDpSize(): DpSize = DpSize(
     height = this.height.toDp()
 )
 
+fun squareSize(p: Float): Size = Size(p, p)
+
 inline fun Size.putOnTopOfDisplay() = Size(width = this.width, Device.metrics.height)
 //val gameVM = SpaceWarGameViewModel(application, Size(Device.metrics.width, Device.metrics.height))
 infix fun Size.timeS(f: Float) = Size(width = this.width * f, height = this.height * f)

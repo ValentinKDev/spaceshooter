@@ -5,7 +5,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.data.device.Device
 
-fun Dp.DpToPixel(): Float = this.value * Device.metrics.density
+fun Dp.dpToPixel(): Float = this.value * Device.metrics.density
 
 
 infix fun Dp.div(f: Float): Dp = (this.value / f).dp

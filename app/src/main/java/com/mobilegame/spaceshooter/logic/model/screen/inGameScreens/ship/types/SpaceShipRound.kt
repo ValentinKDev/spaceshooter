@@ -1,7 +1,9 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types
 
 import android.util.Log
+import androidx.compose.ui.graphics.Color
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.ShipStatsIndicator
+import com.mobilegame.spaceshooter.presentation.theme.MyColor
 
 class SpaceShipRound: ShipInfo {
     val TAG = "SpaceShipRound"
@@ -21,5 +23,6 @@ class SpaceShipRound: ShipInfo {
         damageIndicator = 3,
         reloadIndicator = 5,
     )
+    override val color: Color = MyColor.roundShip
     init { Log.i(TAG, "init : ") }
 }

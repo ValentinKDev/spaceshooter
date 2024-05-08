@@ -25,9 +25,10 @@ class CircleSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
 
     data class ColorsSpaceShipIcon(
         var strokes: Color = MyColor.applicationContrast,
-        var body: Color = MyColor.applicationBackground,
-        var ammo: Color = MyColor.applicationContrast,
-        var shoot: Color = MyColor.defaultShip
+        var body: Color = MyColor.roundShip,
+//        var ammo: Color = MyColor.applicationContrast,
+        val ammo: Color = MyColor.applicationContrast,
+        var shoot: Color = MyColor.roundShip
     )
 
     class SizesSpaceShipIcon(shipBox: Size) {

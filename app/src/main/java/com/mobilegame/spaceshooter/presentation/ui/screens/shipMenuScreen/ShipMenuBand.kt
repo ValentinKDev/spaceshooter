@@ -72,7 +72,9 @@ fun ShipMenuBand(vm: ShipMenuViewModel, gameStats: TryAgainStats? = null) {
     ConstraintLayout(constraints,
         Modifier
             .fillMaxSize()
-            .background(MyColor.applicationBackground)) {
+//            .background(MyColor.applicationBackground)) {
+//            .background(vm.shipPicking.shipType.value.info.color)) {
+            .background(shipType.value.info.color)) {
         Text(
             modifier = Modifier.layoutId(ui.ids.shipName),
             text = gameStats?.gameResult?.name ?: shipType.value.info.name,

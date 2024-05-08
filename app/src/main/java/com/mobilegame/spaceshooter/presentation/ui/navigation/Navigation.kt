@@ -6,13 +6,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens.*
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.GameResult
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
-import com.mobilegame.spaceshooter.logic.repository.gameStats.MyDate
 import com.mobilegame.spaceshooter.presentation.ui.screens.Creator
 import com.mobilegame.spaceshooter.presentation.ui.screens.aboutUsScreen.AboutUsScreen
 import com.mobilegame.spaceshooter.presentation.ui.screens.connection.bluetoothScreen.BluetoothScreen
@@ -41,8 +40,8 @@ fun Navigation(navigator: Navigator) {
 
     NavHost(
         navController = navController,
-        startDestination = Screens.MainScreen.route,
-//        startDestination = Screens.MenuScreen.route,
+//        startDestination = Screens.MainScreen.route,
+        startDestination = Screens.MenuScreen.route,
 //        startDestination = Screens.StatsScreen.route,
 //        startDestination = Screens.WifiScreen.route,
 //        startDestination = Screens.DuelTutoScreen.route,
@@ -81,22 +80,28 @@ fun Navigation(navigator: Navigator) {
             route = SpaceWarScreen.route
         ) {
             Log.v("Navigation", "to Screens.SpaceWarScreen.route")
-            LaunchSpaceWarGameScreen( navigator )
+            LaunchSpaceWarGameScreen()
         }
         composable(route = Screens.Creator.route) { Creator(navigator) }
         composable(route = Screens.None.route) { Creator(navigator) }
         composable(route = Screens.Test.route) {
-            val stats = TryAgainStats(
-                wins = 2,
-                losses = 1,
-                streak = 1,
-//                lastGame = GameResult.VICTORY,
-                gameResult = GameResult.DEFEAT,
-                shipName = ShipType.Square.info.name,
-                enemiesName = "unknown",
-                currentDate = MyDate.currentStr(),
+            Device.navigation.argStr = StrArgumentNav.serializeArgToInGame(
+//                userShipTypeName = ShipType.Circle.info.name,
+                userShipTypeName = ShipType.Square.info.name,
+                tryAgainStats = TryAgainStats.EMPTY_TRY_AGAIN_STATS,
             )
-            TryAgainScreen( navigator)
+            LaunchSpaceWarGameScreen()
+//            val stats = TryAgainStats(
+//                wins = 2,
+//                losses = 1,
+//                streak = 1,
+////                lastGame = GameResult.VICTORY,
+//                gameResult = GameResult.DEFEAT,
+//                shipName = ShipType.Square.info.name,
+//                enemiesName = "unknown",
+//                currentDate = MyDate.currentStr(),
+//            )
+//            TryAgainScreen( navigator)
         }
     }
 }

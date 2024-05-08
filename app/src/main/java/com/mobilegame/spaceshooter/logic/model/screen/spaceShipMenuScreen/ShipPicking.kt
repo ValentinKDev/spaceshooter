@@ -32,7 +32,6 @@ class ShipPicking(private val shipViewBox: Size, shipSelected: ShipType = ShipTy
         else _shipListIndex.value = shipListIndex.value + 1
     }
 
-//    fun handleLeftArrowClick() = viewModelScope.launch {
     suspend fun handleLeftArrowClick() {
         Log.i(TAG, "handleLeftArrowClick: ")
         decrementListIndex()
@@ -40,7 +39,6 @@ class ShipPicking(private val shipViewBox: Size, shipSelected: ShipType = ShipTy
         updateShipUI()
         Log.i(TAG, "handleLeftArrowClick: listIndex ${shipListIndex.value} type ${shipType.value.id}")
     }
-//    fun handleRightArrowClick() = viewModelScope.launch {
     suspend fun handleRightArrowClick() {
         Log.i(TAG, "handleRightArrowClick: ")
         incrementListIndex()

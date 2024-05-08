@@ -1,7 +1,9 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types
 
 import android.util.Log
+import androidx.compose.ui.graphics.Color
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.ShipStatsIndicator
+import com.mobilegame.spaceshooter.presentation.theme.MyColor
 
 class SpaceShipSquare(
 ) : ShipInfo {
@@ -22,5 +24,6 @@ class SpaceShipSquare(
         damageIndicator = 4,
         reloadIndicator = 3,
     )
+    override val color: Color = MyColor.squareShip
     init { Log.i(TAG, "init: ") }
 }

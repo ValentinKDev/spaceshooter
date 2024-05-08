@@ -2,10 +2,10 @@ package com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.startMenu.lette
 
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.DpSize
-import com.mobilegame.spaceshooter.utils.extensions.DpToPixel
+import com.mobilegame.spaceshooter.utils.extensions.dpToPixel
 
 class LetterWUI(val canvasSizeDp: DpSize) {
-    private val canvasSizePx: Float = canvasSizeDp.width.DpToPixel()
+    private val canvasSizePx: Float = canvasSizeDp.width.dpToPixel()
     val strokeWidth = canvasSizePx / 80F
     private val xMin = strokeWidth
     private val xMax = canvasSizePx - strokeWidth

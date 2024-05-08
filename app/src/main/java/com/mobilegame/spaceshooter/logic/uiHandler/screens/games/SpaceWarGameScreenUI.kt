@@ -1,15 +1,12 @@
 package com.mobilegame.spaceshooter.logic.uiHandler.screens.games
 
-import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
-import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUIInterface
-import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
-import com.mobilegame.spaceshooter.utils.analyze.wLog
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.background.BackgroundUI
 import com.mobilegame.spaceshooter.utils.extensions.toDp
 import com.mobilegame.spaceshooter.utils.extensions.toDpOffset
 import com.mobilegame.spaceshooter.utils.extensions.toDpSize
@@ -21,7 +18,8 @@ class SpaceWarGameScreenUI(displaySize: Size, shipType: ShipType) {
     val sizes = SizesInGameScreen(displaySize)
 //    private val list = ShipType.LIST
     val userSpaceShip: SpaceShipIconUIInterface = ShipType.getTypeShipUI(shipType, sizes.shipViewBox)
-    val listShipUI: List<SpaceShipIconUIInterface> = ShipType.getUiList(sizes.shipViewBox)
+    val listShipUI: List<SpaceShipIconUIInterface> = ShipType.getIconUIList(sizes.shipViewBox)
+    val backgroundUI = BackgroundUI(shipType)
 
     class SizesInGameScreen(displaySize: Size) {
         var displayDp: DpSize = displaySize.toDpSize()

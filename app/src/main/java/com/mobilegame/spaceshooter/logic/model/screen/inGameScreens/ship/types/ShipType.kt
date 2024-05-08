@@ -5,6 +5,7 @@ import androidx.compose.ui.geometry.Size
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUIInterface
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.CircleSpaceShipIconUI
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.SquareSpaceShipIconUI
+import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.background.BackgroundUI
 
 sealed class ShipType(val id: String, val info: ShipInfo) {
     object Circle: ShipType("CIRCLE", SpaceShipRound() as ShipInfo)
@@ -14,10 +15,11 @@ sealed class ShipType(val id: String, val info: ShipInfo) {
         val DEFAULT = Circle
         private val TAG = "ShipType"
         fun getList(): List<ShipType> = listOf(Circle, Square)
-        fun getUiList(sizeShipBox: Size): List<SpaceShipIconUIInterface> {
+        fun getIconUIList(sizeShipBox: Size): List<SpaceShipIconUIInterface> {
             val list = getList()
             return list.map { getTypeShipUI(type = it, shipBox = sizeShipBox) }
         }
+//        fun getBackGroundUIList(): List<BackgroundUI> = getList().map { BackgroundUI(it) }
         fun getFromList(i: Int) = getList().getOrNull(i) ?: let {Square}
         fun getType(name: String): ShipType {
             Log.v(TAG, "getType: name = $name")

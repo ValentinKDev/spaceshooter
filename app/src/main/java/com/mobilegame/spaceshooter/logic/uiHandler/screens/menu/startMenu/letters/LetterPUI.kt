@@ -7,7 +7,7 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.menuScreen.letters.ge
 import com.mobilegame.spaceshooter.utils.extensions.*
 
 class LetterPUI(val canvasSizeDp: DpSize) {
-    private val canvasSizePx: Float = canvasSizeDp.width.DpToPixel()
+    private val canvasSizePx: Float = canvasSizeDp.width.dpToPixel()
     val strokeWidth = canvasSizePx / 80F
 
     private val extEllipseRadiusAlpha = 0.36F

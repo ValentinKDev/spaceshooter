@@ -27,6 +27,7 @@ import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
+import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.backGrounds.AnimatedBackGroundStatic
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.ShipView
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.ChargingButton
 
@@ -42,6 +43,7 @@ fun ShipMenuBody( vm: ShipMenuViewModel) {
 //    val shipListIndex = remember { vm.shipMenuVM.shipListIndex }.collectAsState()
     val shipListIndex = remember { vm.shipPicking.shipListIndex }.collectAsState()
 
+//    AnimatedBackGroundStatic(ui = vm.shipMenuUI.backgroundsList[shipListIndex.value])
     ChargingButton(
 //        handler = vm.shipMenuVM.pressureVM,
         handler = vm.pressureHandler,

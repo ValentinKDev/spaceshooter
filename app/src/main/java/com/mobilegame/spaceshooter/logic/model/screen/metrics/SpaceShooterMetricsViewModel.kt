@@ -7,8 +7,6 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.device.Device
-import com.mobilegame.spaceshooter.logic.uiHandler.template.BackgroundUI
-import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
 import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,8 +18,8 @@ class SpaceShooterMetricsViewModel(): ViewModel() {
 
     private val _initiated = MutableStateFlow<Boolean?>(null)
     val initiated: StateFlow<Boolean?> = _initiated.asStateFlow()
-    val ui = BackgroundUI()
-    fun initBackgroundData(context: Context) { ui.init(context) }
+//    val ui = BackgroundUI()
+//    fun initBackgroundData() { ui.init() }
     fun initMetrics(context: Context, layout: LayoutCoordinates) = viewModelScope.launch {
         if (layout.size.width < layout.size.height) {
             Log.e( TAG, "initMetrics: ERROR WIDTH < HEIGHT", )

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
@@ -66,6 +67,14 @@ class MotionsViewModel(
     fun changeMotionTo(motion: Motions) {
         _motion.value = motion
     }
+//    private val deviceHeight: Float = Device.metrics.size.height
+//    private val deviceWidth: Float = Device.metrics.size.width
+//private val xBackgroundMarge = Device.data.backgroundUI.matrix.getVerticalMargeDp()
+//    private val yBackgroundMarge = Device.data.backgroundUI.matrix.getVerticalMargeDp()
+    private val xBackgroundMarge = ui.backgroundUI.matrix.getVerticalMargeDp()
+    private val yBackgroundMarge = ui.backgroundUI.matrix.getHorizontalMargeDp()
+    private val _backgroundDpOffset = MutableStateFlow(DpOffset.Zero)
+    val backgroundDpOffset: StateFlow<DpOffset> = _backgroundDpOffset.asStateFlow()
 
     private val _speedMagnitude = MutableStateFlow(SpeedMagnitude.Slow)
     val speedMagnitude: StateFlow<SpeedMagnitude> = _speedMagnitude.asStateFlow()
@@ -92,6 +101,7 @@ class MotionsViewModel(
         updateDeltaMoves(_xyz)
         upDateSpeedMagnitude()
         updateShipPosition()
+        updateShipPositionRatio()
         updateShipHitBox()
     }
 
@@ -100,10 +110,19 @@ class MotionsViewModel(
     private fun updateDeltaMoves(xyz: XYZ) { xyz.updateDelaOffset() }
     val wifiRepo = DeviceWifiRepo()
     private fun updateShipPosition() {
-        if (wifiRepo.isDeviceServer()) {
+//        if (wifiRepo.isDeviceServer()) {
             val newPCenter = shipPosition.value.calculateNewDpOffset()
             _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
-        }
+//        }
+    }
+    private fun updateShipPositionRatio() {
+        val xRatio: Float = ((_shipPosition.value.x / displaySizeDp.width) - 0.5F) * -1F//* 2F
+        val yRatio: Float = ((_shipPosition.value.y / displaySizeDp.height) - 0.5F) * -1F //* -2F
+        val xDp: Dp = (xBackgroundMarge.value * xRatio).dp
+        val yDp: Dp = (yBackgroundMarge.value * xRatio).dp
+//        Log.i(TAG, "updateShipPositionRatio: xDp $xDp")
+//        Log.i(TAG, "updateShipPositionRatio: xRatio $xRatio")
+        _backgroundDpOffset.value = DpOffset( (xBackgroundMarge.value * xRatio).dp, (yBackgroundMarge.value * yRatio).dp)
     }
     private fun updateShipHitBox() { _shipHitBox.update { it.getUpdatedBoxCoordinates(shipPosition.value) } }
     private suspend fun startListeningToProjectiles(): Nothing = Device.event.projectileFlow.collect {
@@ -117,7 +136,6 @@ class MotionsViewModel(
         newList = newList.filterNot { hits.contains(it) }
 //        _shootList.value = newList
         _shootList.emit(newList)
-        updateUserProjectiles()
     }
     private suspend fun List<Shoot>.checkHitBox(): List<Shoot> = this
         .filter { projectile -> projectile.from == MunitionsType.EnemiesProjectile }
@@ -140,19 +158,8 @@ class MotionsViewModel(
             it.offsetDp isInBoundsOf displaySizeDp
         }
 
-    private fun <Shoot> List<Shoot>.checkHitBox() {
-//        this.filter { projectile ->
-//            projectile.from
-//        }
-    }
-    private suspend fun updateEnemiesProjectiles() {
-    }
-
-    fun updateUserProjectiles() {
-    }
 
     private fun XYZ.getMotionSpeed(maxZ: Float) {
-//        val maxVector = maxZ * 0.78F
         val maxVector = maxZ * 0.78F
         speedF = when(this.z.absoluteValue) {
             in maxVector..maxZ -> { ((maxZ - this.z.absoluteValue) / (maxZ - maxVector)) * maxSpeed.value }

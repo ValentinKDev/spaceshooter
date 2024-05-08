@@ -82,7 +82,7 @@ class SquareSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
     }
     data class ColorsSquareShip(
         val outline: Color = MyColor.applicationContrast,
-        var body: Color = MyColor.applicationBackground,
+        var body: Color = MyColor.squareShip,
     )
 
     class HitBoxSquareShip(sizes: SizesSquareShip) : HitBox {

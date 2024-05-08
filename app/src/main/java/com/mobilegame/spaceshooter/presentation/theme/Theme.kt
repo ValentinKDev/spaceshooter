@@ -21,12 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.metrics.SpaceShooterMetricsViewModel
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceDataRepo
-import com.mobilegame.spaceshooter.presentation.ui.screens.connection.RegisterDeviceName
 import com.mobilegame.spaceshooter.presentation.ui.screens.lock.LockScreenOrientation
-import com.mobilegame.spaceshooter.presentation.ui.screens.utils.BackgroundGrid
 import com.mobilegame.spaceshooter.presentation.ui.screens.utils.HideScreenBars
 
 private val DarkColorScheme = darkColorScheme(
@@ -84,12 +81,15 @@ fun SpaceShooterTheme(
     HideScreenBars(window)
 
     if (metricsInitiated == null ) {
-        Box( Modifier.fillMaxSize().onGloballyPositioned { layout ->
-            vm.initMetrics(context, layout)
-//            vm.ui.init(context)
-            vm.initBackgroundData(context)
-        } )
+        Box(
+            Modifier
+                .fillMaxSize()
+                .onGloballyPositioned { layout ->
+                    vm.initMetrics(context, layout)
+//                    vm.initBackgroundData()
+                } )
     } else {
+//        AnimatedBackGround(vm.ui)
 //        BackgroundGrid(vm.ui)
         MaterialTheme(
             colorScheme = colorScheme,

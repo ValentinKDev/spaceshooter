@@ -52,7 +52,7 @@ class SpaceWarGameViewModel(
 //        }
 //    }
 
-    fun navigateToTryAgain(navigator: Navigator, gameResult: GameResult) = viewModelScope.launch {
+    fun navigateToTryAgain(gameResult: GameResult) = viewModelScope.launch {
         Log.v(TAG, "navigateToTryAgain: facingDevice name 0 : ${Device.wifi.visibleDevices.value[0].name}")
         Log.v(TAG, "navigateToTryAgain: facingDevice name : ${Device.wifi.visibleDevices.value.map { it.name }}")
         tryAgainStats.updateWith(gameResult, userShipType.info.name, Device.wifi.visibleDevices.value[0].name)
@@ -61,7 +61,7 @@ class SpaceWarGameViewModel(
         Device.event.gameResult.emit(GameResult.OnGoing)
         val argStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats)
 //        Device.navigation.argStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats)
-        navigator.navig(toScreen = Screens.TryAgainScreen, argumentStr = argStr)
+        Device.navigation.nav. navig(toScreen = Screens.TryAgainScreen, argumentStr = argStr)
         onCleared()
     }
 
