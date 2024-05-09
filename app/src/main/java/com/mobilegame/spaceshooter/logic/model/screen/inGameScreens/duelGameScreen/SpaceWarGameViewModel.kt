@@ -43,7 +43,6 @@ class SpaceWarGameViewModel(
         Device.navigation.nav. navig(toScreen = Screens.TryAgainScreen, argumentStr = argStr)
         onCleared()
     }
-
     override fun onCleared() {
         Log.w(TAG, "onCleared: ")
         super.onCleared()
