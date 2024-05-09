@@ -20,6 +20,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 class BackgroundUI(val shipType: ShipType) {
     private val TAG = "BackgroundUI"
     val matrix = BackgroundMatrix(shipType)
+    val anim = BackgroundAnim()
+    class BackgroundAnim() {
+        private val lateralBorder = Device.metrics.width * 0.006F
+        val lateralBorderDp = lateralBorder.toDp()
+    }
 
     class BackgroundMatrix(val shipType: ShipType) {
         val initialColorValue = 0.55F

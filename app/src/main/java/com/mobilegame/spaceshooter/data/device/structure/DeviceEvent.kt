@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class DeviceEvent {
-    var routeFlow: MutableSharedFlow<String> = MutableSharedFlow()
+//    var routeFlow: MutableSharedFlow<String> = MutableSharedFlow()
 
     var projectileFlow: MutableSharedFlow<Shoot> = MutableSharedFlow()
 //    var projectileFlow: MutableStateFlow<Shoot> = MutableStateFlow(Shoot.UNDEFINED)
@@ -19,6 +19,7 @@ class DeviceEvent {
 //    var producingProjectile: MutableSharedFlow<Shoot> = MutableSharedFlow()
 //var gameResult: MutableSharedFlow<GameResult> = MutableSharedFlow()
     var gameResult: MutableStateFlow<GameResult> = MutableStateFlow(GameResult.OnGoing)
+    val hitStateFlow = MutableSharedFlow<Shoot>()
 //    var _gameResult: StateFlow<GameResult> = gameResult.
 //    var nav: MutableSharedFlow<Boolean> = MutableSharedFlow()
     var nav: Navigator = Navigator()

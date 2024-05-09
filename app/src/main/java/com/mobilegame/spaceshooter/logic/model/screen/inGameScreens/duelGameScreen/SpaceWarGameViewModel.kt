@@ -24,33 +24,13 @@ class SpaceWarGameViewModel(
     display: Size,
     context: Context,
     val tryAgainStats: TryAgainStats = TryAgainStats.EMPTY_TRY_AGAIN_STATS,
-//): ViewModel() {
 ): ViewModel() {
     val TAG = "SpaceWarGameViewModel"
 
     var ui = SpaceWarGameScreenUI(display, userShipType)
-    val endUi = EndGameScreenUI()
-//    var shipVM = SpaceShipViewModel(context, ui, userShipType, tryAgainStats)
     var shipVM = SpaceShipViewModel(context, ui, userShipType)
+    var hitAnimVM = HitAnimationViewModel(userShipType)
     private val statsRepo = GameStatsRepo(context)
-    private var nav: Navigator? = null
-
-    init {
-        Log.e(TAG, "init vm")
-//        viewModelScope.launch(Dispatchers.Main) { listenToGameResult() }
-    }
-    fun initNav(navigator: Navigator) {
-        nav = navigator
-        shipVM.lifeVM.initNav(navigator)
-    }
-//    private suspend fun listenToGameResult() {
-//        Device.event.gameResult.collect { gameResult ->
-//            Log.i(TAG, "listenToGameResult: collect result : $gameResult")
-//            tryAgainStats.updateWith(gameResult, userShipType.info.name)
-//            //todo send the death to the enemie
-//            nav?.navig(destination = Screens.TryAgainScreen, argumentStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats))
-//        }
-//    }
 
     fun navigateToTryAgain(gameResult: GameResult) = viewModelScope.launch {
         Log.v(TAG, "navigateToTryAgain: facingDevice name 0 : ${Device.wifi.visibleDevices.value[0].name}")
@@ -60,7 +40,6 @@ class SpaceWarGameViewModel(
         //todo send the death to the enemie
         Device.event.gameResult.emit(GameResult.OnGoing)
         val argStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats)
-//        Device.navigation.argStr = StrArgumentNav.serializeArgToTryAgain(tryAgainStats)
         Device.navigation.nav. navig(toScreen = Screens.TryAgainScreen, argumentStr = argStr)
         onCleared()
     }

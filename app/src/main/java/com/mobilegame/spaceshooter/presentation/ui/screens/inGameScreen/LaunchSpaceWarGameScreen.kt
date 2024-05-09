@@ -22,6 +22,5 @@ fun LaunchSpaceWarGameScreen(vm: LaunchDuelGameViewModel = viewModel()) {
             vm.gameVM.navigateToTryAgain(gameResult)
         }
     }
-    AnimatedBackGroundInMotion(ui = BackgroundUI(vm.gameVM.userShipType), motionVM = vm.gameVM.shipVM.motionVM)
     SpaceWarGameScreen(vm = vm.gameVM)
 }

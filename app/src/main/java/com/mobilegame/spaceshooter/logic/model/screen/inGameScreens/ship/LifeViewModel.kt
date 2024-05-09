@@ -1,6 +1,7 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship
 
 import android.util.Log
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.device.Device
@@ -10,21 +11,19 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScre
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.MotionsViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
-import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
 import com.mobilegame.spaceshooter.logic.repository.gameStats.MyDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
 
 class LifeViewModel(
     private val motionVM: MotionsViewModel,
-    type: ShipType,
+    private val type: ShipType,
 //    private val tryAgainStats: TryAgainStats
 ): ViewModel() {
     val TAG = "LifeViewModel"
@@ -33,13 +32,12 @@ class LifeViewModel(
     private val _lifeRatio = MutableStateFlow(1F)
     val lifeRatio: StateFlow<Float> = _lifeRatio.asStateFlow()
     private var currentLife: Float = lifeStarter
-    private var nav: Navigator? = null
 
 
     private suspend fun lifeUpdate(projectile: Shoot) {
         if (dead == false) {
-//            currentLife -= projectile.damage
-            currentLife -= 150F
+            currentLife -= projectile.damage
+//            currentLife -= 150F
             if (currentLife.toInt() > 0) {
                 _lifeRatio.emit( currentLife / lifeStarter )
             } else {
@@ -76,18 +74,13 @@ class LifeViewModel(
     init {
         viewModelScope.launch(Dispatchers.IO) {
             val hitsJob = async { listenToTheHits() }
-//            val gameResult = async { listenToGameResult() }
         }
     }
 
     private suspend fun listenToTheHits() {
-        motionVM._hitStateFlow.collect {
+        Device.event.hitStateFlow.collect {
             Log.i(TAG, "listenToTheHits: collect hit")
             lifeUpdate(it)
         }
-    }
-
-    fun initNav(navigator: Navigator) {
-        nav = navigator
     }
 }

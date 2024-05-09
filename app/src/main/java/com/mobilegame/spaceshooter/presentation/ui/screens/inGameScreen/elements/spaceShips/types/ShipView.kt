@@ -1,6 +1,14 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Size
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.circle.CircleShipView
@@ -12,14 +20,24 @@ fun ShipView(
     type: ShipType,
     lifeRatio: Float = 1F,
     magazine: Int = type.info.magazineSize,
-    shipViewSizeBox: Size
+    shipViewSizeBox: Size,
+    angleTarget: Float = 0F,
 ) {
-//    val magazine by remember { vm.ammoVM.magazineSize }.collectAsState()
+
+    val angle by animateFloatAsState(
+        targetValue = angleTarget,
+        animationSpec = tween(600),
+        label = ""
+    )
+
+    Box(
+        Modifier
+            .wrapContentSize()
+            .rotate(angle)
+    ) {
+
+    }
     when (type) {
-//        ShipType.Circle -> CircleShipView( vm,  ui.sizes.shipViewBox)
-//        ShipType.Square -> SquareShipView(vm, ui.sizes.shipViewBox)
-//        ShipType.Circle -> CircleShipView(magazine, ui.sizes.shipViewBox)
-//        ShipType.Square -> SquareShipView(lifeRatio,magazine, ui.sizes.shipViewBox)
         ShipType.Circle -> CircleShipView(lifeRatio, magazine, shipViewSizeBox)
         ShipType.Square -> SquareShipView(lifeRatio,magazine, shipViewSizeBox)
     }

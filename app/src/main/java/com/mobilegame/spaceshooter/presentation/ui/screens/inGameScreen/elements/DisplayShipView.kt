@@ -18,6 +18,7 @@ fun DisplayShipView(vm: SpaceWarGameViewModel) {
     val motion by remember { vm.shipVM.motionVM.motion }.collectAsState()
     val speed by remember { vm.shipVM.motionVM.speedMagnitude }.collectAsState()
     val lifeRatio by  remember {vm.shipVM.lifeVM.lifeRatio }.collectAsState()
+    val angleHitAnimation by remember { vm.hitAnimVM.angleHitAnimation }.collectAsState()
 
     val angle by animateFloatAsState(
         targetValue = vm.shipVM.motionVM.getTargetAngle(motion, speed),
@@ -29,13 +30,14 @@ fun DisplayShipView(vm: SpaceWarGameViewModel) {
         Modifier
             .wrapContentSize()
             .offset(position.x, position.y)
-            .rotate(angle)
+            .rotate(angle + angleHitAnimation)
     ) {
         ShipView(
             type = vm.userShipType,
             shipViewSizeBox = vm.ui.sizes.shipViewBox,
             magazine = vm.shipVM.ammoVM.magazineSize,
             lifeRatio = lifeRatio,
+//            angleTarget = angleHitAnimation
         )
     }
 }

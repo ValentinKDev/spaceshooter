@@ -53,24 +53,13 @@ class MotionsViewModel(
     val shipHitBox: StateFlow<BoxCoordinates> = _shipHitBox.asStateFlow()
     private val _shootList = MutableStateFlow<List<Shoot>>(emptyList())
     val shootList: StateFlow<List<Shoot>> = _shootList.asStateFlow()
-//    val shootList
-    val _hitStateFlow = MutableSharedFlow<Shoot>()
-
-    private val _gameOnPause = MutableStateFlow(false)
-    val gameOnPause: StateFlow<Boolean> = _gameOnPause.asStateFlow()
 
     private val userHitBox = ui.userSpaceShip.hitBox
     fun getShipTopCenter(): DpOffset = DpOffset(x = _shipPosition.value.x + shipCenterDeltaDp, y = _shipPosition.value.y)
 
     private val _motion = MutableStateFlow(Motions.None)
     val motion: StateFlow<Motions> = _motion.asStateFlow()
-    fun changeMotionTo(motion: Motions) {
-        _motion.value = motion
-    }
-//    private val deviceHeight: Float = Device.metrics.size.height
-//    private val deviceWidth: Float = Device.metrics.size.width
-//private val xBackgroundMarge = Device.data.backgroundUI.matrix.getVerticalMargeDp()
-//    private val yBackgroundMarge = Device.data.backgroundUI.matrix.getVerticalMargeDp()
+
     private val xBackgroundMarge = ui.backgroundUI.matrix.getVerticalMargeDp()
     private val yBackgroundMarge = ui.backgroundUI.matrix.getHorizontalMargeDp()
     private val _backgroundDpOffset = MutableStateFlow(DpOffset.Zero)
@@ -118,10 +107,6 @@ class MotionsViewModel(
     private fun updateShipPositionRatio() {
         val xRatio: Float = ((_shipPosition.value.x / displaySizeDp.width) - 0.5F) * -1F//* 2F
         val yRatio: Float = ((_shipPosition.value.y / displaySizeDp.height) - 0.5F) * -1F //* -2F
-        val xDp: Dp = (xBackgroundMarge.value * xRatio).dp
-        val yDp: Dp = (yBackgroundMarge.value * xRatio).dp
-//        Log.i(TAG, "updateShipPositionRatio: xDp $xDp")
-//        Log.i(TAG, "updateShipPositionRatio: xRatio $xRatio")
         _backgroundDpOffset.value = DpOffset( (xBackgroundMarge.value * xRatio).dp, (yBackgroundMarge.value * yRatio).dp)
     }
     private fun updateShipHitBox() { _shipHitBox.update { it.getUpdatedBoxCoordinates(shipPosition.value) } }
@@ -142,9 +127,7 @@ class MotionsViewModel(
         .filter { it.offsetDp isInsideOf shipHitBox.value }
         .map {
             Log.e(TAG, "checkHitBox: HIT")
-//            _hitStateFlow.update { it = 50F }
-//            _hitStateFlow.emit(ui.shipType.info.damage)
-            _hitStateFlow.emit(it)
+            Device.event.hitStateFlow.emit(it)
             it
         }
     private suspend fun List<Shoot>.moveAndRemoveShoots(): List <Shoot> = this
@@ -211,17 +194,8 @@ class MotionsViewModel(
 
     suspend fun addShoot(shoot: Shoot) {
         Log.i(TAG, "addShoot: ")
-//        Log.e(TAG, "addShoot: Shoot from ShipType ${shoot.type.name}", )
-//        Log.i(TAG, "addShoot: test == circle ${shoot.type == ShipType.Circle}")
-//        Log.i(TAG, "addShoot: test == square ${shoot.type == ShipType.Square}")
         //todo: simplify extension add
-//        Log.i(TAG, "addShoot: shootlist size before ${_shootList.value.size}")
-//        _shootList.value = _shootList.value.add(shoot)
         _shootList.emit(shootList.value.add(shoot))
-//        Log.i(TAG, "addShoot: shootlist size after ${_shootList.value.size}")
-//        _shootList.value.forEach {
-//            Log.i(TAG, "addShoot: list shoot ${it.type.name} ${it.from.name} == FromUser ${it.from == MunitionsType.UserProjectile}")
-//        }
     }
 
     fun getShootVector(): Size {
@@ -238,12 +212,6 @@ class MotionsViewModel(
         return Size(x, y)
     }
 
-    private fun updateShootsListPositions(shootList: List<Shoot>) {
-        for (i in shootList.indices) {
-            if (shootList[i].offsetDp isInBoundsOf displaySizeDp)
-                shootList[i].updateDpOffset()
-        }
-    }
     fun getTargetAngle(motion: Motions, speed: SpeedMagnitude): Float = when {
         motion.isUp() -> {
             when {
