@@ -1,10 +1,19 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.connection.deviceMenu
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
@@ -20,7 +29,6 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.utils.ChargingButton
 @Composable
 
 fun DevicesMenuBody(
-    navigator: Navigator,
     ui: DevicesMenuUI.BodyDeviceMenu,
     pressureVM: PressureHandler,
 ) {
@@ -60,18 +68,8 @@ fun DevicesMenuBody(
             text = ui.ids.instruction,
             color = MyColor.applicationText
         )
-        Box(
-            Modifier
-                .layoutId(ui.ids.smartphoneIcon)
-                .height(50.dp)
-                .width(75.dp)
-                .background(Color.Gray)
-        ) { }
-        Box(
-            Modifier
-                .layoutId(ui.ids.navBar)
-        ) {
-        }
+        Box( Modifier.layoutId(ui.ids.smartphoneIcon) ) { SmartphoneRepresentation() }
+        Box( Modifier .layoutId(ui.ids.navBar) ) { }
     }
 
     ChargingButton(

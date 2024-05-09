@@ -186,10 +186,13 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
     }
     suspend fun ammoConsumption() {
 //        var i = 0
-        while (screenIsPressed) {
+        while (screenIsPressed ) {
+//        ammoCharged = 0
+//        while (screenIsPressed && magazineSize > -1) {
             decrementAmmo()
             delay(ammoRecoveryTime)
 //            i++
+//            ammoCharged = i
         }
     }
     private suspend fun createProjectile() {
