@@ -33,7 +33,6 @@ import com.mobilegame.spaceshooter.presentation.ui.template.AnimateSlide
 
 @Composable
 fun ShipMenuBody( vm: ShipMenuViewModel) {
-    //todo : add animation that swipe the ship then arrows are hit
     //todo : add swipe instead of taping the arrow
     //todo : instruction hold to begin
     val ui = remember {vm.shipMenuUI.body }
@@ -41,7 +40,6 @@ fun ShipMenuBody( vm: ShipMenuViewModel) {
     val shipListIndex = remember { vm.shipPicking.shipListIndex }.collectAsState()
     val visible by remember { vm.animationSlide.visibleAnimation }.collectAsState()
     val interactionSource = remember { MutableInteractionSource() }
-//    val precedentType = remember {}
 
     ChargingButton(
         handler = vm.pressureHandler,
@@ -80,7 +78,6 @@ fun ShipMenuBody( vm: ShipMenuViewModel) {
                         interactionSource = interactionSource,
                         indication = null
                     ) { vm.handleLeftArrowClick() }
-//                    .clickable { vm.handleLeftArrowClick() }
                     .size(50.dp)
             ){
                 Icon(
@@ -95,14 +92,11 @@ fun ShipMenuBody( vm: ShipMenuViewModel) {
             Box (
                 modifier = Modifier
                     .layoutId(ui.ids.rightArrow)
-//                    .clickable { vm.shipMenuVM.handleRightArrowClick() }
                     .clickable(
                         interactionSource = interactionSource,
                         indication = null
                     ) { vm.handleRightArrowClick() }
-//                    .clickable { vm.handleRightArrowClick() }
                     .size(50.dp)
-//                    .background(Color.Red)
             ){
                 Icon(
                     imageVector = Icons.Filled.KeyboardArrowRight,
@@ -118,7 +112,6 @@ fun ShipMenuBody( vm: ShipMenuViewModel) {
                 modifier = Modifier
                     .layoutId(ui.ids.shipNumberListIndicator)
                     .wrapContentSize()
-//                    .alpha(0.5F)
             ){
                 Row {
                     list.forEachIndexed() { i, _ ->

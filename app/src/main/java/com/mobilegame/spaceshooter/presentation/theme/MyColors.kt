@@ -111,9 +111,13 @@ inline class MyColor(val color: Color){
         val AeroBlue = Color(0XFFB2FAEB)
         val quarterdeck = Color(0XFF1171A3)
         val meatBrown = Color(0XFFE8BA3B)
+        val superStar = Color (0XFFFFCA0E)
+        val coralGold = Color(0XFFd37c57)
+        val redDamask = Color(0XFFd06d45)
 
         val transparent = Color.Transparent
-        val applicationBackground = Redwood
+//        val applicationBackground = Redwood
+        val applicationBackground = Color(0XFFd06d45)
         val applicationBackgroundLight = BlastOffBronze
         val applicationText = Platinium
         val applicationContrast = Platinium
@@ -122,6 +126,7 @@ inline class MyColor(val color: Color){
         val applicationBackgroundBannerTarget = Platinium.alpha(0.13F)
         val defaultShip = Bole
         val squareShip = quarterdeck
-        val roundShip = meatBrown
+//        val roundShip = meatBrown
+        val roundShip = applicationBackground
     }
 }
