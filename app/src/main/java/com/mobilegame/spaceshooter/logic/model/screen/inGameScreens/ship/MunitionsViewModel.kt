@@ -30,6 +30,8 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
     val hasShoot: StateFlow<String> = _hasShoot.asStateFlow()
     private var recoveringJob: Job = viewModelScope.launch(Dispatchers.IO) {}
     private val shipState = MutableStateFlow(State.AbleToShoot)
+    private val _chargingAnimation = MutableStateFlow(false)
+    val chargingAnimation: StateFlow<Boolean> = _chargingAnimation.asStateFlow()
 
     private enum class State {
         FirstShootNotDone,
@@ -62,7 +64,7 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
     private fun updateShipStateTo(state: State) {shipState.value = state}
     private fun isStateFirstShootNotDone(): Boolean = shipState.value == State.FirstShootNotDone
     private fun updateAmmoBeforeCharging() {ammoBeforeCharging = magazineSize}
-    private suspend fun updateAmmoCharged() {
+    private fun updateAmmoCharged() {
         val diff = ammoBeforeCharging - magazineSize
         when (diff) {
             0 -> {
@@ -83,15 +85,20 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
 
     private fun shipLogic() = viewModelScope.launch(Dispatchers.Main) {
         var action: Deferred<Unit>? = null
+        var anim: Deferred<Unit>? = null
         shipState.collect {
-//            Log.v(TAG, "collect state: ${shipState.value}")
             action?.cancel()
+            anim?.cancel()
+            _chargingAnimation.value = false
             when (it) {
                 State.FirstShootNotDone -> {}
                 State.ChargingProjectile -> {
                     updateAmmoBeforeCharging()
                     action = async {
                         ammoConsumption()
+                    }
+                    anim = async {
+                        chargingAnimation()
                     }
                 }
                 State.ShootingProjectile -> {
@@ -112,7 +119,6 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
                     action = async {
                     delay(ammoRecoveryTimeMinusShootingTimeInterval)
                     incrementAmmo()
-//                        while (_magazineSize.value < shipType.info.magazineSize) {
                     while (magazineSize < shipType.info.magazineSize) {
                         delay(ammoRecoveryTime)
                         incrementAmmo()
@@ -128,14 +134,11 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
 
     fun screenIsNotPressed() {
         screenIsPressed = false
-//        if (!firstShootDone) firstShootDone = true
-//        else {
         if (shipCanShoot()) {
             updateShipStateTo(State.ShootingProjectile)
         } else if (isStateFirstShootNotDone()) {
             updateShipStateTo(State.AbleToShoot)
         }
-//        }
     }
 
     fun screenIsPressed() {
@@ -166,10 +169,27 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
             incrementAmmo()
         }
     }
+    suspend fun chargingAnimation() {
+        var temp = magazineSize
+        var i = 0
+        while (screenIsPressed) {
+            if (magazineSize < temp) {
+                i++
+                if (i > 1) {
+                    _chargingAnimation.value = true
+                    delay(100L)
+                    _chargingAnimation.value = false
+                    delay(ammoRecoveryTime - 100L)
+                }
+            } else { delay(10L) }
+        }
+    }
     suspend fun ammoConsumption() {
+//        var i = 0
         while (screenIsPressed) {
             decrementAmmo()
             delay(ammoRecoveryTime)
+//            i++
         }
     }
     private suspend fun createProjectile() {

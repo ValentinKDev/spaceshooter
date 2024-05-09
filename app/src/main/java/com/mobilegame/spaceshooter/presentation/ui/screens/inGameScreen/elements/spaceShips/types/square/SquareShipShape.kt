@@ -14,8 +14,6 @@ import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.SquareSpaceSh
 
 @Composable
 fun SquareShipShape(lifeRatio: Float, ui: SquareSpaceShipIconUI) {
-//    val lifeRatio by  remember {lifeVM.lifeRatio }.collectAsState()
-
     Canvas(
         Modifier
             .size(ui.sizes.shipSizeDp)
@@ -36,6 +34,20 @@ fun SquareShipShape(lifeRatio: Float, ui: SquareSpaceShipIconUI) {
             end = ui.points.bottomCentralBar,
             color = ui.colors.outline,
             strokeWidth = ui.sizes.stroke
+        )
+    }
+}
+
+@Composable
+fun ChargingSquareShipShape(ui: SquareSpaceShipIconUI) {
+    Canvas(
+        Modifier
+            .size(ui.sizes.shipSizeDp)
+    ) {
+        drawRect(
+            size = size,
+            color = ui.colors.chargeAnimation,
+            style = Fill,
         )
     }
 }

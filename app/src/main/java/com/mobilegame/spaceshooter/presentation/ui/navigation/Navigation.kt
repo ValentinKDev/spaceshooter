@@ -8,7 +8,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
-import com.mobilegame.spaceshooter.logic.model.navigation.Screens
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens.*
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
@@ -40,56 +39,57 @@ fun Navigation(navigator: Navigator) {
 
     NavHost(
         navController = navController,
-//        startDestination = Screens.MainScreen.route,
-        startDestination = Screens.MenuScreen.route,
-//        startDestination = Screens.StatsScreen.route,
-//        startDestination = Screens.WifiScreen.route,
-//        startDestination = Screens.DuelTutoScreen.route,
-//        startDestination = Screens.SpaceWarScreen.route,
+//        startDestination = Test.route,
+        startDestination = MainScreen.route,
+//        startDestination = MenuScreen.route,
+//        startDestination = StatsScreen.route,
+//        startDestination = WifiScreen.route,
+//        startDestination = DuelTutoScreen.route,
+//        startDestination = SpaceWarScreen.route,
 //        startDestination = AboutScreen.route,
-//        startDestination = Screens.Creator.route,
-//        startDestination = Screens.Test.route,
+//        startDestination = Creator.route,
 //        startDestination = StatsScreen.route,
     ) {
-        composable(route = Screens.MenuScreen.route) {
-            Log.v("Navigation", "to Screens.MenuScreen.route")
+        composable(route = MenuScreen.route) {
+            Log.v("Navigation", "to MenuScreen.route")
             MenuScreen(navigator) }
-        composable(route = Screens.MainScreen.route) {
-            Log.v("Navigation", "to Screens.MainScreen.route")
+        composable(route = MainScreen.route) {
+            Log.v("Navigation", "to MainScreen.route")
             MainScreen(navigator) }
-        composable(route = Screens.BluetoothScreen.route) { BluetoothScreen(navigator) }
-        composable(route = Screens.ShipMenuScreen.route) {
-            Log.v("Navigation", "to Screens.ShipMenuScreen.route")
+        composable(route = BluetoothScreen.route) { BluetoothScreen(navigator) }
+        composable(route = ShipMenuScreen.route) {
+            Log.v("Navigation", "to ShipMenuScreen.route")
             ShipMenuScreen(navigator) }
-//        composable(route = Screens.ShipMenuScreen.route) { ShipMenuScreen(navigator, ShipMenuViewModel()) }
-        composable(route = Screens.WifiScreen.route) {
-            Log.v("Navigation", "to Screens.WifiScreen.route")
+//        composable(route = ShipMenuScreen.route) { ShipMenuScreen(navigator, ShipMenuViewModel()) }
+        composable(route = WifiScreen.route) {
+            Log.v("Navigation", "to WifiScreen.route")
             WifiScreen(navigator) }
-        composable(route = Screens.DuelTutoScreen.route) { DuelTutoScreen(navigator) }
-        composable(route = Screens.StatsScreen.route) {
-            Log.v("Navigation", "to Screens.StatsScreen.route")
+        composable(route = DuelTutoScreen.route) { DuelTutoScreen(navigator) }
+        composable(route = StatsScreen.route) {
+            Log.v("Navigation", "to StatsScreen.route")
             StatsScreen() }
         composable(route = AboutScreen.route) {
             AboutUsScreen() }
         composable(
-            route = Screens.TryAgainScreen.route
+            route = TryAgainScreen.route
         ) {
             TryAgainScreen( navigator )
         }
         composable(
             route = SpaceWarScreen.route
         ) {
-            Log.v("Navigation", "to Screens.SpaceWarScreen.route")
+            Log.v("Navigation", "to SpaceWarScreen.route")
             LaunchSpaceWarGameScreen()
         }
-        composable(route = Screens.Creator.route) { Creator(navigator) }
-        composable(route = Screens.None.route) { Creator(navigator) }
-        composable(route = Screens.Test.route) {
+        composable(route = Creator.route) { Creator(navigator) }
+        composable(route = None.route) { Creator(navigator) }
+        composable(route = Test.route) {
             Device.navigation.argStr = StrArgumentNav.serializeArgToInGame(
 //                userShipTypeName = ShipType.Circle.info.name,
                 userShipTypeName = ShipType.Square.info.name,
                 tryAgainStats = TryAgainStats.EMPTY_TRY_AGAIN_STATS,
             )
+
             LaunchSpaceWarGameScreen()
 //            val stats = TryAgainStats(
 //                wins = 2,
