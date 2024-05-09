@@ -111,8 +111,6 @@ class WifiScreenViewModel(application: Application): AndroidViewModel(applicatio
 
     fun backNavigation() = viewModelScope.launch {
         Device.navigation.nav.navig(backNavScreen)
-//        connectionVM.clear()
-//        onCleared()
     }
 
     //todo : is this better to store the navigation in the Device Data obj ?

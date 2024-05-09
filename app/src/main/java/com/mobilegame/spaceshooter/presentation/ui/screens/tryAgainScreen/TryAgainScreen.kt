@@ -17,13 +17,9 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.shipMenuScreen.ShipMe
 import com.mobilegame.spaceshooter.presentation.ui.template.TemplateWithBand
 
 @Composable
-//fun TryAgainScreen(nav: Navigator, stats: TryAgainStats, vm: TryAgainViewModel = viewModel()) {
-//fun TryAgainScreen(gameStats: TryAgainStats, nav: Navigator, vm: ShipMenuViewModel = viewModel() ) {
 fun TryAgainScreen(nav: Navigator, vm: ShipMenuViewModel = viewModel() ) {
     val navigate by remember { vm.navigate }.collectAsState()
     LaunchedEffect(key1 = navigate) {
-//        vm.initNav(nav)
-//        vm.initStats(stats)
         if (navigate) vm.navigateToGame(nav)
     }
 
@@ -31,15 +27,10 @@ fun TryAgainScreen(nav: Navigator, vm: ShipMenuViewModel = viewModel() ) {
     AnimatedBackGroundStatic(ui = vm.shipMenuUI.backgroundsList[shipListIndex.value])
 
     TemplateWithBand(
-//        navigator = nav,
-//        navigator = tryAgainVM.navigator,
-//        navigator = tryAgainVM.navigator,
-        backNav = Screens.WifiScreen.backNav ?: Screens.None,
+        backPressureHandler = vm.backPressureHandler,
         ui = vm.templateUI,
         header = {},
         band = { ShipMenuBand(vm, vm.gameStats) },
         body = { ShipMenuBody(vm) }
-//        band = { TryAgainBand(vm) },
-//        body = { TryAgainBody(vm) }
     )
 }

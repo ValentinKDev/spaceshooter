@@ -1,5 +1,6 @@
 
 import android.util.Log
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.connection.wifi.PreparationState
@@ -30,15 +31,13 @@ import kotlinx.coroutines.withContext
 class ShipMenuViewModel(): ViewModel() {
     private val TAG = "ShipMenuViewModel"
     val gameStats: TryAgainStats = StrArgumentNav.deserializeArgToShipMenu(Device.navigation.argStr)
-//    val gameStats: TryAgainStats = TryAgainStats.EMPTY_TRY_AGAIN_STATS
     val templateUI = TemplateUI(instantNavBack = true)
     val shipMenuUI = ShipMenuUI()
     val pressureHandler = PressureHandler(null)
-//    val shipPicking = ShipPicking(shipMenuUI.body.sizes.shipViewBox)
+    val backPressureHandler = PressureHandler(null)
+    private val backNavScreen = Screens.MainScreen
     val shipPicking = ShipPicking(shipViewBox = shipMenuUI.body.sizes.shipViewBox, shipSelected = ShipType.getType(gameStats.shipName))
     val animationSlide = AnimationSlideHandler()
-
-    //    var nav: Navigator? = null
     private val _navigate = MutableStateFlow(false)
     val navigate: StateFlow<Boolean> = _navigate.asStateFlow()
 
@@ -78,7 +77,21 @@ class ShipMenuViewModel(): ViewModel() {
                     else { pressureReleaseToPlay() }
                 }
             }
+            viewModelScope.launch {
+                backPressureHandler.full.collect { _full ->
+                    eLog(TAG, "collecting pressureVM.full $_full")
+                    if (_full) {
+                        backNavigation()
+                        onCleared()
+                    }
+                }
+            }
         }
+    }
+    fun backNavigation() = viewModelScope.launch {
+        Device.navigation.nav.navig(backNavScreen)
+//        connectionVM.clear()
+//        onCleared()
     }
     private suspend fun readyToNavigate() {
         Log.v(TAG, "readyToNavigate: ")

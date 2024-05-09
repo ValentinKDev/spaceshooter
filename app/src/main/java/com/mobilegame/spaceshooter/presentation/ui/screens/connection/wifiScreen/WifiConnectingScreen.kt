@@ -26,9 +26,6 @@ fun WifiConnectingScreen(vm: WifiScreenViewModel, navigator: Navigator) {
             .background(MyColor.applicationBackground)) {
         BackgroundBanner(vm.ui.banner)
         TemplateWithoutBand(
-//            navigator = navigator,
-//            backNav = Screens.WifiScreen.backNav ?: Screens.None,
-//            backNav = vm.backNavScreen,
             backPressureHandler = vm.backPressureHandler,
             ui = vm.ui.template,
             header = {},

@@ -15,7 +15,6 @@ import com.mobilegame.spaceshooter.presentation.ui.template.TemplateWithBand
 import com.mobilegame.spaceshooter.utils.analyze.eLog
 
 @Composable
-//fun ShipMenuScreen(vm: LaunchDuelGameViewModel, nav: Navigator) {
 fun ShipMenuScreen(nav: Navigator, vm: ShipMenuViewModel = viewModel() ) {
     val navigate by remember { vm.navigate }.collectAsState()
     LaunchedEffect(true) { eLog("ShipMenuScreen", "ShipMenuScreen start") }
@@ -25,7 +24,7 @@ fun ShipMenuScreen(nav: Navigator, vm: ShipMenuViewModel = viewModel() ) {
     AnimatedBackGroundStatic(ui = vm.shipMenuUI.backgroundsList[shipListIndex.value])
 
     TemplateWithBand(
-        backNav = Screens.WifiScreen.backNav ?: Screens.None,
+        backPressureHandler = vm.backPressureHandler,
         ui = vm.templateUI,
         header = {  },
         band = { ShipMenuBand(vm) },
