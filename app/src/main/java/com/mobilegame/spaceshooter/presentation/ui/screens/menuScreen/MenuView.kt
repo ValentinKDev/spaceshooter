@@ -2,6 +2,7 @@ package com.mobilegame.spaceshooter.presentation.ui.screens.menuScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +30,7 @@ import com.mobilegame.spaceshooter.utils.analyze.eLog
 @Composable
 fun MenuScreen(navigator: Navigator, vm: MenuScreenViewModel = viewModel()) {
     val visibility by remember { vm.animationSlide.visibleAnimation }.collectAsState()
+    val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -51,7 +53,10 @@ fun MenuScreen(navigator: Navigator, vm: MenuScreenViewModel = viewModel()) {
                 .alpha(0.65F)
                 .align(Alignment.CenterStart)
                 .size(50.dp)
-                .clickable { vm.onLeftClick() }
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) { vm.onLeftClick() }
             ,
             tint = MyColor.applicationContrast
         )
@@ -62,7 +67,10 @@ fun MenuScreen(navigator: Navigator, vm: MenuScreenViewModel = viewModel()) {
                 .alpha(0.65F)
                 .align(Alignment.CenterEnd)
                 .size(50.dp)
-                .clickable { vm.onRightClick() }
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) { vm.onRightClick() }
             ,
             tint = MyColor.applicationContrast
         )

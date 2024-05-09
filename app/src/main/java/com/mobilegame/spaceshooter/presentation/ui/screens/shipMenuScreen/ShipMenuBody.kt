@@ -4,6 +4,7 @@ import ShipMenuViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,6 +40,7 @@ fun ShipMenuBody( vm: ShipMenuViewModel) {
     val list = remember { ShipType.getList() }
     val shipListIndex = remember { vm.shipPicking.shipListIndex }.collectAsState()
     val visible by remember { vm.animationSlide.visibleAnimation }.collectAsState()
+    val interactionSource = remember { MutableInteractionSource() }
 //    val precedentType = remember {}
 
     ChargingButton(
@@ -74,7 +76,11 @@ fun ShipMenuBody( vm: ShipMenuViewModel) {
             Box (
                 modifier = Modifier
                     .layoutId(ui.ids.leftArrow)
-                    .clickable { vm.handleLeftArrowClick() }
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null
+                    ) { vm.handleLeftArrowClick() }
+//                    .clickable { vm.handleLeftArrowClick() }
                     .size(50.dp)
             ){
                 Icon(
@@ -90,7 +96,11 @@ fun ShipMenuBody( vm: ShipMenuViewModel) {
                 modifier = Modifier
                     .layoutId(ui.ids.rightArrow)
 //                    .clickable { vm.shipMenuVM.handleRightArrowClick() }
-                    .clickable { vm.handleRightArrowClick() }
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null
+                    ) { vm.handleRightArrowClick() }
+//                    .clickable { vm.handleRightArrowClick() }
                     .size(50.dp)
 //                    .background(Color.Red)
             ){
