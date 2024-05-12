@@ -4,7 +4,7 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements
 import java.net.InetAddress
 
 data class ShootSerializable(
-    val type: String,
+    val typeName: String,
     val from: MunitionsType,
     val shooterIp: InetAddress,
 //    val motion: Motions,
@@ -13,5 +13,7 @@ data class ShootSerializable(
     val xRatio: Float,
     val yRatio: Float,
     val damage: Float,
-    var offsetDp: String
+    var offsetDp: String,
+    val laserOnUser: String,
+    val laserOnOpponent: String,
 )

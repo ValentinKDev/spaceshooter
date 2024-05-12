@@ -24,7 +24,9 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
     private val ammoRecoveryTime = shipType.info.ammoRecoveryTime
     private val ammoRecoveryTimeMinusShootingTimeInterval = ammoRecoveryTime - shootingTimeInterval
     private val magazineMaxSize = shipType.info.magazineSize
-    var magazineSize: Int = magazineMaxSize
+    private val _magazineSize = MutableStateFlow(magazineMaxSize)
+    val magazineSize: StateFlow<Int> = _magazineSize.asStateFlow()
+//    var magazineSize.value: Int = magazineMaxSize
     private var canShoot = true
     private val _hasShoot = MutableStateFlow("")
     val hasShoot: StateFlow<String> = _hasShoot.asStateFlow()
@@ -46,12 +48,12 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
 
     private var screenIsPressed = false
     private var firstShootDone = false
-    private var ammoBeforeCharging = magazineSize
+    private var ammoBeforeCharging = magazineSize.value
     private var ammoCharged = 0
     private var isShootingTimeIntervalOver = false
-    private fun incrementAmmo() { if (magazineSize < shipType.info.magazineSize) magazineSize += 1 }
-    private fun decrementAmmo() { if (magazineSize >= 0) { magazineSize -= 1 } }
-    private fun magazineIsNotEmpty(): Boolean = magazineSize >= 0
+    private fun incrementAmmo() { if (magazineSize.value < magazineMaxSize) _magazineSize.value += 1 }
+    private fun decrementAmmo() { if (magazineSize.value >= 0) { _magazineSize.value -= 1 } }
+    private fun magazineIsNotEmpty(): Boolean = magazineSize.value >= 0
     private fun shipCanShoot(): Boolean {
         return if (firstShootDone
             && shipState.value != State.MagazineEmpty
@@ -63,9 +65,9 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
     }
     private fun updateShipStateTo(state: State) {shipState.value = state}
     private fun isStateFirstShootNotDone(): Boolean = shipState.value == State.FirstShootNotDone
-    private fun updateAmmoBeforeCharging() {ammoBeforeCharging = magazineSize}
+    private fun updateAmmoBeforeCharging() {ammoBeforeCharging = magazineSize.value}
     private fun updateAmmoCharged() {
-        val diff = ammoBeforeCharging - magazineSize
+        val diff = ammoBeforeCharging - magazineSize.value
         when (diff) {
             0 -> {
                 ammoCharged = 1
@@ -119,11 +121,11 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
                     action = async {
                     delay(ammoRecoveryTimeMinusShootingTimeInterval)
                     incrementAmmo()
-                    while (magazineSize < shipType.info.magazineSize) {
+                    while (magazineSize.value < magazineMaxSize) {
                         delay(ammoRecoveryTime)
                         incrementAmmo()
                     }
-                    if (magazineSize == magazineMaxSize) updateShipStateTo(State.MagazineFull)
+                    if (magazineSize.value == magazineMaxSize) updateShipStateTo(State.MagazineFull)
                     }
                 }
                 State.MagazineFull -> { updateShipStateTo(State.AbleToShoot) }
@@ -154,8 +156,8 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
     }
 
     private fun startAmmoRecovering() {
-//        if ( _magazineSize.value <= shipType.info.magazineSize) {
-        if ( magazineSize <= shipType.info.magazineSize) {
+//        if ( _magazineSize.value <= shipType.info.magazineSize.value) {
+        if ( magazineSize.value <= magazineMaxSize) {
             recoveringJob = viewModelScope.launch(Dispatchers.IO) { recoverAmmo() }
         }
     }
@@ -164,16 +166,16 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
         canShoot = true
         delay(ammoRecoveryTimeMinusShootingTimeInterval)
         incrementAmmo()
-        while (magazineSize < shipType.info.magazineSize) {
+        while (magazineSize.value < magazineMaxSize) {
             delay(ammoRecoveryTime)
             incrementAmmo()
         }
     }
     suspend fun chargingAnimation() {
-        var temp = magazineSize
+        var temp = magazineSize.value
         var i = 0
         while (screenIsPressed) {
-            if (magazineSize < temp) {
+            if (magazineSize.value < temp) {
                 i++
                 if (i > 1) {
                     _chargingAnimation.value = true
@@ -188,7 +190,7 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
 //        var i = 0
         while (screenIsPressed ) {
 //        ammoCharged = 0
-//        while (screenIsPressed && magazineSize > -1) {
+//        while (screenIsPressed && magazineSize.value > -1) {
             decrementAmmo()
             delay(ammoRecoveryTime)
 //            i++
@@ -204,13 +206,13 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
                     type = shipType,
                     vm = motionVM,
                     behavior = ammoCharged,
-                    damage = shipType.info.damage * ammoCharged.toFloat(),
+                    damage = shipType.info.damage,
                 )
-//                updateMagazineFlowAndBlockShoot(newShoot)
-//                Device.event.projectileFlow.emit(newShoot)
+//                if (shipType == ShipType.Lasery) {
+
+//                } else {
                 Device.event.projectileFlow.emit(newShoot)
-//                Device.event.projectileFlow.value = newShoot
-//                motionVM.addShoot(newShoot)
+//                }
                 delay(shootingTimeInterval)
             }
             ChargedProjectileType.Rafal -> {

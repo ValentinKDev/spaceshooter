@@ -27,13 +27,13 @@ fun SquareDrawMunition(topLeftOffset: Offset, ui: SquareSpaceShipIconUI, type: M
                     style = Fill,
                     color = ui.colors.outline,
                 )
-        } else if (type == MunitionsType.EnemiesProjectile) {
-//            Log.v("SquareDrawMunition", "SquareDrawMunition: Enemie")
+        }
+        else if (type == MunitionsType.EnemiesProjectile) {
             drawRect(
                 topLeft = topLeftOffset,
                 size = ui.ammo.getShootSize(particularBehavior),
                 style = Fill,
-                //Todo change the enemie projectile color
+//                Todo change the enemie projectile color
                 color = Color.Red
             )
         }

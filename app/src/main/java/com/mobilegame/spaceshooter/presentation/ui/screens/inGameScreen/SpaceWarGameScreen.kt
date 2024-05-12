@@ -19,7 +19,8 @@ fun SpaceWarGameScreen(navigator: Navigator = Navigator(), vm: SpaceWarGameViewM
     AnimatedBackGroundInMotion(
         ui = BackgroundUI(vm.userShipType),
         motionVM = vm.shipVM.motionVM,
-        hitVM = vm.hitAnimVM
+        hitVM = vm.hitAnimVM,
+        ammoVM = vm.shipVM.ammoVM,
 //        color = pairOfIsHitAndColor.second,
 //        alphaBonus = if (pairOfIsHitAndColor.first) 0.13F else 0F,
     )

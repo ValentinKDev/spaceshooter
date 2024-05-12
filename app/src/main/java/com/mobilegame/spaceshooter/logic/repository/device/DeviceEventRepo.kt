@@ -8,7 +8,6 @@ import com.mobilegame.spaceshooter.data.connection.wifi.PreparationState
 import com.mobilegame.spaceshooter.data.connection.wifi.SendEvent
 import com.mobilegame.spaceshooter.data.connection.wifi.WifiLinkState
 import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiClient
-import com.mobilegame.spaceshooter.data.connection.wifi.info.WifiInfoService
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.GameResult
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.LooseInfo
@@ -16,7 +15,6 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScre
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
 import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithClientRepo
 import com.mobilegame.spaceshooter.logic.repository.connection.WifiChannelsWithServerRepo
-import com.mobilegame.spaceshooter.logic.repository.gameStats.GameStatsRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.InetAddress
@@ -64,8 +62,6 @@ class DeviceEventRepo() {
             EventMessageType.ReadyToChooseShip -> {
                 wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToChooseShip)
             }
-            EventMessageType.NewConnectedDevice -> {}
-            EventMessageType.InGame -> {}
             EventMessageType.ReadyToPlay -> {
                 val shipTypeName = eventMessage.message
                 val shipType = ShipType.getType(shipTypeName)
@@ -74,8 +70,11 @@ class DeviceEventRepo() {
             EventMessageType.NotReadyToPlay -> { wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.ReadyToChooseShip) }
             EventMessageType.NotReadyToChooseShip -> { wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.Waiting) }
             EventMessageType.SendProjectile -> {
-                val projectileJson = eventMessage.message
-                val projectile = Shoot.deserialize(projectileJson, gson)
+//                Log.v(TAG, "handleEvent: start")
+                val projectileSerialized = eventMessage.message
+//                Log.v(TAG, "handleEvent: projectileJson ${projectileSerialized}")
+                val projectile = Shoot.deserialize(projectileSerialized, gson)
+//                Log.e(TAG, "handleEvent: projectile ${projectile.from} ${projectile.type} ")
                 Device.event.projectileFlow.emit( projectile.prepareReceivedProjectile() )
             }
             EventMessageType.Dead -> {
@@ -92,6 +91,8 @@ class DeviceEventRepo() {
                     }
                 }
             }
+            EventMessageType.NewConnectedDevice -> {}
+            EventMessageType.InGame -> {}
         }
     }
 
@@ -148,11 +149,11 @@ class DeviceEventRepo() {
             }
             EventMessageType.SendProjectile -> {
                 Log.i(TAG, "handleEventAsServer: ${EventMessageType.SendProjectile.name}")
-                val projectileJson = eventMessage.message
-                val projectile = Shoot.deserialize(projectileJson, gson)
-                Log.i(TAG, "handleEventAsClient: shoot type ${projectile.type}")
-                Log.i(TAG, "handleEventAsClient: shoot type ${projectile.type.id}")
-                Device.event.projectileFlow.emit( projectile.prepareReceivedProjectile() )
+//                val projectileJson = eventMessage.message
+//                val projectile = Shoot.deserialize(projectileJson, gson)
+//                Log.i(TAG, "handleEventAsClient: shoot type ${projectile.type}")
+//                Log.i(TAG, "handleEventAsClient: shoot type ${projectile.type.id}")
+//                Device.event.projectileFlow.emit( projectile.prepareReceivedProjectile() )
             }
             EventMessageType.Dead -> {
                 Log.i(TAG, "handleEventAsServer: ${EventMessageType.Dead}")
@@ -210,11 +211,11 @@ class DeviceEventRepo() {
                 wifiRepo.changeVisibleDevicePreparationStateTo(PreparationState.InGame)
             }
             EventMessageType.SendProjectile -> {
-                Log.i(TAG, "handleEventAsClient: ${EventMessageType.SendProjectile.name}")
-                val projectileJson = eventMessage.message
-                val projectile = Shoot.deserialize(projectileJson, gson)
-                Log.i(TAG, "handleEventAsClient: shoot type ${projectile.type}")
-                Device.event.projectileFlow.emit( projectile.prepareReceivedProjectile() )
+//                Log.i(TAG, "handleEventAsClient: ${EventMessageType.SendProjectile.name}")
+//                val projectileJson = eventMessage.message
+//                val projectile = Shoot.deserialize(projectileJson, gson)
+//                Log.i(TAG, "handleEventAsClient: shoot type ${projectile.type}")
+//                Device.event.projectileFlow.emit( projectile.prepareReceivedProjectile() )
             }
             EventMessageType.NewConnectedDevice -> TODO()
             EventMessageType.Dead -> TODO()
@@ -222,29 +223,30 @@ class DeviceEventRepo() {
     }
     fun sendDeadUser(looseInfo: LooseInfo) {
         val looseInfoGson = looseInfo.toJson()
-        genericFunction(EventMessageType.Dead, looseInfoGson)
+        genericFunction(type = EventMessageType.Dead, looseInfoGson)
     }
     suspend fun sendProjectile(shoot: Shoot) = withContext(Dispatchers.IO) {
-        val projectileGson = shoot.serialize(gson)
-        genericFunction(EventMessageType.SendProjectile, projectileGson)
+        Log.i(TAG, "sendProjectile: ")
+        val projectileSerialized = shoot.serialize(gson)
+        genericFunction(type = EventMessageType.SendProjectile, strMessage = projectileSerialized)
     }
 //    suspend fun sendReadyToPlay() = withContext(Dispatchers.IO) {
     suspend fun sendReadyToPlay(withShip: String) = withContext(Dispatchers.IO) {
         Log.i(TAG, "sendReadyToPlay: ")
-//        genericFunction(EventMessageType.ReadyToPlay)
+//        genericFunction(type = EventMessageType.ReadyToPlay)
         genericFunction(type = EventMessageType.ReadyToPlay, strMessage = withShip)
     }
     suspend fun sendNotReadyToPlay() = withContext(Dispatchers.IO) {
         Log.i(TAG, "sendNotReadyToPlay: ")
-        genericFunction(EventMessageType.NotReadyToPlay)
+        genericFunction(type = EventMessageType.NotReadyToPlay)
     }
     suspend fun sendNotReadyToChooseShip() = withContext(Dispatchers.IO) {
         Log.i(TAG, "sendNotReadyToChooseShip: ")
-        genericFunction(EventMessageType.NotReadyToChooseShip)
+        genericFunction(type = EventMessageType.NotReadyToChooseShip)
     }
     suspend fun sendReadyToChooseShip() = withContext(Dispatchers.IO) {
         Log.i(TAG, "sendReadyToChooseShip: ")
-        genericFunction(EventMessageType.ReadyToChooseShip)
+        genericFunction(type = EventMessageType.ReadyToChooseShip)
     }
     suspend fun sendDeviceInGame() = withContext(Dispatchers.IO) {
         val fTAG = "sendDeviceInGame"
@@ -282,20 +284,16 @@ class DeviceEventRepo() {
     ) {
         Log.d(TAG, "genericFunction: client ${wifiRepo.isDeviceClient()} / server ${wifiRepo.isDeviceServer()}")
         genericEventMessage(type, strMessage)?.let { eventMessage ->
-//            wifiRepo.isDeviceClient()?.let { Log.i(TAG, "to server")
                 toServerRepo.getChannel().info?.let { _info ->
                     sendEvent.to(_info, eventMessage)
+                } ?: let {
+                    Log.e( TAG, "genericFunction: ERROR to'ServerRepo.getChannel().info is ${toServerRepo.getChannel().info}" )
                 }
-//            } ?: let { Log.i(TAG, "to client")
-//                val infoList: List<WifiInfoService> = toClientRepo.withClientChannels().map { it.info!! }
-//                Log.d(TAG, "genericFunction: client channels list size ${infoList.size}")
-//            Log.d(TAG, "genericFunction: client channels list  ${infoList.map { it.socket.inetAddress }}")
-//                sendEvent.toAll(infoList, eventMessage)
-//            }
         }
     }
     private fun genericEventMessage(
         type: EventMessageType,
-        strMessage: String = "generic",
-    ): EventMessage? = Device.data.name?.let { EventMessage(type, it, strMessage) } ?: let { null }
+        strMessage: String,
+    ): EventMessage? = Device.data.name?.let { name ->  EventMessage(type, name, strMessage) }
+        ?: let { Log.e(TAG, "genericEventMessage: ERROR Device.data.name is ${Device.data.name}"); null }
 }

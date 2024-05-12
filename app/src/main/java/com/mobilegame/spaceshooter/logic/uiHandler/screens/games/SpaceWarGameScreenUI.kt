@@ -21,7 +21,7 @@ class SpaceWarGameScreenUI(displaySize: Size, shipType: ShipType) {
     val listShipUI: List<SpaceShipIconUIInterface> = ShipType.getIconUIList(sizes.shipViewBox)
     val backgroundUI = BackgroundUI(shipType)
 
-    class SizesInGameScreen(displaySize: Size) {
+    class SizesInGameScreen(val displaySize: Size) {
         var displayDp: DpSize = displaySize.toDpSize()
         var shipViewBox: Size = (displaySize.height * 0.13F).toSize()
         var shipViewBoxDp: DpSize = shipViewBox.toDpSize()

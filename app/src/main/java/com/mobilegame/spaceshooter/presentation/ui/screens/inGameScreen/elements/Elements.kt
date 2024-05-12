@@ -6,7 +6,7 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScre
 
 @Composable
 fun Elements(vm: SpaceWarGameViewModel) {
+    ShootsView(vm)
     DisplayShipView(vm)
     AmmunitionView(vm.shipVM.ammoVM)
-    ShootsView(vm)
 }

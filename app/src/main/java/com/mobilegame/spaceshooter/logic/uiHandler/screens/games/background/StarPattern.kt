@@ -35,6 +35,22 @@ class StarPattern(private val anchor: Offset, private val squareCase: Float) {
             }
         }
     }
+
+    fun getLaseryStarPattern(): Array<Offset> = arrayOf(
+        matrix[0][3],
+
+        matrix[1][2],
+        matrix[1][4],
+
+        matrix[2][0],
+        matrix[2][6],
+
+        matrix[4][2],
+        matrix[4][4],
+
+        matrix[6][3],
+    )
+
     fun getSquareStarPattern(): Array<Offset> = arrayOf(
         matrix[0][2],
         matrix[0][4],

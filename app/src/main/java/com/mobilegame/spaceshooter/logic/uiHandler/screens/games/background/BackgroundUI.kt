@@ -22,7 +22,7 @@ class BackgroundUI(val shipType: ShipType) {
     val matrix = BackgroundMatrix(shipType)
     val anim = BackgroundAnim()
     class BackgroundAnim() {
-        private val lateralBorder = Device.metrics.width * 0.006F
+        private val lateralBorder = Device.metrics.width * 0.004F
         val lateralBorderDp = lateralBorder.toDp()
     }
 
@@ -80,6 +80,7 @@ class BackgroundUI(val shipType: ShipType) {
             star.patternArray = when (shipType) {
                 ShipType.Circle -> { StarPattern(star.anchor, littleStar).getCircleStarPattern() }
                 ShipType.Square -> { StarPattern(star.anchor, littleStar).getSquareStarPattern() }
+                ShipType.Lasery -> { StarPattern(star.anchor, littleStar).getLaseryStarPattern() }
             }
         }
     }

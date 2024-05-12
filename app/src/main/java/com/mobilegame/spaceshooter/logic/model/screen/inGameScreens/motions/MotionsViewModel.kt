@@ -3,8 +3,6 @@ package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions
 import android.content.Context
 import android.util.Log
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
@@ -12,6 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
 import com.mobilegame.spaceshooter.data.sensor.XYZ
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.SpaceShipLasery
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceEventRepo
 import com.mobilegame.spaceshooter.logic.repository.device.DeviceWifiRepo
 import com.mobilegame.spaceshooter.logic.repository.sensor.GravityRepo
@@ -21,20 +21,22 @@ import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 class MotionsViewModel(
     context: Context,
-    ui: SpaceWarGameScreenUI,
+    private val ui: SpaceWarGameScreenUI,
 ): ViewModel() {
 //    private val deviceEvent = Device.event
     val TAG = "MotionsViewModel"
     private val eventRepo: DeviceEventRepo = DeviceEventRepo()
     private val startPosition = ui.position.pCenterDp
     private val startHitBoxCoordinates = BoxCoordinates.with(ui.position.pCenter, ui.userSpaceShip.hitBox.size)
-    private val displaySizeDp = ui.sizes.displayDpDeltaBox
+    val displaySize = ui.sizes.displaySize
+    val displaySizeDp = ui.sizes.displayDpDeltaBox
     private val shipCenterDeltaDp = ui.sizes.shipBoxCenterDp
 
     private val frameInterval = 2L
@@ -53,6 +55,10 @@ class MotionsViewModel(
     val shipHitBox: StateFlow<BoxCoordinates> = _shipHitBox.asStateFlow()
     private val _shootList = MutableStateFlow<List<Shoot>>(emptyList())
     val shootList: StateFlow<List<Shoot>> = _shootList.asStateFlow()
+//    private val _laserVisibilityList = MutableStateFlow<List<Shoot>>(emptyList())
+//    val laserVisibilityList: StateFlow<List<Pair<Boolean, Shoot>>> = _laserVisibilityList.asStateFlow()
+    private val _laserList = MutableStateFlow<List<Shoot>>(emptyList())
+    val laserList: StateFlow<List<Shoot>> = _laserList.asStateFlow()
 
     private val userHitBox = ui.userSpaceShip.hitBox
     fun getShipTopCenter(): DpOffset = DpOffset(x = _shipPosition.value.x + shipCenterDeltaDp, y = _shipPosition.value.y)
@@ -80,7 +86,15 @@ class MotionsViewModel(
         Log.i(TAG, "startEngine: ")
         val ev = async { startListeningToProjectiles() }
         val mo = async { startMotions() }
+//        val lasers = async { handleLasers() }
     }
+
+//    private suspend fun handleLasers() {
+//        _laserList.collect {
+//            k
+//        }
+//    }
+
 
     // Refresh Rate of Updates based on the sensor ship position flow refresh rate
     private suspend fun startMotions() = gravityRepo.averageXYZ.collect { _xyz ->
@@ -99,10 +113,8 @@ class MotionsViewModel(
     private fun updateDeltaMoves(xyz: XYZ) { xyz.updateDelaOffset() }
     val wifiRepo = DeviceWifiRepo()
     private fun updateShipPosition() {
-//        if (wifiRepo.isDeviceServer()) {
-            val newPCenter = shipPosition.value.calculateNewDpOffset()
-            _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
-//        }
+        val newPCenter = shipPosition.value.calculateNewDpOffset()
+        _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
     }
     private fun updateShipPositionRatio() {
         val xRatio: Float = ((_shipPosition.value.x / displaySizeDp.width) - 0.5F) * -1F//* 2F
@@ -134,9 +146,18 @@ class MotionsViewModel(
         .map { it.getShootNextDpOffset() }
         .filter {
             if (it.offsetDp touchTopScreen displaySizeDp) {
-                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
+//                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
+//                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN vector ${it.vector}")
+//                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN topleft ${it.offsetDp}")
                 val invertedShoot = it.getShootPrecedentDpOffset().prepareShootToSendAway()
-                eventRepo.sendProjectile(invertedShoot)
+//                val invertedShoot = it
+//                val invertedShoot = it.getShootPrecedentDpOffset()
+//                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN send vector ${invertedShoot.vector}")
+//                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN send topleft ${invertedShoot.offsetDp}")
+//                if (it.from != MunitionsType.EnemiesProjectile)
+                    eventRepo.sendProjectile(invertedShoot)
+//                else
+//                    Log.e(TAG, "moveAndRemoveShoots: enemie shoot coming back")
             }
             it.offsetDp isInBoundsOf displaySizeDp
         }
@@ -188,17 +209,87 @@ class MotionsViewModel(
         y = when {
             motion.value.isUp() -> { this.y subtract  delta.y }
             motion.value.isDown() -> { this.y add delta.y }
-            else -> this.x.value.dp
+            else -> this.y.value.dp
         }
     )
 
-    suspend fun addShoot(shoot: Shoot) {
+    private suspend fun addShoot(shoot: Shoot) = viewModelScope.launch(Dispatchers.IO) {
         Log.i(TAG, "addShoot: ")
-        //todo: simplify extension add
-        _shootList.emit(shootList.value.add(shoot))
+//        Log.i(TAG, "addShoot: ${shoot.vector}")
+//        Log.i(TAG, "addShoot: ${shoot.offsetDp}")
+        //todo : create a function for this or even place it in the munition class
+        if (shoot.type == ShipType.Lasery) {
+            if ( shoot.from == MunitionsType.UserProjectile
+                && shoot.laserOnOpponentScreen.isNotZeroZero()) {
+                val laser = shoot.prepareShootToSendAway()
+//            Log.i(TAG, "handleLaserLogic: out ${laser.laserOnOpponentScreen}")
+                eventRepo.sendProjectile(laser)
+            }
+            val laserTime = async {
+                handleLaserTime(shoot)
+            }
+        } else _shootList.emit(shootList.value.add(shoot))
     }
 
-    fun getShootVector(): Size {
+    private suspend fun handleLaserTime(shoot: Shoot) {
+        _laserList.emit(laserList.value.add(shoot))
+        Log.i(TAG, "handleLaserTime: particular behavior = ${shoot.particularBehavior}")
+        val timer = if (shoot.particularBehavior == 1) SpaceShipLasery.NORMAL_LASER_LIFE
+        else SpaceShipLasery.NORMAL_LASER_LIFE * shoot.particularBehavior
+        val delay = if (shoot.particularBehavior == 1) SpaceShipLasery.NORMAL_LASER_LIFE
+        else 10L
+        var repeat: Int = (timer / delay).toInt()
+        Log.i(TAG, "handleLaserTime: repeat = $repeat")
+        do {
+            repeat--
+            if (shoot.from == MunitionsType.EnemiesProjectile) shoot.checkIfLaserHit()
+            delay(delay)
+            Log.i(TAG, "handleLaserTime: repeat = $repeat")
+        } while (repeat > 0)
+//        delay(timer )
+        _laserList.emit(laserList.value.remove(shoot))
+    }
+
+    private suspend fun Shoot.checkIfLaserHit(): Boolean {
+        val shipDpOffset: DpOffset = shipPosition.value
+        val hitBoxSize = ui.userSpaceShip.hitBox.sizeDp
+        val laserStart = this.laserOnOpponentScreen.first.toDpOffset()
+        val laserEnd = this.laserOnOpponentScreen.second.toDpOffset()
+
+        val topLeftCorner: DpOffset = shipDpOffset
+        val topRightCorner: DpOffset = shipDpOffset.xPlus(hitBoxSize.width)
+        val botLeftCorner: DpOffset = shipDpOffset.yPlus(hitBoxSize.height)
+        val botRightCorner: DpOffset = botLeftCorner.xPlus(hitBoxSize.width)
+
+        val laserYLeftTop = getYForX(laserStart, laserEnd, topLeftCorner.x)
+        val laserYRightTop = getYForX(laserStart, laserEnd, topRightCorner.x)
+
+//        val laserYLeftBot = getYForX(laserStart, laserEnd, botLeftCorner.x)
+//        val laserYRightBot = getYForX(laserStart, laserEnd, botRightCorner.x)
+        val laserXTopLeft = getXForY(laserStart, laserEnd, topLeftCorner.y)
+//        val laserXTopRight = getXForY(laserStart, laserEnd, topLeftCorner.y)
+//        val laserXBottom = getXForY(laserStart, laserEnd, botLeftCorner.y)
+        if ( laserXTopLeft in topLeftCorner.x..topRightCorner.x
+            || laserYLeftTop in topLeftCorner.y..botLeftCorner.y
+            || laserYRightTop in topRightCorner.y..botRightCorner.y
+        ) {
+            Log.v(TAG, "laserHitShip: go through in")
+            Device.event.hitStateFlow.emit(this)
+        }
+//        else Log.e(TAG, "laserHitShip: miss", )
+//        if (topLeftCorner.y <= laserYLeftTop && topRightCorner.y <= laserYRightTop) Log.v(TAG, "laserHitShip: laser is going UP")
+//        else if (laserYRightTop <= topRightCorner.y ) Log.v(TAG, "laserHitShip: laser HIIT")
+//        else if (laserYLeftTop <= topLeftCorner.y ) Log.v(TAG, "laserHitShip: laser HIIT")
+
+//        if (botLeftCorner.y <= laserYLeftBot && botRightCorner.y <= laserYRightBot) Log.v(TAG, "laserHitShip: laser is going DOWN")
+//        else if (laserYRightBot <= botRightCorner.y ) Log.v(TAG, "laserHitShip: laser HIIT")
+//        else if (laserYLeftBot <= botLeftCorner.y ) Log.v(TAG, "laserHitShip: laser HIIT")
+//        if (topLeftCorner.x < laserXTop && botLeftCorner.x < laserXBottom) Log.v(TAG, "laserHitShip: laser is going DOWN")
+
+        return false
+    }
+
+    fun getShootVector(): DpOffset {
         val x = when {
             motion.value.isRight() -> delta.x
             motion.value.isLeft() -> delta.x * -1F
@@ -209,7 +300,7 @@ class MotionsViewModel(
             motion.value.isDown() -> maxSpeed.value - (delta.y / 2F)
             else -> maxSpeed.value
         }
-        return Size(x, y)
+        return DpOffset(x.dp, y.dp)
     }
 
     fun getTargetAngle(motion: Motions, speed: SpeedMagnitude): Float = when {

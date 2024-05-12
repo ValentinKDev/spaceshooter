@@ -4,17 +4,19 @@ import android.util.Log
 import androidx.compose.ui.geometry.Size
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUIInterface
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.CircleSpaceShipIconUI
+import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.LaserySpaceShipIconUI
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.SquareSpaceShipIconUI
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.background.BackgroundUI
 
-sealed class ShipType(val id: String, val info: ShipInfo) {
-    object Circle: ShipType("CIRCLE", SpaceShipRound() as ShipInfo)
-    object Square: ShipType("SQUARE", SpaceShipSquare() as ShipInfo)
+sealed class ShipType(val id: Int, val info: ShipInfo) {
+    object Circle: ShipType(1, SpaceShipRound() as ShipInfo)
+    object Square: ShipType(2, SpaceShipSquare() as ShipInfo)
+    object Lasery: ShipType(3, SpaceShipLasery() as ShipInfo)
 
     companion object {
         val DEFAULT = Circle
         private val TAG = "ShipType"
-        fun getList(): List<ShipType> = listOf(Circle, Square)
+        fun getList(): List<ShipType> = listOf(Circle, Square, Lasery)
         fun getIconUIList(sizeShipBox: Size): List<SpaceShipIconUIInterface> {
             val list = getList()
             return list.map { getTypeShipUI(type = it, shipBox = sizeShipBox) }
@@ -30,10 +32,12 @@ sealed class ShipType(val id: String, val info: ShipInfo) {
         fun getTypeShipUI(i: Int, shipBox: Size): SpaceShipIconUIInterface = when (getFromList(i)) {
             Circle -> CircleSpaceShipIconUI(shipBox)
             Square -> SquareSpaceShipIconUI(shipBox)
+            Lasery -> LaserySpaceShipIconUI(shipBox)
         }
         fun getTypeShipUI(type: ShipType, shipBox: Size): SpaceShipIconUIInterface = when (type) {
             Circle -> CircleSpaceShipIconUI(shipBox)
             Square -> SquareSpaceShipIconUI(shipBox)
+            Lasery -> LaserySpaceShipIconUI(shipBox)
         }
     }
 }

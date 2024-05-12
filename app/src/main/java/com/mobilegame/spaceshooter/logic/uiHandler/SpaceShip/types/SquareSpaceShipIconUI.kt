@@ -1,7 +1,6 @@
 package com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types
 
 
-import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center

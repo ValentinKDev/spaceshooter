@@ -45,7 +45,6 @@ fun DevicesMenu(vm: WifiScreenViewModel, navigator: Navigator, deviceName: Strin
                     body = {
                         DevicesMenuBody(
                             ui = vm.ui.deviceMenu.body,
-                            navigator = navigator,
                             pressureVM = vm.pressureHandler,
                         )
                     }

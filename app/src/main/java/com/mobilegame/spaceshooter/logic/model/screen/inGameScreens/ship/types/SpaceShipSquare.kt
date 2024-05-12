@@ -7,7 +7,7 @@ import com.mobilegame.spaceshooter.presentation.theme.MyColor
 
 class SpaceShipSquare(
 ) : ShipInfo {
-    val TAG = "SpaceShipSquare"
+    private val TAG = "SpaceShipSquare"
     override val life: Float = ShipBasicStats.life * 1.40F
     override val speed: Float = ShipBasicStats.speed * 1F
     override val damage: Float = ShipBasicStats.damage.toFloat()

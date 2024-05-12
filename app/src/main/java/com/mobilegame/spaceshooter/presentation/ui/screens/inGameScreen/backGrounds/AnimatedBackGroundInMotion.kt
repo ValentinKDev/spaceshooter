@@ -1,33 +1,26 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.backGrounds
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.HitAnimationViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.MotionsViewModel
+import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.MunitionsViewModel
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.background.BackgroundUI
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.background.Star
 
@@ -35,7 +28,8 @@ import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.background.Star
 fun AnimatedBackGroundInMotion(
     ui: BackgroundUI,
     motionVM: MotionsViewModel,
-    hitVM: HitAnimationViewModel
+    hitVM: HitAnimationViewModel,
+    ammoVM: MunitionsViewModel
 ) {
     val pairOfIsHitAndColor by remember { hitVM.visibleOpponentColor }.collectAsState()
     val offset by remember { motionVM.backgroundDpOffset }.collectAsState()
@@ -49,7 +43,8 @@ fun AnimatedBackGroundInMotion(
             repeatMode = RepeatMode.Reverse
         )
     )
-
+    val chargingVisible by remember { ammoVM.chargingAnimation }.collectAsState()
+//    infiniteTransition.
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -68,7 +63,7 @@ fun AnimatedBackGroundInMotion(
                                 topLeft = patternOffset,
                                 size = ui.matrix.dotCanvasSize,
                                 color = pairOfIsHitAndColor.second,
-                                alpha = if (pairOfIsHitAndColor.first) alphaColor + 0.15F else alphaColor
+                                alpha = if (pairOfIsHitAndColor.first) alphaColor + 0.15F else if(chargingVisible) alphaColor + 0.15F else  alphaColor
 //                                alphaBonus?.let { it + alphaColor } ?: alphaColor,
                             )
                         }

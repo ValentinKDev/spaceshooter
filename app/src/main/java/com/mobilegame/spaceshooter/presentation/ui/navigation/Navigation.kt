@@ -86,7 +86,8 @@ fun Navigation(navigator: Navigator) {
         composable(route = Test.route) {
             Device.navigation.argStr = StrArgumentNav.serializeArgToInGame(
 //                userShipTypeName = ShipType.Circle.info.name,
-                userShipTypeName = ShipType.Square.info.name,
+//                userShipTypeName = ShipType.Square.info.name,
+                userShipTypeName = ShipType.Lasery.info.name,
                 tryAgainStats = TryAgainStats.EMPTY_TRY_AGAIN_STATS,
             )
 

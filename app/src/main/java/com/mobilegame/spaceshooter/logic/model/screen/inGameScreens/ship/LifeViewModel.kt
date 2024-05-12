@@ -36,8 +36,9 @@ class LifeViewModel(
 
     private suspend fun lifeUpdate(projectile: Shoot) {
         if (dead == false) {
-            currentLife -= projectile.damage
-//            currentLife -= 150F
+            val damage = if (projectile.particularBehavior > 1) (projectile.damage * projectile.particularBehavior * projectile.type.info.damageChargeRatio) else (projectile.damage)
+            Log.i(TAG, "lifeUpdate: damage $damage")
+            currentLife -= damage
             if (currentLife.toInt() > 0) {
                 _lifeRatio.emit( currentLife / lifeStarter )
             } else {

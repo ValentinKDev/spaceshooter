@@ -5,6 +5,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.types.BoxCoordinates
 
 fun DpOffset.toOffset(): Offset = Offset(
@@ -37,6 +38,17 @@ infix fun DpOffset.isInBoundsOf(sizeDp: DpSize): Boolean {
     if (this.y !in 0.dp..sizeDp.height) ret = false
     return ret
 }
+infix fun Dp.isInWidthOf(sizeDp: DpSize): Boolean {
+    var ret = false
+    if (this in 0.dp..sizeDp.width) ret = true
+    return ret
+}
+
+infix fun Dp.isInHeightOf(sizeDp: DpSize): Boolean {
+    var ret = false
+    if (this in 0.dp..sizeDp.height) ret = true
+    return ret
+}
 
 
 infix fun DpOffset.isNotInBoundsOf(sizeDp: DpSize): Boolean = !(this isInBoundsOf sizeDp)
@@ -49,3 +61,13 @@ infix fun DpOffset.isInsideOf(box: BoxCoordinates): Boolean {
     if (this.y !in (box.topHeightDp..box.bottomHeightDp)) ret = false
     return ret
 }
+
+fun DpOffset.toPair() = Pair(this, this)
+fun DpOffset.invertX(xRatio: Float): DpOffset = DpOffset((Device.metrics.sizeDp.width.value * (1F - xRatio)).dp, this.y )
+fun DpOffset.invert(): DpOffset = DpOffset(this.x * -1F, this.y * -1F)
+fun DpSize.invert(): DpSize = DpSize((this.width.value * -1F).dp, (this.height.value * -1F).dp)
+
+infix fun DpOffset.xMinus(f: Dp): DpOffset = DpOffset(x = this.x - f, y = this.y)
+infix fun DpOffset.xPlus(f: Dp): DpOffset = DpOffset(x = this.x + f, y = this.y)
+infix fun DpOffset.yMinus(f: Dp): DpOffset = DpOffset(x = this.x, y = this.y - f)
+infix fun DpOffset.yPlus(f: Dp): DpOffset = DpOffset(x = this.x, y = this.y + f)

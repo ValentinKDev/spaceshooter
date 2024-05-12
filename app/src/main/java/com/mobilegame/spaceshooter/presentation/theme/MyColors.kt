@@ -114,6 +114,7 @@ inline class MyColor(val color: Color){
         val superStar = Color (0XFFFFCA0E)
         val coralGold = Color(0XFFd37c57)
         val redDamask = Color(0XFFd06d45)
+        val purpleRain = Color(0XFF854BCB)
 
         val transparent = Color.Transparent
 //        val applicationBackground = Redwood
@@ -128,5 +129,6 @@ inline class MyColor(val color: Color){
         val squareShip = quarterdeck
 //        val roundShip = meatBrown
         val roundShip = applicationBackground
+        val laseryShip = purpleRain
     }
 }

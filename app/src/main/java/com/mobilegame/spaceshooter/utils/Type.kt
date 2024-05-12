@@ -5,6 +5,7 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.GameResult
 import com.mobilegame.spaceshooter.logic.model.screen.tryAgainScreen.TryAgainStats
 
 val TypeListInt = object : TypeToken<List<Int>>() {}.type
+val TypeListFloat = object : TypeToken<List<Float>>() {}.type
 val TypeListString = object : TypeToken<List<String>>() {}.type
 val TypeListGameResult = object : TypeToken<List<GameResult>>() {}.type
 val TypePairStringInt = object : TypeToken<Pair<String, Int>>() {}.type

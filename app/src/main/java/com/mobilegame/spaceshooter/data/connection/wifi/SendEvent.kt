@@ -23,7 +23,6 @@ class SendEvent() {
     }
 
     fun to(info:WifiInfoService, message: EventMessage) {
-//        vLog(TAG, "to ${info.name}")
         send(info.writer, message)
     }
 
