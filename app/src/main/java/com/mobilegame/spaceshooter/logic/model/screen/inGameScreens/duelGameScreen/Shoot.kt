@@ -14,7 +14,6 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.S
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.circle.MunitionsType
 import com.mobilegame.spaceshooter.utils.TypeListFloat
 import com.mobilegame.spaceshooter.utils.extensions.getXForY
-import com.mobilegame.spaceshooter.utils.extensions.getYForX
 import com.mobilegame.spaceshooter.utils.extensions.invert
 import com.mobilegame.spaceshooter.utils.extensions.invertX
 import com.mobilegame.spaceshooter.utils.extensions.isInBoundsOf
@@ -31,6 +30,7 @@ data class Shoot(
     val vector: DpOffset = DpOffset.Zero,
     val particularBehavior: Int,
     val damage: Float,
+    val boxDp: Dp,
     //todo : instead of xRatio and yRatio make a stop at Y
     var xRatio: Float, //from left to right
     var yRatio: Float, //from top to bottom
@@ -55,6 +55,7 @@ data class Shoot(
         vector = this.vector,
         particularBehavior = this.particularBehavior,
         damage = this.damage,
+        boxDp = this.boxDp,
         xRatio = this.xRatio,
         yRatio = this.yRatio,
         offsetDp = DpOffset(
@@ -69,6 +70,7 @@ data class Shoot(
         vector = this.vector,
         particularBehavior = this.particularBehavior,
         damage = this.damage,
+        boxDp = this.boxDp,
         xRatio = this.xRatio,
         yRatio = this.yRatio,
         offsetDp = DpOffset(
@@ -83,6 +85,7 @@ data class Shoot(
         vector = this.vector.invert(),
         particularBehavior = this.particularBehavior,
         damage = this.damage,
+        boxDp = this.boxDp,
         xRatio = Device.metrics.getXRatioWithDp(this.offsetDp.x),
         yRatio = this.yRatio,
         offsetDp = this.offsetDp,
@@ -96,6 +99,7 @@ data class Shoot(
         vector = this.vector,
         particularBehavior = this.particularBehavior,
         damage = this.damage,
+        boxDp = this.boxDp,
         xRatio = this.xRatio,
         yRatio = this.yRatio,
         offsetDp = this.offsetDp.invertX(this.xRatio),
@@ -112,6 +116,7 @@ data class Shoot(
             xRatio = this.xRatio,
             yRatio = this.yRatio,
             damage = this.damage,
+            hitBox = this.boxDp.value,
             offsetDp = gson.toJson(listOf(this.offsetDp.x.value, this.offsetDp.y.value), TypeListFloat),
 //            offsetDp = ,
             laserOnUser = gson.toJson(listOf<Float>(
@@ -166,6 +171,7 @@ data class Shoot(
                 vector = vector,
                 particularBehavior = preSerializedShoot.particularBehavior,
                 damage = preSerializedShoot.damage,
+                boxDp = preSerializedShoot.hitBox.dp,
                 xRatio = preSerializedShoot.xRatio,
                 yRatio = preSerializedShoot.yRatio,
                 offsetDp = offsetDp,
@@ -175,7 +181,7 @@ data class Shoot(
 //            Log.e(TAG, "deserialize: shoot $shoot")
             return shoot
         }
-        fun newFromUser(type: ShipType, vm: MotionsViewModel, behavior: Int = 1, damage: Float = 1F): Shoot {
+        fun newFromUser(type: ShipType, vm: MotionsViewModel, hitBoxDp: Dp, behavior: Int = 1, damage: Float = 1F): Shoot {
             var dpOffsetPairOnScreen = Offset.Zero.toPair()
             var dpOffsetPairOutScreen = Offset.Zero.toPair()
             var vector: DpOffset = vm.getShootVector()
@@ -204,6 +210,7 @@ data class Shoot(
                 vector = vector,
                 particularBehavior = behavior,
                 damage = type.info.damage,
+                boxDp = hitBoxDp,
                 xRatio = Float.MIN_VALUE,
                 yRatio = Device.metrics.getYRatioWithDp(vm.getShipTopCenter().y),
                 offsetDp = vm.getShipTopCenter(),
@@ -244,6 +251,7 @@ data class Shoot(
             vector = DpOffset.Unspecified,
             particularBehavior = 0,
             damage = Float.MIN_VALUE,
+            boxDp = Dp.Unspecified,
             xRatio = Float.MIN_VALUE,
             yRatio = Float.MIN_VALUE,
             offsetDp = DpOffset.Unspecified

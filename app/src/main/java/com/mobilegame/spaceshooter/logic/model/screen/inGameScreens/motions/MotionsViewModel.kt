@@ -3,6 +3,7 @@ package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions
 import android.content.Context
 import android.util.Log
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
@@ -28,7 +29,7 @@ import kotlin.math.absoluteValue
 
 class MotionsViewModel(
     context: Context,
-    private val ui: SpaceWarGameScreenUI,
+    val ui: SpaceWarGameScreenUI,
 ): ViewModel() {
 //    private val deviceEvent = Device.event
     val TAG = "MotionsViewModel"
@@ -60,7 +61,7 @@ class MotionsViewModel(
     private val _laserList = MutableStateFlow<List<Shoot>>(emptyList())
     val laserList: StateFlow<List<Shoot>> = _laserList.asStateFlow()
 
-    private val userHitBox = ui.userSpaceShip.hitBox
+    private val userHitBoxDp = ui.userSpaceShip.hitBox.sizeDp
     fun getShipTopCenter(): DpOffset = DpOffset(x = _shipPosition.value.x + shipCenterDeltaDp, y = _shipPosition.value.y)
 
     private val _motion = MutableStateFlow(Motions.None)
@@ -134,14 +135,6 @@ class MotionsViewModel(
 //        _shootList.value = newList
         _shootList.emit(newList)
     }
-    private suspend fun List<Shoot>.checkHitBox(): List<Shoot> = this
-        .filter { projectile -> projectile.from == MunitionsType.EnemiesProjectile }
-        .filter { it.offsetDp isInsideOf shipHitBox.value }
-        .map {
-            Log.e(TAG, "checkHitBox: HIT")
-            Device.event.hitStateFlow.emit(it)
-            it
-        }
     private suspend fun List<Shoot>.moveAndRemoveShoots(): List <Shoot> = this
         .map { it.getShootNextDpOffset() }
         .filter {
@@ -155,7 +148,7 @@ class MotionsViewModel(
 //                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN send vector ${invertedShoot.vector}")
 //                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN send topleft ${invertedShoot.offsetDp}")
 //                if (it.from != MunitionsType.EnemiesProjectile)
-                    eventRepo.sendProjectile(invertedShoot)
+                eventRepo.sendProjectile(invertedShoot)
 //                else
 //                    Log.e(TAG, "moveAndRemoveShoots: enemie shoot coming back")
             }
@@ -242,7 +235,8 @@ class MotionsViewModel(
         Log.i(TAG, "handleLaserTime: repeat = $repeat")
         do {
             repeat--
-            if (shoot.from == MunitionsType.EnemiesProjectile) shoot.checkIfLaserHit()
+            if (shoot.from == MunitionsType.EnemiesProjectile && shoot.isLaserHittingShip())
+                Device.event.hitStateFlow.emit(shoot)
             delay(delay)
             Log.i(TAG, "handleLaserTime: repeat = $repeat")
         } while (repeat > 0)
@@ -250,7 +244,8 @@ class MotionsViewModel(
         _laserList.emit(laserList.value.remove(shoot))
     }
 
-    private suspend fun Shoot.checkIfLaserHit(): Boolean {
+    private suspend fun Shoot.isLaserHittingShip(): Boolean {
+        var ret = false
         val shipDpOffset: DpOffset = shipPosition.value
         val hitBoxSize = ui.userSpaceShip.hitBox.sizeDp
         val laserStart = this.laserOnOpponentScreen.first.toDpOffset()
@@ -264,30 +259,63 @@ class MotionsViewModel(
         val laserYLeftTop = getYForX(laserStart, laserEnd, topLeftCorner.x)
         val laserYRightTop = getYForX(laserStart, laserEnd, topRightCorner.x)
 
-//        val laserYLeftBot = getYForX(laserStart, laserEnd, botLeftCorner.x)
-//        val laserYRightBot = getYForX(laserStart, laserEnd, botRightCorner.x)
         val laserXTopLeft = getXForY(laserStart, laserEnd, topLeftCorner.y)
-//        val laserXTopRight = getXForY(laserStart, laserEnd, topLeftCorner.y)
-//        val laserXBottom = getXForY(laserStart, laserEnd, botLeftCorner.y)
         if ( laserXTopLeft in topLeftCorner.x..topRightCorner.x
             || laserYLeftTop in topLeftCorner.y..botLeftCorner.y
             || laserYRightTop in topRightCorner.y..botRightCorner.y
         ) {
             Log.v(TAG, "laserHitShip: go through in")
-            Device.event.hitStateFlow.emit(this)
+            ret = true
         }
-//        else Log.e(TAG, "laserHitShip: miss", )
-//        if (topLeftCorner.y <= laserYLeftTop && topRightCorner.y <= laserYRightTop) Log.v(TAG, "laserHitShip: laser is going UP")
-//        else if (laserYRightTop <= topRightCorner.y ) Log.v(TAG, "laserHitShip: laser HIIT")
-//        else if (laserYLeftTop <= topLeftCorner.y ) Log.v(TAG, "laserHitShip: laser HIIT")
-
-//        if (botLeftCorner.y <= laserYLeftBot && botRightCorner.y <= laserYRightBot) Log.v(TAG, "laserHitShip: laser is going DOWN")
-//        else if (laserYRightBot <= botRightCorner.y ) Log.v(TAG, "laserHitShip: laser HIIT")
-//        else if (laserYLeftBot <= botLeftCorner.y ) Log.v(TAG, "laserHitShip: laser HIIT")
-//        if (topLeftCorner.x < laserXTop && botLeftCorner.x < laserXBottom) Log.v(TAG, "laserHitShip: laser is going DOWN")
-
-        return false
+        return ret
     }
+    private fun Shoot.isProjectileHittingShip(): Boolean {
+        var ret = false
+        val shipDpOffset: DpOffset = shipPosition.value
+
+        val shipTopLeftCorner: DpOffset = shipDpOffset
+        val shipTopRightCorner: DpOffset = shipDpOffset.xPlus(userHitBoxDp.width)
+        val shipBotLeftCorner: DpOffset = shipDpOffset.yPlus(userHitBoxDp.height)
+        val shipBotRightCorner: DpOffset = shipBotLeftCorner.xPlus(userHitBoxDp.width)
+
+        val projectileTopLeftCorner: DpOffset = this.offsetDp
+        val projectileTopRightCorner: DpOffset = shipDpOffset.xPlus(userHitBoxDp.width)
+        val projectileBotLeftCorner: DpOffset = shipDpOffset.yPlus(userHitBoxDp.height)
+        val projectileBotRightCorner: DpOffset = projectileBotLeftCorner.xPlus(userHitBoxDp.width)
+
+        val shipTopY: Dp = shipDpOffset.y
+        val shipXRange: ClosedRange<Dp> = shipDpOffset.x .. shipDpOffset.x + userHitBoxDp.width
+        val shipLeftX: Dp = shipDpOffset.x
+        val shipRightX: Dp = shipDpOffset.x + userHitBoxDp.width
+        val projectileLeftX: Dp = this.offsetDp.x
+        val projectileRightX: Dp = this.offsetDp.x + this.boxDp
+        val projectileBottomY: Dp = this.offsetDp.y + this.boxDp
+        if (projectileBottomY > shipTopY) {
+            Log.i(TAG, "isProjectileHittingShip: proj bot y $projectileBottomY ship top y $shipTopY under")
+            if ( projectileLeftX in shipXRange) {
+                Log.e( TAG, "isProjectileHittingShip: left in", )
+                ret = true
+            }
+            if ( projectileRightX in shipXRange) {
+//            if (shipTopLeftCorner.x < projectileBotRightCorner.x && projectileBotRightCorner.x < shipTopRightCorner.x) {
+                Log.e(TAG, "isProjectileHittingShip: RIGHT in",); ret = true
+            }
+        }
+//        if ((projectileBottomY < shipTopY) && ( projectileLeftX in shipXRange || projectileRightX in shipXRange)) {
+//            ret = true
+//        }
+
+        return ret
+    }
+    private suspend fun List<Shoot>.checkHitBox(): List<Shoot> = this
+        .filter { projectile -> projectile.from == MunitionsType.EnemiesProjectile }
+//        .filter { it.offsetDp isInsideOf shipHitBox.value }
+        .filter { it.isProjectileHittingShip() }
+        .map {
+            Log.e(TAG, "checkHitBox: HIT")
+            Device.event.hitStateFlow.emit(it)
+            it
+        }
 
     fun getShootVector(): DpOffset {
         val x = when {

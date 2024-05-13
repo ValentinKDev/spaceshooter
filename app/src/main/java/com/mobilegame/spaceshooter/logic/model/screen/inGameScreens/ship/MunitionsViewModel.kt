@@ -207,6 +207,7 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
                     vm = motionVM,
                     behavior = ammoCharged,
                     damage = shipType.info.damage,
+                    hitBoxDp = motionVM.ui.userSpaceShip.hitBox.sizeDp.width,
                 )
 //                if (shipType == ShipType.Lasery) {
 
@@ -225,6 +226,7 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
                     val newShoot = Shoot.newFromUser(
                         type = shipType,
                         vm = motionVM,
+                        hitBoxDp = motionVM.ui.userSpaceShip.hitBox.sizeDp.width,
                     )
                     Device.event.projectileFlow.emit(newShoot)
                     canShoot = false

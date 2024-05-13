@@ -46,7 +46,7 @@ class HitAnimationViewModel(private val type: ShipType): ViewModel() {
     private fun visibleOpponentOnHitStart(shoot: Shoot) = viewModelScope.launch {
         updateVisibleColor(Pair(true, shoot.type.info.color))
         delay(colorDelayTime)
-        updateVisibleColor(Pair(false, type.info.color))
+        updateVisibleColor(Pair(false, shoot.type.info.color))
     }
 
     private fun angleAnimationOnHitStart() = viewModelScope.launch {

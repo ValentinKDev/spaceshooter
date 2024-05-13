@@ -13,6 +13,7 @@ data class ShootSerializable(
     val xRatio: Float,
     val yRatio: Float,
     val damage: Float,
+    val hitBox: Float,
     var offsetDp: String,
     val laserOnUser: String,
     val laserOnOpponent: String,

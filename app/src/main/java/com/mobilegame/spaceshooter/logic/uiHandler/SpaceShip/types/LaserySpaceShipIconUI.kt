@@ -68,8 +68,8 @@ class LaserySpaceShipIconUI (override val shipViewBoxSize: Size): SpaceShipIconU
         val shipSizeDp = shipSize.toDpSize()
     }
     class HitBoxSquareShip(sizes: SizesLaseryShip) : HitBox {
-        override val size: Size = sizes.shipSize
-        override val sizeDp: DpSize = sizes.shipSizeDp
+        override val size: Size = sizes.shipSize * 0.7F
+        override val sizeDp: DpSize = size.toDpSize()
     }
     class PathLaseryShip(shipViewBoxSize: Size) {
         private val size: Size = shipViewBoxSize

@@ -44,8 +44,8 @@ class CircleSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
         var pBottomCentralBar: Offset = Offset(sizes.halfWidth, sizes.epsilon)
     }
     class HitBoxRoundShip(sizes: SizesSpaceShipIcon): HitBox {
-        override val size: Size = sizes.shipBox
-        override val sizeDp: DpSize = sizes.shipBoxDp
+        override val size: Size = sizes.shipBox.times(0.7F)
+        override val sizeDp: DpSize = size.toDpSize()
     }
 
     class MunitionsRoundSpaceShipIcon(shipBox: Float) {

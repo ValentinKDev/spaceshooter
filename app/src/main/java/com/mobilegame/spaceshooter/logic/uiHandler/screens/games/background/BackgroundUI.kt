@@ -22,8 +22,10 @@ class BackgroundUI(val shipType: ShipType) {
     val matrix = BackgroundMatrix(shipType)
     val anim = BackgroundAnim()
     class BackgroundAnim() {
-        private val lateralBorder = Device.metrics.width * 0.004F
+        private val lateralBorder = Device.metrics.width * 0.005F
         val lateralBorderDp = lateralBorder.toDp()
+        val initialBorderSizeRatio = 0.6F
+        val targetBorderSizeRatio = 1.4F
     }
 
     class BackgroundMatrix(val shipType: ShipType) {

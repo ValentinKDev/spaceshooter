@@ -1,11 +1,14 @@
 package com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.backGrounds
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,6 +26,7 @@ import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.Moti
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.MunitionsViewModel
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.background.BackgroundUI
 import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.background.Star
+import com.mobilegame.spaceshooter.presentation.theme.MyColor
 
 @Composable
 fun AnimatedBackGroundInMotion(
@@ -44,7 +48,7 @@ fun AnimatedBackGroundInMotion(
         )
     )
     val chargingVisible by remember { ammoVM.chargingAnimation }.collectAsState()
-//    infiniteTransition.
+    val chargingAnimation by remember { ammoVM.chargingAnimation }.collectAsState()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -62,17 +66,56 @@ fun AnimatedBackGroundInMotion(
                             drawRect(
                                 topLeft = patternOffset,
                                 size = ui.matrix.dotCanvasSize,
-                                color = pairOfIsHitAndColor.second,
+//                                color = if (chargingAnimation) Color.Black else pairOfIsHitAndColor.second,
+                                color = if (chargingAnimation) Color.Black else if (pairOfIsHitAndColor.first) pairOfIsHitAndColor.second else ui.shipType.info.color,
                                 alpha = if (pairOfIsHitAndColor.first) alphaColor + 0.15F else if(chargingVisible) alphaColor + 0.15F else  alphaColor
-//                                alphaBonus?.let { it + alphaColor } ?: alphaColor,
                             )
                         }
                     } ?: drawRect(
                         topLeft = star.anchor,
                         size = ui.matrix.dotCanvasSize,
-                        color = pairOfIsHitAndColor.second,
+                        color = if (chargingAnimation) Color.Black else if (pairOfIsHitAndColor.first) pairOfIsHitAndColor.second else ui.shipType.info.color,
+//                        color = if (chargingAnimation) Color.Black else pairOfIsHitAndColor.second,
                         alpha = if (pairOfIsHitAndColor.first) alphaColor + 0.15F else alphaColor
                     )
+                }
+            }
+        }
+    }
+
+    AnimatedVisibility(
+        visible = chargingAnimation,
+        enter = fadeIn(),
+        exit = fadeOut(),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black)
+        ) {
+            Canvas(
+                modifier = Modifier
+                    .size(ui.matrix.littleStarDp)
+                    .offset(offset.x, offset.y)
+            ) {
+                for (arrayLine in matrix) {
+                    for (star in arrayLine) {
+                        star.bigOrNull()?.let {
+                            for (patternOffset in star.patternArray) {
+                                drawRect(
+                                    topLeft = patternOffset,
+                                    size = ui.matrix.dotCanvasSize,
+                                    color = MyColor.applicationContrast,
+                                    alpha = 0.9F,
+                                )
+                            }
+                        } ?: drawRect(
+                            topLeft = star.anchor,
+                            size = ui.matrix.dotCanvasSize,
+                            color = MyColor.applicationContrast,
+                            alpha = 0.9F,
+                        )
+                    }
                 }
             }
         }

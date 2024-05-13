@@ -12,7 +12,7 @@ import com.mobilegame.spaceshooter.utils.extensions.toDpOffset
 import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 import com.mobilegame.spaceshooter.utils.extensions.toSize
 
-class SpaceWarGameScreenUI(displaySize: Size, shipType: ShipType) {
+class SpaceWarGameScreenUI(displaySize: Size, val shipType: ShipType) {
     val TAG = "SpaceWarGameScreenUI"
     val position = PositionInGameScreen(displaySize)
     val sizes = SizesInGameScreen(displaySize)
