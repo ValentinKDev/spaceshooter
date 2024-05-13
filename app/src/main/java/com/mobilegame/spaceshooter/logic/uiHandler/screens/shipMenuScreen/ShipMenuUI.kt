@@ -1,6 +1,5 @@
 package com.mobilegame.spaceshooter.logic.uiHandler.screens.shipMenuScreen
 
-import android.util.Log
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -16,7 +15,6 @@ import com.mobilegame.spaceshooter.logic.uiHandler.template.TemplateUI
 import com.mobilegame.spaceshooter.presentation.ui.screens.shipMenuScreen.StatsIndication
 import com.mobilegame.spaceshooter.utils.extensions.toDp
 import com.mobilegame.spaceshooter.utils.extensions.toDpSize
-import com.mobilegame.spaceshooter.utils.extensions.toSize
 import com.mobilegame.spaceshooter.utils.extensions.toSp
 
 class ShipMenuUI {
@@ -42,7 +40,7 @@ class ShipMenuUI {
             private val shipStatTextDp: TextUnit = shipStatText.toSp()
             val shipStatTextPadDp: Dp = (shipStatText * 0.3F).toDp()
             val shipStatStyle: TextStyle = TextStyle( fontSize = shipStatTextDp, fontWeight = FontWeight.SemiBold, )
-            private val statsBoxBar: Size = (bandHeight * 0.15F).toSize()
+            private val statsBoxBar: Size = (bandHeight * 0.15F).toDpSize()
             val statsBoxBarDp: DpSize = statsBoxBar.toDpSize()
             val statsBoxBarPadDp: Dp = (statsBoxBarDp.width.value * 0.35F).toDp()
             val statHeight: Dp = ((bandHeight / StatsIndication.values().size.toFloat()) * 0.85F).toDp()
@@ -78,8 +76,8 @@ class ShipMenuUI {
         val sizes = BandShipMenuSizes(sizeWithBand)
         class BandShipMenuSizes(sizeWithBand: Size) {
             val sizeWithBand = sizeWithBand.toDpSize()
-            val shipViewBox: Size = (Device.metrics.height * 0.15F).toSize()
-            val indicatorBox: Size = (Device.metrics.width * 0.05F).toSize()
+            val shipViewBox: Size = (Device.metrics.height * 0.15F).toDpSize()
+            val indicatorBox: Size = (Device.metrics.width * 0.05F).toDpSize()
             val indicatorBoxDp: DpSize = indicatorBox.toDpSize()
             val indicatorBoxPadDp: Dp = (Device.metrics.width * 0.015F).toDp()
             val indicatorBoxBorderWidth: Dp = (Device.metrics.width * 0.0025F).toDp()

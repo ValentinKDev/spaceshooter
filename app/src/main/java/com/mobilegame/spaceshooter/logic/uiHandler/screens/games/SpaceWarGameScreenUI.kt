@@ -10,7 +10,6 @@ import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.background.Back
 import com.mobilegame.spaceshooter.utils.extensions.toDp
 import com.mobilegame.spaceshooter.utils.extensions.toDpOffset
 import com.mobilegame.spaceshooter.utils.extensions.toDpSize
-import com.mobilegame.spaceshooter.utils.extensions.toSize
 
 class SpaceWarGameScreenUI(displaySize: Size, val shipType: ShipType) {
     val TAG = "SpaceWarGameScreenUI"
@@ -23,7 +22,7 @@ class SpaceWarGameScreenUI(displaySize: Size, val shipType: ShipType) {
 
     class SizesInGameScreen(val displaySize: Size) {
         var displayDp: DpSize = displaySize.toDpSize()
-        var shipViewBox: Size = (displaySize.height * 0.13F).toSize()
+        var shipViewBox: Size = (displaySize.height * 0.13F).toDpSize()
         var shipViewBoxDp: DpSize = shipViewBox.toDpSize()
         private val shipBoxCenter = shipViewBox.width / 2F
         val shipBoxCenterDp = shipBoxCenter.toDp()

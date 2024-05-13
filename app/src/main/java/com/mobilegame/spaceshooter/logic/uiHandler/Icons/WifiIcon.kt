@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.extensions.toDp
-import com.mobilegame.spaceshooter.utils.extensions.toSquare
+import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 
 class WifiIcon(
     squareSize: Float,
@@ -75,7 +75,7 @@ class WifiIcon(
     init {
         sizes.squareHeight = squareSize
         sizes.squareHeightDp = squareSize.toDp()
-        sizes.squareSizeDp = sizes.squareHeightDp.toSquare()
+        sizes.squareSizeDp = sizes.squareHeightDp.toDpSize()
         stroke.squareStrokeDp = (squareSize * ratios.squareStrokePercent).toDp()
         sizes.canvas = sizes.squareHeight * ratios.canvasHeightPercent
         sizes.canvasDp = sizes.canvas.toDp()

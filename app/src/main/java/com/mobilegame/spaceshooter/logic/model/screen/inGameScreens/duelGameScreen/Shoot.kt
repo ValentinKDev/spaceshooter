@@ -181,7 +181,7 @@ data class Shoot(
 //            Log.e(TAG, "deserialize: shoot $shoot")
             return shoot
         }
-        fun newFromUser(type: ShipType, vm: MotionsViewModel, hitBoxDp: Dp, behavior: Int = 1, damage: Float = 1F): Shoot {
+        fun newFromUser(type: ShipType, vm: MotionsViewModel, boxDp: Dp, behavior: Int = 1, damage: Float = 1F): Shoot {
             var dpOffsetPairOnScreen = Offset.Zero.toPair()
             var dpOffsetPairOutScreen = Offset.Zero.toPair()
             var vector: DpOffset = vm.getShootVector()
@@ -210,7 +210,7 @@ data class Shoot(
                 vector = vector,
                 particularBehavior = behavior,
                 damage = type.info.damage,
-                boxDp = hitBoxDp,
+                boxDp = boxDp,
                 xRatio = Float.MIN_VALUE,
                 yRatio = Device.metrics.getYRatioWithDp(vm.getShipTopCenter().y),
                 offsetDp = vm.getShipTopCenter(),

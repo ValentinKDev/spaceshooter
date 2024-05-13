@@ -4,11 +4,17 @@ import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.times
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.HitBox
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUIInterface
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.analyze.eLog
+import com.mobilegame.spaceshooter.utils.extensions.toDp
+import com.mobilegame.spaceshooter.utils.extensions.toDpOffset
 import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 import kotlin.math.PI
 import kotlin.math.cos
@@ -19,7 +25,7 @@ class CircleSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
 
     val sizes = SizesSpaceShipIcon(shipViewBoxSize)
     val points = PointsSpaceShipIcon(sizes)
-    val ammunition = MunitionsRoundSpaceShipIcon(shipViewBoxSize.height)
+    val ammunition = MunitionsRoundSpaceShipIcon(sizes)
     val colors = ColorsSpaceShipIcon()
     override val hitBox = HitBoxRoundShip(sizes)
 
@@ -28,7 +34,7 @@ class CircleSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
         var body: Color = MyColor.roundShip,
 //        var ammo: Color = MyColor.applicationContrast,
         val ammo: Color = MyColor.applicationContrast,
-        var shoot: Color = MyColor.roundShip
+        var shoot: Color = MyColor.applicationContrast
     )
 
     class SizesSpaceShipIcon(shipBox: Size) {
@@ -37,6 +43,7 @@ class CircleSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
         var strokeWidth: Float = shipBox.height * 0.06F
         var halfWidth: Float = shipBox.height * 0.5F
         var epsilon: Float = shipBox.height * 0.2F
+        val ammoRadius: Float = shipBox.height * 0.1F
     }
 
     class PointsSpaceShipIcon(sizes: SizesSpaceShipIcon) {
@@ -44,14 +51,17 @@ class CircleSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
         var pBottomCentralBar: Offset = Offset(sizes.halfWidth, sizes.epsilon)
     }
     class HitBoxRoundShip(sizes: SizesSpaceShipIcon): HitBox {
-        override val size: Size = sizes.shipBox.times(0.7F)
-        override val sizeDp: DpSize = size.toDpSize()
+        override val ratio: Float = 0.9F
+        override val canvasSize: Size = sizes.shipBox
+        override val boxDp: DpSize = (canvasSize.width * ratio).toDp().toDpSize()
+        override val boxDpOffset: DpOffset = (canvasSize.width * (1F - ratio) * 0.5F).toDp().toDpOffset()
+        override val ammoWidthDp: Dp = sizes.ammoRadius.dp
     }
 
-    class MunitionsRoundSpaceShipIcon(shipBox: Float) {
+    class MunitionsRoundSpaceShipIcon(size: SizesSpaceShipIcon) {
         val TAG = "MunitionsRoundSpaceShipIcon"
-        val width = shipBox
-        val radius: Float = width * 0.1F
+        val width = size.shipBox.width
+        val radius = size.ammoRadius
         val innerRadius: Float = radius * 0.8F
         private val delta: Float = width * 0.25F
         private val distance: Float = (width / 2F) + delta
@@ -81,12 +91,8 @@ class CircleSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
                 Axe.Y -> (sin(PI * newAngle).toFloat() * (distance) * -1F ) + center
             }
         }
-//        init {
-//            Log.i(TAG, "init: ")
-//        }
     }
 
-//    init { Log.i(TAG, "init: ") }
     fun getAmmunitionOffset(n: Int): Offset = when (n) {
         1 -> ammunition.m5
         2 -> ammunition.m6

@@ -15,7 +15,7 @@ import com.mobilegame.spaceshooter.utils.extensions.dpToPixel
 import com.mobilegame.spaceshooter.utils.extensions.degreeToRadianRange
 import com.mobilegame.spaceshooter.utils.extensions.sweepAngle
 import com.mobilegame.spaceshooter.utils.extensions.toDp
-import com.mobilegame.spaceshooter.utils.extensions.toSquare
+import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 
 class BackButtonUI(percent: TemplateUI.TemplatePercents, val instant: Boolean = false) {
     val id = "back_button"
@@ -41,7 +41,7 @@ class BackButtonUI(percent: TemplateUI.TemplatePercents, val instant: Boolean = 
         val boxHeightDp: Dp = boxHeight.toDp()
         val canvas: Float = boxHeight * 0.75F
         val canvasDp: Dp = canvas.toDp()
-        val canvasSizeDp: DpSize = canvasDp.toSquare()
+        val canvasSizeDp: DpSize = canvasDp.toDpSize()
     }
     data class ColorsBackButton (
         val contrast: Color = MyColor.applicationContrast,

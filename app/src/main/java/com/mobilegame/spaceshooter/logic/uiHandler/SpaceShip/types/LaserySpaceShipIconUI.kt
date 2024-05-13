@@ -7,7 +7,10 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.HitBox
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
 import com.mobilegame.spaceshooter.utils.extensions.*
@@ -19,15 +22,12 @@ class LaserySpaceShipIconUI (override val shipViewBoxSize: Size): SpaceShipIconU
     val path = PathLaseryShip(shipViewBoxSize)
     val colors = ColorsLaseryShip()
     val magazine = MagazineLaseryShip(shipViewBoxSize)
-    val laser = LaserLaseryShip(shipViewBoxSize)
+//    val laser = LaserLaseryShip(shipViewBoxSize)
 
-    class LaserLaseryShip(shipViewBoxSize: Size) {
-        val middleLight: Float = shipViewBoxSize.width * 0.03F
-        val middleLightSurrounding: Float = 2F * middleLight
-        val sideLight: Float = 6F * middleLight
+//    class LaserLaseryShip(shipViewBoxSize: Size) {
 //        strokeWidth = ui.laser.sideLight * ratioSize * particularBehavior,
 //        val chargeFactor:
-    }
+//    }
 
     class MagazineLaseryShip(shipViewBoxSize: Size) {
         private val TAG = "MagazineLaseryShip"
@@ -66,10 +66,17 @@ class LaserySpaceShipIconUI (override val shipViewBoxSize: Size): SpaceShipIconU
     class SizesLaseryShip(shipViewBoxSize: Size) {
         val shipSize = shipViewBoxSize
         val shipSizeDp = shipSize.toDpSize()
+
+        val middleLight: Float = shipViewBoxSize.width * 0.03F
+        val middleLightSurrounding: Float = 2F * middleLight
+        val sideLight: Float = 6F * middleLight
     }
     class HitBoxSquareShip(sizes: SizesLaseryShip) : HitBox {
-        override val size: Size = sizes.shipSize * 0.7F
-        override val sizeDp: DpSize = size.toDpSize()
+        override val ratio: Float = 0.87F
+        override val canvasSize: Size = sizes.shipSize
+        override val boxDp: DpSize = (canvasSize.width * ratio).toDp().toDpSize()
+        override val boxDpOffset: DpOffset = (canvasSize.width * (1F - ratio) * 0.5F).toDp().toDpOffset()
+        override val ammoWidthDp: Dp = sizes.sideLight.toDp()
     }
     class PathLaseryShip(shipViewBoxSize: Size) {
         private val size: Size = shipViewBoxSize

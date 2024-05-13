@@ -1,19 +1,16 @@
 package com.mobilegame.spaceshooter.logic.uiHandler.screens.menu.startMenu
 
-import android.util.Log
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.utils.extensions.div
 import com.mobilegame.spaceshooter.utils.extensions.subtract
 import com.mobilegame.spaceshooter.utils.extensions.time
-import com.mobilegame.spaceshooter.utils.extensions.toSquare
+import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 
 class MenuScreenUI() {
     private val TAG = "MenuScreenUI"
 //    val letterSizeDp = 75.dp.toSquare()
-    val letterSizeDp = (Device.metrics.sizeDp.width * 0.075F).toSquare()
+    val letterSizeDp = (Device.metrics.sizeDp.width * 0.075F).toDpSize()
     val letterPaddingDp = letterSizeDp.width * 0.15F
     val letterSpacerSizeDp = DpSize(letterPaddingDp, letterSizeDp.height)
     val verticalPadding = (Device.metrics.sizeDp.height subtract letterSizeDp.height) div 2F

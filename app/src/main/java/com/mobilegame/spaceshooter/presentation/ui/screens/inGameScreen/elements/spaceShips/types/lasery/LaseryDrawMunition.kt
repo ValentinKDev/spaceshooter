@@ -80,7 +80,7 @@ fun LaseryDrawProjectile(
             end = laser.second,
 //            color = ui.colors.ship,
             color = color,
-            strokeWidth = ui.laser.sideLight * ratioSize * particularBehavior,
+            strokeWidth = ui.sizes.sideLight * ratioSize * particularBehavior,
             cap = StrokeCap.Round
         )
         drawLine(
@@ -88,14 +88,14 @@ fun LaseryDrawProjectile(
             end = laser.second,
             color = Color.White,
             alpha = alphaColor,
-            strokeWidth = ui.laser.middleLightSurrounding * particularBehavior,
+            strokeWidth = ui.sizes.middleLightSurrounding * particularBehavior,
             cap = StrokeCap.Round
         )
         drawLine(
             start = laser.first,
             end = laser.second,
             color = Color.White,
-            strokeWidth = ui.laser.middleLight * ratioSize3 * particularBehavior,
+            strokeWidth = ui.sizes.middleLight * ratioSize3 * particularBehavior,
             cap = StrokeCap.Round
         )
     }

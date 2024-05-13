@@ -1,6 +1,7 @@
 package com.mobilegame.spaceshooter.utils.extensions
 
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.data.device.Device
@@ -23,4 +24,5 @@ infix fun Dp.subtract(dp: Dp): Dp = (this.value - dp.value).dp
 //infix fun Dp.add(a: Int): Int = (this.value + a).a
 //infix fun Dp.subtract(a: Int): Int = (this.value - a.value).a
 
-fun Dp.toSquare(): DpSize = DpSize(this, this)
+fun Dp.toDpSize(): DpSize = DpSize(this, this)
+fun Dp.toDpOffset(): DpOffset = DpOffset(this, this)

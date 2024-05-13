@@ -17,5 +17,5 @@ fun Float.toSpRef(): TextUnit = ((this / densityRef) * (densityRef / Device.metr
 
 fun Float.toRad(): Float = this * PI.toFloat() / 180F
 
-fun Float.toSize(): Size = Size(this, this)
+fun Float.toDpSize(): Size = Size(this, this)
 //fun Float.times(): Size = Size(this, this)

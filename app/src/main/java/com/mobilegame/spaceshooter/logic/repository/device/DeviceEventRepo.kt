@@ -282,7 +282,7 @@ class DeviceEventRepo() {
         type: EventMessageType,
         strMessage: String = "generic",
     ) {
-        Log.d(TAG, "genericFunction: client ${wifiRepo.isDeviceClient()} / server ${wifiRepo.isDeviceServer()}")
+//        Log.d(TAG, "genericFunction: client ${wifiRepo.isDeviceClient()} / server ${wifiRepo.isDeviceServer()}")
         genericEventMessage(type, strMessage)?.let { eventMessage ->
                 toServerRepo.getChannel().info?.let { _info ->
                     sendEvent.to(_info, eventMessage)

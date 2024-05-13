@@ -1,12 +1,12 @@
 package com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions
 
-import android.content.Context
+import android.app.Application
 import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
@@ -21,6 +21,7 @@ import com.mobilegame.spaceshooter.logic.uiHandler.screens.games.SpaceWarGameScr
 import com.mobilegame.spaceshooter.presentation.ui.screens.inGameScreen.elements.spaceShips.types.circle.MunitionsType
 import com.mobilegame.spaceshooter.utils.extensions.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -28,20 +29,23 @@ import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 class MotionsViewModel(
-    context: Context,
+    application: Application,
+//    context: Context,
     val ui: SpaceWarGameScreenUI,
-): ViewModel() {
-//    private val deviceEvent = Device.event
+//): ViewModel() {
+//): AndroidViewModel() {
+): AndroidViewModel(application) {
     val TAG = "MotionsViewModel"
     private val eventRepo: DeviceEventRepo = DeviceEventRepo()
     private val startPosition = ui.position.pCenterDp
-    private val startHitBoxCoordinates = BoxCoordinates.with(ui.position.pCenter, ui.userSpaceShip.hitBox.size)
+    private val startHitBoxCoordinates = BoxCoordinates.with(ui.position.pCenter, ui.userSpaceShip.hitBox.canvasSize)
     val displaySize = ui.sizes.displaySize
     val displaySizeDp = ui.sizes.displayDpDeltaBox
     private val shipCenterDeltaDp = ui.sizes.shipBoxCenterDp
 
     private val frameInterval = 2L
-    private val gravityRepo = GravityRepo(context, frameInterval)
+//    private val gravityRepo = GravityRepo(context, frameInterval)
+    private val gravityRepo = GravityRepo(getApplication(), frameInterval)
     //todo : shoot speed uses maxSpeed, might be better to use shootSpeed = 2/3 maxSpeed
     private val maxSpeed = (displaySizeDp.width.value * 0.002F).dp
     private val halfMaxSpeedF = maxSpeed.value / 2F
@@ -52,16 +56,15 @@ class MotionsViewModel(
 
     private val _shipPosition = MutableStateFlow(startPosition)
     val shipPosition: StateFlow<DpOffset> = _shipPosition.asStateFlow()
-    private val _shipHitBox = MutableStateFlow(startHitBoxCoordinates)
-    val shipHitBox: StateFlow<BoxCoordinates> = _shipHitBox.asStateFlow()
+    private val userHitBoxDp = ui.userSpaceShip.hitBox.boxDp
+    private val userHitMarge = ui.userSpaceShip.hitBox.boxDpOffset.x
+    private val _shipHitBox = MutableStateFlow(startPosition.xyPlus(userHitMarge))
+    val shipHitBox: StateFlow<DpOffset> = _shipHitBox.asStateFlow()
     private val _shootList = MutableStateFlow<List<Shoot>>(emptyList())
     val shootList: StateFlow<List<Shoot>> = _shootList.asStateFlow()
-//    private val _laserVisibilityList = MutableStateFlow<List<Shoot>>(emptyList())
-//    val laserVisibilityList: StateFlow<List<Pair<Boolean, Shoot>>> = _laserVisibilityList.asStateFlow()
     private val _laserList = MutableStateFlow<List<Shoot>>(emptyList())
     val laserList: StateFlow<List<Shoot>> = _laserList.asStateFlow()
 
-    private val userHitBoxDp = ui.userSpaceShip.hitBox.sizeDp
     fun getShipTopCenter(): DpOffset = DpOffset(x = _shipPosition.value.x + shipCenterDeltaDp, y = _shipPosition.value.y)
 
     private val _motion = MutableStateFlow(Motions.None)
@@ -83,19 +86,14 @@ class MotionsViewModel(
         startEngine()
     }
 
+    lateinit var projectileListeningAction : Job
+
     private fun startEngine() = viewModelScope.launch(Dispatchers.IO) {
         Log.i(TAG, "startEngine: ")
-        val ev = async { startListeningToProjectiles() }
+        projectileListeningAction = async { startListeningToProjectiles() }
         val mo = async { startMotions() }
 //        val lasers = async { handleLasers() }
     }
-
-//    private suspend fun handleLasers() {
-//        _laserList.collect {
-//            k
-//        }
-//    }
-
 
     // Refresh Rate of Updates based on the sensor ship position flow refresh rate
     private suspend fun startMotions() = gravityRepo.averageXYZ.collect { _xyz ->
@@ -115,6 +113,7 @@ class MotionsViewModel(
     val wifiRepo = DeviceWifiRepo()
     private fun updateShipPosition() {
         val newPCenter = shipPosition.value.calculateNewDpOffset()
+//        if (Device.data.name != "POCO")
         _shipPosition.update { newPCenter inBoundsOf displaySizeDp }
     }
     private fun updateShipPositionRatio() {
@@ -122,10 +121,16 @@ class MotionsViewModel(
         val yRatio: Float = ((_shipPosition.value.y / displaySizeDp.height) - 0.5F) * -1F //* -2F
         _backgroundDpOffset.value = DpOffset( (xBackgroundMarge.value * xRatio).dp, (yBackgroundMarge.value * yRatio).dp)
     }
-    private fun updateShipHitBox() { _shipHitBox.update { it.getUpdatedBoxCoordinates(shipPosition.value) } }
-    private suspend fun startListeningToProjectiles(): Nothing = Device.event.projectileFlow.collect {
-        Log.i(TAG, "startListeningToProjectiles: damage ${it.damage}")
-        if (it != Shoot.UNDEFINED) addShoot(it)
+//    private fun updateShipHitBox() { _shipHitBox.update { shipPosition.value.xyPlus(userHitMarge.value.toDp().value.dp) } }
+    private fun updateShipHitBox() { _shipHitBox.update { shipPosition.value.xyPlus(userHitMarge) } }
+//    private suspend fun startListeningToProjectiles(): Nothing = Device.event.projectileFlow.collect {
+    private suspend fun startListeningToProjectiles() = Device.event.projectileFlow.collectIndexed { index, shoot ->
+//    Log.i(TAG, "startListeningToProjectiles: damage ${it.damage}")
+//    if (it != Shoot.UNDEFINED) addShoot(it)
+//        Log.i(TAG, "startListeningToProjectiles: damage ${shoot.damage}")
+//        Log.i(TAG, "startListeningToProjectiles: index $index")
+        if (shoot != Shoot.UNDEFINED) addShoot(shoot)
+
     }
     suspend private fun updateShoots() {
         var newList: List<Shoot> = _shootList.value.moveAndRemoveShoots()
@@ -139,18 +144,8 @@ class MotionsViewModel(
         .map { it.getShootNextDpOffset() }
         .filter {
             if (it.offsetDp touchTopScreen displaySizeDp) {
-//                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN")
-//                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN vector ${it.vector}")
-//                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN topleft ${it.offsetDp}")
                 val invertedShoot = it.getShootPrecedentDpOffset().prepareShootToSendAway()
-//                val invertedShoot = it
-//                val invertedShoot = it.getShootPrecedentDpOffset()
-//                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN send vector ${invertedShoot.vector}")
-//                Log.i(TAG, "updateUserProjectiles: TOUCH TOP SCREEN send topleft ${invertedShoot.offsetDp}")
-//                if (it.from != MunitionsType.EnemiesProjectile)
                 eventRepo.sendProjectile(invertedShoot)
-//                else
-//                    Log.e(TAG, "moveAndRemoveShoots: enemie shoot coming back")
             }
             it.offsetDp isInBoundsOf displaySizeDp
         }
@@ -206,22 +201,23 @@ class MotionsViewModel(
         }
     )
 
-    private suspend fun addShoot(shoot: Shoot) = viewModelScope.launch(Dispatchers.IO) {
+//    private suspend fun addShoot(shoot: Shoot) = viewModelScope.launch(Dispatchers.IO) {
+    private suspend fun addShoot(shoot: Shoot) = viewModelScope.launch(Dispatchers.Main) {
         Log.i(TAG, "addShoot: ")
-//        Log.i(TAG, "addShoot: ${shoot.vector}")
-//        Log.i(TAG, "addShoot: ${shoot.offsetDp}")
         //todo : create a function for this or even place it in the munition class
         if (shoot.type == ShipType.Lasery) {
             if ( shoot.from == MunitionsType.UserProjectile
                 && shoot.laserOnOpponentScreen.isNotZeroZero()) {
                 val laser = shoot.prepareShootToSendAway()
-//            Log.i(TAG, "handleLaserLogic: out ${laser.laserOnOpponentScreen}")
                 eventRepo.sendProjectile(laser)
             }
-            val laserTime = async {
-                handleLaserTime(shoot)
+            viewModelScope.launch(Dispatchers.IO) {
+                val laserTime = async {
+                    handleLaserTime(shoot)
+                }
             }
         } else _shootList.emit(shootList.value.add(shoot))
+        Log.i(TAG, "addShoot: shootListSize ${_shootList.value.size}")
     }
 
     private suspend fun handleLaserTime(shoot: Shoot) {
@@ -238,73 +234,49 @@ class MotionsViewModel(
             if (shoot.from == MunitionsType.EnemiesProjectile && shoot.isLaserHittingShip())
                 Device.event.hitStateFlow.emit(shoot)
             delay(delay)
-            Log.i(TAG, "handleLaserTime: repeat = $repeat")
+//            Log.i(TAG, "handleLaserTime: repeat = $repeat")
         } while (repeat > 0)
 //        delay(timer )
         _laserList.emit(laserList.value.remove(shoot))
     }
 
-    private suspend fun Shoot.isLaserHittingShip(): Boolean {
+    private fun Shoot.isLaserHittingShip(): Boolean {
         var ret = false
-        val shipDpOffset: DpOffset = shipPosition.value
-        val hitBoxSize = ui.userSpaceShip.hitBox.sizeDp
         val laserStart = this.laserOnOpponentScreen.first.toDpOffset()
         val laserEnd = this.laserOnOpponentScreen.second.toDpOffset()
 
-        val topLeftCorner: DpOffset = shipDpOffset
-        val topRightCorner: DpOffset = shipDpOffset.xPlus(hitBoxSize.width)
-        val botLeftCorner: DpOffset = shipDpOffset.yPlus(hitBoxSize.height)
-        val botRightCorner: DpOffset = botLeftCorner.xPlus(hitBoxSize.width)
+        val topLeftCorner: DpOffset = shipHitBox.value
+        val topRightCorner: DpOffset = topLeftCorner.xPlus(userHitBoxDp.width)
 
+        val hitBoxXRange: ClosedRange<Dp> = (topLeftCorner.x)..(topRightCorner.x)
+        val hitBoxYRange: ClosedRange<Dp> = (topLeftCorner.y)..(topLeftCorner.y + userHitBoxDp.height)
+
+        val laserXTopLeft = getXForY(laserStart, laserEnd, topLeftCorner.y)
         val laserYLeftTop = getYForX(laserStart, laserEnd, topLeftCorner.x)
         val laserYRightTop = getYForX(laserStart, laserEnd, topRightCorner.x)
 
-        val laserXTopLeft = getXForY(laserStart, laserEnd, topLeftCorner.y)
-        if ( laserXTopLeft in topLeftCorner.x..topRightCorner.x
-            || laserYLeftTop in topLeftCorner.y..botLeftCorner.y
-            || laserYRightTop in topRightCorner.y..botRightCorner.y
-        ) {
-            Log.v(TAG, "laserHitShip: go through in")
-            ret = true
-        }
+        if (laserXTopLeft in hitBoxXRange) ret = true
+        if (laserYLeftTop in hitBoxYRange) ret = true
+        if (laserYRightTop in hitBoxYRange) ret = true
+
         return ret
     }
+    //todo : make it better for square projectile
     private fun Shoot.isProjectileHittingShip(): Boolean {
         var ret = false
-        val shipDpOffset: DpOffset = shipPosition.value
+        val topLeftCorner: DpOffset = shipHitBox.value
+        val shipTopY: Dp = topLeftCorner.y
 
-        val shipTopLeftCorner: DpOffset = shipDpOffset
-        val shipTopRightCorner: DpOffset = shipDpOffset.xPlus(userHitBoxDp.width)
-        val shipBotLeftCorner: DpOffset = shipDpOffset.yPlus(userHitBoxDp.height)
-        val shipBotRightCorner: DpOffset = shipBotLeftCorner.xPlus(userHitBoxDp.width)
-
-        val projectileTopLeftCorner: DpOffset = this.offsetDp
-        val projectileTopRightCorner: DpOffset = shipDpOffset.xPlus(userHitBoxDp.width)
-        val projectileBotLeftCorner: DpOffset = shipDpOffset.yPlus(userHitBoxDp.height)
-        val projectileBotRightCorner: DpOffset = projectileBotLeftCorner.xPlus(userHitBoxDp.width)
-
-        val shipTopY: Dp = shipDpOffset.y
-        val shipXRange: ClosedRange<Dp> = shipDpOffset.x .. shipDpOffset.x + userHitBoxDp.width
-        val shipLeftX: Dp = shipDpOffset.x
-        val shipRightX: Dp = shipDpOffset.x + userHitBoxDp.width
         val projectileLeftX: Dp = this.offsetDp.x
-        val projectileRightX: Dp = this.offsetDp.x + this.boxDp
+        val projectileRightX: Dp = projectileLeftX + this.boxDp
         val projectileBottomY: Dp = this.offsetDp.y + this.boxDp
-        if (projectileBottomY > shipTopY) {
-            Log.i(TAG, "isProjectileHittingShip: proj bot y $projectileBottomY ship top y $shipTopY under")
-            if ( projectileLeftX in shipXRange) {
-                Log.e( TAG, "isProjectileHittingShip: left in", )
+
+        if (projectileBottomY > shipTopY ) {
+            val shipXRange: ClosedRange<Dp> = (topLeftCorner.x) .. (topLeftCorner.x + userHitBoxDp.width)
+            if ( projectileLeftX in shipXRange ||  projectileRightX in shipXRange ) {
                 ret = true
             }
-            if ( projectileRightX in shipXRange) {
-//            if (shipTopLeftCorner.x < projectileBotRightCorner.x && projectileBotRightCorner.x < shipTopRightCorner.x) {
-                Log.e(TAG, "isProjectileHittingShip: RIGHT in",); ret = true
-            }
         }
-//        if ((projectileBottomY < shipTopY) && ( projectileLeftX in shipXRange || projectileRightX in shipXRange)) {
-//            ret = true
-//        }
-
         return ret
     }
     private suspend fun List<Shoot>.checkHitBox(): List<Shoot> = this
@@ -328,7 +300,7 @@ class MotionsViewModel(
             motion.value.isDown() -> maxSpeed.value - (delta.y / 2F)
             else -> maxSpeed.value
         }
-        return DpOffset(x.dp, y.dp)
+        return DpOffset(x.dp, (1.5 * y).dp)
     }
 
     fun getTargetAngle(motion: Motions, speed: SpeedMagnitude): Float = when {
@@ -361,8 +333,10 @@ class MotionsViewModel(
         else -> 0F
     }
 
+    fun clear() { onCleared() }
     override fun onCleared() {
         gravityRepo.stop()
+        projectileListeningAction.cancel()
         super.onCleared()
     }
 }

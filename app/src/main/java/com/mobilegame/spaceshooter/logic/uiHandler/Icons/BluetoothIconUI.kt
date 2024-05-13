@@ -5,11 +5,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
-import com.mobilegame.spaceshooter.utils.analyze.displayDataUI
-import com.mobilegame.spaceshooter.utils.analyze.vLog
-import com.mobilegame.spaceshooter.utils.analyze.wLog
 import com.mobilegame.spaceshooter.utils.extensions.toDp
-import com.mobilegame.spaceshooter.utils.extensions.toSquare
+import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 
 class BluetoothIconUI(
     squareSize: Float,
@@ -56,7 +53,7 @@ class BluetoothIconUI(
     init {
         sizes.squareHeight = squareSize
         sizes.squareHeightDp = (sizes.squareHeight).toDp()
-        sizes.squareSizeDp = sizes.squareHeightDp.toSquare()
+        sizes.squareSizeDp = sizes.squareHeightDp.toDpSize()
         sizes.squareStrokeDp = (squareSize * ratios.squareStrokePercent).toDp()
         sizes.canvas = (sizes.squareHeight * ratios.canvasHeightPercent)
         sizes.canvasDp = sizes.canvas.toDp()

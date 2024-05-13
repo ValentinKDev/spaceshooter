@@ -15,7 +15,7 @@ class DeviceEvent {
 
     var projectileFlow: MutableSharedFlow<Shoot> = MutableSharedFlow()
 //    var projectileFlow: MutableStateFlow<Shoot> = MutableStateFlow(Shoot.UNDEFINED)
-    val eventTypeFlow: MutableSharedFlow<EventMessageType> = MutableSharedFlow()
+//    val eventTypeFlow: MutableSharedFlow<EventMessageType> = MutableSharedFlow()
 //    var producingProjectile: MutableSharedFlow<Shoot> = MutableSharedFlow()
 //var gameResult: MutableSharedFlow<GameResult> = MutableSharedFlow()
     var gameResult: MutableStateFlow<GameResult> = MutableStateFlow(GameResult.OnGoing)

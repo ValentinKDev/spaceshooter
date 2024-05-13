@@ -5,11 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.duelGameScreen.Shoot
-import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.Motions
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.motions.MotionsViewModel
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ChargedProjectileType
 import com.mobilegame.spaceshooter.logic.model.screen.inGameScreens.ship.types.ShipType
-import com.mobilegame.spaceshooter.utils.analyze.eLog
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -150,11 +148,6 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
         }
     }
 
-    private suspend fun updateMagazineFlowAndBlockShoot(newShoot: Shoot) {
-        Device.event.projectileFlow.emit(newShoot)
-        canShoot = false
-    }
-
     private fun startAmmoRecovering() {
 //        if ( _magazineSize.value <= shipType.info.magazineSize.value) {
         if ( magazineSize.value <= magazineMaxSize) {
@@ -207,11 +200,12 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
                     vm = motionVM,
                     behavior = ammoCharged,
                     damage = shipType.info.damage,
-                    hitBoxDp = motionVM.ui.userSpaceShip.hitBox.sizeDp.width,
+                    boxDp = motionVM.ui.userSpaceShip.hitBox.boxDp.width,
                 )
 //                if (shipType == ShipType.Lasery) {
 
 //                } else {
+                Log.i(TAG, "createProjectile: ")
                 Device.event.projectileFlow.emit(newShoot)
 //                }
                 delay(shootingTimeInterval)
@@ -221,19 +215,26 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
                 //todo : issue about fast single press to boost the dps
                 //solution could be to unable the shot after a period of time after the add shoot
                 //corresponding to the ammoRecoveryTime
-                while (ammo > 0) {
-                    ammo -= 1
-                    val newShoot = Shoot.newFromUser(
-                        type = shipType,
-                        vm = motionVM,
-                        hitBoxDp = motionVM.ui.userSpaceShip.hitBox.sizeDp.width,
-                    )
-                    Device.event.projectileFlow.emit(newShoot)
-                    canShoot = false
-                    delay(shootingTimeInterval)
+                viewModelScope.launch {
+                    ammo = (ammo.toFloat() * 1.6F).toInt()
+                    while (ammo > 0) {
+                        ammo -= 1
+                        val newShoot = Shoot.newFromUser(
+                            type = shipType,
+                            vm = motionVM,
+                            boxDp = motionVM.ui.userSpaceShip.hitBox.ammoWidthDp,
+//                        hitBoxDp = motionVM.ui.userSpaceShip.hitBox.boxDp.width,
+                        )
+                        Device.event.projectileFlow.emit(newShoot)
+                        canShoot = false
+                        delay(50L)
+                    }
                 }
             }
         }
 //        Log.i(TAG, "createProjectile: finish")
+    }
+    fun clear() {
+        onCleared()
     }
 }

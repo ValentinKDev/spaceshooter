@@ -69,5 +69,7 @@ fun DpSize.invert(): DpSize = DpSize((this.width.value * -1F).dp, (this.height.v
 
 infix fun DpOffset.xMinus(f: Dp): DpOffset = DpOffset(x = this.x - f, y = this.y)
 infix fun DpOffset.xPlus(f: Dp): DpOffset = DpOffset(x = this.x + f, y = this.y)
+infix fun DpOffset.xyPlus(f: Dp): DpOffset = DpOffset(x = this.x + f, y = this.y + f)
 infix fun DpOffset.yMinus(f: Dp): DpOffset = DpOffset(x = this.x, y = this.y - f)
 infix fun DpOffset.yPlus(f: Dp): DpOffset = DpOffset(x = this.x, y = this.y + f)
+infix fun DpOffset.xyMinus(f: Dp): DpOffset = DpOffset(x = this.x - f, y = this.y - f)

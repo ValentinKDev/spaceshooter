@@ -30,7 +30,8 @@ class LaunchDuelGameViewModel(application: Application): AndroidViewModel(applic
         tryAgainStats = tryAgainStats,
         display = Size(Device.metrics.width, Device.metrics.height),
 //        context = context
-        context = getApplication()
+//        context = getApplication()
+        application = application
     )
     init { Log.e(TAG, "init: ")
         Log.i(TAG, "init: tryagainstats ${tryAgainStats.wins}, ${tryAgainStats.losses}, ${tryAgainStats.streak}")

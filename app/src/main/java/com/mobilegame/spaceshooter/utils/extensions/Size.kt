@@ -11,7 +11,7 @@ fun Size.toDpSize(): DpSize = DpSize(
     width = this.width.toDp(),
     height = this.height.toDp()
 )
-fun DpSize.toSize(): Size = Size(
+fun DpSize.toDpSize(): Size = Size(
     width = this.width.dpToPixel(),
     height = this.height.dpToPixel()
 )
