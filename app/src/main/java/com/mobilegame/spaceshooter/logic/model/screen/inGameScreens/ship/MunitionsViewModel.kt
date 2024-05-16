@@ -200,7 +200,7 @@ class MunitionsViewModel(private val motionVM: MotionsViewModel, private val shi
                     vm = motionVM,
                     behavior = ammoCharged,
                     damage = shipType.info.damage,
-                    boxDp = motionVM.ui.userSpaceShip.hitBox.boxDp.width,
+                    boxDp = motionVM.ui.userSpaceShip.hitBox.ammoWidthDp,
                 )
 //                if (shipType == ShipType.Lasery) {
 

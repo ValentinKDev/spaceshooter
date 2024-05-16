@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace 'com.mobilegame.spaceshooter'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.mobilegame.spaceshooter"
         minSdk 29
         targetSdk 33
-        versionCode 1
-        versionName "0.01"
+        versionCode 2
+        versionName "0.12"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

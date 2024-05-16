@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.HitBox
 import com.mobilegame.spaceshooter.logic.uiHandler.SpaceShip.SpaceShipIconUIInterface
 import com.mobilegame.spaceshooter.presentation.theme.MyColor
@@ -97,6 +98,9 @@ class SquareSpaceShipIconUI(override val shipViewBoxSize: Size): SpaceShipIconUI
         override val canvasSize: Size = sizes.shipSize
         override val boxDp: DpSize = (canvasSize.width * ratio).toDp().toDpSize()
         override val boxDpOffset: DpOffset = (canvasSize.width * (1F - ratio) * 0.5F).toDp().toDpOffset()
-        override val ammoWidthDp: Dp = sizes.ammoInnerSize.width.toDp() /2
+        override val ammoWidthDp: Dp = sizes.ammoSize.width.toDp()
+//        override val ammoWidthDp: Dp = sizes.ammoSize.width.dp / 5F
+//        override val ammoWidthDp: Dp = 5.dp
+//        /2
     }
 }

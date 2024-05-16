@@ -40,8 +40,8 @@ fun Navigation(navigator: Navigator) {
     NavHost(
         navController = navController,
 //        startDestination = Test.route,
-        startDestination = MainScreen.route,
-//        startDestination = MenuScreen.route,
+//        startDestination = MainScreen.route,
+        startDestination = MenuScreen.route,
 //        startDestination = StatsScreen.route,
 //        startDestination = WifiScreen.route,
 //        startDestination = DuelTutoScreen.route,

@@ -2,6 +2,7 @@ package com.mobilegame.spaceshooter.logic.model.screen.menuScreen
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.mobilegame.spaceshooter.data.device.Device
 import com.mobilegame.spaceshooter.logic.model.navigation.Navigator
 import com.mobilegame.spaceshooter.logic.model.navigation.PressureHandler
 import com.mobilegame.spaceshooter.logic.model.navigation.Screens
@@ -16,8 +17,14 @@ class MenuScreenViewModel(): ViewModel() {
     private val TAG = "MenuScreenViewModel"
     val ui = MenuScreenUI()
     val pressureHandler = PressureHandler(null)
+    private val arg: MenuScreens = try {
+        MenuScreens.valueOf(Device.navigation.argStr)
+    } catch (e: Exception) {
+        Log.e(TAG, "arg: ERROR Device.navigation.argStr is not a MenuScreens type")
+        MenuScreens.Spacewars
+    }
     private val menuArray: Array<MenuScreens> = MenuScreens.values()
-    private val _currentSelection = MutableStateFlow(MenuScreens.Spacewars)
+    private val _currentSelection = MutableStateFlow(arg)
     val currentSelection: StateFlow<MenuScreens> = _currentSelection.asStateFlow()
     fun updateCurrentSelectionTo(menu: MenuScreens) { _currentSelection.value = menu }
     private val _navigate = MutableStateFlow(false)

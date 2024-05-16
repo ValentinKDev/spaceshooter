@@ -22,7 +22,6 @@ import com.mobilegame.spaceshooter.utils.extensions.toDpSize
 
 @Composable
 fun DisplayShipView(vm: SpaceWarGameViewModel) {
-    val hitBoxPos by remember { vm.shipVM.motionVM.shipHitBox }.collectAsState()
     val position by remember { vm.shipVM.motionVM.shipPosition }.collectAsState()
     val motion by remember { vm.shipVM.motionVM.motion }.collectAsState()
     val speed by remember { vm.shipVM.motionVM.speedMagnitude }.collectAsState()
@@ -52,17 +51,4 @@ fun DisplayShipView(vm: SpaceWarGameViewModel) {
             visibleCharging = chargingAnimation,
         )
     }
-//    Box(
-//        modifier = Modifier
-//            .size(vm.ui.sizes.shipViewBox.toDpSize())
-//            .offset(position.x, position.y)
-//            .background(Color.Gray.alpha(0.5F))
-//    ){ }
-//    Box(
-//        modifier = Modifier
-//            .size(vm.ui.userSpaceShip.hitBox.boxDp)
-//            .offset(hitBoxPos.x, hitBoxPos.y)
-//            .background(Color.Green.alpha(0.5F))
-//            .alpha(0.5F)
-//    ){ }
 }

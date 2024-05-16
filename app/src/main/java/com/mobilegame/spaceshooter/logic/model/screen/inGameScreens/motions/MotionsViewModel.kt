@@ -60,6 +60,8 @@ class MotionsViewModel(
     private val userHitMarge = ui.userSpaceShip.hitBox.boxDpOffset.x
     private val _shipHitBox = MutableStateFlow(startPosition.xyPlus(userHitMarge))
     val shipHitBox: StateFlow<DpOffset> = _shipHitBox.asStateFlow()
+    private val _testMunitionHitBox = MutableStateFlow(DpOffset.Zero)
+val testMunitionHitBox: StateFlow<DpOffset> = _testMunitionHitBox.asStateFlow()
     private val _shootList = MutableStateFlow<List<Shoot>>(emptyList())
     val shootList: StateFlow<List<Shoot>> = _shootList.asStateFlow()
     private val _laserList = MutableStateFlow<List<Shoot>>(emptyList())
@@ -277,6 +279,7 @@ class MotionsViewModel(
                 ret = true
             }
         }
+//        _testMunitionHitBox.value = this.offsetDp
         return ret
     }
     private suspend fun List<Shoot>.checkHitBox(): List<Shoot> = this

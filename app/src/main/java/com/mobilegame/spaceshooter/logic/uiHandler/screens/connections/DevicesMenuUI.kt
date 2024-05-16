@@ -17,7 +17,7 @@ class DevicesMenuUI {
             val connectedDeviceText: String = "connected_name_ID",
             val titleBox: String = "title_box_ID",
             val winText: String = "WINS",
-            val losesText: String = "LOSES",
+            val losesText: String = "LOSSES",
             val streakText: String = "STREAK",
             val winNumber: String = "WINS_NB",
             val losesNumber: String = "LOSES_NB",
