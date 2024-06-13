@@ -4,6 +4,7 @@ import android.content.pm.ActivityInfo
 import android.os.Build
 import android.view.Window
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -84,13 +85,10 @@ fun SpaceShooterTheme(
         Box(
             Modifier
                 .fillMaxSize()
-                .onGloballyPositioned { layout ->
-                    vm.initMetrics(context, layout)
-//                    vm.initBackgroundData()
-                } )
+                .onGloballyPositioned { layout -> vm.initMetrics(context, layout) }
+        )
     } else {
-//        AnimatedBackGround(vm.ui)
-//        BackgroundGrid(vm.ui)
+        Box(Modifier.fillMaxSize().background(MyColor.applicationBackground))
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,
