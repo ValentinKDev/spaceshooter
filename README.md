@@ -2,7 +2,7 @@
     <img src="https://github.com/ValentinKDev/spaceshooter/blob/master/.gitRes/hello_there.gif">
 </p>
 
-SPACEWARSis a game directly based on DUAL (a game available on the PlayStore and the AppStore)
+SPACEWARS is a game directly based on DUAL (a game available on the PlayStore and the AppStore)
 
 <p align="center">
     <img src="https://github.com/ValentinKDev/spaceshooter/blob/master/.gitRes/menus_aboutus.gif">
